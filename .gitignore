@@ -8,3 +8,4 @@ dist/
 output/
 .env*
 !.env.example
+.vercel
