@@ -49,7 +49,7 @@
       </section>
 
       <section class="selection-rail" aria-label="Selected series">
-        <div class="selection-label">Comparing <span id="selection-count">0</span>/12</div>
+        <div class="selection-label">Comparing <span id="selection-count">0</span>/24</div>
         <div id="selected-series" class="selected-series"></div>
       </section>
 
@@ -67,22 +67,22 @@
         </article>
         <article class="chart-card" data-chart-card>
           <div class="chart-heading"><div><span class="chart-kicker">03 · Position</span><h2>Historical percentile</h2></div><button class="chart-expand" type="button" aria-label="Expand percentile chart">↗</button></div>
-          <div class="chart-subhead">Current level within selected history</div>
+          <div class="chart-subhead">Current active measure within full available history</div>
           <div class="chart-wrap"><canvas id="correlation-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
           <div class="chart-heading"><div><span class="chart-kicker">04 · Drawdown</span><h2>Peak-to-trough decline</h2></div><button class="chart-expand" type="button" aria-label="Expand drawdown chart">↗</button></div>
-          <div class="chart-subhead">Maximum decline within selected history</div>
+          <div class="chart-subhead">Return drawdown; range-normalized around zero; trailing fallback for sparse windows</div>
           <div class="chart-wrap"><canvas id="drawdown-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
           <div class="chart-heading"><div><span class="chart-kicker">05 · Variability</span><h2>Annualized volatility</h2></div><button class="chart-expand" type="button" aria-label="Expand volatility chart">↗</button></div>
-          <div class="chart-subhead">Native-frequency percentage changes</div>
+          <div class="chart-subhead">Native-frequency returns; range-normalized around zero; trailing fallback when sparse</div>
           <div class="chart-wrap"><canvas id="volatility-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
           <div class="chart-heading"><div><span class="chart-kicker">06 · Relationship</span><h2>Correlation to anchor</h2></div><button class="chart-expand" type="button" aria-label="Expand relationship chart">↗</button></div>
-          <div class="chart-subhead">Aligned monthly changes; first series is anchor</div>
+          <div class="chart-subhead">Aligned monthly changes; trailing-year fallback when sparse</div>
           <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
         </article>
       </section>

@@ -105,19 +105,48 @@ export function transform(observations, measure) {
 }
 
 export function volatility(series, horizon) {
-  const values = sliceHorizon(series.observations, horizon).map(([, value]) => value);
+  const visible = sliceHorizon(series.observations, horizon);
+  const values = (visible.length >= 3 ? visible : series.observations.slice(-12)).map(([, value]) => value);
   if (values.length < 3) return NaN;
-  const returns = values.slice(1).map((value, index) => value / values[index] - 1).filter(Number.isFinite);
-  const mean = returns.reduce((sum, value) => sum + value, 0) / returns.length;
-  const variance = returns.reduce((sum, value) => sum + (value - mean) ** 2, 0) / Math.max(1, returns.length - 1);
+  const positive = values.every((value) => value > 0);
+  const range = Math.max(...values) - Math.min(...values);
+  const changes = values.slice(1).map((value, index) => positive ? Math.log(value / values[index]) : range ? (value - values[index]) / range : 0).filter(Number.isFinite);
+  if (!changes.length) return NaN;
+  const mean = changes.reduce((sum, value) => sum + value, 0) / changes.length;
+  const variance = changes.reduce((sum, value) => sum + (value - mean) ** 2, 0) / Math.max(1, changes.length - 1);
   const factor = { daily: 252, weekly: 52, monthly: 12, quarterly: 4 }[series.frequency] ?? 12;
   return Math.sqrt(variance * factor) * 100;
 }
 
+export function historicalPercentile(series, measure) {
+  const history = transform(series.observations, measure);
+  const values = history.map(([, value]) => value).filter(Number.isFinite).sort((a, b) => a - b);
+  const latest = history.at(-1)?.[1];
+  return values.length && Number.isFinite(latest) ? values.filter((value) => value <= latest).length / values.length * 100 : NaN;
+}
+
+export function maxDrawdown(series, horizon) {
+  const visible = sliceHorizon(series.observations, horizon);
+  const values = (visible.length >= 2 ? visible : series.observations.slice(-12)).map(([, value]) => value);
+  if (values.length < 2) return NaN;
+  const positive = values.every((value) => value > 0);
+  const range = Math.max(...values) - Math.min(...values);
+  let peak = -Infinity;
+  let drawdown = 0;
+  for (const value of values) {
+    peak = Math.max(peak, value);
+    const denominator = positive ? peak : range;
+    if (denominator > 0) drawdown = Math.min(drawdown, (value - peak) / denominator * 100);
+  }
+  return drawdown;
+}
+
 export function correlation(first, second, horizon = "max", mode = "percent") {
   const monthly = (series) => {
+    const visible = sliceHorizon(series.observations, horizon);
+    const source = new Set(visible.map(([date]) => date.slice(0, 7))).size >= 4 ? visible : sliceHorizon(series.observations, 365);
     const map = new Map();
-    for (const [date, value] of sliceHorizon(series.observations, horizon)) map.set(date.slice(0, 7), value);
+    for (const [date, value] of source) map.set(date.slice(0, 7), value);
     const entries = [...map.entries()];
     return new Map(entries.slice(1).map(([month, value], index) => [month, mode === "percent" ? value / entries[index][1] - 1 : value - entries[index][1]]));
   };

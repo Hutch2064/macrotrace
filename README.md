@@ -1,6 +1,6 @@
 # MacroTrace
 
-MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects more than 40 public macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series from FRED. A unified search adds FRED series or Yahoo Finance instruments immediately, while one-click presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, and global-market views.
+MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects 78 public macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series from FRED. A unified search adds FRED series or Yahoo Finance instruments immediately, while one-click presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, and global-market views.
 
 Every selected series flows through the same six-panel analytical grid: path, multi-horizon momentum, historical percentile, maximum drawdown, annualized volatility, and correlation to the first selected series. The path supports linear and logarithmic scaling (with a safe linear fallback for nonpositive data); every panel has exact-value tooltips, click-to-toggle legends where applicable, and a full-screen expand control.
 
@@ -26,8 +26,10 @@ Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED
 - Indexed: `value / first visible value × 100`
 - Period change: `(last / first − 1) × 100`
 - Year-over-year: `(latest / prior-year observation − 1) × 100`
-- Volatility: sample standard deviation of adjacent percentage changes, annualized by native frequency
+- Volatility: sample standard deviation of adjacent log returns, annualized by native frequency
 - Correlation: Pearson correlation of aligned calendar-month percentage changes
+- Historical percentile: the latest active measure ranked against its full available history
+- Drawdown and volatility: conventional returns for strictly positive series; range-normalized changes for series that cross zero
 
 The committed snapshot pins every report number to reproducible data. A scheduled GitHub Action refreshes and verifies it daily. This product uses FRED® data but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Some source series may carry additional provider terms; MacroTrace provides attribution and source links for each series.
 
@@ -47,6 +49,7 @@ The committed snapshot pins every report number to reproducible data. A schedule
 | `scripts/catalog.mjs` | Declarative catalog of FRED and market series. |
 | `scripts/refresh-data.mjs` | Concurrent public-data ingestion and normalization. |
 | `scripts/verify-data.mjs` | Data-contract, ordering, metadata, and coverage checks. |
+| `scripts/verify-dashboard.mjs` | Preset integrity, roll-up, percentile, drawdown, and volatility regression checks. |
 | `api/market.js` | Validated, CDN-cached Vercel endpoint for on-demand ticker history. |
 | `api/search.js` | Unified bundled, Yahoo Finance, and FRED search endpoint. |
 | `api/fred.js` | Validated, cached endpoint for arbitrary public FRED series. |

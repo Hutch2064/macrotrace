@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "data:refresh": "node scripts/refresh-data.mjs",
     "data:verify": "node scripts/verify-data.mjs",
-    "check": "npm run data:verify && npm run build"
+    "dashboard:verify": "node scripts/verify-dashboard.mjs",
+    "check": "npm run data:verify && npm run dashboard:verify && npm run build"
   },
   "dependencies": {
     "chart.js": "^4.4.8",

@@ -1,7 +1,7 @@
-import { Chart, alignedDatasets, changeClass, chartOptions, correlation, format, loadSnapshot, mountChrome, palette, signed, sliceHorizon, transform, volatility, yoyChange } from "./common.js";
+import { Chart, alignedDatasets, changeClass, chartOptions, correlation, format, historicalPercentile, loadSnapshot, maxDrawdown, mountChrome, palette, signed, sliceHorizon, transform, volatility, yoyChange } from "./common.js";
 import { presetById, presets } from "./presets.js";
 
-const MAX_SELECTED = 12;
+const MAX_SELECTED = 24;
 const apiOrigin = import.meta.env.VITE_MARKET_API_ORIGIN || "";
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
 
@@ -129,8 +129,8 @@ async function main() {
       }
     }));
     if (state.activePreset !== id) return;
-    state.selected = outcomes.flatMap((outcome) => outcome.status === "fulfilled" ? [outcome.value.id] : []).slice(0, MAX_SELECTED);
-    presetStatus.textContent = `${preset.label} · ${state.selected.length}/${preset.symbols.length} current series`;
+    state.selected = [...(preset.series ?? []).filter((seriesId) => loaded.has(seriesId)), ...outcomes.flatMap((outcome) => outcome.status === "fulfilled" ? [outcome.value.id] : [])].slice(0, MAX_SELECTED);
+    presetStatus.textContent = `${preset.label} · ${state.selected.length}/${(preset.series?.length ?? 0) + preset.symbols.length} current series`;
     render();
   }
 
@@ -150,6 +150,13 @@ async function main() {
   }
   function moveSuffix() { return state.changeMode === "basis-points" ? " bp" : state.changeMode === "points" ? " pts" : "%"; }
   function destroyChart(name) { charts[name]?.destroy(); }
+  function horizontalBarOptions({ percent = false, min, max } = {}) {
+    const base = chartOptions({ percent, legend: false });
+    return { ...base, indexAxis: "y", scales: {
+      x: { type: "linear", min, max, grid: { color: "rgba(255,255,255,.07)" }, ticks: { callback: (value) => percent ? `${value}%` : value } },
+      y: { type: "category", grid: { display: false }, ticks: { color: "rgba(255,255,255,.9)" } },
+    } };
+  }
 
   function render() {
     const seriesList = selectedSeries();
@@ -198,18 +205,18 @@ async function main() {
   }
   function renderPercentiles(seriesList) {
     destroyChart("correlation");
-    const rows = seriesList.map((series) => { const values = sliceHorizon(series.observations, state.horizon).map(([, value]) => value).filter(Number.isFinite).sort((a, b) => a - b); const latest = series.observations[series.observations.length - 1][1]; return { label: series.id, value: values.length ? values.filter((value) => value <= latest).length / values.length * 100 : NaN }; }).filter(({ value }) => Number.isFinite(value));
+    const rows = seriesList.map((series) => ({ label: series.id, value: historicalPercentile(series, state.measure) })).filter(({ value }) => Number.isFinite(value));
     charts.correlation = new Chart(document.querySelector("#correlation-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Historical percentile", data: rows.map(({ value }) => value), backgroundColor: rows.map(({ value }) => value >= 50 ? "rgba(245,218,150,.78)" : "rgba(128,97,38,.76)"), borderRadius: 5 }] }, options: { ...chartOptions({ legend: false }), indexAxis: "y", scales: { x: { min: 0, max: 100, grid: { color: "rgba(245,201,96,.08)" }, ticks: { callback: (value) => `${value}th` } }, y: { grid: { display: false } } } } });
   }
   function renderDrawdowns(seriesList) {
     destroyChart("drawdown");
-    const rows = seriesList.map((series) => { let peak = -Infinity; let drawdown = 0; for (const [, value] of sliceHorizon(series.observations, state.horizon)) { peak = Math.max(peak, value); if (peak !== 0 && Number.isFinite(peak)) drawdown = Math.min(drawdown, (value - peak) / Math.abs(peak) * 100); } return { label: series.id, value: drawdown }; });
-    charts.drawdown = new Chart(document.querySelector("#drawdown-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Maximum drawdown", data: rows.map(({ value }) => value), backgroundColor: "rgba(251,113,133,.72)", borderRadius: 4 }] }, options: { ...chartOptions({ percent: true, legend: false }), indexAxis: "y" } });
+    const rows = seriesList.map((series) => ({ label: series.id, value: maxDrawdown(series, state.horizon) })).filter(({ value }) => Number.isFinite(value));
+    charts.drawdown = new Chart(document.querySelector("#drawdown-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Maximum drawdown", data: rows.map(({ value }) => value), backgroundColor: "rgba(251,113,133,.72)", borderRadius: 4, minBarLength: 2 }] }, options: horizontalBarOptions({ percent: true, max: 0 }) });
   }
   function renderVolatility(seriesList) {
     destroyChart("volatility");
     const rows = seriesList.map((series) => ({ label: series.id, value: volatility(series, state.horizon) })).filter(({ value }) => Number.isFinite(value));
-    charts.volatility = new Chart(document.querySelector("#volatility-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Annualized volatility", data: rows.map(({ value }) => value), backgroundColor: "rgba(96,165,250,.72)", borderRadius: 4 }] }, options: { ...chartOptions({ percent: true, legend: false }), indexAxis: "y" } });
+    charts.volatility = new Chart(document.querySelector("#volatility-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Annualized volatility", data: rows.map(({ value }) => value), backgroundColor: "rgba(96,165,250,.72)", borderRadius: 4, minBarLength: 2 }] }, options: horizontalBarOptions({ percent: true, min: 0 }) });
   }
   function renderRelationships(seriesList) {
     destroyChart("risk"); const anchor = seriesList[0]; const rows = anchor ? seriesList.slice(1).map((series) => ({ label: series.id, value: correlation(anchor, series, state.horizon, state.changeMode) })).filter(({ value }) => Number.isFinite(value)) : [];
