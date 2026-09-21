@@ -29,7 +29,7 @@ async function yahooResults(query) {
   url.searchParams.set("newsCount", "0");
   url.searchParams.set("listsCount", "0");
   url.searchParams.set("enableFuzzyQuery", "true");
-  const upstream = await fetch(url, { headers: { accept: "application/json", "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
+  const upstream = await fetch(url, { signal: AbortSignal.timeout(2500), headers: { accept: "application/json", "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
   if (!upstream.ok) return [];
   const payload = await upstream.json();
   const allowed = new Set(["EQUITY", "ETF", "MUTUALFUND", "INDEX", "CURRENCY", "CRYPTOCURRENCY", "FUTURE"]);
@@ -42,7 +42,7 @@ async function yahooResults(query) {
 }
 
 async function fredResults(query) {
-  const upstream = await fetch(`https://fred.stlouisfed.org/searchresults?st=${encodeURIComponent(query)}`, { headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
+  const upstream = await fetch(`https://fred.stlouisfed.org/searchresults?st=${encodeURIComponent(query)}`, { signal: AbortSignal.timeout(2500), headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
   if (!upstream.ok) return [];
   const html = await upstream.text();
   const pattern = /<a href="\/series\/([A-Z0-9_-]+)" aria-label="([^"]+)" class="series-title[^>]*>[\s\S]*?<\/a>[\s\S]*?<span class="search-result-meta">([\s\S]*?)<\/span>/g;

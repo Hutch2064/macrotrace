@@ -19,7 +19,7 @@ export default async function handler(request, response) {
   if (!idPattern.test(id)) return response.status(400).json({ error: "Invalid FRED series" });
   const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${encodeURIComponent(id)}&cosd=1990-01-01`;
   try {
-    const upstream = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
+    const upstream = await fetch(url, { signal: AbortSignal.timeout(8000), headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
     if (!upstream.ok) return response.status(upstream.status === 404 ? 404 : 502).json({ error: "FRED data unavailable" });
     const observations = parseCsv(await upstream.text());
     if (!observations.length) return response.status(404).json({ error: "FRED series not found" });

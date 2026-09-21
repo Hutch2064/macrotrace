@@ -12,7 +12,7 @@ export default async function handler(request, response) {
   const period2 = Math.floor(Date.now() / 1000);
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?period1=${period1}&period2=${period2}&interval=1d&events=history`;
   try {
-    const upstream = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
+    const upstream = await fetch(url, { signal: AbortSignal.timeout(8000), headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
     if (!upstream.ok) return response.status(upstream.status === 404 ? 404 : 502).json({ error: "Market data unavailable" });
     const result = (await upstream.json()).chart.result?.[0];
     if (!result) return response.status(404).json({ error: "Ticker not found" });
