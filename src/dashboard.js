@@ -164,7 +164,7 @@ async function main() {
     document.querySelector("#selected-series").innerHTML = seriesList.map((series, index) => `<button class="series-chip" data-remove="${series.id}" title="Remove ${series.name}"><i style="background:${palette[index % palette.length]}"></i>${series.id} ×</button>`).join("");
     document.querySelectorAll("[data-remove]").forEach((button) => button.addEventListener("click", () => toggleSeries(button.dataset.remove)));
     document.querySelectorAll("[data-preset]").forEach((button) => button.classList.toggle("active", button.dataset.preset === state.activePreset));
-    renderMetrics(seriesList); renderTrend(seriesList); renderMomentum(seriesList); renderPercentiles(seriesList); renderDrawdowns(seriesList); renderVolatility(seriesList); renderRelationships(seriesList); renderTable(seriesList);
+    renderMetrics(seriesList); renderTrend(seriesList); renderMomentum(seriesList); renderPercentiles(seriesList); renderDrawdowns(seriesList); renderVolatility(seriesList); renderRelationships(seriesList); renderHeatmap(seriesList); renderTable(seriesList);
   }
 
   function renderMetrics(seriesList) {
@@ -221,6 +221,40 @@ async function main() {
   function renderRelationships(seriesList) {
     destroyChart("risk"); const anchor = seriesList[0]; const rows = anchor ? seriesList.slice(1).map((series) => ({ label: series.id, value: correlation(anchor, series, state.horizon, state.changeMode) })).filter(({ value }) => Number.isFinite(value)) : [];
     charts.risk = new Chart(document.querySelector("#risk-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: anchor ? `Correlation to ${anchor.id}` : "Correlation", data: rows.map(({ value }) => value), backgroundColor: rows.map(({ value }) => value >= 0 ? "rgba(125,211,167,.72)" : "rgba(241,151,141,.72)"), borderRadius: 5 }] }, options: { ...chartOptions({ legend: false }), scales: { x: { grid: { display: false } }, y: { min: -1, max: 1, grid: { color: "rgba(245,201,96,.08)" } } } } });
+  }
+  function renderHeatmap(seriesList) {
+    const monthly = seriesList.map((series) => {
+      const values = new Map();
+      for (const [date, value] of series.observations) values.set(date.slice(0, 7), value);
+      const entries = [...values.entries()].slice(-13);
+      const observations = entries.map(([, value]) => value);
+      const positive = observations.every((value) => value > 0);
+      const range = Math.max(...observations) - Math.min(...observations);
+      return { id: series.id, values: entries.slice(1).map(([month, value], index) => {
+        const prior = entries[index][1];
+        const change = state.changeMode === "basis-points" ? (value - prior) * 100 : state.changeMode === "points" ? value - prior : positive ? (value / prior - 1) * 100 : range ? (value - prior) / range * 100 : 0;
+        return { month, change };
+      }) };
+    });
+    const months = [...new Set(monthly.flatMap((row) => row.values.map(({ month }) => month)))].sort().slice(-12);
+    const values = monthly.flatMap((row) => row.values.map(({ change }) => Math.abs(change))).filter(Number.isFinite).sort((a, b) => a - b);
+    const scale = values[Math.floor(values.length * .9)] || values.at(-1) || 1;
+    const suffix = moveSuffix();
+    const cells = [`<div class="heatmap-corner">Series</div>`, ...months.map((month) => `<div class="heatmap-month">${escapeHtml(new Date(`${month}-01T00:00:00Z`).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }))}</div>`)];
+    for (const row of monthly) {
+      const byMonth = new Map(row.values.map((value) => [value.month, value.change]));
+      cells.push(`<div class="heatmap-label">${escapeHtml(row.id)}</div>`);
+      for (const month of months) {
+        const value = byMonth.get(month);
+        const intensity = Number.isFinite(value) ? Math.min(.86, .14 + Math.abs(value) / scale * .62) : 0;
+        const background = !Number.isFinite(value) ? "transparent" : value >= 0 ? `rgba(34,197,94,${intensity})` : `rgba(244,63,94,${intensity})`;
+        const label = Number.isFinite(value) ? `${row.id} · ${month}: ${signed(value)}${suffix}` : `${row.id} · ${month}: no observation`;
+        cells.push(`<div class="heatmap-cell" style="background:${background}" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}">${Number.isFinite(value) ? format(value) : "—"}</div>`);
+      }
+    }
+    const heatmap = document.querySelector("#monthly-heatmap");
+    heatmap.style.setProperty("--heatmap-months", months.length || 1);
+    heatmap.innerHTML = cells.join("");
   }
   function renderTable(seriesList) {
     document.querySelector("#data-table").innerHTML = seriesList.map((series) => { const latest = series.observations[series.observations.length - 1]; const windowMove = move(series); const yoy = yoyChange(series.observations); return `<tr><td>${escapeHtml(series.id)} · ${escapeHtml(series.name)}</td><td>${escapeHtml(series.category)}</td><td>${escapeHtml(latest[0])}</td><td>${format(latest[1])} ${escapeHtml(series.unit)}</td><td class="${changeClass(windowMove)}">${signed(windowMove)}${moveSuffix()}</td><td class="${changeClass(yoy)}">${signed(yoy)}%</td><td><a href="${escapeHtml(series.sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(series.source)}</a></td></tr>`; }).join("");
