@@ -4,5 +4,7 @@ dist/
 .vercel/
 .sites-runtime/
 *.log
+.playwright-cli/
+output/
 .env*
 !.env.example

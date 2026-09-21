@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Explore, compare, and correlate public macroeconomic and market time series in MacroTrace." />
+    <title>Dashboard — MacroTrace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=League+Spartan:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body data-page="dashboard">
+    <div id="site-header"></div>
+    <main class="dashboard shell">
+      <section class="dashboard-heading">
+        <div>
+          <div class="eyebrow">Interactive workspace</div>
+          <h1>Trace the signal.</h1>
+          <p>Compare economic releases and market prices on a common clock.</p>
+        </div>
+        <div class="freshness" id="freshness">Loading snapshot…</div>
+      </section>
+
+      <section class="control-panel" aria-label="Dashboard filters">
+        <div class="search-control">
+          <label for="series-search">Series or ticker</label>
+          <div class="search-row">
+            <input id="series-search" type="search" placeholder="Search CPI, jobs, SPY—or enter AAPL" autocomplete="off" />
+            <button id="add-ticker" class="icon-button" type="button">Load ticker</button>
+          </div>
+          <div id="search-results" class="search-results" hidden></div>
+          <div id="ticker-status" class="ticker-status" aria-live="polite"></div>
+        </div>
+        <label>Category<select id="category-filter"><option value="all">All categories</option></select></label>
+        <label>Horizon<select id="horizon-filter">
+          <option value="7">1 week</option><option value="30">1 month</option><option value="90">3 months</option>
+          <option value="182">6 months</option><option value="365" selected>1 year</option><option value="ytd">Year to date</option>
+          <option value="1095">3 years</option><option value="1825">5 years</option><option value="3650">10 years</option><option value="max">Maximum</option>
+        </select></label>
+        <label>Frequency<select id="frequency-filter"><option value="all">All frequencies</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option></select></label>
+        <label>Measure<select id="measure-filter"><option value="indexed">Indexed (start = 100)</option><option value="change">Percent change</option><option value="level">Reported level</option><option value="yoy">Year-over-year change</option></select></label>
+        <label>Break down by<select id="breakdown-filter"><option value="series">Series</option><option value="category">Category</option><option value="frequency">Frequency</option></select></label>
+        <button id="reset-filters" class="secondary-button" type="button">Reset view</button>
+      </section>
+
+      <section class="selection-rail" aria-label="Selected series">
+        <div class="selection-label">Comparing <span id="selection-count">0</span>/5</div>
+        <div id="selected-series" class="selected-series"></div>
+      </section>
+
+      <section class="dashboard-metrics" id="dashboard-metrics" aria-label="Summary statistics"></section>
+
+      <section class="dashboard-grid">
+        <article class="chart-card chart-card-wide">
+          <div class="chart-heading"><div><span class="chart-kicker">01 · Path</span><h2 id="trend-title">Indexed history</h2></div><span id="trend-note" class="chart-note"></span></div>
+          <div class="chart-wrap chart-large"><canvas id="trend-chart"></canvas></div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-heading"><div><span class="chart-kicker">02 · Move</span><h2>Change ranking</h2></div></div>
+          <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-heading"><div><span class="chart-kicker">03 · Relationship</span><h2>Correlation map</h2></div><span class="chart-note">Aligned monthly changes</span></div>
+          <div class="chart-wrap"><canvas id="correlation-chart"></canvas></div>
+        </article>
+        <article class="chart-card chart-card-wide">
+          <div class="chart-heading"><div><span class="chart-kicker">04 · Risk</span><h2>Change &amp; volatility</h2></div><span class="chart-note">Annualized from native observations</span></div>
+          <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
+        </article>
+      </section>
+
+      <section class="data-table-section">
+        <div class="table-heading"><div><div class="section-index">Current view</div><h2>The numbers behind the charts</h2></div><button id="download-csv" class="secondary-button" type="button">Download CSV</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Series</th><th>Category</th><th>Latest date</th><th>Latest value</th><th>Period change</th><th>YoY change</th><th>Source</th></tr></thead><tbody id="data-table"></tbody></table></div>
+      </section>
+    </main>
+    <div id="site-footer"></div>
+    <script type="module" src="/src/dashboard.js"></script>
+  </body>
+</html>

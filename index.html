@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MacroTrace connects public macroeconomic releases with market history in one reproducible, visual report." />
+    <title>MacroTrace — The economy, connected</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=League+Spartan:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body data-page="report">
+    <div id="site-header"></div>
+    <main>
+      <section class="report-hero shell">
+        <div class="eyebrow">Public data · Updated daily</div>
+        <h1>The economy leaves <span>traces.</span></h1>
+        <p class="hero-deck">MacroTrace follows them—from jobs and prices to rates and markets—so the economic cycle reads as one connected story, not forty disconnected charts.</p>
+        <div class="byline"><span>A report by Aidan Hutchison</span><span id="as-of">Loading latest snapshot…</span></div>
+      </section>
+
+      <section class="headline-strip shell" id="headline-metrics" aria-label="Headline economic metrics"></section>
+
+      <section class="report-intro shell reading-width">
+        <div class="section-index">The readout</div>
+        <h2>Growth has held up, but the price of resilience is visible.</h2>
+        <p>Labor, inflation, growth, rates, housing, energy, credit, and public markets rarely move in isolation. This report standardizes them into comparable windows and asks a practical question: where is the current economy strong, where is it strained, and what has the market already priced?</p>
+      </section>
+
+      <div id="report-sections" class="report-sections shell"></div>
+
+      <section class="methodology shell" id="methodology">
+        <div>
+          <div class="section-index">Methodology</div>
+          <h2>One row is one observed value on one date.</h2>
+        </div>
+        <div class="method-grid">
+          <p><strong>Sources.</strong> Macroeconomic series come from FRED, which republishes data from the responsible public agencies. Market histories use adjusted close from Yahoo Finance when available. Every series keeps its source link in the dashboard.</p>
+          <p><strong>Cleaning.</strong> Missing and non-numeric observations are dropped. Dates remain at their native daily, weekly, monthly, or quarterly frequency; MacroTrace does not fabricate observations between releases.</p>
+          <p><strong>Comparability.</strong> Indexed views set the first visible observation to 100. Percent change is <span class="formula">(last ÷ first − 1) × 100</span>. Year-over-year change compares the latest observation with the nearest observation at least 365 days earlier.</p>
+          <p><strong>Statistics.</strong> Volatility is the annualized standard deviation of percentage changes using 252, 52, 12, or 4 periods by frequency. Correlation uses aligned calendar months and Pearson’s coefficient. Calculations run in the browser from the same bundled snapshot used by every chart.</p>
+        </div>
+        <div class="source-note">This product uses FRED® data but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Data are informational, may be revised by their original publishers, and are not investment advice.</div>
+      </section>
+    </main>
+    <div id="site-footer"></div>
+    <script type="module" src="/src/report.js"></script>
+  </body>
+</html>

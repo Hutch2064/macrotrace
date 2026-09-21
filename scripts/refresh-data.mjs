@@ -9,8 +9,9 @@ function parseCsv(text) {
   const [, ...rows] = text.trim().split(/\r?\n/);
   return rows.flatMap((row) => {
     const [date, raw] = row.split(",");
-    const value = Number(raw);
-    return date && Number.isFinite(value) ? [[date, value]] : [];
+    const clean = raw?.trim();
+    const value = Number(clean);
+    return date && clean && clean !== "." && Number.isFinite(value) ? [[date, value]] : [];
   });
 }
 
