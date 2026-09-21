@@ -10,7 +10,7 @@ Chart.defaults.animation.duration = 320;
 export const palette = ["#22c55e", "#d1d5db", "#60a5fa", "#f59e0b", "#a78bfa", "#f472b6", "#2dd4bf", "#fb7185", "#84cc16", "#38bdf8", "#f97316", "#818cf8", "#06b6d4", "#e11d48", "#facc15", "#c084fc", "#14b8a6", "#f43f5e", "#0ea5e9", "#d97706"];
 
 export async function loadSnapshot() {
-  const response = await fetch("./data/snapshot.json");
+  const response = await fetch("./data/snapshot.json?schema=2");
   if (!response.ok) throw new Error("The data snapshot could not be loaded.");
   return response.json();
 }
