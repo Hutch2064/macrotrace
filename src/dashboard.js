@@ -1,4 +1,4 @@
-import { Chart, alignedDatasets, changeClass, chartOptions, correlation, format, loadSnapshot, mountChrome, palette, signed, sliceHorizon, transform, yoyChange } from "./common.js";
+import { Chart, alignedDatasets, changeClass, chartOptions, correlation, format, loadSnapshot, mountChrome, palette, signed, sliceHorizon, transform, volatility, yoyChange } from "./common.js";
 import { presetById, presets } from "./presets.js";
 
 const MAX_SELECTED = 12;
@@ -8,10 +8,10 @@ const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character
 async function main() {
   const snapshot = await loadSnapshot();
   mountChrome(snapshot, "dashboard");
-  const state = { series: snapshot.series, selected: [], horizon: "365", measure: "yoy", breakdown: "series", category: "all", frequency: "all", activePreset: "macro", changeMode: "percent" };
+  const state = { series: snapshot.series, selected: [], horizon: "365", measure: "yoy", scale: "linear", breakdown: "series", category: "all", frequency: "all", activePreset: "macro", changeMode: "percent" };
   const charts = {};
   const loaded = new Map(state.series.map((series) => [series.id, series]));
-  const controls = Object.fromEntries(["category", "horizon", "frequency", "measure", "breakdown"].map((key) => [key, document.querySelector(`#${key}-filter`)]));
+  const controls = Object.fromEntries(["category", "horizon", "frequency", "measure", "scale", "breakdown"].map((key) => [key, document.querySelector(`#${key}-filter`)]));
   const search = document.querySelector("#series-search");
   const results = document.querySelector("#search-results");
   const status = document.querySelector("#ticker-status");
@@ -33,6 +33,18 @@ async function main() {
     render();
   });
   document.querySelector("#reset-filters").addEventListener("click", () => applyPreset("macro"));
+  document.querySelectorAll(".chart-expand").forEach((button) => button.addEventListener("click", () => {
+    const card = button.closest("[data-chart-card]");
+    const expanded = card.classList.toggle("chart-expanded");
+    document.body.classList.toggle("chart-modal-open", expanded);
+    if (expanded) card.setAttribute("aria-modal", "true"); else card.removeAttribute("aria-modal");
+    card.setAttribute("role", expanded ? "dialog" : "article");
+    if (!button.dataset.expandLabel) button.dataset.expandLabel = button.getAttribute("aria-label");
+    button.textContent = expanded ? "×" : "↗";
+    button.setAttribute("aria-label", expanded ? "Close expanded chart" : button.dataset.expandLabel);
+    window.setTimeout(() => Object.values(charts).forEach((chart) => chart.resize()), 40);
+  }));
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") document.querySelector(".chart-expanded .chart-expand")?.click(); });
 
   function eligibleSeries() { return state.series.filter((series) => (state.category === "all" || series.category === state.category) && (state.frequency === "all" || series.frequency === state.frequency)); }
   function selectedSeries() { return state.selected.map((id) => loaded.get(id)).filter(Boolean); }
@@ -145,7 +157,7 @@ async function main() {
     document.querySelector("#selected-series").innerHTML = seriesList.map((series, index) => `<button class="series-chip" data-remove="${series.id}" title="Remove ${series.name}"><i style="background:${palette[index % palette.length]}"></i>${series.id} ×</button>`).join("");
     document.querySelectorAll("[data-remove]").forEach((button) => button.addEventListener("click", () => toggleSeries(button.dataset.remove)));
     document.querySelectorAll("[data-preset]").forEach((button) => button.classList.toggle("active", button.dataset.preset === state.activePreset));
-    renderMetrics(seriesList); renderTrend(seriesList); renderMomentum(seriesList); renderPercentiles(seriesList); renderRelationships(seriesList); renderTable(seriesList);
+    renderMetrics(seriesList); renderTrend(seriesList); renderMomentum(seriesList); renderPercentiles(seriesList); renderDrawdowns(seriesList); renderVolatility(seriesList); renderRelationships(seriesList); renderTable(seriesList);
   }
 
   function renderMetrics(seriesList) {
@@ -170,7 +182,9 @@ async function main() {
     const titles = { indexed: "Indexed path", change: "Window change", level: "Reported levels", yoy: "Year-over-year change" };
     document.querySelector("#trend-title").textContent = titles[state.measure];
     document.querySelector("#trend-note").textContent = state.measure === "level" && new Set(seriesList.map(({ unit }) => unit)).size > 1 ? "Mixed units · compare direction, not magnitude" : `${seriesList.length} selected series`;
-    charts.trend = new Chart(document.querySelector("#trend-chart"), { type: "line", data, options: chartOptions({ percent: ["change", "yoy"].includes(state.measure) }) });
+    const logarithmic = state.scale === "logarithmic" && pointLists.every((points) => points.every(([, value]) => value > 0));
+    document.querySelector("#trend-note").textContent = state.scale === "logarithmic" && !logarithmic ? "Log unavailable for zero or negative values · showing linear" : document.querySelector("#trend-note").textContent;
+    charts.trend = new Chart(document.querySelector("#trend-chart"), { type: "line", data, options: chartOptions({ percent: ["change", "yoy"].includes(state.measure), logarithmic }) });
   }
   function groupRows(seriesList, horizon) {
     const rows = seriesList.map((series) => ({ label: state.breakdown === "series" ? series.id : series[state.breakdown], value: move(series, horizon) })).filter(({ value }) => Number.isFinite(value));
@@ -184,16 +198,18 @@ async function main() {
   }
   function renderPercentiles(seriesList) {
     destroyChart("correlation");
-    const marketPanel = ["sectors", "currencies", "commodities", "markets"].includes(state.activePreset);
-    document.querySelector("#position-title").textContent = marketPanel ? "Maximum drawdown" : "Historical percentile";
-    document.querySelector("#position-note").textContent = marketPanel ? "Peak-to-trough decline in selected window" : "Current level within selected history";
-    if (marketPanel) {
-      const rows = seriesList.map((series) => { let peak = -Infinity; let drawdown = 0; for (const [, value] of sliceHorizon(series.observations, state.horizon)) { peak = Math.max(peak, value); if (peak > 0) drawdown = Math.min(drawdown, (value / peak - 1) * 100); } return { label: series.id, value: drawdown }; });
-      charts.correlation = new Chart(document.querySelector("#correlation-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Maximum drawdown", data: rows.map(({ value }) => value), backgroundColor: "rgba(241,151,141,.72)", borderRadius: 5 }] }, options: { ...chartOptions({ percent: true, legend: false }), indexAxis: "y" } });
-      return;
-    }
     const rows = seriesList.map((series) => { const values = sliceHorizon(series.observations, state.horizon).map(([, value]) => value).filter(Number.isFinite).sort((a, b) => a - b); const latest = series.observations[series.observations.length - 1][1]; return { label: series.id, value: values.length ? values.filter((value) => value <= latest).length / values.length * 100 : NaN }; }).filter(({ value }) => Number.isFinite(value));
     charts.correlation = new Chart(document.querySelector("#correlation-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Historical percentile", data: rows.map(({ value }) => value), backgroundColor: rows.map(({ value }) => value >= 50 ? "rgba(245,218,150,.78)" : "rgba(128,97,38,.76)"), borderRadius: 5 }] }, options: { ...chartOptions({ legend: false }), indexAxis: "y", scales: { x: { min: 0, max: 100, grid: { color: "rgba(245,201,96,.08)" }, ticks: { callback: (value) => `${value}th` } }, y: { grid: { display: false } } } } });
+  }
+  function renderDrawdowns(seriesList) {
+    destroyChart("drawdown");
+    const rows = seriesList.map((series) => { let peak = -Infinity; let drawdown = 0; for (const [, value] of sliceHorizon(series.observations, state.horizon)) { peak = Math.max(peak, value); if (peak !== 0 && Number.isFinite(peak)) drawdown = Math.min(drawdown, (value - peak) / Math.abs(peak) * 100); } return { label: series.id, value: drawdown }; });
+    charts.drawdown = new Chart(document.querySelector("#drawdown-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Maximum drawdown", data: rows.map(({ value }) => value), backgroundColor: "rgba(251,113,133,.72)", borderRadius: 4 }] }, options: { ...chartOptions({ percent: true, legend: false }), indexAxis: "y" } });
+  }
+  function renderVolatility(seriesList) {
+    destroyChart("volatility");
+    const rows = seriesList.map((series) => ({ label: series.id, value: volatility(series, state.horizon) })).filter(({ value }) => Number.isFinite(value));
+    charts.volatility = new Chart(document.querySelector("#volatility-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Annualized volatility", data: rows.map(({ value }) => value), backgroundColor: "rgba(96,165,250,.72)", borderRadius: 4 }] }, options: { ...chartOptions({ percent: true, legend: false }), indexAxis: "y" } });
   }
   function renderRelationships(seriesList) {
     destroyChart("risk"); const anchor = seriesList[0]; const rows = anchor ? seriesList.slice(1).map((series) => ({ label: series.id, value: correlation(anchor, series, state.horizon, state.changeMode) })).filter(({ value }) => Number.isFinite(value)) : [];

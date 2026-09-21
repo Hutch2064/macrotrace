@@ -2,6 +2,8 @@
 
 MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects more than 40 public macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series from FRED. A unified search adds FRED series or Yahoo Finance instruments immediately, while one-click presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, and global-market views.
 
+Every selected series flows through the same six-panel analytical grid: path, multi-horizon momentum, historical percentile, maximum drawdown, annualized volatility, and correlation to the first selected series. The path supports linear and logarithmic scaling (with a safe linear fallback for nonpositive data); every panel has exact-value tooltips, click-to-toggle legends where applicable, and a full-screen expand control.
+
 ## Live sites
 
 - Vercel: https://macrotrace.vercel.app

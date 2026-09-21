@@ -43,6 +43,7 @@
         </select></label>
         <label>Frequency<select id="frequency-filter"><option value="all">All frequencies</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option></select></label>
         <label>Measure<select id="measure-filter"><option value="indexed">Indexed (start = 100)</option><option value="change">Window change</option><option value="level">Reported level</option><option value="yoy">Year-over-year change</option></select></label>
+        <label title="Equal percentage moves use equal distances. This changes the scale, not the data.">Scale<select id="scale-filter"><option value="linear">Linear</option><option value="logarithmic">Logarithmic</option></select></label>
         <label>Break down by<select id="breakdown-filter"><option value="series">Series</option><option value="category">Category</option><option value="frequency">Frequency</option></select></label>
         <button id="reset-filters" class="secondary-button" type="button">Reset view</button>
       </section>
@@ -55,20 +56,33 @@
       <section class="dashboard-metrics" id="dashboard-metrics" aria-label="Summary statistics"></section>
 
       <section class="dashboard-grid">
-        <article class="chart-card chart-card-wide">
-          <div class="chart-heading"><div><span class="chart-kicker">01 · Path</span><h2 id="trend-title">Indexed history</h2></div><span id="trend-note" class="chart-note"></span></div>
-          <div class="chart-wrap chart-large"><canvas id="trend-chart"></canvas></div>
+        <article class="chart-card" data-chart-card>
+          <div class="chart-heading"><div><span class="chart-kicker">01 · Path</span><h2 id="trend-title">Indexed history</h2></div><button class="chart-expand" type="button" aria-label="Expand path chart">↗</button></div>
+          <div class="chart-subhead" id="trend-note"></div><div class="chart-wrap"><canvas id="trend-chart"></canvas></div>
         </article>
-        <article class="chart-card">
-          <div class="chart-heading"><div><span class="chart-kicker">02 · Momentum</span><h2>Change across horizons</h2></div></div>
+        <article class="chart-card" data-chart-card>
+          <div class="chart-heading"><div><span class="chart-kicker">02 · Momentum</span><h2>Change across horizons</h2></div><button class="chart-expand" type="button" aria-label="Expand momentum chart">↗</button></div>
+          <div class="chart-subhead">1M, 3M, and 1Y standardized change</div>
           <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
         </article>
-        <article class="chart-card">
-          <div class="chart-heading"><div><span class="chart-kicker">03 · Position</span><h2 id="position-title">Historical percentile</h2></div><span id="position-note" class="chart-note">Current level within selected history</span></div>
+        <article class="chart-card" data-chart-card>
+          <div class="chart-heading"><div><span class="chart-kicker">03 · Position</span><h2>Historical percentile</h2></div><button class="chart-expand" type="button" aria-label="Expand percentile chart">↗</button></div>
+          <div class="chart-subhead">Current level within selected history</div>
           <div class="chart-wrap"><canvas id="correlation-chart"></canvas></div>
         </article>
-        <article class="chart-card chart-card-wide">
-          <div class="chart-heading"><div><span class="chart-kicker">04 · Relationship</span><h2>Correlation to anchor</h2></div><span class="chart-note">Aligned monthly changes; first series is anchor</span></div>
+        <article class="chart-card" data-chart-card>
+          <div class="chart-heading"><div><span class="chart-kicker">04 · Drawdown</span><h2>Peak-to-trough decline</h2></div><button class="chart-expand" type="button" aria-label="Expand drawdown chart">↗</button></div>
+          <div class="chart-subhead">Maximum decline within selected history</div>
+          <div class="chart-wrap"><canvas id="drawdown-chart"></canvas></div>
+        </article>
+        <article class="chart-card" data-chart-card>
+          <div class="chart-heading"><div><span class="chart-kicker">05 · Variability</span><h2>Annualized volatility</h2></div><button class="chart-expand" type="button" aria-label="Expand volatility chart">↗</button></div>
+          <div class="chart-subhead">Native-frequency percentage changes</div>
+          <div class="chart-wrap"><canvas id="volatility-chart"></canvas></div>
+        </article>
+        <article class="chart-card" data-chart-card>
+          <div class="chart-heading"><div><span class="chart-kicker">06 · Relationship</span><h2>Correlation to anchor</h2></div><button class="chart-expand" type="button" aria-label="Expand relationship chart">↗</button></div>
+          <div class="chart-subhead">Aligned monthly changes; first series is anchor</div>
           <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
         </article>
       </section>

@@ -1,12 +1,13 @@
 import { Chart, registerables } from "chart.js";
 
-Chart.register(...registerables);
-Chart.defaults.color = "rgba(248, 246, 239, .66)";
-Chart.defaults.borderColor = "rgba(245, 201, 96, .10)";
-Chart.defaults.font.family = "Manrope, sans-serif";
-Chart.defaults.animation.duration = 500;
+const crosshair = { id: "simfolioCrosshair", afterDraw(chart) { const point = chart.tooltip?._active?.[0]; if (!point) return; const { ctx, chartArea } = chart; ctx.save(); ctx.strokeStyle = "rgba(255,255,255,.45)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(point.element.x, chartArea.top); ctx.lineTo(point.element.x, chartArea.bottom); ctx.stroke(); ctx.restore(); } };
+Chart.register(...registerables, crosshair);
+Chart.defaults.color = "rgba(255,255,255,.9)";
+Chart.defaults.borderColor = "rgba(255,255,255,.07)";
+Chart.defaults.font.family = "Inter, system-ui, sans-serif";
+Chart.defaults.animation.duration = 320;
 
-export const palette = ["#f5da96", "#cfb97d", "#f1f0e8", "#a98b45", "#d3ba78", "#7dd3a7", "#8cb8e8", "#d8a1e8", "#f1978d", "#82c7c5", "#c7a96b", "#9da4b2"];
+export const palette = ["#22c55e", "#d1d5db", "#60a5fa", "#f59e0b", "#a78bfa", "#f472b6", "#2dd4bf", "#fb7185", "#84cc16", "#38bdf8", "#f97316", "#818cf8", "#06b6d4", "#e11d48", "#facc15", "#c084fc", "#14b8a6", "#f43f5e", "#0ea5e9", "#d97706"];
 
 export async function loadSnapshot() {
   const response = await fetch("./data/snapshot.json");
@@ -136,25 +137,25 @@ export function downsample(points, max = 520) {
   return points.filter((_, index) => index % step === 0 || index === points.length - 1);
 }
 
-export function chartOptions({ percent = false, legend = true } = {}) {
+export function chartOptions({ percent = false, legend = true, logarithmic = false } = {}) {
   return {
     responsive: true,
     maintainAspectRatio: false,
     interaction: { mode: "index", intersect: false },
     plugins: {
-      legend: { display: legend, position: "bottom", align: "start", labels: { usePointStyle: true, boxWidth: 7, padding: 18 } },
-      tooltip: { backgroundColor: "#0b0b08", borderColor: "rgba(245,201,96,.28)", borderWidth: 1, padding: 12, callbacks: { label: (context) => `${context.dataset.label}: ${format(context.parsed.y, percent ? "%" : "")}` } },
+      legend: { display: legend, position: "bottom", align: "start", onClick: (event, item, legendPlugin) => { const chart = legendPlugin.chart; const visible = chart.isDatasetVisible(item.datasetIndex); chart.setDatasetVisibility(item.datasetIndex, !visible); chart.update(); }, labels: { usePointStyle: true, pointStyle: "line", boxWidth: 18, padding: 16, color: "#cbd5e1" } },
+      tooltip: { backgroundColor: "#0a0a0a", borderColor: "rgba(255,255,255,.12)", borderWidth: 1, cornerRadius: 12, padding: 14, titleColor: "rgba(255,255,255,.9)", bodyColor: "rgba(255,255,255,.9)", displayColors: true, callbacks: { label: (context) => `${context.dataset.label}: ${format(context.parsed.y, percent ? "%" : "")}` } },
     },
     scales: {
       x: { grid: { display: false }, ticks: { maxTicksLimit: 7, maxRotation: 0 } },
-      y: { grid: { color: "rgba(245,201,96,.08)" }, ticks: { callback: (value) => percent ? `${value}%` : compact(value) } },
+      y: { type: logarithmic ? "logarithmic" : "linear", grid: { color: "rgba(255,255,255,.07)" }, ticks: { callback: (value) => percent ? `${value}%` : compact(value) } },
     },
   };
 }
 
 export function lineDataset(series, points, color, label = series.name) {
   const sampled = downsample(points);
-  return { label, data: sampled.map(([, value]) => value), borderColor: color, backgroundColor: `${color}18`, pointRadius: 0, pointHoverRadius: 3, borderWidth: 2, tension: .18, fill: false, _labels: sampled.map(([date]) => date) };
+  return { label, data: sampled.map(([, value]) => value), borderColor: color, backgroundColor: `${color}18`, pointRadius: 0, pointHoverRadius: 3, borderWidth: 1.5, tension: 0, fill: false, _labels: sampled.map(([date]) => date) };
 }
 
 export function labelsFor(datasets) {
