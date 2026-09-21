@@ -1,6 +1,6 @@
 # MacroTrace
 
-MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects more than 30 official macroeconomic and sector-employment series from FRED, then calculates comparable horizons, normalized paths, changes, volatility, and monthly correlations directly in the browser. Market tickers are fetched on demand rather than redistributed in the repository.
+MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects more than 40 public macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series from FRED. A unified search adds FRED series or Yahoo Finance instruments immediately, while one-click presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, and global-market views.
 
 ## Live sites
 
@@ -19,7 +19,7 @@ Run `npm run check` before publishing. It validates the data contract and create
 
 ## Data and calculations
 
-Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. On-demand ticker histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available and are not committed to this repository. The catalog records every bundled series ID, human-readable name, category, unit, frequency, and source link. Missing or non-numeric rows are removed and native release frequencies are preserved.
+Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. On-demand ticker histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available and are not committed to this repository. Market responses are cached for five minutes with a one-hour stale fallback; bundled FRED observations refresh daily, and arbitrary FRED series use a one-hour cache. The catalog records every bundled series ID, human-readable name, category, unit, frequency, transformation, and source link. Missing or non-numeric rows are removed and native release frequencies are preserved.
 
 - Indexed: `value / first visible value × 100`
 - Period change: `(last / first − 1) × 100`
@@ -38,6 +38,7 @@ The committed snapshot pins every report number to reproducible data. A schedule
 | `src/common.js` | Shared data loading, calculations, formatting, navigation, and Chart.js defaults. |
 | `src/report.js` | Reproducible report findings and chart rendering. |
 | `src/dashboard.js` | Dashboard state, filtering, search, calculations, charts, table, and export. |
+| `src/presets.js` | Declarative high-level macro and market preset definitions. |
 | `src/styles.css` | Responsive black-and-gold visual system shared by both pages. |
 | `public/data/snapshot.json` | Versioned public snapshot used by the report and dashboard. |
 | `public/favicon.svg` | MacroTrace brand mark. |
@@ -45,6 +46,8 @@ The committed snapshot pins every report number to reproducible data. A schedule
 | `scripts/refresh-data.mjs` | Concurrent public-data ingestion and normalization. |
 | `scripts/verify-data.mjs` | Data-contract, ordering, metadata, and coverage checks. |
 | `api/market.js` | Validated, CDN-cached Vercel endpoint for on-demand ticker history. |
+| `api/search.js` | Unified bundled, Yahoo Finance, and FRED search endpoint. |
+| `api/fred.js` | Validated, cached endpoint for arbitrary public FRED series. |
 | `.github/workflows/pages.yml` | Builds and publishes the static site to GitHub Pages. |
 | `.github/workflows/refresh-data.yml` | Refreshes, checks, and commits the public snapshot daily. |
 | `vite.config.js` | Two-page Vite production build configuration. |

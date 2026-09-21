@@ -6,7 +6,7 @@ Chart.defaults.borderColor = "rgba(245, 201, 96, .10)";
 Chart.defaults.font.family = "Manrope, sans-serif";
 Chart.defaults.animation.duration = 500;
 
-export const palette = ["#f7dc8b", "#dd9f31", "#f1f0e8", "#9e864d", "#d3ba78"];
+export const palette = ["#f5da96", "#cfb97d", "#f1f0e8", "#a98b45", "#d3ba78", "#7dd3a7", "#8cb8e8", "#d8a1e8", "#f1978d", "#82c7c5", "#c7a96b", "#9da4b2"];
 
 export async function loadSnapshot() {
   const response = await fetch("./data/snapshot.json");
@@ -113,12 +113,12 @@ export function volatility(series, horizon) {
   return Math.sqrt(variance * factor) * 100;
 }
 
-export function correlation(first, second, horizon = "max") {
+export function correlation(first, second, horizon = "max", mode = "percent") {
   const monthly = (series) => {
     const map = new Map();
     for (const [date, value] of sliceHorizon(series.observations, horizon)) map.set(date.slice(0, 7), value);
     const entries = [...map.entries()];
-    return new Map(entries.slice(1).map(([month, value], index) => [month, value / entries[index][1] - 1]));
+    return new Map(entries.slice(1).map(([month, value], index) => [month, mode === "percent" ? value / entries[index][1] - 1 : value - entries[index][1]]));
   };
   const left = monthly(first); const right = monthly(second);
   const pairs = [...left].flatMap(([month, value]) => right.has(month) ? [[value, right.get(month)]] : []);

@@ -15,7 +15,7 @@ function parseCsv(text) {
   });
 }
 
-async function fetchFred([id, name, category, unit, frequency]) {
+async function fetchFred([id, name, category, unit, frequency, transform = "identity"]) {
   const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}&cosd=${start}`;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`FRED ${id}: ${response.status}`);
@@ -27,7 +27,7 @@ async function fetchFred([id, name, category, unit, frequency]) {
     frequency,
     source: "Federal Reserve Bank of St. Louis (FRED)",
     sourceUrl: `https://fred.stlouisfed.org/series/${id}`,
-    observations: parseCsv(await response.text()),
+    observations: parseCsv(await response.text()).map(([date, value]) => [date, transform === "invert" ? 1 / value : value]),
   };
 }
 

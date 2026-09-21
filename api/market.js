@@ -18,7 +18,7 @@ export default async function handler(request, response) {
     if (!result) return response.status(404).json({ error: "Ticker not found" });
     const prices = result.indicators.adjclose?.[0]?.adjclose ?? result.indicators.quote?.[0]?.close ?? [];
     const observations = result.timestamp.flatMap((timestamp, index) => Number.isFinite(prices[index]) ? [[new Date(timestamp * 1000).toISOString().slice(0, 10), Number(prices[index].toFixed(4))]] : []);
-    response.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate=604800");
+    response.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=3600");
     return response.status(200).json({
       id: symbol,
       name: result.meta.longName || result.meta.shortName || symbol,

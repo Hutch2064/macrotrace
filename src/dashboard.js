@@ -1,141 +1,215 @@
-import { Chart, alignedDatasets, changeClass, chartOptions, correlation, format, loadSnapshot, mountChrome, palette, periodChange, signed, sliceHorizon, transform, volatility, yoyChange } from "./common.js";
+import { Chart, alignedDatasets, changeClass, chartOptions, correlation, format, loadSnapshot, mountChrome, palette, signed, sliceHorizon, transform, yoyChange } from "./common.js";
+import { presetById, presets } from "./presets.js";
+
+const MAX_SELECTED = 12;
+const apiOrigin = import.meta.env.VITE_MARKET_API_ORIGIN || "";
+const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
 
 async function main() {
-const snapshot = await loadSnapshot();
-mountChrome(snapshot, "dashboard");
-const state = { series: snapshot.series, selected: ["CPIAUCSL", "UNRATE", "DGS10"], horizon: "365", measure: "indexed", breakdown: "series", category: "all", frequency: "all" };
-const charts = {};
-const controls = Object.fromEntries(["category", "horizon", "frequency", "measure", "breakdown"].map((key) => [key, document.querySelector(`#${key}-filter`)]));
-const search = document.querySelector("#series-search");
-const results = document.querySelector("#search-results");
-const status = document.querySelector("#ticker-status");
+  const snapshot = await loadSnapshot();
+  mountChrome(snapshot, "dashboard");
+  const state = { series: snapshot.series, selected: [], horizon: "365", measure: "yoy", breakdown: "series", category: "all", frequency: "all", activePreset: "macro", changeMode: "percent" };
+  const charts = {};
+  const loaded = new Map(state.series.map((series) => [series.id, series]));
+  const controls = Object.fromEntries(["category", "horizon", "frequency", "measure", "breakdown"].map((key) => [key, document.querySelector(`#${key}-filter`)]));
+  const search = document.querySelector("#series-search");
+  const results = document.querySelector("#search-results");
+  const status = document.querySelector("#ticker-status");
+  const presetStatus = document.querySelector("#preset-status");
+  let searchResults = [];
+  let activeSearchIndex = 0;
+  let searchTimer;
 
-document.querySelector("#freshness").textContent = `Snapshot ${new Date(snapshot.generatedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}`;
-const categories = [...new Set(state.series.map(({ category }) => category))].sort();
-controls.category.insertAdjacentHTML("beforeend", categories.map((category) => `<option>${category}</option>`).join(""));
+  document.querySelector("#freshness").textContent = `Daily snapshot · ${new Date(snapshot.generatedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}`;
+  const categories = [...new Set(state.series.map(({ category }) => category))].sort();
+  controls.category.insertAdjacentHTML("beforeend", categories.map((category) => `<option>${category}</option>`).join(""));
+  document.querySelector("#preset-list").innerHTML = presets.map((preset) => `<button class="preset-button" data-preset="${preset.id}" type="button"><strong>${preset.label}</strong><span>${preset.description}</span></button>`).join("");
+  document.querySelectorAll("[data-preset]").forEach((button) => button.addEventListener("click", () => applyPreset(button.dataset.preset)));
 
-for (const [key, control] of Object.entries(controls)) control.addEventListener("change", () => {
-  state[key] = control.value;
-  if (key === "category" || key === "frequency") resetSelectionForFilters();
-  render();
-});
-document.querySelector("#reset-filters").addEventListener("click", () => {
-  Object.assign(state, { selected: ["CPIAUCSL", "UNRATE", "DGS10"], horizon: "365", measure: "indexed", breakdown: "series", category: "all", frequency: "all" });
-  for (const [key, control] of Object.entries(controls)) control.value = state[key];
-  search.value = ""; status.textContent = ""; render();
-});
+  for (const [key, control] of Object.entries(controls)) control.addEventListener("change", () => {
+    state[key] = control.value;
+    state.activePreset = null;
+    if (key === "category" || key === "frequency") resetSelectionForFilters();
+    render();
+  });
+  document.querySelector("#reset-filters").addEventListener("click", () => applyPreset("macro"));
 
-function eligibleSeries() {
-  return state.series.filter((series) => (state.category === "all" || series.category === state.category) && (state.frequency === "all" || series.frequency === state.frequency));
-}
-function selectedSeries() { return state.selected.map((id) => state.series.find((series) => series.id === id)).filter(Boolean); }
-function resetSelectionForFilters() { state.selected = eligibleSeries().slice(0, 3).map(({ id }) => id); }
-function toggleSeries(id) {
-  if (state.selected.includes(id)) state.selected = state.selected.filter((selected) => selected !== id);
-  else if (state.selected.length < 5) state.selected.push(id);
-  else status.textContent = "Remove a series before adding another (maximum five).";
-  render();
-}
+  function eligibleSeries() { return state.series.filter((series) => (state.category === "all" || series.category === state.category) && (state.frequency === "all" || series.frequency === state.frequency)); }
+  function selectedSeries() { return state.selected.map((id) => loaded.get(id)).filter(Boolean); }
+  function resetSelectionForFilters() { state.selected = eligibleSeries().slice(0, 6).map(({ id }) => id); }
+  function setSearchOpen(open) { results.hidden = !open; search.setAttribute("aria-expanded", String(open)); }
 
-search.addEventListener("input", () => {
-  const query = search.value.trim().toLowerCase();
-  if (!query) { results.hidden = true; return; }
-  const matches = eligibleSeries().filter((series) => `${series.id} ${series.name} ${series.category}`.toLowerCase().includes(query)).slice(0, 8);
-  results.innerHTML = matches.length ? matches.map((series) => `<button class="search-result" data-id="${series.id}" type="button"><span><strong>${series.id}</strong> · ${series.name}</span><small>${series.category}</small></button>`).join("") : `<div class="search-result"><span>No bundled match. Use “Load ticker” for ${query.toUpperCase()}.</span></div>`;
-  results.hidden = false;
-});
-results.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-id]"); if (!button) return;
-  toggleSeries(button.dataset.id); search.value = ""; results.hidden = true;
-});
-document.addEventListener("click", (event) => { if (!event.target.closest(".search-control")) results.hidden = true; });
-
-document.querySelector("#add-ticker").addEventListener("click", async () => {
-  const symbol = search.value.trim().toUpperCase();
-  if (!/^[A-Z0-9.^=-]{1,12}$/.test(symbol)) { status.textContent = "Enter a valid ticker symbol."; return; }
-  status.textContent = `Loading ${symbol}…`;
-  try {
-    const origin = import.meta.env.VITE_MARKET_API_ORIGIN || "";
-    const response = await fetch(`${origin}/api/market?symbol=${encodeURIComponent(symbol)}`);
-    if (!response.ok) throw new Error(response.status === 404 ? "Ticker not found." : "Live lookup is unavailable.");
+  async function fetchSeries(item) {
+    const existing = loaded.get(item.id);
+    if (existing) return existing;
+    const path = item.kind === "fred" ? `/api/fred?id=${encodeURIComponent(item.id)}&name=${encodeURIComponent(item.name)}` : `/api/market?symbol=${encodeURIComponent(item.id)}`;
+    const response = await fetch(`${apiOrigin}${path}`);
+    if (!response.ok) throw new Error(`${item.id} is temporarily unavailable.`);
     const series = await response.json();
+    loaded.set(series.id, series);
     state.series = [...state.series.filter(({ id }) => id !== series.id), series];
-    if (!state.selected.includes(series.id)) state.selected = [...state.selected.slice(-4), series.id];
-    state.category = "all"; state.frequency = "all"; controls.category.value = "all"; controls.frequency.value = "all";
-    status.textContent = `${symbol} loaded from Yahoo Finance.`; search.value = ""; results.hidden = true; render();
-  } catch (error) { status.textContent = error.message; }
-});
+    return series;
+  }
 
-function destroyChart(name) { charts[name]?.destroy(); }
-function render() {
-  const seriesList = selectedSeries();
-  document.querySelector("#selection-count").textContent = seriesList.length;
-  document.querySelector("#selected-series").innerHTML = seriesList.map((series, index) => `<button class="series-chip" data-remove="${series.id}" title="Remove ${series.name}"><i style="background:${palette[index]}"></i>${series.id} ×</button>`).join("");
-  document.querySelectorAll("[data-remove]").forEach((button) => button.addEventListener("click", () => toggleSeries(button.dataset.remove)));
-  renderMetrics(seriesList); renderTrend(seriesList); renderRanking(seriesList); renderCorrelations(seriesList); renderRisk(seriesList); renderTable(seriesList);
+  async function addResult(item) {
+    setSearchOpen(false); search.value = ""; status.textContent = `Adding ${item.id}…`;
+    try {
+      const series = await fetchSeries(item);
+      if (!state.selected.includes(series.id)) state.selected = [...state.selected.slice(-(MAX_SELECTED - 1)), series.id];
+      state.activePreset = null; state.category = "all"; state.frequency = "all";
+      controls.category.value = "all"; controls.frequency.value = "all";
+      status.textContent = `${series.id} added · ${series.observations[series.observations.length - 1][0]}`;
+      render();
+    } catch (error) { status.textContent = error.message; }
+  }
+
+  function renderSearch(items) {
+    searchResults = items; activeSearchIndex = 0;
+    results.innerHTML = items.length ? items.map((item, index) => `<button class="search-result${index === 0 ? " active" : ""}" data-search-index="${index}" role="option" aria-selected="${index === 0}" type="button"><span><strong>${escapeHtml(item.id)}</strong> · ${escapeHtml(item.name)}</span><small><b>${escapeHtml(item.source)}</b>${item.meta ? ` · ${escapeHtml(item.meta)}` : ""}</small></button>`).join("") : `<div class="search-result"><span>No matching Yahoo Finance or FRED series.</span></div>`;
+    setSearchOpen(true);
+  }
+
+  search.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    const query = search.value.trim();
+    if (!query) { setSearchOpen(false); return; }
+    const needle = query.toLowerCase();
+    const local = state.series.filter((series) => `${series.id} ${series.name} ${series.category}`.toLowerCase().includes(needle)).slice(0, 8).map((series) => ({ id: series.id, name: series.name, kind: series.source === "Yahoo Finance" ? "market" : "fred", source: series.source === "Yahoo Finance" ? "Yahoo Finance" : "FRED", bundled: true, meta: `${series.category} · ${series.frequency}` }));
+    renderSearch(local);
+    searchTimer = window.setTimeout(async () => {
+      try {
+        const response = await fetch(`${apiOrigin}/api/search?q=${encodeURIComponent(query)}`);
+        if (!response.ok) return;
+        const remote = (await response.json()).results ?? [];
+        if (search.value.trim() === query) renderSearch(remote);
+      } catch { /* Local matches remain available. */ }
+    }, 120);
+  });
+  search.addEventListener("keydown", (event) => {
+    if (results.hidden || !searchResults.length) return;
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      activeSearchIndex = (activeSearchIndex + (event.key === "ArrowDown" ? 1 : -1) + searchResults.length) % searchResults.length;
+      results.querySelectorAll("[role=option]").forEach((row, index) => { const active = index === activeSearchIndex; row.classList.toggle("active", active); row.setAttribute("aria-selected", String(active)); });
+    } else if (event.key === "Enter") { event.preventDefault(); void addResult(searchResults[activeSearchIndex]); }
+    else if (event.key === "Escape") setSearchOpen(false);
+  });
+  results.addEventListener("click", (event) => { const button = event.target.closest("[data-search-index]"); if (button) void addResult(searchResults[Number(button.dataset.searchIndex)]); });
+  document.addEventListener("click", (event) => { if (!event.target.closest(".search-control")) setSearchOpen(false); });
+
+  async function applyPreset(id) {
+    const preset = presetById(id);
+    if (!preset) return;
+    state.activePreset = id; state.measure = preset.measure; state.changeMode = preset.changeMode ?? "percent"; state.category = "all"; state.frequency = "all"; state.breakdown = "series";
+    controls.measure.value = state.measure; controls.category.value = "all"; controls.frequency.value = "all"; controls.breakdown.value = "series";
+    state.selected = (preset.series ?? []).filter((seriesId) => loaded.has(seriesId));
+    render();
+    if (!preset.symbols?.length) { presetStatus.textContent = `${preset.label} · ${state.selected.length} current series`; return; }
+    presetStatus.textContent = `Loading ${preset.label}…`;
+    const outcomes = Array(preset.symbols.length);
+    let nextSymbol = 0;
+    await Promise.all(Array.from({ length: Math.min(3, preset.symbols.length) }, async () => {
+      while (nextSymbol < preset.symbols.length) {
+        const index = nextSymbol++;
+        const symbol = preset.symbols[index];
+        try { outcomes[index] = { status: "fulfilled", value: await fetchSeries({ id: symbol, name: symbol, kind: "market" }) }; }
+        catch (reason) { outcomes[index] = { status: "rejected", reason }; }
+      }
+    }));
+    if (state.activePreset !== id) return;
+    state.selected = outcomes.flatMap((outcome) => outcome.status === "fulfilled" ? [outcome.value.id] : []).slice(0, MAX_SELECTED);
+    presetStatus.textContent = `${preset.label} · ${state.selected.length}/${preset.symbols.length} current series`;
+    render();
+  }
+
+  function toggleSeries(id) {
+    if (state.selected.includes(id)) state.selected = state.selected.filter((selected) => selected !== id);
+    else if (state.selected.length < MAX_SELECTED) state.selected.push(id);
+    else status.textContent = `Remove a series before adding another (maximum ${MAX_SELECTED}).`;
+    state.activePreset = null; render();
+  }
+  function move(series, horizon = state.horizon) {
+    const visible = sliceHorizon(series.observations, horizon);
+    if (visible.length < 2) return NaN;
+    const first = visible[0][1]; const last = visible[visible.length - 1][1];
+    if (state.changeMode === "basis-points") return (last - first) * 100;
+    if (state.changeMode === "points") return last - first;
+    return first === 0 ? NaN : (last / first - 1) * 100;
+  }
+  function moveSuffix() { return state.changeMode === "basis-points" ? " bp" : state.changeMode === "points" ? " pts" : "%"; }
+  function destroyChart(name) { charts[name]?.destroy(); }
+
+  function render() {
+    const seriesList = selectedSeries();
+    document.querySelector("#selection-count").textContent = seriesList.length;
+    document.querySelector("#selected-series").innerHTML = seriesList.map((series, index) => `<button class="series-chip" data-remove="${series.id}" title="Remove ${series.name}"><i style="background:${palette[index % palette.length]}"></i>${series.id} ×</button>`).join("");
+    document.querySelectorAll("[data-remove]").forEach((button) => button.addEventListener("click", () => toggleSeries(button.dataset.remove)));
+    document.querySelectorAll("[data-preset]").forEach((button) => button.classList.toggle("active", button.dataset.preset === state.activePreset));
+    renderMetrics(seriesList); renderTrend(seriesList); renderMomentum(seriesList); renderPercentiles(seriesList); renderRelationships(seriesList); renderTable(seriesList);
+  }
+
+  function renderMetrics(seriesList) {
+    const primary = seriesList[0];
+    const moves = seriesList.map((series) => move(series)).filter(Number.isFinite).sort((a, b) => a - b);
+    const median = moves.length ? moves[Math.floor(moves.length / 2)] : NaN;
+    const breadth = moves.length ? moves.filter((value) => value > 0).length / moves.length * 100 : NaN;
+    const relationships = primary ? seriesList.slice(1).map((series) => ({ id: series.id, value: correlation(primary, series, state.horizon, state.changeMode) })).filter(({ value }) => Number.isFinite(value)).sort((a, b) => Math.abs(b.value) - Math.abs(a.value)) : [];
+    const strongest = relationships[0];
+    const metrics = [
+      [primary ? format(primary.observations[primary.observations.length - 1][1]) : "—", primary ? `${primary.id} latest · ${primary.observations[primary.observations.length - 1][0]}` : "Select a series"],
+      [Number.isFinite(median) ? `${signed(median)}${moveSuffix()}` : "—", "Median move in selected window"],
+      [Number.isFinite(breadth) ? format(breadth, "%") : "—", "Series with positive momentum"],
+      [strongest ? format(strongest.value) : "—", strongest ? `${primary.id} / ${strongest.id} correlation` : "Select two for correlation"],
+    ];
+    document.querySelector("#dashboard-metrics").innerHTML = metrics.map(([value, label]) => `<div class="dashboard-metric"><span class="metric-value">${value}</span><span class="metric-label">${label}</span></div>`).join("");
+  }
+  function renderTrend(seriesList) {
+    destroyChart("trend");
+    const pointLists = seriesList.map((series) => transform(sliceHorizon(series.observations, state.horizon), state.measure));
+    const data = alignedDatasets(seriesList, pointLists);
+    const titles = { indexed: "Indexed path", change: "Window change", level: "Reported levels", yoy: "Year-over-year change" };
+    document.querySelector("#trend-title").textContent = titles[state.measure];
+    document.querySelector("#trend-note").textContent = state.measure === "level" && new Set(seriesList.map(({ unit }) => unit)).size > 1 ? "Mixed units · compare direction, not magnitude" : `${seriesList.length} selected series`;
+    charts.trend = new Chart(document.querySelector("#trend-chart"), { type: "line", data, options: chartOptions({ percent: ["change", "yoy"].includes(state.measure) }) });
+  }
+  function groupRows(seriesList, horizon) {
+    const rows = seriesList.map((series) => ({ label: state.breakdown === "series" ? series.id : series[state.breakdown], value: move(series, horizon) })).filter(({ value }) => Number.isFinite(value));
+    if (state.breakdown === "series") return rows;
+    const groups = rows.reduce((map, row) => map.set(row.label, [...(map.get(row.label) ?? []), row.value]), new Map());
+    return [...groups].map(([label, values]) => ({ label, value: values.reduce((sum, value) => sum + value, 0) / values.length }));
+  }
+  function renderMomentum(seriesList) {
+    destroyChart("ranking"); const horizons = [["1M", 30], ["3M", 90], ["1Y", 365]]; const labels = groupRows(seriesList, 365).map(({ label }) => label);
+    charts.ranking = new Chart(document.querySelector("#ranking-chart"), { type: "bar", data: { labels, datasets: horizons.map(([label, horizon], index) => { const map = new Map(groupRows(seriesList, horizon).map((row) => [row.label, row.value])); return { label, data: labels.map((name) => map.get(name) ?? null), backgroundColor: palette[index], borderRadius: 3 }; }) }, options: chartOptions() });
+  }
+  function renderPercentiles(seriesList) {
+    destroyChart("correlation");
+    const marketPanel = ["sectors", "currencies", "commodities", "markets"].includes(state.activePreset);
+    document.querySelector("#position-title").textContent = marketPanel ? "Maximum drawdown" : "Historical percentile";
+    document.querySelector("#position-note").textContent = marketPanel ? "Peak-to-trough decline in selected window" : "Current level within selected history";
+    if (marketPanel) {
+      const rows = seriesList.map((series) => { let peak = -Infinity; let drawdown = 0; for (const [, value] of sliceHorizon(series.observations, state.horizon)) { peak = Math.max(peak, value); if (peak > 0) drawdown = Math.min(drawdown, (value / peak - 1) * 100); } return { label: series.id, value: drawdown }; });
+      charts.correlation = new Chart(document.querySelector("#correlation-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Maximum drawdown", data: rows.map(({ value }) => value), backgroundColor: "rgba(241,151,141,.72)", borderRadius: 5 }] }, options: { ...chartOptions({ percent: true, legend: false }), indexAxis: "y" } });
+      return;
+    }
+    const rows = seriesList.map((series) => { const values = sliceHorizon(series.observations, state.horizon).map(([, value]) => value).filter(Number.isFinite).sort((a, b) => a - b); const latest = series.observations[series.observations.length - 1][1]; return { label: series.id, value: values.length ? values.filter((value) => value <= latest).length / values.length * 100 : NaN }; }).filter(({ value }) => Number.isFinite(value));
+    charts.correlation = new Chart(document.querySelector("#correlation-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Historical percentile", data: rows.map(({ value }) => value), backgroundColor: rows.map(({ value }) => value >= 50 ? "rgba(245,218,150,.78)" : "rgba(128,97,38,.76)"), borderRadius: 5 }] }, options: { ...chartOptions({ legend: false }), indexAxis: "y", scales: { x: { min: 0, max: 100, grid: { color: "rgba(245,201,96,.08)" }, ticks: { callback: (value) => `${value}th` } }, y: { grid: { display: false } } } } });
+  }
+  function renderRelationships(seriesList) {
+    destroyChart("risk"); const anchor = seriesList[0]; const rows = anchor ? seriesList.slice(1).map((series) => ({ label: series.id, value: correlation(anchor, series, state.horizon, state.changeMode) })).filter(({ value }) => Number.isFinite(value)) : [];
+    charts.risk = new Chart(document.querySelector("#risk-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: anchor ? `Correlation to ${anchor.id}` : "Correlation", data: rows.map(({ value }) => value), backgroundColor: rows.map(({ value }) => value >= 0 ? "rgba(125,211,167,.72)" : "rgba(241,151,141,.72)"), borderRadius: 5 }] }, options: { ...chartOptions({ legend: false }), scales: { x: { grid: { display: false } }, y: { min: -1, max: 1, grid: { color: "rgba(245,201,96,.08)" } } } } });
+  }
+  function renderTable(seriesList) {
+    document.querySelector("#data-table").innerHTML = seriesList.map((series) => { const latest = series.observations[series.observations.length - 1]; const windowMove = move(series); const yoy = yoyChange(series.observations); return `<tr><td>${escapeHtml(series.id)} · ${escapeHtml(series.name)}</td><td>${escapeHtml(series.category)}</td><td>${escapeHtml(latest[0])}</td><td>${format(latest[1])} ${escapeHtml(series.unit)}</td><td class="${changeClass(windowMove)}">${signed(windowMove)}${moveSuffix()}</td><td class="${changeClass(yoy)}">${signed(yoy)}%</td><td><a href="${escapeHtml(series.sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(series.source)}</a></td></tr>`; }).join("");
+  }
+
+  document.querySelector("#download-csv").addEventListener("click", () => {
+    const rows = [["series_id", "series_name", "date", "value", "unit"], ...selectedSeries().flatMap((series) => sliceHorizon(series.observations, state.horizon).map(([date, value]) => [series.id, series.name, date, value, series.unit]))];
+    const csv = rows.map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\n");
+    const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); link.download = "macrotrace-current-view.csv"; link.click(); URL.revokeObjectURL(link.href);
+  });
+
+  await applyPreset("macro");
 }
 
-function renderMetrics(seriesList) {
-  const primary = seriesList[0];
-  const changes = seriesList.map((series) => periodChange(series.observations, state.horizon)).filter(Number.isFinite);
-  const bestIndex = changes.indexOf(Math.max(...changes));
-  const vols = seriesList.map((series) => volatility(series, state.horizon)).filter(Number.isFinite);
-  const corr = seriesList.length > 1 ? correlation(seriesList[0], seriesList[1], state.horizon) : NaN;
-  const metrics = [
-    [primary ? format(primary.observations[primary.observations.length - 1][1]) : "—", primary ? `${primary.id} latest level` : "Select a series"],
-    [bestIndex >= 0 ? `${signed(changes[bestIndex])}%` : "—", bestIndex >= 0 ? `${seriesList[bestIndex].id} leads the window` : "Period leader"],
-    [vols.length ? `${format(vols.reduce((sum, value) => sum + value, 0) / vols.length, "%")}` : "—", "Average annualized volatility"],
-    [format(corr), seriesList.length > 1 ? `${seriesList[0].id} / ${seriesList[1].id} correlation` : "Select two for correlation"],
-  ];
-  document.querySelector("#dashboard-metrics").innerHTML = metrics.map(([value, label]) => `<div class="dashboard-metric"><span class="metric-value">${value}</span><span class="metric-label">${label}</span></div>`).join("");
-}
-
-function renderTrend(seriesList) {
-  destroyChart("trend");
-  const pointLists = seriesList.map((series) => transform(sliceHorizon(series.observations, state.horizon), state.measure));
-  const data = alignedDatasets(seriesList, pointLists);
-  const titles = { indexed: "Indexed history", change: "Cumulative change", level: "Reported levels", yoy: "Year-over-year change" };
-  document.querySelector("#trend-title").textContent = titles[state.measure];
-  document.querySelector("#trend-note").textContent = state.measure === "level" && new Set(seriesList.map(({ unit }) => unit)).size > 1 ? "Series use different native units" : `${seriesList.length} selected series`;
-  charts.trend = new Chart(document.querySelector("#trend-chart"), { type: "line", data, options: chartOptions({ percent: ["change", "yoy"].includes(state.measure) }) });
-}
-
-function breakdownRows(seriesList) {
-  const rows = seriesList.map((series) => ({ label: state.breakdown === "series" ? series.id : series[state.breakdown], value: periodChange(series.observations, state.horizon) }));
-  if (state.breakdown === "series") return rows;
-  const groups = rows.reduce((map, row) => map.set(row.label, [...(map.get(row.label) ?? []), row]), new Map());
-  return [...groups].map(([label, values]) => ({ label, value: values.reduce((sum, row) => sum + row.value, 0) / values.length }));
-}
-function renderRanking(seriesList) {
-  destroyChart("ranking"); const rows = breakdownRows(seriesList).filter(({ value }) => Number.isFinite(value)).sort((a, b) => b.value - a.value);
-  charts.ranking = new Chart(document.querySelector("#ranking-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Period change", data: rows.map(({ value }) => value), backgroundColor: rows.map(({ value }) => value >= 0 ? "rgba(125,211,167,.7)" : "rgba(241,151,141,.7)"), borderRadius: 5 }] }, options: { ...chartOptions({ percent: true, legend: false }), indexAxis: "y" } });
-}
-function renderCorrelations(seriesList) {
-  destroyChart("correlation"); const pairs = [];
-  for (let left = 0; left < seriesList.length; left += 1) for (let right = left + 1; right < seriesList.length; right += 1) pairs.push({ label: `${seriesList[left].id} / ${seriesList[right].id}`, value: correlation(seriesList[left], seriesList[right], state.horizon) });
-  charts.correlation = new Chart(document.querySelector("#correlation-chart"), { type: "bar", data: { labels: pairs.map(({ label }) => label), datasets: [{ label: "Correlation", data: pairs.map(({ value }) => value), backgroundColor: pairs.map(({ value }) => value >= 0 ? "rgba(247,220,139,.72)" : "rgba(158,134,77,.72)"), borderRadius: 5 }] }, options: { ...chartOptions({ legend: false }), indexAxis: "y", scales: { x: { min: -1, max: 1, grid: { color: "rgba(245,201,96,.08)" } }, y: { grid: { display: false } } } } });
-}
-function renderRisk(seriesList) {
-  destroyChart("risk"); const points = seriesList.map((series) => ({ x: volatility(series, state.horizon), y: periodChange(series.observations, state.horizon), id: series.id })).filter(({ x, y }) => Number.isFinite(x) && Number.isFinite(y));
-  charts.risk = new Chart(document.querySelector("#risk-chart"), { type: "scatter", data: { datasets: points.map((point, index) => ({ label: point.id, data: [point], pointRadius: 7, pointHoverRadius: 9, backgroundColor: palette[index] })) }, options: { ...chartOptions(), scales: { x: { title: { display: true, text: "Annualized volatility (%)" }, grid: { color: "rgba(245,201,96,.08)" } }, y: { title: { display: true, text: "Period change (%)" }, grid: { color: "rgba(245,201,96,.08)" } } } } });
-}
-function renderTable(seriesList) {
-  document.querySelector("#data-table").innerHTML = seriesList.map((series) => {
-    const latest = series.observations[series.observations.length - 1]; const change = periodChange(series.observations, state.horizon); const yoy = yoyChange(series.observations);
-    return `<tr><td>${series.id} · ${series.name}</td><td>${series.category}</td><td>${latest[0]}</td><td>${format(latest[1])} ${series.unit}</td><td class="${changeClass(change)}">${signed(change)}%</td><td class="${changeClass(yoy)}">${signed(yoy)}%</td><td><a href="${series.sourceUrl}" target="_blank" rel="noreferrer">${series.source}</a></td></tr>`;
-  }).join("");
-}
-
-document.querySelector("#download-csv").addEventListener("click", () => {
-  const rows = [["series_id", "series_name", "date", "value", "unit"], ...selectedSeries().flatMap((series) => sliceHorizon(series.observations, state.horizon).map(([date, value]) => [series.id, series.name, date, value, series.unit]))];
-  const csv = rows.map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\n");
-  const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); link.download = "macrotrace-current-view.csv"; link.click(); URL.revokeObjectURL(link.href);
-});
-
-render();
-}
-
-main().catch((error) => {
-  console.error(error);
-  document.querySelector("main").innerHTML = `<p class="empty-state">${error.message}</p>`;
-});
+main().catch((error) => { console.error(error); document.querySelector("main").innerHTML = `<p class="empty-state">${error.message}</p>`; });

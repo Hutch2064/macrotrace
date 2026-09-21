@@ -23,14 +23,16 @@
         <div class="freshness" id="freshness">Loading snapshot…</div>
       </section>
 
+      <section class="preset-section" aria-label="Preset views">
+        <div class="preset-heading"><span class="selection-label">Preset views</span><span id="preset-status" class="ticker-status" aria-live="polite"></span></div>
+        <div id="preset-list" class="preset-list"></div>
+      </section>
+
       <section class="control-panel" aria-label="Dashboard filters">
         <div class="search-control">
-          <label for="series-search">Series or ticker</label>
-          <div class="search-row">
-            <input id="series-search" type="search" placeholder="Search CPI, jobs, SPY—or enter AAPL" autocomplete="off" />
-            <button id="add-ticker" class="icon-button" type="button">Load ticker</button>
-          </div>
-          <div id="search-results" class="search-results" hidden></div>
+          <label for="series-search">Add Yahoo Finance or FRED series</label>
+          <input id="series-search" type="search" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" placeholder="Search Apple, EUR/USD, CPI, unemployment…" autocomplete="off" />
+          <div id="search-results" class="search-results" role="listbox" hidden></div>
           <div id="ticker-status" class="ticker-status" aria-live="polite"></div>
         </div>
         <label>Category<select id="category-filter"><option value="all">All categories</option></select></label>
@@ -40,13 +42,13 @@
           <option value="1095">3 years</option><option value="1825">5 years</option><option value="3650">10 years</option><option value="max">Maximum</option>
         </select></label>
         <label>Frequency<select id="frequency-filter"><option value="all">All frequencies</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option></select></label>
-        <label>Measure<select id="measure-filter"><option value="indexed">Indexed (start = 100)</option><option value="change">Percent change</option><option value="level">Reported level</option><option value="yoy">Year-over-year change</option></select></label>
+        <label>Measure<select id="measure-filter"><option value="indexed">Indexed (start = 100)</option><option value="change">Window change</option><option value="level">Reported level</option><option value="yoy">Year-over-year change</option></select></label>
         <label>Break down by<select id="breakdown-filter"><option value="series">Series</option><option value="category">Category</option><option value="frequency">Frequency</option></select></label>
         <button id="reset-filters" class="secondary-button" type="button">Reset view</button>
       </section>
 
       <section class="selection-rail" aria-label="Selected series">
-        <div class="selection-label">Comparing <span id="selection-count">0</span>/5</div>
+        <div class="selection-label">Comparing <span id="selection-count">0</span>/12</div>
         <div id="selected-series" class="selected-series"></div>
       </section>
 
@@ -58,15 +60,15 @@
           <div class="chart-wrap chart-large"><canvas id="trend-chart"></canvas></div>
         </article>
         <article class="chart-card">
-          <div class="chart-heading"><div><span class="chart-kicker">02 · Move</span><h2>Change ranking</h2></div></div>
+          <div class="chart-heading"><div><span class="chart-kicker">02 · Momentum</span><h2>Change across horizons</h2></div></div>
           <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
         </article>
         <article class="chart-card">
-          <div class="chart-heading"><div><span class="chart-kicker">03 · Relationship</span><h2>Correlation map</h2></div><span class="chart-note">Aligned monthly changes</span></div>
+          <div class="chart-heading"><div><span class="chart-kicker">03 · Position</span><h2 id="position-title">Historical percentile</h2></div><span id="position-note" class="chart-note">Current level within selected history</span></div>
           <div class="chart-wrap"><canvas id="correlation-chart"></canvas></div>
         </article>
         <article class="chart-card chart-card-wide">
-          <div class="chart-heading"><div><span class="chart-kicker">04 · Risk</span><h2>Change &amp; volatility</h2></div><span class="chart-note">Annualized from native observations</span></div>
+          <div class="chart-heading"><div><span class="chart-kicker">04 · Relationship</span><h2>Correlation to anchor</h2></div><span class="chart-note">Aligned monthly changes; first series is anchor</span></div>
           <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
         </article>
       </section>

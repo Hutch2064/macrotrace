@@ -1,7 +1,12 @@
 import { readFile } from "node:fs/promises";
 
 const snapshot = JSON.parse(await readFile("public/data/snapshot.json", "utf8"));
-if (snapshot.series.length < 30) throw new Error("Expected at least 30 series.");
+if (snapshot.series.length < 40) throw new Error("Expected at least 40 series.");
+
+const ids = new Set(snapshot.series.map(({ id }) => id));
+for (const id of ["DEXUSAL", "DEXCAUS", "DEXSZUS", "DEXUSEU", "DEXUSUK", "DEXJPUS"]) {
+  if (!ids.has(id)) throw new Error(`Missing reporting-currency series ${id}.`);
+}
 
 for (const series of snapshot.series) {
   if (!series.id || !series.name || !series.category || !series.sourceUrl) {
