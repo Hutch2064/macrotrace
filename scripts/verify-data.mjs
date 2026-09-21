@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 
 const snapshot = JSON.parse(await readFile("public/data/snapshot.json", "utf8"));
-if (snapshot.series.length < 32) throw new Error("Expected at least 32 series.");
+if (snapshot.series.length < 30) throw new Error("Expected at least 30 series.");
 
 for (const series of snapshot.series) {
   if (!series.id || !series.name || !series.category || !series.sourceUrl) {

@@ -1,6 +1,6 @@
 # MacroTrace
 
-MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects 24 macroeconomic series from FRED with 16 market and sector histories, then calculates comparable horizons, normalized paths, changes, volatility, and monthly correlations directly in the browser.
+MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects more than 30 official macroeconomic and sector-employment series from FRED, then calculates comparable horizons, normalized paths, changes, volatility, and monthly correlations directly in the browser. Market tickers are fetched on demand rather than redistributed in the repository.
 
 ## Live sites
 
@@ -19,7 +19,7 @@ Run `npm run check` before publishing. It validates the data contract and create
 
 ## Data and calculations
 
-Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. Market histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available. The catalog records every series ID, human-readable name, category, unit, frequency, and source link. Missing or non-numeric rows are removed and native release frequencies are preserved.
+Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. On-demand ticker histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available and are not committed to this repository. The catalog records every bundled series ID, human-readable name, category, unit, frequency, and source link. Missing or non-numeric rows are removed and native release frequencies are preserved.
 
 - Indexed: `value / first visible value × 100`
 - Period change: `(last / first − 1) × 100`

@@ -3,7 +3,7 @@ import { Chart, alignedDatasets, changeClass, chartOptions, correlation, format,
 async function main() {
 const snapshot = await loadSnapshot();
 mountChrome(snapshot, "dashboard");
-const state = { series: snapshot.series, selected: ["CPIAUCSL", "UNRATE", "SPY"], horizon: "365", measure: "indexed", breakdown: "series", category: "all", frequency: "all" };
+const state = { series: snapshot.series, selected: ["CPIAUCSL", "UNRATE", "DGS10"], horizon: "365", measure: "indexed", breakdown: "series", category: "all", frequency: "all" };
 const charts = {};
 const controls = Object.fromEntries(["category", "horizon", "frequency", "measure", "breakdown"].map((key) => [key, document.querySelector(`#${key}-filter`)]));
 const search = document.querySelector("#series-search");
@@ -20,7 +20,7 @@ for (const [key, control] of Object.entries(controls)) control.addEventListener(
   render();
 });
 document.querySelector("#reset-filters").addEventListener("click", () => {
-  Object.assign(state, { selected: ["CPIAUCSL", "UNRATE", "SPY"], horizon: "365", measure: "indexed", breakdown: "series", category: "all", frequency: "all" });
+  Object.assign(state, { selected: ["CPIAUCSL", "UNRATE", "DGS10"], horizon: "365", measure: "indexed", breakdown: "series", category: "all", frequency: "all" });
   for (const [key, control] of Object.entries(controls)) control.value = state[key];
   search.value = ""; status.textContent = ""; render();
 });
