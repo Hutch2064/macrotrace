@@ -1,6 +1,7 @@
 export const presets = [
   {
     id: "macro",
+    mode: "macro",
     label: "Macro pulse",
     description: "Broad activity plus prices, jobs, growth, policy, housing, and stress",
     series: ["CFNAI", "CPIAUCSL", "PCEPI", "UNRATE", "PAYEMS", "INDPRO", "RSAFS", "FEDFUNDS", "DGS10", "HOUST", "DTWEXBGS", "NFCI"],
@@ -8,6 +9,7 @@ export const presets = [
   },
   {
     id: "sectors",
+    mode: "markets",
     label: "U.S. sectors",
     description: "S&P 500 roll-up plus every sector ETF",
     symbols: ["SPY", "XLC", "XLY", "XLP", "XLE", "XLF", "XLV", "XLI", "XLK", "XLB", "XLRE", "XLU"],
@@ -15,6 +17,7 @@ export const presets = [
   },
   {
     id: "currencies",
+    mode: "macro",
     label: "Currencies",
     description: "Dollar indexes plus major currencies in consistent USD-per-unit terms",
     series: ["DTWEXBGS", "DEXUSAL", "DEXCAUS", "DEXSZUS", "DEXUSEU", "DEXUSUK", "DEXJPUS", "DEXUSNZ", "DEXCHUS", "DEXINUS", "DEXBZUS", "DEXMXUS", "DEXSDUS", "DEXNOUS", "DEXSIUS", "DEXHKUS", "DEXKOUS", "DEXSFUS"],
@@ -23,6 +26,7 @@ export const presets = [
   },
   {
     id: "commodities",
+    mode: "markets",
     label: "Commodities",
     description: "Broad commodity roll-up plus energy, metals, agriculture, and livestock",
     symbols: ["DBC", "CL=F", "BZ=F", "NG=F", "HO=F", "RB=F", "GC=F", "SI=F", "HG=F", "PL=F", "PA=F", "ZC=F", "ZW=F", "ZS=F", "KC=F", "SB=F", "CT=F", "CC=F", "LE=F"],
@@ -30,6 +34,7 @@ export const presets = [
   },
   {
     id: "labor",
+    mode: "macro",
     label: "Labor",
     description: "Employment, claims, openings, and sector payrolls",
     series: ["PAYEMS", "UNRATE", "U6RATE", "CIVPART", "EMRATIO", "ICSA", "JTSJOL", "CES0500000003", "AWHAETP", "USMINE", "USCONS", "MANEMP", "USTRADE", "USINFO", "USFIRE", "USPBS", "USEHS", "USLAH", "USGOVT"],
@@ -37,6 +42,7 @@ export const presets = [
   },
   {
     id: "inflation",
+    mode: "macro",
     label: "Inflation",
     description: "Headline and core consumer-price gauges",
     series: ["CPIAUCSL", "CPILFESL", "PCEPI", "PCEPILFE", "PPIACO", "T5YIE", "T10YIE"],
@@ -44,6 +50,7 @@ export const presets = [
   },
   {
     id: "growth",
+    mode: "macro",
     label: "Growth",
     description: "Output, consumption, production, and retail demand",
     series: ["CFNAI", "GDPC1", "PCECC96", "INDPRO", "RSAFS", "DGORDER", "NEWORDER"],
@@ -51,6 +58,7 @@ export const presets = [
   },
   {
     id: "rates",
+    mode: "macro",
     label: "Rates & curve",
     description: "Policy, Treasury yields, and curve slope",
     series: ["FEDFUNDS", "DGS1MO", "DGS3MO", "DGS6MO", "DGS1", "DGS2", "DGS5", "DGS7", "DGS10", "DGS20", "DGS30", "T10Y2Y", "T10Y3M"],
@@ -59,6 +67,7 @@ export const presets = [
   },
   {
     id: "housing",
+    mode: "macro",
     label: "Housing",
     description: "Construction, transactions, prices, and mortgage rates",
     series: ["HOUST", "PERMIT", "HSN1F", "CSUSHPINSA", "MSPUS", "MORTGAGE30US"],
@@ -66,6 +75,7 @@ export const presets = [
   },
   {
     id: "conditions",
+    mode: "macro",
     label: "Financial conditions",
     description: "Liquidity, stress, money, and the dollar",
     series: ["NFCI", "STLFSI4", "VIXCLS", "M2SL", "BOGMBASE", "WALCL", "DTWEXBGS", "FEDFUNDS"],
@@ -75,6 +85,7 @@ export const presets = [
   },
   {
     id: "markets",
+    mode: "markets",
     label: "Global markets",
     description: "Global roll-up plus U.S., international, factors, bonds, credit, and real assets",
     symbols: ["VT", "SPY", "QQQ", "IWM", "EFA", "EEM", "VWO", "ACWI", "TLT", "IEF", "SHY", "TIP", "HYG", "LQD", "VNQ", "GLD", "DBC", "UUP"],

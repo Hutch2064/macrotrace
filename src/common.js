@@ -15,12 +15,71 @@ export async function loadSnapshot() {
   return response.json();
 }
 
+const marketCategories = new Set(["Markets", "Currencies", "Commodities"]);
+
+export function seriesKind(series) {
+  return series.source === "Yahoo Finance" ? "market" : "macro";
+}
+
+export function changeType(series) {
+  if (seriesKind(series) === "market" || marketCategories.has(series.category)) return "percent";
+  if (series.unit === "%" || series.unit === "percentage points") return "basis-points";
+  return series.observations.every(([, value]) => value > 0) ? "percent" : "points";
+}
+
+export function changeSuffix(series) {
+  return changeType(series) === "basis-points" ? " bp" : changeType(series) === "points" ? " pts" : "%";
+}
+
+export function semanticChange(series, horizon = 365) {
+  const visible = sliceHorizon(series.observations, horizon);
+  if (visible.length < 2) return NaN;
+  const first = visible[0][1];
+  const last = visible[visible.length - 1][1];
+  if (changeType(series) === "basis-points") return (last - first) * 100;
+  if (changeType(series) === "points") return last - first;
+  return first > 0 && last > 0 ? (last / first - 1) * 100 : NaN;
+}
+
+export function standardize(observations, reference = observations) {
+  const values = reference.map(([, value]) => value).filter(Number.isFinite);
+  if (values.length < 2) return [];
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+  const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / (values.length - 1);
+  const deviation = Math.sqrt(variance);
+  return deviation ? observations.map(([date, value]) => [date, (value - mean) / deviation]) : [];
+}
+
+export function rollingChanges(series, horizon = "max") {
+  const visible = sliceHorizon(series.observations, horizon);
+  const type = changeType(series);
+  return visible.slice(1).flatMap(([date, value], index) => {
+    const prior = visible[index][1];
+    const change = type === "basis-points" ? (value - prior) * 100 : type === "points" ? value - prior : prior > 0 && value > 0 ? (value / prior - 1) * 100 : NaN;
+    return Number.isFinite(change) ? [[date, change]] : [];
+  });
+}
+
 export function mountChrome(snapshot, page) {
-  const latest = latestObservations(snapshot.series).slice(0, 5);
-  const tape = latest.map(({ series, change }) => `<span class="tape-item"><b>${series.id}</b>${signed(change)}% 1Y</span>`).join("");
+  const byId = new Map(snapshot.series.map((series) => [series.id, series]));
+  const signal = (id, label, value, detail) => {
+    const series = byId.get(id);
+    if (!series) return "";
+    return `<span class="tape-item"><b>${label}</b><span>${value(series)}</span><small>${detail(series)}</small></span>`;
+  };
+  const latest = (series) => series.observations[series.observations.length - 1];
+  const signals = [
+    signal("CPIAUCSL", "Consumer inflation", (series) => format(yoyChange(series.observations), "%"), () => "year over year"),
+    signal("UNRATE", "Unemployment", (series) => format(latest(series)[1], "%"), () => "latest rate"),
+    signal("PAYEMS", "Payroll growth", (series) => format(yoyChange(series.observations), "%"), () => "year over year"),
+    signal("FEDFUNDS", "Federal funds", (series) => format(latest(series)[1], "%"), () => "policy rate"),
+    signal("DGS10", "10-year Treasury", (series) => format(latest(series)[1], "%"), () => "latest yield"),
+    signal("DTWEXBGS", "U.S. dollar", (series) => `${signed(yoyChange(series.observations))}%`, () => "year over year"),
+  ].filter(Boolean);
+  const tape = signals.join("");
   document.querySelector("#site-header").innerHTML = `
     <header class="site-nav">
-      <div class="nav-row shell">
+      <div class="nav-row">
         <a class="brand" href="./index.html" aria-label="MacroTrace report"><span class="brand-mark">M</span><span>MacroTrace</span></a>
         <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>
         <nav class="nav-links" aria-label="Primary navigation">
@@ -30,7 +89,7 @@ export function mountChrome(snapshot, page) {
           <a class="nav-cta" href="./dashboard.html">Open data</a>
         </nav>
       </div>
-      <div class="pulse-tape" aria-label="Latest annual changes"><div class="tape-track">${tape}${tape}</div></div>
+      <div class="pulse-tape" aria-label="Latest named economic readings"><div class="tape-track"><div class="tape-group">${tape}</div><div class="tape-group" aria-hidden="true">${tape}</div></div></div>
     </header>`;
   document.querySelector("#site-footer").innerHTML = `
     <footer class="site-footer"><div class="footer-row shell"><span>MacroTrace · Public economic data, made legible.</span><span>Built by Aidan Hutchison · FRED + Yahoo Finance</span></div></footer>`;
@@ -125,6 +184,24 @@ export function historicalPercentile(series, measure) {
   return values.length && Number.isFinite(latest) ? values.filter((value) => value <= latest).length / values.length * 100 : NaN;
 }
 
+export function levelPercentile(series) {
+  const values = series.observations.map(([, value]) => value).filter(Number.isFinite).sort((a, b) => a - b);
+  const latest = series.observations[series.observations.length - 1]?.[1];
+  if (!values.length || !Number.isFinite(latest) || values[0] === values[values.length - 1]) return NaN;
+  const below = values.filter((value) => value < latest).length;
+  const tied = values.filter((value) => value === latest).length;
+  return (below + tied * .5) / values.length * 100;
+}
+
+export function changePercentile(series) {
+  const values = rollingChanges(series).map(([, value]) => value).filter(Number.isFinite).sort((a, b) => a - b);
+  const latest = values.length ? rollingChanges(series).at(-1)?.[1] : NaN;
+  if (values.length < 3 || !Number.isFinite(latest) || values[0] === values[values.length - 1]) return NaN;
+  const below = values.filter((value) => value < latest).length;
+  const tied = values.filter((value) => value === latest).length;
+  return (below + tied * .5) / values.length * 100;
+}
+
 export function maxDrawdown(series, horizon) {
   const visible = sliceHorizon(series.observations, horizon);
   const values = (visible.length >= 2 ? visible : series.observations.slice(-12)).map(([, value]) => value);
@@ -148,7 +225,12 @@ export function correlation(first, second, horizon = "max", mode = "percent") {
     const map = new Map();
     for (const [date, value] of source) map.set(date.slice(0, 7), value);
     const entries = [...map.entries()];
-    return new Map(entries.slice(1).map(([month, value], index) => [month, mode === "percent" ? value / entries[index][1] - 1 : value - entries[index][1]]));
+    const type = mode === "auto" ? changeType(series) : mode;
+    return new Map(entries.slice(1).map(([month, value], index) => {
+      const prior = entries[index][1];
+      const change = type === "percent" ? prior > 0 && value > 0 ? value / prior - 1 : NaN : type === "basis-points" ? (value - prior) * 100 : value - prior;
+      return [month, change];
+    }).filter(([, value]) => Number.isFinite(value)));
   };
   const left = monthly(first); const right = monthly(second);
   const pairs = [...left].flatMap(([month, value]) => right.has(month) ? [[value, right.get(month)]] : []);

@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { historicalPercentile, maxDrawdown, volatility } from "../src/common.js";
+import { changePercentile, correlation, maxDrawdown, semanticChange, volatility } from "../src/common.js";
 import { presets } from "../src/presets.js";
 
 const snapshot = JSON.parse(await readFile("public/data/snapshot.json", "utf8"));
@@ -18,9 +18,18 @@ for (const [preset, rollup] of [["sectors", "SPY"], ["currencies", "DTWEXBGS"], 
 
 const cpi = seriesById.get("CPIAUCSL");
 const macro = presets.find(({ id }) => id === "macro").series.map((id) => seriesById.get(id));
-const percentile = historicalPercentile(cpi, "yoy");
+const percentile = changePercentile(cpi);
 if (!(percentile > 0 && percentile < 100)) throw new Error(`CPI YoY percentile is not informative: ${percentile}.`);
-if (!macro.some((series) => maxDrawdown(series, 365) < 0)) throw new Error("Macro drawdowns are empty.");
-if (!macro.every((series) => volatility(series, 365) >= 0)) throw new Error("Macro volatility contains invalid values.");
 
-console.log(`Verified ${presets.length} presets, roll-ups, percentiles, drawdowns, and volatility.`);
+const signed = { category: "Growth", unit: "index", source: "FRED", frequency: "monthly", observations: [["2024-01-01", .02], ["2025-01-01", -.08]] };
+const rate = { category: "Rates", unit: "%", source: "FRED", frequency: "monthly", observations: [["2024-01-01", 4.3], ["2025-01-01", 3.6]] };
+const price = { category: "Markets", unit: "$", source: "Yahoo Finance", frequency: "daily", observations: [["2024-01-01", 100], ["2024-06-01", 120], ["2025-01-01", 90]] };
+if (Math.abs(semanticChange(signed, "max") + .1) > 1e-9) throw new Error("Signed indexes must use point changes.");
+if (Math.abs(semanticChange(rate, "max") + 70) > 1e-9) throw new Error("Rates must use basis-point changes.");
+if (Math.abs(semanticChange(price, "max") + 10) > 1e-9) throw new Error("Prices must use percent returns.");
+if (Math.abs(maxDrawdown(price, "max") + 25) > 1e-9) throw new Error("Market drawdown contract failed.");
+if (!(volatility(price, "max") > 0)) throw new Error("Market log-return volatility is empty.");
+if (!Number.isNaN(correlation(signed, rate, "max", "auto"))) throw new Error("Correlation should require at least three aligned changes.");
+
+if (!presets.every(({ mode }) => ["macro", "markets"].includes(mode))) throw new Error("Every preset needs an analytical mode.");
+console.log(`Verified ${presets.length} presets and macro/market semantic contracts.`);

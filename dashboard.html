@@ -18,9 +18,14 @@
         <div>
           <div class="eyebrow">Interactive workspace</div>
           <h1>Trace the signal.</h1>
-          <p>Compare economic releases and market prices on a common clock.</p>
+          <p id="workspace-description">Read macro releases in comparable economic units.</p>
         </div>
         <div class="freshness" id="freshness">Loading snapshot…</div>
+      </section>
+
+      <section class="mode-switch" aria-label="Analysis mode">
+        <button type="button" data-mode="macro" class="active"><span>Macro</span><small>Economy and policy</small></button>
+        <button type="button" data-mode="markets"><span>Markets</span><small>Securities and prices</small></button>
       </section>
 
       <section class="preset-section" aria-label="Preset views">
@@ -35,16 +40,12 @@
           <div id="search-results" class="search-results" role="listbox" hidden></div>
           <div id="ticker-status" class="ticker-status" aria-live="polite"></div>
         </div>
-        <label>Category<select id="category-filter"><option value="all">All categories</option></select></label>
         <label>Horizon<select id="horizon-filter">
           <option value="7">1 week</option><option value="30">1 month</option><option value="90">3 months</option>
           <option value="182">6 months</option><option value="365" selected>1 year</option><option value="ytd">Year to date</option>
           <option value="1095">3 years</option><option value="1825">5 years</option><option value="3650">10 years</option><option value="max">Maximum</option>
         </select></label>
-        <label>Frequency<select id="frequency-filter"><option value="all">All frequencies</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option></select></label>
-        <label>Measure<select id="measure-filter"><option value="indexed">Indexed (start = 100)</option><option value="change">Window change</option><option value="level">Reported level</option><option value="yoy">Year-over-year change</option></select></label>
-        <label title="Equal percentage moves use equal distances. This changes the scale, not the data.">Scale<select id="scale-filter"><option value="linear">Linear</option><option value="logarithmic">Logarithmic</option></select></label>
-        <label>Break down by<select id="breakdown-filter"><option value="series">Series</option><option value="category">Category</option><option value="frequency">Frequency</option></select></label>
+        <label class="scale-toggle" title="Equal percentage moves use equal distances. This changes the axis, not the data."><span>Log price scale</span><input id="log-scale" type="checkbox" role="switch" /></label>
         <button id="reset-filters" class="secondary-button" type="button">Reset view</button>
       </section>
 
@@ -57,44 +58,49 @@
 
       <section class="dashboard-grid">
         <article class="chart-card" data-chart-card>
-          <div class="chart-heading"><div><span class="chart-kicker">01 · Path</span><h2 id="trend-title">Indexed history</h2></div><button class="chart-expand" type="button" aria-label="Expand path chart">↗</button></div>
+          <div class="chart-heading"><div><span class="chart-kicker" id="trend-kicker">01 · Cycle</span><h2 id="trend-title">Standardized history</h2></div><button class="chart-expand" type="button" aria-label="Expand path chart">↗</button></div>
           <div class="chart-subhead" id="trend-note"></div><div class="chart-wrap"><canvas id="trend-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
-          <div class="chart-heading"><div><span class="chart-kicker">02 · Momentum</span><h2>Change across horizons</h2></div><button class="chart-expand" type="button" aria-label="Expand momentum chart">↗</button></div>
-          <div class="chart-subhead">1M, 3M, and 1Y standardized change</div>
+          <div class="chart-heading"><div><span class="chart-kicker">02 · Momentum</span><h2 id="ranking-title">Change across horizons</h2></div><button class="chart-expand" type="button" aria-label="Expand momentum chart">↗</button></div>
+          <div class="chart-subhead" id="ranking-note">Per-series units: percent, basis points, or index points</div>
           <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
-          <div class="chart-heading"><div><span class="chart-kicker">03 · Position</span><h2>Historical percentile</h2></div><button class="chart-expand" type="button" aria-label="Expand percentile chart">↗</button></div>
-          <div class="chart-subhead">Current active measure within full available history</div>
+          <div class="chart-heading"><div><span class="chart-kicker">03 · Position</span><h2 id="position-title">Current historical percentile</h2></div><button class="chart-expand" type="button" aria-label="Expand percentile chart">↗</button></div>
+          <div class="chart-subhead" id="position-note">Latest reported level within each series’ full history</div>
           <div class="chart-wrap"><canvas id="correlation-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
-          <div class="chart-heading"><div><span class="chart-kicker">04 · Drawdown</span><h2>Peak-to-trough decline</h2></div><button class="chart-expand" type="button" aria-label="Expand drawdown chart">↗</button></div>
-          <div class="chart-subhead">Return drawdown; range-normalized around zero; trailing fallback for sparse windows</div>
+          <div class="chart-heading"><div><span class="chart-kicker" id="metric-four-kicker">04 · Momentum</span><h2 id="metric-four-title">Change trend</h2></div><button class="chart-expand" type="button" aria-label="Expand fourth chart">↗</button></div>
+          <div class="chart-subhead" id="metric-four-note">Native release-to-release movement</div>
           <div class="chart-wrap"><canvas id="drawdown-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
-          <div class="chart-heading"><div><span class="chart-kicker">05 · Variability</span><h2>Annualized volatility</h2></div><button class="chart-expand" type="button" aria-label="Expand volatility chart">↗</button></div>
-          <div class="chart-subhead">Native-frequency returns; range-normalized around zero; trailing fallback when sparse</div>
+          <div class="chart-heading"><div><span class="chart-kicker" id="metric-five-kicker">05 · Freshness</span><h2 id="metric-five-title">Days since latest release</h2></div><button class="chart-expand" type="button" aria-label="Expand fifth chart">↗</button></div>
+          <div class="chart-subhead" id="metric-five-note">Native release calendars; fewer days is fresher</div>
           <div class="chart-wrap"><canvas id="volatility-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
-          <div class="chart-heading"><div><span class="chart-kicker">06 · Relationship</span><h2>Correlation to anchor</h2></div><button class="chart-expand" type="button" aria-label="Expand relationship chart">↗</button></div>
-          <div class="chart-subhead">Aligned monthly changes; trailing-year fallback when sparse</div>
+          <div class="chart-heading"><div><span class="chart-kicker">06 · Relationship</span><h2>Change correlation to anchor</h2></div><button class="chart-expand" type="button" aria-label="Expand relationship chart">↗</button></div>
+          <div class="chart-subhead">Aligned monthly changes, never raw levels</div>
           <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
         </article>
         <article class="chart-card" data-chart-card>
-          <div class="chart-heading"><div><span class="chart-kicker">07 · Calendar</span><h2>Month-over-month heat map</h2></div><button class="chart-expand" type="button" aria-label="Expand monthly heat map">↗</button></div>
-          <div class="chart-subhead">Latest 12 months; range-normalized around zero; hover for exact change</div>
+          <div class="chart-heading"><div><span class="chart-kicker">07 · Calendar</span><h2 id="heatmap-title">Month-over-month change</h2></div><button class="chart-expand" type="button" aria-label="Expand monthly heat map">↗</button></div>
+          <div class="chart-subhead" id="heatmap-note">Latest 12 months in each series’ economically meaningful unit</div>
           <div id="monthly-heatmap" class="heatmap-wrap" role="img" aria-label="Month-over-month change heat map"></div>
+        </article>
+        <article class="chart-card" data-chart-card>
+          <div class="chart-heading"><div><span class="chart-kicker">08 · Overview</span><h2 id="profile-title">Category breadth</h2></div><button class="chart-expand" type="button" aria-label="Expand overview chart">↗</button></div>
+          <div class="chart-subhead" id="profile-note">Share of selected indicators moving higher</div>
+          <div class="chart-wrap"><canvas id="profile-chart"></canvas></div>
         </article>
       </section>
 
       <section class="data-table-section">
         <div class="table-heading"><div><div class="section-index">Current view</div><h2>The numbers behind the charts</h2></div><button id="download-csv" class="secondary-button" type="button">Download CSV</button></div>
-        <div class="table-wrap"><table><thead><tr><th>Series</th><th>Category</th><th>Latest date</th><th>Latest value</th><th>Period change</th><th>YoY change</th><th>Source</th></tr></thead><tbody id="data-table"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Series</th><th>Category</th><th>Latest date</th><th>Latest value</th><th>Window change</th><th id="secondary-change-heading">12-month change</th><th>Source</th></tr></thead><tbody id="data-table"></tbody></table></div>
       </section>
     </main>
     <div id="site-footer"></div>
