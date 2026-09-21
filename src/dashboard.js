@@ -9,6 +9,10 @@ const MAX_SELECTED = 24;
 const apiOrigin = import.meta.env.VITE_MARKET_API_ORIGIN || "";
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
 const mean = (values) => values.reduce((sum, value) => sum + value, 0) / values.length;
+const matchesSearch = (series, query) => {
+  const text = `${series.id} ${series.name} ${series.category}`.toLowerCase().replace(/[^a-z0-9]+/g, " ");
+  return query.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).every((token) => text.includes(token));
+};
 
 async function main() {
   const snapshot = await loadSnapshot();
@@ -50,7 +54,7 @@ async function main() {
       if (["ArrowDown", "ArrowUp"].includes(event.key)) { event.preventDefault(); options[(index + (event.key === "ArrowDown" ? 1 : -1) + options.length) % options.length]?.focus(); }
       if (["Home", "End"].includes(event.key)) { event.preventDefault(); options[event.key === "Home" ? 0 : options.length - 1]?.focus(); }
     });
-    select.hidden = true; select.after(wrapper); wrapper.append(trigger, menu); renderOptions();
+    select.hidden = true; select.after(wrapper); wrapper.append(trigger, menu); select._renderCustom = renderOptions; renderOptions();
     document.addEventListener("click", (event) => { if (!wrapper.contains(event.target)) close(); });
   }
   enhanceSelect(horizon);
@@ -83,7 +87,7 @@ async function main() {
     try {
       const series = await fetchSeries(item); state.mode = item.kind === "market" || seriesKind(series) === "market" ? "markets" : "macro";
       if (!state.selected.includes(series.id)) state.selected = [...state.selected.slice(-(MAX_SELECTED - 1)), series.id];
-      state.activePreset = null; status.textContent = `${series.name} added · ${series.observations.at(-1)[0]}`; render();
+      state.activePreset = null; status.textContent = `${series.name} added · ${series.observations.at(-1)[0]}`; presetStatus.textContent = `Custom view · ${state.selected.length} series`; render();
     } catch (error) { status.textContent = error.message; }
   }
   function renderSearch(items) {
@@ -93,9 +97,9 @@ async function main() {
   }
   search.addEventListener("input", () => {
     clearTimeout(searchTimer); const query = search.value.trim(); if (!query) return setSearchOpen(false);
-    const needle = query.toLowerCase(); const local = state.series.filter((series) => `${series.id} ${series.name} ${series.category}`.toLowerCase().includes(needle)).slice(0, 8).map((series) => ({ id: series.id, name: series.name, kind: seriesKind(series), source: series.source, meta: `${series.category} · ${series.frequency}` }));
+    const local = state.series.filter((series) => matchesSearch(series, query)).slice(0, 8).map((series) => ({ id: series.id, name: series.name, kind: seriesKind(series), source: series.source, meta: `${series.category} · ${series.frequency}` }));
     renderSearch(local);
-    searchTimer = window.setTimeout(async () => { try { const response = await fetch(`${apiOrigin}/api/search?q=${encodeURIComponent(query)}`); if (response.ok && search.value.trim() === query) renderSearch((await response.json()).results ?? []); } catch { /* Local results remain available. */ } }, 120);
+    searchTimer = window.setTimeout(async () => { try { const response = await fetch(`${apiOrigin}/api/search?q=${encodeURIComponent(query)}`); if (response.ok && search.value.trim() === query) { const remote = (await response.json()).results ?? []; const seen = new Set(); renderSearch([...local, ...remote].filter((item) => !seen.has(`${item.kind}:${item.id}`) && seen.add(`${item.kind}:${item.id}`)).slice(0, 14)); } } catch { /* Local results remain available. */ } }, 120);
   });
   search.addEventListener("keydown", (event) => {
     if (results.hidden || !searchResults.length) return;
@@ -107,15 +111,17 @@ async function main() {
 
   async function applyPreset(id) {
     const preset = presetById(id); if (!preset) return;
-    state.activePreset = id; state.mode = preset.mode; state.selected = (preset.series ?? []).filter((seriesId) => loaded.has(seriesId)); render();
-    if (!preset.symbols?.length) { presetStatus.textContent = `${preset.label} · ${state.selected.length} current series`; return; }
+    state.activePreset = id; state.mode = preset.mode; state.selected = (preset.series ?? []).filter((seriesId) => loaded.has(seriesId));
+    if (preset.horizon) { state.horizon = preset.horizon; horizon.value = preset.horizon; horizon._renderCustom?.(); }
+    render();
+    if (!preset.symbols?.length) { presetStatus.textContent = `${preset.label} · ${state.selected.length} ${preset.horizon === "max" ? "unspliced research series" : "current series"}`; return; }
     presetStatus.textContent = `Loading ${preset.label}…`;
     const outcomes = await Promise.allSettled(preset.symbols.map((symbol) => fetchSeries({ id: symbol, name: symbol, kind: "market" })));
     if (state.activePreset !== id) return;
     state.selected = [...state.selected, ...outcomes.flatMap((outcome) => outcome.status === "fulfilled" ? [outcome.value.id] : [])].slice(0, MAX_SELECTED);
     presetStatus.textContent = `${preset.label} · ${state.selected.length}/${(preset.series?.length ?? 0) + preset.symbols.length} current series`; render();
   }
-  function toggleSeries(id) { state.selected = state.selected.filter((selected) => selected !== id); state.activePreset = null; render(); }
+  function toggleSeries(id) { state.selected = state.selected.filter((selected) => selected !== id); state.activePreset = null; presetStatus.textContent = `Custom view · ${state.selected.length} series`; render(); }
   function horizontalBarOptions({ percent = false, min, max, suffix = "" } = {}) { return { ...chartOptions({ percent, legend: false }), indexAxis: "y", scales: { x: { type: "linear", min, max, grid: { color: "rgba(255,255,255,.07)" }, ticks: { callback: (value) => `${value}${percent ? "%" : suffix}` } }, y: { type: "category", grid: { display: false } } } }; }
   function setText(id, text) { document.querySelector(`#${id}`).textContent = text; }
   function render() {
@@ -128,13 +134,13 @@ async function main() {
     renderPresetButtons(); renderMetrics(seriesList); renderTrend(seriesList); renderHorizonChanges(seriesList); renderPosition(seriesList); renderFourth(seriesList); renderFifth(seriesList); renderRelationships(seriesList); renderHeatmap(seriesList); renderProfile(seriesList); renderTable(seriesList);
   }
   function renderMetrics(seriesList) {
-    const moves = seriesList.map((series) => semanticChange(series, state.horizon)).filter(Number.isFinite).sort((a, b) => a - b); const percentiles = seriesList.map(state.mode === "macro" ? changePercentile : levelPercentile).filter(Number.isFinite); const latestDates = seriesList.map((series) => new Date(series.observations.at(-1)[0])).filter((date) => Number.isFinite(date.getTime())); const drawdowns = seriesList.map((series) => maxDrawdown(series, state.horizon)).filter(Number.isFinite);
-    const metrics = state.mode === "macro" ? [[String(seriesList.length), "Indicators in current view"], [percentiles.length ? format(mean(percentiles), "%") : "—", "Average historical percentile"], [moves.length ? format(moves.filter((value) => value > 0).length / moves.length * 100, "%") : "—", "Indicators moving higher"], [latestDates.length ? `${Math.max(0, Math.round((Date.now() - Math.max(...latestDates)) / 86400000))}d` : "—", "Since newest release"]] : [[String(seriesList.length), "Securities in current view"], [moves.length ? `${signed(moves[Math.floor(moves.length / 2)])}%` : "—", "Median window return"], [moves.length ? format(moves.filter((value) => value > 0).length / moves.length * 100, "%") : "—", "Securities with gains"], [drawdowns.length ? format(Math.min(...drawdowns), "%") : "—", "Deepest drawdown"]];
+    const moves = seriesList.map((series) => semanticChange(series, state.horizon)).filter(Number.isFinite).sort((a, b) => a - b); const percentiles = seriesList.map(state.mode === "macro" ? changePercentile : levelPercentile).filter(Number.isFinite); const latestDates = seriesList.map((series) => new Date(series.observations.at(-1)[0])).filter((date) => Number.isFinite(date.getTime())); const drawdowns = seriesList.map((series) => maxDrawdown(series, state.horizon)).filter(Number.isFinite); const research = seriesList.some(({ historyType }) => historyType === "observed_public");
+    const metrics = state.mode === "macro" ? [[String(seriesList.length), "Indicators in current view"], [percentiles.length ? format(mean(percentiles), "%") : "—", "Average historical percentile"], [moves.length ? format(moves.filter((value) => value > 0).length / moves.length * 100, "%") : "—", "Indicators moving higher"], [latestDates.length ? `${Math.max(0, Math.round((Date.now() - Math.max(...latestDates)) / 86400000))}d` : "—", "Since newest release"]] : [[String(seriesList.length), research ? "Research series in current view" : "Securities in current view"], [moves.length ? `${signed(moves[Math.floor(moves.length / 2)])}%` : "—", "Median window return"], [moves.length ? format(moves.filter((value) => value > 0).length / moves.length * 100, "%") : "—", "Series with gains"], [drawdowns.length ? format(Math.min(...drawdowns), "%") : "—", "Deepest drawdown"]];
     document.querySelector("#dashboard-metrics").innerHTML = metrics.map(([value, label]) => `<div class="dashboard-metric"><span class="metric-value">${value}</span><span class="metric-label">${label}</span></div>`).join("");
   }
   function renderTrend(seriesList) {
     destroyChart("trend"); const macro = state.mode === "macro"; const pointLists = seriesList.map((series) => { const visible = sliceHorizon(series.observations, state.horizon); return macro ? standardize(visible, series.observations) : transform(visible, "indexed"); });
-    setText("trend-kicker", macro ? "01 · Cycle" : "01 · Performance"); setText("trend-title", macro ? "Standardized history" : "Indexed price path"); setText("trend-note", macro ? "Deviation from each series’ full-history mean in standard deviations" : "First visible adjusted close = 100");
+    const research = seriesList.some(({ historyType }) => historyType === "observed_public"); setText("trend-kicker", macro ? "01 · Cycle" : "01 · Performance"); setText("trend-title", macro ? "Standardized history" : "Indexed return path"); setText("trend-note", macro ? "Deviation from each series’ full-history mean in standard deviations" : research ? "Public research returns rebased to 100; not ETF prices or stitched histories" : "First visible adjusted close = 100");
     charts.trend = new Chart(document.querySelector("#trend-chart"), { type: "line", data: alignedDatasets(seriesList, pointLists), options: chartOptions({ logarithmic: !macro && state.logarithmic && pointLists.every((points) => points.every(([, value]) => value > 0)) }) });
   }
   function changeScore(series, days) {
@@ -143,11 +149,11 @@ async function main() {
     const average = mean(samples); const deviation = Math.sqrt(mean(samples.map((value) => (value - average) ** 2))); return deviation ? (current - average) / deviation : 0;
   }
   function renderHorizonChanges(seriesList) {
-    destroyChart("ranking"); const macro = state.mode === "macro"; const horizons = [["1M", 30], ["3M", 90], ["1Y", 365]]; setText("ranking-title", macro ? "Change momentum score" : "Returns across horizons"); setText("ranking-note", macro ? "Each change versus its own historical norm; 0 is typical" : "Adjusted-close price return; percent");
+    destroyChart("ranking"); const macro = state.mode === "macro"; const longHistory = seriesList.some(({ category }) => category === "Long-History Asset Classes"); const horizons = longHistory ? [["1Y", 365], ["5Y", 1825], ["10Y", 3650]] : [["1M", 30], ["3M", 90], ["1Y", 365]]; setText("ranking-title", macro ? "Change momentum score" : "Returns across horizons"); setText("ranking-note", macro ? "Each change versus its own historical norm; 0 is typical" : longHistory ? "Long-horizon compounded return; percent" : "Adjusted-close price return; percent");
     charts.ranking = new Chart(document.querySelector("#ranking-chart"), { type: "bar", data: { labels: seriesList.map(({ id }) => id), datasets: horizons.map(([label, days], index) => ({ label, data: seriesList.map((series) => macro ? changeScore(series, days) : semanticChange(series, days)), backgroundColor: palette[index], borderRadius: 3 })) }, options: chartOptions() });
   }
   function renderPosition(seriesList) {
-    destroyChart("correlation"); const rows = seriesList.map((series) => ({ label: series.id, value: state.mode === "macro" ? changePercentile(series) : levelPercentile(series) })).filter(({ value }) => Number.isFinite(value)); setText("position-title", state.mode === "macro" ? "Change momentum percentile" : "Price percentile"); setText("position-note", state.mode === "macro" ? "Latest native-period change ranked against its own history" : "Latest adjusted close within full available history");
+    destroyChart("correlation"); const rows = seriesList.map((series) => ({ label: series.id, value: changePercentile(series) })).filter(({ value }) => Number.isFinite(value)); setText("position-title", state.mode === "macro" ? "Change momentum percentile" : "Return momentum percentile"); setText("position-note", "Latest native-period change ranked against its own history");
     charts.correlation = new Chart(document.querySelector("#correlation-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Percentile", data: rows.map(({ value }) => value), backgroundColor: "rgba(245,218,150,.75)", borderRadius: 4 }] }, options: horizontalBarOptions({ min: 0, max: 100, suffix: "th" }) });
   }
   function renderFourth(seriesList) {
@@ -161,14 +167,15 @@ async function main() {
     setText("metric-five-kicker", "05 · Freshness"); setText("metric-five-title", "Days since latest release"); setText("metric-five-note", "Native release calendars; fewer days is fresher"); const rows = seriesList.map((series) => ({ label: series.id, value: Math.max(0, Math.round((Date.now() - new Date(series.observations.at(-1)[0])) / 86400000)) })); charts.volatility = new Chart(document.querySelector("#volatility-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: "Days", data: rows.map(({ value }) => value), backgroundColor: "rgba(96,165,250,.72)", borderRadius: 4 }] }, options: horizontalBarOptions({ min: 0, suffix: "d" }) });
   }
   function renderRelationships(seriesList) {
-    destroyChart("risk"); const anchor = seriesList[0]; const rows = anchor ? seriesList.slice(1).map((series) => ({ label: series.id, value: correlation(anchor, series, state.horizon, "auto") })).filter(({ value }) => Number.isFinite(value)) : [];
+    destroyChart("risk"); const anchor = seriesList[0]; const annual = seriesList.some(({ frequency }) => frequency === "annual"); setText("relationship-note", annual ? "Aligned calendar-year changes, never raw levels" : "Aligned monthly changes, never raw levels"); const rows = anchor ? seriesList.slice(1).map((series) => ({ label: series.id, value: correlation(anchor, series, state.horizon, "auto") })).filter(({ value }) => Number.isFinite(value)) : [];
     charts.risk = new Chart(document.querySelector("#risk-chart"), { type: "bar", data: { labels: rows.map(({ label }) => label), datasets: [{ label: anchor ? `Correlation to ${anchor.id}` : "Correlation", data: rows.map(({ value }) => value), backgroundColor: rows.map(({ value }) => value >= 0 ? "rgba(125,211,167,.72)" : "rgba(241,151,141,.72)"), borderRadius: 4 }] }, options: horizontalBarOptions({ min: -1, max: 1 }) });
   }
   function monthlyCells(series) { const map = new Map(); for (const [date, value] of series.observations) map.set(date.slice(0, 7), value); const entries = [...map.entries()].slice(-13); const type = changeType(series); return entries.slice(1).map(([month, value], index) => { const prior = entries[index][1]; const change = type === "basis-points" ? (value - prior) * 100 : type === "points" ? value - prior : prior > 0 && value > 0 ? (value / prior - 1) * 100 : NaN; return { month, change }; }); }
+  function annualCells(series) { const map = new Map(); for (const [date, value] of series.observations) map.set(date.slice(0, 4), value); const entries = [...map.entries()].slice(-13); const type = changeType(series); return entries.slice(1).map(([year, value], index) => { const prior = entries[index][1]; const change = type === "basis-points" ? (value - prior) * 100 : type === "points" ? value - prior : prior > 0 && value > 0 ? (value / prior - 1) * 100 : NaN; return { month: year, change }; }); }
   function renderHeatmap(seriesList) {
-    const monthly = seriesList.map((series) => ({ series, values: monthlyCells(series) })); const months = [...new Set(monthly.flatMap((row) => row.values.map(({ month }) => month)))].sort().slice(-12); const cells = [`<div class="heatmap-corner">Series</div>`, ...months.map((month) => `<div class="heatmap-month">${new Date(`${month}-01T00:00:00Z`).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })}</div>`)];
+    const annual = seriesList.some(({ frequency }) => frequency === "annual"); const monthly = seriesList.map((series) => ({ series, values: annual ? annualCells(series) : monthlyCells(series) })); const months = [...new Set(monthly.flatMap((row) => row.values.map(({ month }) => month)))].sort().slice(-12); const cells = [`<div class="heatmap-corner">Series</div>`, ...months.map((month) => `<div class="heatmap-month">${annual ? month : new Date(`${month}-01T00:00:00Z`).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })}</div>`)];
     for (const row of monthly) { const byMonth = new Map(row.values.map((value) => [value.month, value.change])); const magnitudes = row.values.map(({ change }) => Math.abs(change)).filter(Number.isFinite).sort((a, b) => a - b); const scale = magnitudes[Math.floor(magnitudes.length * .9)] || 1; cells.push(`<div class="heatmap-label">${escapeHtml(row.series.id)}</div>`); for (const month of months) { const value = byMonth.get(month); const intensity = Number.isFinite(value) ? Math.min(.86, .14 + Math.abs(value) / scale * .62) : 0; const background = !Number.isFinite(value) ? "transparent" : value >= 0 ? `rgba(34,197,94,${intensity})` : `rgba(244,63,94,${intensity})`; const label = Number.isFinite(value) ? `${row.series.name}, ${month}: ${signed(value)}${changeSuffix(row.series)}` : `${row.series.name}, ${month}: no observation`; cells.push(`<div class="heatmap-cell" style="background:${background}" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}">${Number.isFinite(value) ? format(value) : "—"}</div>`); } }
-    const heatmap = document.querySelector("#monthly-heatmap"); heatmap.style.setProperty("--heatmap-months", months.length || 1); heatmap.innerHTML = cells.join(""); setText("heatmap-title", state.mode === "macro" ? "Month-over-month change" : "Monthly return heat map"); setText("heatmap-note", state.mode === "macro" ? "Exact units follow each series: percent, basis points, or index points" : "Adjusted-close monthly returns; green is positive, red is negative");
+    const heatmap = document.querySelector("#monthly-heatmap"); heatmap.style.setProperty("--heatmap-months", months.length || 1); heatmap.innerHTML = cells.join(""); setText("heatmap-title", annual ? "Annual return heat map" : state.mode === "macro" ? "Month-over-month change" : "Monthly return heat map"); setText("heatmap-note", state.mode === "macro" ? "Exact units follow each series: percent, basis points, or index points" : annual ? "Calendar-year returns; native annual histories remain uninterpolated" : "Adjusted-close monthly returns; green is positive, red is negative");
   }
   function renderProfile(seriesList) {
     destroyChart("profile");

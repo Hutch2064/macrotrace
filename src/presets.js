@@ -91,6 +91,24 @@ export const presets = [
     symbols: ["VT", "SPY", "QQQ", "IWM", "EFA", "EEM", "VWO", "ACWI", "TLT", "IEF", "SHY", "TIP", "HYG", "LQD", "VNQ", "GLD", "DBC", "UUP"],
     measure: "indexed",
   },
+  {
+    id: "long-assets",
+    mode: "markets",
+    label: "Century asset classes",
+    description: "Stocks, bills, bonds, credit, real estate, and gold from 1928",
+    series: ["HIST_SP500_TR", "HIST_US_SMALL", "HIST_TBILL", "HIST_TBOND10", "HIST_BAA_CORP", "HIST_REAL_ESTATE", "HIST_GOLD"],
+    measure: "indexed",
+    horizon: "max",
+  },
+  {
+    id: "style-history",
+    mode: "markets",
+    label: "Size & style since 1926",
+    description: "Fama–French market, large/small, value/core/growth research portfolios",
+    series: ["FF_US_MARKET", "FF_LARGE_GROWTH", "FF_LARGE_CORE", "FF_LARGE_VALUE", "FF_SMALL_GROWTH", "FF_SMALL_CORE", "FF_SMALL_VALUE"],
+    measure: "indexed",
+    horizon: "max",
+  },
 ];
 
 export function presetById(id) {

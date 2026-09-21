@@ -3,6 +3,10 @@ import { join } from "node:path";
 
 const cache = new Map();
 const MAX_QUERY_LENGTH = 80;
+const matchesSearch = (series, query) => {
+  const text = `${series.id} ${series.name} ${series.category}`.toLowerCase().replace(/[^a-z0-9]+/g, " ");
+  return query.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).every((token) => text.includes(token));
+};
 
 function decode(value) {
   return String(value ?? "")
@@ -15,11 +19,10 @@ function decode(value) {
 
 async function bundledResults(query) {
   const snapshot = JSON.parse(await readFile(join(process.cwd(), "public/data/snapshot.json"), "utf8"));
-  const needle = query.toLowerCase();
   return snapshot.series
-    .filter((series) => `${series.id} ${series.name} ${series.category}`.toLowerCase().includes(needle))
+    .filter((series) => matchesSearch(series, query))
     .slice(0, 8)
-    .map((series) => ({ id: series.id, name: series.name, kind: "fred", source: "FRED", bundled: true, meta: `${series.category} · ${series.frequency}` }));
+    .map((series) => ({ id: series.id, name: series.name, kind: series.kind === "market" ? "market" : "fred", source: series.source, bundled: true, meta: `${series.category} · ${series.frequency}` }));
 }
 
 async function yahooResults(query) {

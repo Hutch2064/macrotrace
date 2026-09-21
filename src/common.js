@@ -18,7 +18,7 @@ export async function loadSnapshot() {
 const marketCategories = new Set(["Markets", "Currencies", "Commodities"]);
 
 export function seriesKind(series) {
-  return series.source === "Yahoo Finance" ? "market" : "macro";
+  return series.kind === "market" || series.source === "Yahoo Finance" ? "market" : "macro";
 }
 
 export function changeType(series) {
@@ -173,7 +173,7 @@ export function volatility(series, horizon) {
   if (!changes.length) return NaN;
   const mean = changes.reduce((sum, value) => sum + value, 0) / changes.length;
   const variance = changes.reduce((sum, value) => sum + (value - mean) ** 2, 0) / Math.max(1, changes.length - 1);
-  const factor = { daily: 252, weekly: 52, monthly: 12, quarterly: 4 }[series.frequency] ?? 12;
+  const factor = { daily: 252, weekly: 52, monthly: 12, quarterly: 4, annual: 1 }[series.frequency] ?? 12;
   return Math.sqrt(variance * factor) * 100;
 }
 
@@ -219,21 +219,23 @@ export function maxDrawdown(series, horizon) {
 }
 
 export function correlation(first, second, horizon = "max", mode = "percent") {
-  const monthly = (series) => {
+  const annual = first.frequency === "annual" || second.frequency === "annual";
+  const changes = (series) => {
     const visible = sliceHorizon(series.observations, horizon);
-    const source = new Set(visible.map(([date]) => date.slice(0, 7))).size >= 4 ? visible : sliceHorizon(series.observations, 365);
+    const key = (date) => date.slice(0, annual ? 4 : 7);
+    const source = new Set(visible.map(([date]) => key(date))).size >= 4 ? visible : sliceHorizon(series.observations, annual ? 3650 : 365);
     const map = new Map();
-    for (const [date, value] of source) map.set(date.slice(0, 7), value);
+    for (const [date, value] of source) map.set(key(date), value);
     const entries = [...map.entries()];
     const type = mode === "auto" ? changeType(series) : mode;
-    return new Map(entries.slice(1).map(([month, value], index) => {
+    return new Map(entries.slice(1).map(([period, value], index) => {
       const prior = entries[index][1];
       const change = type === "percent" ? prior > 0 && value > 0 ? value / prior - 1 : NaN : type === "basis-points" ? (value - prior) * 100 : value - prior;
-      return [month, change];
+      return [period, change];
     }).filter(([, value]) => Number.isFinite(value)));
   };
-  const left = monthly(first); const right = monthly(second);
-  const pairs = [...left].flatMap(([month, value]) => right.has(month) ? [[value, right.get(month)]] : []);
+  const left = changes(first); const right = changes(second);
+  const pairs = [...left].flatMap(([period, value]) => right.has(period) ? [[value, right.get(period)]] : []);
   if (pairs.length < 3) return NaN;
   const meanX = pairs.reduce((sum, [x]) => sum + x, 0) / pairs.length;
   const meanY = pairs.reduce((sum, [, y]) => sum + y, 0) / pairs.length;

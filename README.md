@@ -1,8 +1,8 @@
 # MacroTrace
 
-MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects 78 public macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series from FRED. A unified search adds FRED series or Yahoo Finance instruments immediately, while one-click presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, and global-market views.
+MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects 78 macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series with 14 public long-history research indexes. A unified search adds FRED series or Yahoo Finance instruments immediately, while one-click presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, global-market, century-asset-class, and size/style views.
 
-The dashboard has two explicit analytical modes. Macro mode uses standardized cycle position, release-to-release momentum, stationary-change percentiles, release freshness, monthly-change correlation, a month-over-month heat map, and category breadth. Markets mode uses indexed adjusted-close paths, horizon returns, price percentiles, drawdown, annualized log-return volatility, monthly-return correlation, a return heat map, and return-versus-risk. Log scale is available only where it is mathematically valid. Every panel has exact-value tooltips, interactive legends where applicable, and a full-screen expand control.
+The dashboard has two explicit analytical modes. Macro mode uses standardized cycle position, release-to-release momentum, stationary-change percentiles, release freshness, monthly-change correlation, a month-over-month heat map, and category breadth. Markets mode uses indexed return paths, horizon returns, return-momentum percentiles, drawdown, annualized log-return volatility, frequency-aware correlation, a return heat map, and return-versus-risk. Log scale is available only where it is mathematically valid. Every panel has exact-value tooltips, interactive legends where applicable, and a full-screen expand control.
 
 ## Live sites
 
@@ -21,13 +21,20 @@ Run `npm run check` before publishing. It validates the data contract and create
 
 ## Data and calculations
 
-Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. On-demand ticker histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available and are not committed to this repository. Market responses are cached for five minutes with a one-hour stale fallback; bundled FRED observations refresh daily, and arbitrary FRED series use a one-hour cache. The catalog records every bundled series ID, human-readable name, category, unit, frequency, transformation, and source link. Missing or non-numeric rows are removed and native release frequencies are preserved.
+Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. On-demand ticker histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available and are not committed to this repository. Market responses are cached for five minutes with a one-hour stale fallback; bundled observations refresh daily, and arbitrary FRED series use a one-hour cache. Missing or non-numeric rows are removed and native release frequencies are preserved.
+
+The long-history library is separate from live ETFs and contains no hidden splices:
+
+- Seven monthly [Kenneth R. French Data Library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) research indexes begin in June 1926: the U.S. equity market plus large/small growth, core, and value portfolios. Source returns are percentages, missing sentinels (`-99.99`, `-999`) are rejected, and valid returns are compounded from a $100 anchor. These are academic research portfolios—not ETFs, investable funds, or backward extensions of modern tickers. French notes that histories can change when CRSP revises its database; each refresh records the exact source-archive SHA-256.
+- Seven annual [Aswath Damodaran / NYU Stern](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html) research indexes begin at year-end 1927: S&P 500 total return, bottom-decile U.S. small stocks, 3-month bills, 10-year Treasury total return, Baa corporate-bond total return, real estate, and gold price return. The published annual frequency is preserved with no monthly interpolation, and each refresh records the source-page SHA-256.
+
+Public availability does not imply identical definitions or unrestricted commercial reuse. MacroTrace is a noncommercial course project, retains direct attribution/source links, publishes transformations rather than source workbooks, and keeps research portfolios visually distinct from live Yahoo instruments. Users should review each provider’s current terms before reusing the data elsewhere.
 
 - Positive quantities, price indexes, currencies, and securities: `(last / first − 1) × 100`
 - Rates and percentage-point series: `(last − first) × 100` basis points
 - Signed economic indexes: `last − first` index points
 - Macro position: the latest native-period semantic change ranked against its own full history, with midpoint tie ranks
-- Security volatility: sample standard deviation of adjacent log returns, annualized by native frequency
+- Security volatility: sample standard deviation of adjacent log returns, annualized by native daily, weekly, monthly, quarterly, or annual frequency
 - Correlation: Pearson correlation of independently transformed, aligned calendar-month changes—never raw levels
 - Drawdown: `value / running peak − 1`, only for positive market-price paths
 
@@ -47,6 +54,7 @@ The committed snapshot pins every report number to reproducible data. A schedule
 | `public/data/snapshot.json` | Versioned public snapshot used by the report and dashboard. |
 | `public/favicon.svg` | MacroTrace brand mark. |
 | `scripts/catalog.mjs` | Declarative catalog of FRED and market series. |
+| `scripts/long-history.mjs` | Validated Fama–French and Damodaran ingestion, compounding, labels, and provenance hashes. |
 | `scripts/refresh-data.mjs` | Concurrent public-data ingestion and normalization. |
 | `scripts/verify-data.mjs` | Data-contract, ordering, metadata, and coverage checks. |
 | `scripts/verify-dashboard.mjs` | Preset integrity and explicit macro/market semantic regression checks. |

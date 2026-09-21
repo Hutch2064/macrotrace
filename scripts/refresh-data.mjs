@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { fredSeries, marketSeries } from "./catalog.mjs";
+import { fetchLongHistorySeries } from "./long-history.mjs";
 
 const start = "1990-01-01";
 const startEpoch = Math.floor(new Date(`${start}T00:00:00Z`).getTime() / 1000);
@@ -75,9 +76,10 @@ async function mapWithConcurrency(items, mapper, limit = 6) {
   return results;
 }
 
-const [macro, markets] = await Promise.all([
+const [macro, markets, longHistory] = await Promise.all([
   mapWithConcurrency(fredSeries, fetchFred),
   mapWithConcurrency(marketSeries, fetchMarket),
+  fetchLongHistorySeries(),
 ]);
 
 const snapshot = {
@@ -88,7 +90,7 @@ const snapshot = {
     missingValues: "Rows with missing or non-numeric observations are omitted.",
     normalization: "Indexed views divide each series by its first visible observation and multiply by 100.",
   },
-  series: [...macro, ...markets],
+  series: [...macro, ...markets, ...longHistory],
 };
 
 await mkdir("public/data", { recursive: true });

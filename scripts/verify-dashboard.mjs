@@ -16,6 +16,16 @@ for (const [preset, rollup] of [["sectors", "SPY"], ["currencies", "DTWEXBGS"], 
   if (![...(view.series ?? []), ...(view.symbols ?? [])].includes(rollup)) throw new Error(`${preset} is missing roll-up ${rollup}.`);
 }
 
+for (const [presetId, required] of [
+  ["long-assets", ["HIST_SP500_TR", "HIST_TBOND10", "HIST_GOLD"]],
+  ["style-history", ["FF_US_MARKET", "FF_LARGE_VALUE", "FF_SMALL_GROWTH"]],
+]) {
+  const preset = presets.find(({ id }) => id === presetId);
+  if (preset?.horizon !== "max" || !required.every((id) => preset.series.includes(id))) {
+    throw new Error(`${presetId} must open the required century-scale research series at maximum history.`);
+  }
+}
+
 const cpi = seriesById.get("CPIAUCSL");
 const macro = presets.find(({ id }) => id === "macro").series.map((id) => seriesById.get(id));
 const percentile = changePercentile(cpi);
