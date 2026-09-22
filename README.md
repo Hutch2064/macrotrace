@@ -127,4 +127,6 @@ For a bounded update of only the bundled Yahoo benchmarks, run `npm run data:ref
 
 ## Privacy and security
 
+The Vercel workflow uses a project-scoped token stored only in GitHub Actions secrets. `scripts/deploy-vercel.mjs` uploads an explicit allowlist of tracked application files through Vercel's deployment API and waits for readiness, avoiding the CLI's team-settings lookup. The current deployment token expires September 22, 2027 and must be rotated before then; it cannot access Simfolio projects. The daily refresh has been exercised on GitHub with all 425 series and zero provider failures.
+
 MacroTrace has no accounts, tracking cookies, database, or private credentials. Optional provider data is cached in this browser’s local storage only; no user portfolio is stored. The public project contains no Simfolio source code, secrets, private endpoints, or internal data. The ticker endpoint accepts only a short validated symbol; it never accepts arbitrary upstream URLs.
