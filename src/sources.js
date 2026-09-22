@@ -1,6 +1,7 @@
 import { loadSnapshot, mountChrome } from "./common.js";
 import { readCachedSeries } from "./series-cache.js";
 import { initDisclosure, openDisclosure } from "./disclosure.js";
+import { loadHistory } from "./data-store.js";
 
 const escapeHtml = (value) =>
   String(value ?? "").replace(
@@ -41,6 +42,7 @@ const isYahoo = (series) =>
       .includes("yahoo"));
 
 const observationBounds = (series) => {
+  if (series.coverage) return series.coverage;
   const observations = Array.isArray(series?.observations)
     ? series.observations.filter(
         (observation) =>
@@ -219,12 +221,28 @@ const renderCatalog = (series, query) => {
       ([category, items]) => `
         <details class="source-group disclosure" ${query ? "open" : ""}>
           <summary><span><span class="section-index">${escapeHtml(category)}</span><strong>${items.length.toLocaleString("en-US")} series</strong></span></summary>
-          <div class="source-group-list disclosure-panel">${items.map(renderSeries).join("")}</div>
+          <div class="source-group-list disclosure-panel"></div>
         </details>`,
     )
     .join("");
-  catalog.querySelectorAll("[data-series-card]").forEach((card) => {
-    card.id = `source-${card.dataset.seriesId}`;
+  catalog.querySelectorAll(".source-group").forEach((group, index) => {
+    const items = visibleGroups[index][1];
+    group._seriesIds = new Set(items.map(({ id }) => `source-${id}`));
+    group._loadSeries = () => {
+      if (group.dataset.loaded) return;
+      group.dataset.loaded = "true";
+      const panel = group.querySelector(".source-group-list");
+      panel.innerHTML = items.map(renderSeries).join("");
+      panel.querySelectorAll("[data-series-card]").forEach((card) => {
+        card.id = `source-${card.dataset.seriesId}`;
+      });
+      initDisclosure(panel);
+    };
+    // Materialize before the shared disclosure measures its animated height.
+    group
+      .querySelector("summary")
+      .addEventListener("click", group._loadSeries, { capture: true });
+    if (query) group._loadSeries();
   });
   initDisclosure(catalog);
   return visibleGroups.reduce((total, [, items]) => total + items.length, 0);
@@ -238,10 +256,16 @@ const openHashTarget = async (render, search) => {
     return;
   }
   if (!targetId.startsWith("source-")) return;
+  const materialize = () => {
+    for (const group of document.querySelectorAll(".source-group"))
+      if (group._seriesIds?.has(targetId)) group._loadSeries();
+  };
+  materialize();
   let target = document.getElementById(targetId);
   if (!target && search.value) {
     search.value = "";
     render();
+    materialize();
     target = document.getElementById(targetId);
   }
   if (!target) {
@@ -273,16 +297,18 @@ const snapshotRuleSummary = (snapshot) => {
 };
 
 async function main() {
-  const snapshot = await loadSnapshot();
+  let snapshot = await loadSnapshot();
   mountChrome(snapshot, "sources");
-  const snapshotSeries = snapshot.series || [];
-  const bundled = snapshotSeries.filter((series) => !isYahoo(series));
-  const bundledIds = new Set(snapshotSeries.map((series) => series.id));
-  const cachedNonYahoo = (readCachedSeries?.() || []).filter(
-    (series) => !bundledIds.has(series.id) && !isYahoo(series),
-  );
-  const series = [...bundled, ...cachedNonYahoo];
-  const exportSeries = series;
+  const sourceSeries = () => {
+    const bundledIds = new Set(snapshot.series.map(({ id }) => id));
+    return [
+      ...snapshot.series.filter((series) => !isYahoo(series)),
+      ...readCachedSeries().filter(
+        (series) => !bundledIds.has(series.id) && !isYahoo(series),
+      ),
+    ];
+  };
+  let series = sourceSeries();
   const search = document.querySelector("#sources-search");
   const summary = document.querySelector("#sources-snapshot-summary");
   const count = document.querySelector("#sources-result-count");
@@ -295,11 +321,24 @@ async function main() {
       : `${visible.toLocaleString("en-US")} series · ${groupSeries(series).size} categories`;
   };
 
-  summary.textContent = `${exportSeries.length.toLocaleString("en-US")} series · ${series.length.toLocaleString("en-US")} in the source catalog · Snapshot ${formatDate(snapshot.generatedAt.slice(0, 10))}`;
-
-  document.querySelector("#snapshot-methodology-note").textContent =
-    snapshotRuleSummary(snapshot);
-  search.addEventListener("input", render);
+  const updateSummary = () => {
+    summary.textContent = `${series.length.toLocaleString("en-US")} series · ${series.length.toLocaleString("en-US")} in the source catalog · Snapshot ${formatDate(snapshot.generatedAt.slice(0, 10))}`;
+    document.querySelector("#snapshot-methodology-note").textContent =
+      snapshotRuleSummary(snapshot);
+  };
+  updateSummary();
+  document.addEventListener("snapshot-updated", ({ detail }) => {
+    snapshot = detail;
+    series = sourceSeries();
+    updateSummary();
+    render();
+    void openHashTarget(render, search);
+  });
+  let searchTimer;
+  search.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(render, 120);
+  });
   document.querySelector("#export-catalog").addEventListener("click", () => {
     downloadCsv("macrotrace-source-catalog.csv", [
       [
@@ -322,7 +361,7 @@ async function main() {
         "source_hash",
         "methodology",
       ],
-      ...exportSeries.map((item) => {
+      ...series.map((item) => {
         const bounds = observationBounds(item);
         return [
           item.id,
@@ -347,13 +386,22 @@ async function main() {
       }),
     ]);
   });
-  document.addEventListener("click", (event) => {
+  document.addEventListener("click", async (event) => {
     const button = event.target.closest("[data-export-series]");
     if (!button) return;
-    const item = exportSeries.find(
-      ({ id }) => id === button.dataset.exportSeries,
-    );
-    if (item) exportObservations(item);
+    const item = series.find(({ id }) => id === button.dataset.exportSeries);
+    if (!item) return;
+    button.disabled = true;
+    try {
+      exportObservations(
+        item.history ? await loadHistory(snapshot, item.id) : item,
+      );
+      button.textContent = "Export observations CSV";
+    } catch (error) {
+      button.textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
   });
   render();
   initDisclosure(document.querySelector(".sources-methodology"));

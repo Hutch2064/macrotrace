@@ -1,5 +1,4 @@
 import {
-  Chart,
   changePercentile as computeChangePercentile,
   changeSuffix,
   changeType,
@@ -18,6 +17,7 @@ import {
   transform,
   volatility,
 } from "./common.js";
+import { Chart } from "./chart-theme.js";
 import { presetById, presets } from "./presets.js";
 import { timeChart } from "./time-chart.js";
 import { enhanceSelect as sharedSelect } from "./select.js";
@@ -31,6 +31,7 @@ import {
   breadthAcceleration,
 } from "./diagnostics.js";
 import { requestSeries } from "./series-cache.js";
+import { loadHistory } from "./data-store.js";
 import {
   median,
   percentileRank,
@@ -142,7 +143,12 @@ async function main() {
     analysisView.querySelector(".dashboard-grid").append(card);
   }
   const viewTemplate = analysisView.cloneNode(true);
-  const loaded = new Map(state.series.map((series) => [series.id, series]));
+  const loaded = new Map(
+    state.series
+      .filter((series) => series.observations)
+      .map((series) => [series.id, series]),
+  );
+  let selectionRequest = 0;
   const horizon = document.querySelector("#horizon-filter");
   fillHorizons(horizon, state.horizon);
   const search = document.querySelector("#series-search");
@@ -167,8 +173,14 @@ async function main() {
       if (view.charts !== charts)
         Object.values(view.charts).forEach((chart) => chart.destroy());
     modeViews.clear();
-    for (const series of snapshot.series) loaded.set(series.id, series);
-    state.series = [...loaded.values()];
+    for (const series of snapshot.series)
+      if (series.observations) loaded.set(series.id, series);
+    state.series = [
+      ...snapshot.series,
+      ...[...loaded.values()].filter(
+        (series) => !snapshot.series.some(({ id }) => id === series.id),
+      ),
+    ];
     document.querySelector("#freshness").textContent =
       `Daily snapshot · ${new Date(snapshot.generatedAt).toLocaleString()}`;
     render();
@@ -202,12 +214,19 @@ async function main() {
       button.addEventListener("click", () => setMode(button.dataset.mode)),
     );
 
+  let prefetchTimer;
   function enhanceSelect(select) {
     return sharedSelect(select, (id) => {
       if (select.id !== "view-filter") return;
-      for (const symbol of presetById(id)?.symbols ?? [])
-        if (!loaded.has(symbol))
-          void fetchSeries({ id: symbol, kind: "market" }).catch(() => {});
+      clearTimeout(prefetchTimer);
+      const preset = presetById(id);
+      if (preset && !navigator.connection?.saveData)
+        prefetchTimer = setTimeout(() => {
+          void fetchCollection([
+            ...(preset.series ?? []),
+            ...(preset.symbols ?? []),
+          ]);
+        }, 150);
     });
   }
   enhanceSelect(horizon);
@@ -347,8 +366,9 @@ async function main() {
   function destroyChart(name) {
     charts[name]?.destroy();
   }
-  function setMode(mode) {
+  function setMode(mode, initialize = true) {
     if (mode === state.mode) return;
+    selectionRequest++;
     const started = performance.now();
     modeViews.set(state.mode, {
       element: analysisView,
@@ -374,7 +394,8 @@ async function main() {
       renderControls(selectedSeries());
       if (cached.horizon !== state.horizon) render();
       else Object.values(charts).forEach((chart) => chart.resize());
-    } else applyPreset(mode === "macro" ? "macro" : "markets");
+    } else if (initialize)
+      void applyPreset(mode === "macro" ? "macro" : "markets");
     if (import.meta.env.DEV)
       document.body.dataset.switchMs = (performance.now() - started).toFixed(1);
   }
@@ -401,7 +422,15 @@ async function main() {
   async function fetchSeries(item) {
     const existing = loaded.get(item.id);
     if (existing) return existing;
-    const series = await requestSeries(item, apiOrigin);
+    const version = snapshot;
+    let series = version.series.some(({ id }) => id === item.id)
+      ? await loadHistory(version, item.id)
+      : await requestSeries(item, apiOrigin);
+    if (
+      version !== snapshot &&
+      snapshot.series.some(({ id }) => id === item.id)
+    )
+      series = await loadHistory(snapshot, item.id);
     loaded.set(series.id, series);
     state.series = [
       ...state.series.filter(({ id }) => id !== series.id),
@@ -421,9 +450,10 @@ async function main() {
           ? "markets"
           : "macro";
       if (nextMode !== state.mode) {
-        setMode(nextMode);
+        setMode(nextMode, false);
         state.selected = [];
       }
+      selectionRequest++;
       if (!state.selected.includes(series.id))
         state.selected = [
           ...state.selected.slice(-(MAX_SELECTED - 1)),
@@ -503,7 +533,7 @@ async function main() {
             "Live search is temporarily unavailable; cached series remain searchable.";
         }
       }
-    }, 100);
+    }, 250);
   });
   search.addEventListener("keydown", (event) => {
     if (results.hidden || !searchResults.length) return;
@@ -537,15 +567,36 @@ async function main() {
     if (!event.target.closest(".search-control")) setSearchOpen(false);
   });
 
+  async function fetchCollection(ids) {
+    const queue = [...new Set(ids)];
+    const outcomes = [];
+    await Promise.all(
+      Array.from({ length: Math.min(4, queue.length) }, async () => {
+        while (queue.length) {
+          const id = queue.shift();
+          try {
+            outcomes.push(await fetchSeries({ id, kind: "market" }));
+          } catch {
+            /* The collection status reports unavailable histories. */
+          }
+        }
+      }),
+    );
+    return outcomes;
+  }
   async function applyPreset(id) {
     const preset = presetById(id);
     if (!preset) return;
+    const request = ++selectionRequest;
+    const ids = [...(preset.series ?? []), ...(preset.symbols ?? [])];
     state.activePreset = id;
     state.mode = preset.mode;
-    state.selected = [
-      ...(preset.series ?? []),
-      ...(preset.symbols ?? []),
-    ].filter((seriesId) => loaded.has(seriesId));
+    if (ids.some((key) => !loaded.has(key))) {
+      presetStatus.textContent = `Loading ${preset.label}…`;
+      await fetchCollection(ids);
+    }
+    if (request !== selectionRequest) return;
+    state.selected = ids.filter((key) => loaded.has(key));
     if (preset.horizon === "max" && preset.mode === "markets") {
       state.logarithmic = true;
       document.querySelector("#log-scale").checked = true;
@@ -555,46 +606,11 @@ async function main() {
       horizon.value = preset.horizon;
       horizon._renderCustom?.();
     }
-    render();
-    if (
-      !preset.symbols?.length ||
-      preset.symbols.every((symbol) => loaded.has(symbol))
-    ) {
-      presetStatus.textContent = `${preset.label} · ${state.selected.length} ${preset.id === "extended-etfs" ? "explicit SIM proxies" : preset.horizon === "max" ? "historical series" : "series"}`;
-      return;
-    }
-    presetStatus.textContent = `Loading ${preset.label}…`;
-    let renderFrame;
-    const outcomes = await Promise.allSettled(
-      preset.symbols.map(async (symbol) => {
-        const series = await fetchSeries({
-          id: symbol,
-          name: symbol,
-          kind: "market",
-        });
-        if (state.activePreset === id && !state.selected.includes(series.id)) {
-          state.selected.push(series.id);
-          cancelAnimationFrame(renderFrame);
-          renderFrame = requestAnimationFrame(render);
-        }
-        return series;
-      }),
-    );
-    cancelAnimationFrame(renderFrame);
-    if (state.activePreset !== id) return;
-    const available = new Set(
-      outcomes.flatMap((outcome) =>
-        outcome.status === "fulfilled" ? [outcome.value.id] : [],
-      ),
-    );
-    state.selected = [
-      ...(preset.series ?? []).filter((key) => loaded.has(key)),
-      ...preset.symbols.filter((key) => available.has(key)),
-    ].slice(0, MAX_SELECTED);
-    presetStatus.textContent = `${preset.label} · ${state.selected.length}/${(preset.series?.length ?? 0) + preset.symbols.length} current series`;
+    presetStatus.textContent = `${preset.label} · ${state.selected.length}/${ids.length} ${preset.id === "extended-etfs" ? "explicit SIM proxies" : preset.horizon === "max" ? "historical series" : "series"}${state.selected.length < ids.length ? " · Some histories unavailable; select again to retry" : ""}`;
     render();
   }
   function toggleSeries(id) {
+    selectionRequest++;
     state.selected = state.selected.filter((selected) => selected !== id);
     state.activePreset = null;
     presetStatus.textContent = `Custom view · ${state.selected.length} series`;
@@ -1416,7 +1432,10 @@ async function main() {
     });
   }
   const params = new URLSearchParams(location.search);
-  const requested = loaded.get(params.get("series"));
+  const requestedId = params.get("series");
+  const requested = snapshot.series.some(({ id }) => id === requestedId)
+    ? await fetchSeries({ id: requestedId })
+    : null;
   if (requested) {
     state.mode = seriesKind(requested) === "market" ? "markets" : "macro";
     state.selected = [requested.id];
@@ -1460,9 +1479,22 @@ async function main() {
     };
     warmNext();
   };
-  if ("requestIdleCallback" in window)
-    window.requestIdleCallback(warmMarkets, { timeout: 2000 });
-  else window.setTimeout(warmMarkets, 500);
+  // Prefetch on intent, not for every visitor who only reads macro data.
+  if (!navigator.connection?.saveData) {
+    let warming = false;
+    const warm = () => {
+      if (warming) return;
+      warming = true;
+      void warmMarkets();
+    };
+    const marketButton = document.querySelector('[data-mode="markets"]');
+    marketButton.addEventListener("pointerenter", warm, { once: true });
+    marketButton.addEventListener("focus", warm, { once: true });
+    marketButton.addEventListener("touchstart", warm, {
+      once: true,
+      passive: true,
+    });
+  }
 }
 
 main().catch((error) => {

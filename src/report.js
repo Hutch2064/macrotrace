@@ -11,11 +11,34 @@ import {
 import { timeChart } from "./time-chart.js";
 import { reportTitles } from "./report-readings.js";
 import { rollingHorizonChanges } from "./analytics.js";
+import { lazyChart } from "./lazy-chart.js";
+
+const reportSeries = [
+  "UNRATE",
+  "CPIAUCSL",
+  "DGS10",
+  "PAYEMS",
+  "JTSJOL",
+  "PCEPILFE",
+  "GDPC1",
+  "INDPRO",
+  "FEDFUNDS",
+  "DGS2",
+  "HOUST",
+  "PERMIT",
+  "DCOILWTICO",
+  "GASREGW",
+  "NFCI",
+  "STLFSI4",
+  "USEHS",
+  "USCONS",
+  "USINFO",
+];
 
 const reportCharts = [];
 let chromeMounted = false;
 async function main(updatedSnapshot) {
-  const snapshot = updatedSnapshot || (await loadSnapshot());
+  const snapshot = updatedSnapshot || (await loadSnapshot(reportSeries));
   if (!chromeMounted) {
     mountChrome(snapshot, "report");
     chromeMounted = true;
@@ -142,9 +165,11 @@ async function main(updatedSnapshot) {
       return visible.map(([date, value]) => [date, (value / base) * 100]);
     });
     reportCharts.push(
-      timeChart(article.querySelector(".chart-wrap"), seriesList, points, {
-        suffix: story.measure === "yoy" ? "%" : "",
-      }),
+      lazyChart(article.querySelector(".chart-wrap"), () =>
+        timeChart(article.querySelector(".chart-wrap"), seriesList, points, {
+          suffix: story.measure === "yoy" ? "%" : "",
+        }),
+      ),
     );
   }
   colorReadings();

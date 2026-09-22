@@ -2,53 +2,9 @@ import * as analytics from "./analytics.js";
 import { tickerReadings } from "./ticker.js";
 import { fillHorizons, horizons } from "./horizons.js";
 import { enhanceSelect } from "./select.js";
-import { Chart, registerables } from "chart.js";
-
-const crosshair = {
-  id: "simfolioCrosshair",
-  afterDraw(chart) {
-    const point = chart.tooltip?._active?.[0];
-    if (!point) return;
-    const { ctx, chartArea } = chart;
-    ctx.save();
-    ctx.strokeStyle = "rgba(255,255,255,.45)";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(point.element.x, chartArea.top);
-    ctx.lineTo(point.element.x, chartArea.bottom);
-    ctx.stroke();
-    ctx.restore();
-  },
-};
-const emptyState = {
-  id: "emptyState",
-  afterDraw(chart) {
-    const hasData = chart.data.datasets.some(({ data }) =>
-      data.some((value) =>
-        typeof value === "number"
-          ? Number.isFinite(value)
-          : value && Number.isFinite(value.x) && Number.isFinite(value.y),
-      ),
-    );
-    if (hasData) return;
-    const { ctx, chartArea } = chart;
-    ctx.save();
-    ctx.fillStyle = "#94a3b8";
-    ctx.font = "12px Inter";
-    ctx.textAlign = "center";
-    ctx.fillText(
-      "Insufficient observations in this window",
-      (chartArea.left + chartArea.right) / 2,
-      (chartArea.top + chartArea.bottom) / 2,
-    );
-    ctx.restore();
-  },
-};
-Chart.register(...registerables, crosshair, emptyState);
-Chart.defaults.color = "rgba(255,255,255,.9)";
-Chart.defaults.borderColor = "rgba(255,255,255,.07)";
-Chart.defaults.font.family = "Inter, system-ui, sans-serif";
-Chart.defaults.animation.duration = 320;
+import { mountBanner } from "./banner.js";
+import { loadSnapshot, loadedHistoryIds } from "./data-store.js";
+export { loadSnapshot } from "./data-store.js";
 
 export const palette = [
   "#22c55e",
@@ -72,14 +28,6 @@ export const palette = [
   "#0ea5e9",
   "#d97706",
 ];
-
-export async function loadSnapshot() {
-  const response = await fetch(
-    `./data/snapshot.json?v=${__SNAPSHOT_VERSION__}`,
-  );
-  if (!response.ok) throw new Error("The data snapshot could not be loaded.");
-  return response.json();
-}
 
 export function seriesKind(series) {
   return series.kind === "market" || series.source === "Yahoo Finance"
@@ -137,14 +85,8 @@ export function mountChrome(snapshot, page) {
           "'": "&#39;",
         })[character],
     );
-  const tapeMarkup = (data) =>
-    tickerReadings(data, bannerHorizon)
-      .map(
-        (row) =>
-          `<a class="tape-item" href="./dashboard.html?series=${encodeURIComponent(row.id)}&horizon=${encodeURIComponent(bannerHorizon)}" title="${escape(row.name)} · ${row.date}${row.retained ? " · retained successful data" : ""}"><b>${escape(row.name)}</b><span class="${row.direction}">${escape(row.value)}</span><small>${row.detail} · ${row.date}</small></a>`,
-      )
-      .join("");
-  const tape = tapeMarkup(snapshot);
+  const tapeMarkup = (row) =>
+    `<a class="tape-item" href="./dashboard.html?series=${encodeURIComponent(row.id)}&horizon=${encodeURIComponent(bannerHorizon)}" title="${escape(row.name)} · ${row.date}${row.retained ? " · retained successful data" : ""}"><b>${escape(row.name)}</b><span class="${row.direction}">${escape(row.value)}</span><small>${row.detail} · ${row.date}</small></a>`;
   document.querySelector("#site-header").innerHTML = `
     <header class="site-nav">
       <div class="nav-row">
@@ -158,31 +100,20 @@ export function mountChrome(snapshot, page) {
           <a class="nav-cta" href="./dashboard.html">Open data</a>
         </nav>
       </div>
-      <div class="pulse-tape" aria-label="Latest named economic readings"><div class="tape-track"><div class="tape-group">${tape}</div><div class="tape-group" aria-hidden="true">${tape}</div></div></div>
+      <div class="pulse-tape" aria-label="Latest named economic readings"><div class="tape-track"></div></div>
     </header>`;
   document.querySelector("#site-footer").innerHTML = `
     <footer class="site-footer"><div class="footer-row shell"><span>MacroTrace · Public economic data, made legible.</span><span>Built by Aidan Hutchison · Daily snapshots, not a live feed</span></div></footer>`;
-  const resizeTape = () => {
-    const track = document.querySelector(".tape-track");
-    if (track)
-      track.style.animationDuration = `${Math.max(30, track.scrollWidth / 2 / 45)}s`;
-  };
-  requestAnimationFrame(resizeTape);
-  document.fonts.ready.then(resizeTape);
+  const updateBanner = mountBanner(
+    document.querySelector(".pulse-tape"),
+    tickerReadings(snapshot, bannerHorizon),
+    tapeMarkup,
+  );
   const bannerSelect = document.querySelector("#banner-horizon");
   fillHorizons(bannerSelect, bannerHorizon);
   enhanceSelect(bannerSelect);
   const refreshTape = () => {
-    const markup = tapeMarkup(currentSnapshot);
-    document.querySelectorAll(".tape-group").forEach((group) => {
-      group.innerHTML = markup;
-    });
-    document
-      .querySelectorAll('.tape-group[aria-hidden="true"] a')
-      .forEach((link) => {
-        link.tabIndex = -1;
-      });
-    resizeTape();
+    updateBanner(tickerReadings(currentSnapshot, bannerHorizon));
   };
   bannerSelect.addEventListener("change", () => {
     bannerHorizon = bannerSelect.value;
@@ -204,12 +135,7 @@ export function mountChrome(snapshot, page) {
       const version = await response.json();
       if (!version.generatedAt || version.generatedAt === currentVersion)
         return;
-      const fresh = await fetch(
-        `./data/snapshot.json?v=${encodeURIComponent(version.generatedAt)}`,
-        { cache: "no-cache" },
-      );
-      if (!fresh.ok) return;
-      const data = await fresh.json();
+      const data = await loadSnapshot(loadedHistoryIds(), version.generatedAt);
       if (!data.series?.length) return;
       currentVersion = data.generatedAt;
       currentSnapshot = data;
@@ -224,6 +150,7 @@ export function mountChrome(snapshot, page) {
     }
   }
   window.setInterval(checkForSnapshot, 60 * 60 * 1000);
+  document.addEventListener("data-version-changed", checkForSnapshot);
   document.addEventListener("visibilitychange", checkForSnapshot);
   const button = document.querySelector(".menu-button");
   const links = document.querySelector(".nav-links");
@@ -383,4 +310,3 @@ export function colorReadings(root = document) {
     element.classList.toggle("negative", value < 0);
   });
 }
-export { Chart };

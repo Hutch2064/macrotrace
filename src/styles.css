@@ -186,11 +186,6 @@ select {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: ticker 38s linear infinite;
-}
-.pulse-tape:hover .tape-track,
-.pulse-tape:focus-within .tape-track {
-  animation-play-state: paused;
 }
 .tape-group {
   display: flex;
@@ -215,11 +210,6 @@ select {
 .tape-item small {
   color: var(--faint);
   font-size: 0.61rem;
-}
-@keyframes ticker {
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 .report-hero {
@@ -1669,6 +1659,9 @@ select.view-select option {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .pulse-tape {
+    overflow-x: auto;
+  }
   html {
     scroll-behavior: auto;
   }

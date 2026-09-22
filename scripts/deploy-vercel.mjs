@@ -6,12 +6,12 @@ import { createHash } from "node:crypto";
 const paths = execFileSync("git", ["ls-files", "-z"], { encoding: "utf8" })
   .split("\0")
   .filter((path) =>
-    /^(?:api\/[\w-]+\.js|src\/[\w-]+\.(?:js|css)|public\/(?:favicon\.svg|data\/(?:snapshot|version)\.json|data\/source-inventory\.(?:csv|md))|(?:index|dashboard|sources)\.html|package(?:-lock)?\.json|vite\.config\.js|vercel\.json)$/.test(
+    /^(?:api\/[\w-]+\.js|src\/[\w-]+\.(?:js|css)|scripts\/build-data\.mjs|public\/(?:favicon\.svg|fonts\/[\w-]+\.(?:woff2|txt|md)|data\/(?:snapshot|version)\.json|data\/source-inventory\.(?:csv|md))|(?:index|dashboard|sources)\.html|package(?:-lock)?\.json|vite\.config\.js|vercel\.json)$/.test(
       path,
     ),
   );
 const files = await Promise.all(
-  paths.map(async (file) => ({ file, data: await readFile(file, "utf8") })),
+  paths.map(async (file) => ({ file, data: await readFile(file) })),
 );
 const commitSha = execFileSync("git", ["rev-parse", "HEAD"], {
   encoding: "utf8",
@@ -21,7 +21,7 @@ if (process.argv.includes("--dry-run")) {
     JSON.stringify({
       files: paths,
       commitSha,
-      bytes: Buffer.byteLength(JSON.stringify(files)),
+      bytes: files.reduce((total, { data }) => total + data.length, 0),
     }),
   );
 } else {

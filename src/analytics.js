@@ -26,17 +26,25 @@ const SERIES_OBSERVATION_CACHE = new WeakMap();
 const CHANGE_TYPE_CACHE = new WeakMap();
 const CALENDAR_CACHE = new WeakMap();
 const WINDOW_CACHE = new WeakMap();
+const DATE_VALUE_CACHE = new Map();
+const NATIVE_CHANGE_CACHE = new WeakMap();
+const PERIOD_CHANGE_CACHE = new WeakMap();
+const ROLLING_HORIZON_CACHE = new WeakMap();
+// Snapshot series identities are stable between dashboard renders; reuse the
+// pure result arrays for repeated panel requests on the same input object.
 
 function asSource(input) {
   return Array.isArray(input) ? input : (input?.observations ?? []);
 }
 
 function dateValue(date) {
-  const value =
-    date instanceof Date
-      ? date.getTime()
-      : new Date(`${String(date).slice(0, 10)}T00:00:00Z`).getTime();
-  return Number.isFinite(value) ? value : NaN;
+  if (date instanceof Date) return date.getTime();
+  const text = String(date).slice(0, 10);
+  if (DATE_VALUE_CACHE.has(text)) return DATE_VALUE_CACHE.get(text);
+  const value = new Date(`${text}T00:00:00Z`).getTime();
+  const result = Number.isFinite(value) ? value : NaN;
+  DATE_VALUE_CACHE.set(text, result);
+  return result;
 }
 
 function dateText(date) {
@@ -364,7 +372,20 @@ function adjacentNative(previous, current, frequency) {
 
 /** Native-frequency period changes, including one real boundary anchor when available. */
 export function nativeChanges(series, horizon = "max") {
-  if (!horizonCoversMinimum(series, horizon)) return [];
+  const cacheable = series && typeof series === "object";
+  const key = String(horizon ?? "max");
+  const cache = cacheable
+    ? (NATIVE_CHANGE_CACHE.get(series) ?? new Map())
+    : null;
+  if (cacheable && cache.has(key)) return cache.get(key);
+  if (!horizonCoversMinimum(series, horizon)) {
+    const result = [];
+    if (cacheable) {
+      cache.set(key, result);
+      NATIVE_CHANGE_CACHE.set(series, cache);
+    }
+    return result;
+  }
   const window = sliceWindow(series, horizon);
   const type = changeType(series);
   const frequency = frequencyOf(series);
@@ -388,6 +409,7 @@ export function nativeChanges(series, horizon = "max") {
         isAnchorChange: previous === window.anchor,
       });
   }
+  if (cacheable) NATIVE_CHANGE_CACHE.set(series, cache.set(key, changes));
   return changes;
 }
 
@@ -557,12 +579,31 @@ export function aggregateCalendar(
 export function periodChanges(series, period = "native", horizon = "max") {
   const target = normalPeriod(period);
   if (target === "native") return nativeChanges(series, horizon);
-  if (!horizonCoversMinimum(series, horizon, minimumCalendarDays(target)))
-    return [];
+  const cacheable = series && typeof series === "object";
+  const key = `${target}|${String(horizon ?? "max")}`;
+  const cache = cacheable
+    ? (PERIOD_CHANGE_CACHE.get(series) ?? new Map())
+    : null;
+  if (cacheable && cache.has(key)) return cache.get(key);
+  if (!horizonCoversMinimum(series, horizon, minimumCalendarDays(target))) {
+    const result = [];
+    if (cacheable) {
+      cache.set(key, result);
+      PERIOD_CHANGE_CACHE.set(series, cache);
+    }
+    return result;
+  }
   // Aggregate the full history first so the boundary period can be found,
   // then apply the requested horizon to current periods only.
   const all = aggregateCalendar(series, target, { horizon: "max" });
-  if (!all.length) return [];
+  if (!all.length) {
+    const result = [];
+    if (cacheable) {
+      cache.set(key, result);
+      PERIOD_CHANGE_CACHE.set(series, cache);
+    }
+    return result;
+  }
   const observations = seriesObservations(series);
   const cutoff = cutoffForLatest(observations.at(-1)?.[0], horizon);
   const type = changeType(series);
@@ -593,6 +634,7 @@ export function periodChanges(series, period = "native", horizon = "max") {
         ),
       });
   }
+  if (cacheable) PERIOD_CHANGE_CACHE.set(series, cache.set(key, changes));
   return changes;
 }
 
@@ -777,7 +819,20 @@ function boundaryWithinTolerance(point, cutoff, frequency) {
  * `[currentDate, change]` and never contain synthetic anchors.
  */
 export function rollingHorizonChanges(series, horizon = "365") {
-  if (!horizonCoversMinimum(series, horizon)) return [];
+  const cacheable = series && typeof series === "object";
+  const key = String(horizon ?? "max");
+  const cache = cacheable
+    ? (ROLLING_HORIZON_CACHE.get(series) ?? new Map())
+    : null;
+  if (cacheable && cache.has(key)) return cache.get(key);
+  if (!horizonCoversMinimum(series, horizon)) {
+    const result = [];
+    if (cacheable) {
+      cache.set(key, result);
+      ROLLING_HORIZON_CACHE.set(series, cache);
+    }
+    return result;
+  }
   const observations = seriesObservations(series);
   const frequency = frequencyOf(series);
   const type = changeType(series);
@@ -803,6 +858,7 @@ export function rollingHorizonChanges(series, horizon = "365") {
     );
     if (Number.isFinite(value)) output.push([observations[index][0], value]);
   }
+  if (cacheable) ROLLING_HORIZON_CACHE.set(series, cache.set(key, output));
   return output;
 }
 

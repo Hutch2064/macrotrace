@@ -36,6 +36,9 @@ const FREQUENCY_RANK = {
 const CLEAN_CACHE = new WeakMap();
 const NATIVE_CHANGE_CACHE = new WeakMap();
 const DATE_VALUE_CACHE = new Map();
+// Most selected series share native dates; horizon cutoffs are reused across
+// those series while preserving the same calendar-boundary semantics.
+const CUTOFF_CACHE = new Map();
 
 /** Stable metadata for parent renderers and documentation. */
 export const diagnosticContracts = Object.freeze({
@@ -167,27 +170,39 @@ function shiftCalendar(date, { years = 0, months = 0, days = 0 } = {}) {
 function cutoffForDate(date, horizon) {
   if (horizon === "max" || horizon === undefined || horizon === null)
     return null;
+  const key = `${String(date).slice(0, 10)}|${String(horizon)}`;
+  if (CUTOFF_CACHE.has(key)) return CUTOFF_CACHE.get(key);
   const text = String(horizon).trim().toLowerCase();
   if (text === "max") return null;
   const current = new Date(dateValue(date));
   if (!Number.isFinite(current.getTime())) return null;
-  if (text === "ytd") return new Date(Date.UTC(current.getUTCFullYear(), 0, 1));
+  if (text === "ytd") {
+    const result = new Date(Date.UTC(current.getUTCFullYear(), 0, 1));
+    CUTOFF_CACHE.set(key, result);
+    return result;
+  }
   const match = text.match(
     /^(\d+(?:\.\d+)?)\s*(d|day|days|w|week|weeks|m|month|months|q|quarter|quarters|y|yr|year|years)?$/,
   );
-  if (!match) return new Date(current.getTime() - Number(horizon) * DAY_MS);
+  if (!match) {
+    const result = new Date(current.getTime() - Number(horizon) * DAY_MS);
+    CUTOFF_CACHE.set(key, result);
+    return result;
+  }
   const amount = Number(match[1]);
   const unit = match[2] ?? "days";
   if (!Number.isFinite(amount)) return new Date(NaN);
-  if (unit.startsWith("y")) return shiftCalendar(current, { years: -amount });
-  if (unit.startsWith("q"))
-    return shiftCalendar(current, { months: -amount * 3 });
-  if (unit.startsWith("m")) return shiftCalendar(current, { months: -amount });
-  if (unit.startsWith("w"))
-    return new Date(current.getTime() - amount * 7 * DAY_MS);
+  let result;
+  if (unit.startsWith("y")) result = shiftCalendar(current, { years: -amount });
+  else if (unit.startsWith("q"))
+    result = shiftCalendar(current, { months: -amount * 3 });
+  else if (unit.startsWith("m"))
+    result = shiftCalendar(current, { months: -amount });
+  else if (unit.startsWith("w"))
+    result = new Date(current.getTime() - amount * 7 * DAY_MS);
   const calendarMonths = { 30: 1, 90: 3, 180: 6, 182: 6 };
-  if (calendarMonths[amount])
-    return shiftCalendar(current, { months: -calendarMonths[amount] });
+  if (!result && calendarMonths[amount])
+    result = shiftCalendar(current, { months: -calendarMonths[amount] });
   const calendarYears = {
     365: 1,
     1095: 3,
@@ -199,9 +214,11 @@ function cutoffForDate(date, horizon) {
     3285: 9,
     3650: 10,
   };
-  if (calendarYears[amount])
-    return shiftCalendar(current, { years: -calendarYears[amount] });
-  return new Date(current.getTime() - amount * DAY_MS);
+  if (!result && calendarYears[amount])
+    result = shiftCalendar(current, { years: -calendarYears[amount] });
+  if (!result) result = new Date(current.getTime() - amount * DAY_MS);
+  CUTOFF_CACHE.set(key, result);
+  return result;
 }
 
 function hasBoundaryObservation(observations, cutoff) {
@@ -309,12 +326,11 @@ export function rollingVolatilityPath(
     horizon,
     minimumObservations,
   );
-  const changes = fullNativeChanges(series)
-    .map((change) => ({
-      ...change,
-      value: semanticReturn(change.value, useLog ? "percent" : type),
-    }))
-    .filter(({ value }) => Number.isFinite(value));
+  const changes = [];
+  for (const change of fullNativeChanges(series)) {
+    const value = semanticReturn(change.value, useLog ? "percent" : type);
+    if (Number.isFinite(value)) changes.push({ date: change.date, value });
+  }
   const rows = [];
   const window = [];
   let sum = 0;

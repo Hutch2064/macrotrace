@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fredHandler from "../api/fred.js";
 import marketHandler from "../api/market.js";
 import searchHandler from "../api/search.js";
+import { createResponseCache } from "../src/api-cache.js";
 
 const tests = [];
 const test = (name, fn) => tests.push({ name, fn });
@@ -57,6 +58,22 @@ async function invoke(handler, { method = "GET", query = {} } = {}, fetchImpl) {
   try {
     await handler({ method, query }, capture.response);
     return capture;
+  } finally {
+    globalThis.fetch = previousFetch;
+  }
+}
+
+async function invokeConcurrent(handler, requests, fetchImpl) {
+  const previousFetch = globalThis.fetch;
+  const captures = requests.map(() => createResponse());
+  globalThis.fetch = fetchImpl;
+  try {
+    await Promise.all(
+      requests.map((request, index) =>
+        handler(request, captures[index].response),
+      ),
+    );
+    return captures;
   } finally {
     globalThis.fetch = previousFetch;
   }
@@ -170,6 +187,31 @@ test("FRED parses metadata and ignores missing/non-numeric CSV observations", as
   assert.equal(calls.length, 2);
 });
 
+test("FRED shares one in-flight load across concurrent callers", async () => {
+  const calls = [];
+  const fetchImpl = async (address) => {
+    calls.push(String(address));
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    if (String(address).includes("/graph/"))
+      return upstreamText("observation_date,CONCURRENTFRED\n2024-01-01,1");
+    return upstreamText(
+      '<title>Concurrent FRED (CONCURRENTFRED) | FRED</title><span class="series-meta-value-units">Units</span><span class="series-meta-value-frequency">Daily</span>',
+    );
+  };
+  const captures = await invokeConcurrent(
+    fredHandler,
+    [
+      { method: "GET", query: { id: "CONCURRENTFRED" } },
+      { method: "GET", query: { id: " concurrentfred " } },
+    ],
+    fetchImpl,
+  );
+  assert.equal(calls.length, 2);
+  assert.equal(captures[0].status, 200);
+  assert.equal(captures[1].status, 200);
+  assert.deepEqual(captures[0].body, captures[1].body);
+});
+
 test("FRED fails closed on unavailable metadata, upstream status, and fetch errors", async () => {
   const metadataMissing = await invoke(
     fredHandler,
@@ -186,13 +228,13 @@ test("FRED fails closed on unavailable metadata, upstream status, and fetch erro
       "FRED metadata unavailable; retry shortly to avoid unverified units.",
   });
 
-  for (const [status, expected] of [
-    [404, 404],
-    [500, 502],
+  for (const [symbol, status, expected] of [
+    ["GDP404", 404, 404],
+    ["GDP500", 500, 502],
   ]) {
     const capture = await invoke(
       fredHandler,
-      { query: { id: "GDP" } },
+      { query: { id: symbol } },
       async (address) => {
         if (String(address).includes("/graph/"))
           return upstreamText("not found", { ok: false, status });
@@ -345,13 +387,13 @@ test("market falls back to close data and reports upstream failures", async () =
   assert.equal(noTicker.status, 404);
   assert.deepEqual(noTicker.body, { error: "Ticker not found" });
 
-  for (const [status, expected] of [
-    [404, 404],
-    [429, 502],
+  for (const [symbol, status, expected] of [
+    ["ERR404", 404, 404],
+    ["ERR429", 429, 502],
   ]) {
     const capture = await invoke(
       marketHandler,
-      { query: { symbol: "SPY" } },
+      { query: { symbol } },
       async () => upstreamJson({}, { ok: false, status }),
     );
     assert.equal(capture.status, expected);
@@ -360,7 +402,7 @@ test("market falls back to close data and reports upstream failures", async () =
 
   const malformed = await invoke(
     marketHandler,
-    { query: { symbol: "SPY" } },
+    { query: { symbol: "ERRJSON" } },
     async () => ({
       ok: true,
       status: 200,
@@ -374,7 +416,7 @@ test("market falls back to close data and reports upstream failures", async () =
 
   const timeout = await invoke(
     marketHandler,
-    { query: { symbol: "SPY" } },
+    { query: { symbol: "ERRTIME" } },
     async () => {
       const error = new Error("simulated timeout");
       error.name = "TimeoutError";
@@ -383,6 +425,30 @@ test("market falls back to close data and reports upstream failures", async () =
   );
   assert.equal(timeout.status, 502);
   assert.deepEqual(timeout.body, { error: "Market data unavailable" });
+});
+
+test("market short-caches provider failures to avoid an upstream retry storm", async () => {
+  let calls = 0;
+  const fetchImpl = async () => {
+    calls += 1;
+    return upstreamJson({}, { ok: false, status: 503 });
+  };
+  const first = await invoke(
+    marketHandler,
+    { query: { symbol: "NEGATIVE" } },
+    fetchImpl,
+  );
+  const second = await invoke(
+    marketHandler,
+    { query: { symbol: "negative" } },
+    async () => {
+      throw new Error("negative result should be cached briefly");
+    },
+  );
+  assert.equal(first.status, 502);
+  assert.equal(second.status, 502);
+  assert.deepEqual(second.body, first.body);
+  assert.equal(calls, 1);
 });
 
 test("search handles preflight, method restrictions, and bounded empty queries", async () => {
@@ -500,7 +566,7 @@ test("search combines bundled and upstream results, filters types, deduplicates,
 
   const cached = await invoke(
     searchHandler,
-    { query: { q: query.toUpperCase() } },
+    { query: { q: `  ${query.toUpperCase()}  ` } },
     async () => {
       throw new Error("cached search must not reach upstream");
     },
@@ -526,6 +592,29 @@ test("search degrades gracefully when all upstream providers fail", async () => 
   assert.deepEqual(capture.body, { results: [] });
   assertHeader(capture, "Access-Control-Allow-Origin", "*");
   assertHeader(capture, "Cache-Control", "no-store");
+});
+
+test("response cache caps unique pending loads with explicit retry guidance", async () => {
+  const cache = createResponseCache({ maxPending: 1 });
+  let release;
+  const first = cache.getOrLoad(
+    "pending-one",
+    () =>
+      new Promise((resolve) => {
+        release = () => resolve({ status: 200, body: { ok: true } });
+      }),
+  );
+  const rejected = await cache.getOrLoad("pending-two", async () => {
+    throw new Error("capacity should reject before loading");
+  });
+  assert.equal(rejected.status, 429);
+  assert.deepEqual(rejected.body, {
+    error: "Too many concurrent requests; retry shortly",
+  });
+  assert.equal(rejected.retryAfter, "1");
+  await Promise.resolve();
+  release();
+  assert.deepEqual(await first, { status: 200, body: { ok: true } });
 });
 
 test("invoke always restores the caller's fetch implementation", async () => {

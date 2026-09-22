@@ -1,9 +1,17 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { createResponseCache } from "../src/api-cache.js";
 
-const cache = new Map();
-let snapshotPromise;
+const responseCache = createResponseCache({
+  maxEntries: 128,
+  maxBytes: 2 * 1024 * 1024,
+  maxPending: 32,
+  ttlMs: 5 * 60 * 1000,
+  negativeTtlMs: 3 * 1000,
+});
+let catalogPromise;
 const MAX_QUERY_LENGTH = 80;
+const SUCCESS_CACHE_CONTROL = "s-maxage=900, stale-while-revalidate=86400";
 const matchesSearch = (series, query) => {
   const text = `${series.id} ${series.name} ${series.category}`
     .toLowerCase()
@@ -25,11 +33,19 @@ function decode(value) {
 }
 
 async function bundledResults(query) {
-  const snapshot = await (snapshotPromise ??= readFile(
-    join(process.cwd(), "public/data/snapshot.json"),
-    "utf8",
-  ).then(JSON.parse));
-  return snapshot.series
+  if (!catalogPromise) {
+    catalogPromise = readFile(
+      join(process.cwd(), "public/data/runtime/catalog.json"),
+      "utf8",
+    )
+      .then(JSON.parse)
+      .catch((error) => {
+        catalogPromise = undefined;
+        throw error;
+      });
+  }
+  const catalog = await catalogPromise;
+  return catalog.series
     .filter((series) => matchesSearch(series, query))
     .slice(0, 8)
     .map((series) => ({
@@ -124,44 +140,49 @@ export default async function handler(request, response) {
   if (request.method === "OPTIONS") return response.status(204).end();
   if (request.method !== "GET")
     return response.status(405).json({ error: "Method not allowed" });
-  const query = String(request.query.q ?? "").trim();
+  const query = String(request.query.q ?? "")
+    .trim()
+    .replace(/\s+/g, " ");
   if (!query || query.length > MAX_QUERY_LENGTH)
     return response.status(200).json({ results: [] });
   const key = query.toLowerCase();
-  response.setHeader(
-    "Cache-Control",
-    "s-maxage=900, stale-while-revalidate=86400",
-  );
-  const cached = cache.get(key);
-  if (cached && cached.expiresAt > Date.now())
-    return response.status(200).json({ results: cached.results });
-  const [bundled, yahoo, fred] = await Promise.allSettled([
-    bundledResults(query),
-    yahooResults(query),
-    fredResults(query),
-  ]);
-  const ordered = [
-    ...(bundled.value ?? []),
-    ...(yahoo.value ?? []),
-    ...(fred.value ?? []),
-  ];
-  const seen = new Set();
-  const results = ordered
-    .filter(
-      (item) =>
-        !seen.has(`${item.kind}:${item.id}`) &&
-        seen.add(`${item.kind}:${item.id}`),
-    )
-    .slice(0, 14);
-  if (yahoo.status === "rejected" || fred.status === "rejected") {
-    response.setHeader("Cache-Control", "no-store");
-    return response.status(results.length ? 200 : 502).json({ results });
-  }
-  if (cache.size >= 200) cache.delete(cache.keys().next().value);
-  cache.set(key, { results, expiresAt: Date.now() + 15 * 60 * 1000 });
-  response.setHeader(
-    "Cache-Control",
-    "s-maxage=900, stale-while-revalidate=86400",
-  );
-  return response.status(200).json({ results });
+
+  const result = await responseCache.getOrLoad(`search:${key}`, async () => {
+    const [bundled, yahoo, fred] = await Promise.allSettled([
+      bundledResults(query),
+      yahooResults(query),
+      fredResults(query),
+    ]);
+    const ordered = [
+      ...(bundled.value ?? []),
+      ...(yahoo.value ?? []),
+      ...(fred.value ?? []),
+    ];
+    const seen = new Set();
+    const results = ordered
+      .filter(
+        (item) =>
+          !seen.has(`${item.kind}:${item.id}`) &&
+          seen.add(`${item.kind}:${item.id}`),
+      )
+      .slice(0, 14);
+    if (yahoo.status === "rejected" || fred.status === "rejected")
+      return {
+        status: results.length ? 200 : 502,
+        body: { results },
+        cacheable: false,
+        cacheTtlMs: 3 * 1000,
+        cacheControl: "no-store",
+      };
+    return {
+      status: 200,
+      body: { results },
+      cacheControl: SUCCESS_CACHE_CONTROL,
+    };
+  });
+
+  if (result.cacheControl)
+    response.setHeader("Cache-Control", result.cacheControl);
+  if (result.retryAfter) response.setHeader("Retry-After", result.retryAfter);
+  return response.status(result.status).json(result.body);
 }

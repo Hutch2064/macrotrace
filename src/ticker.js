@@ -26,9 +26,11 @@ export function tickerReadings(snapshot, horizon = "365") {
   if (cache.has(horizon)) return cache.get(horizon);
   const rows = snapshot.series
     .map((series) => {
-      const [date] = series.observations.at(-1);
-      const value = change(series, horizon);
-      const suffix = changeSuffix(series);
+      const [date] = series.coverage?.latest || series.observations.at(-1);
+      const value = series.bannerChanges
+        ? series.bannerChanges[horizon]
+        : change(series, horizon);
+      const suffix = series.bannerSuffix ?? changeSuffix(series);
       return {
         id: series.id,
         name:

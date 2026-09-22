@@ -25,9 +25,13 @@ Window and banner results are cached by immutable snapshot identity. Offscreen p
 
 ```bash
 npm install
-npm run data:refresh
 npm run dev
 ```
+
+The committed snapshot is sufficient for local work; `dev` and `build` generate
+the lossless runtime catalog and history chunks. Run `npm run data:refresh` only
+when intentionally updating provider data. See [PERFORMANCE.md](PERFORMANCE.md)
+for cache architecture, reproducible payload budgets, and hosting cost boundaries.
 
 Run `npm run check` before publishing. It validates the data contract, explicit history joins, source/inventory wiring, and creates all three production pages in `dist/`. Run `node scripts/verify-commodity-history.mjs` separately when auditing both World Bank Pink Sheet workbooks.
 
@@ -57,49 +61,59 @@ The committed snapshot pins every report number to reproducible data. Calendar c
 
 ## Files
 
-| Path                                   | Purpose                                                                                                                                |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `index.html`                           | Scrollable report with headline numbers, eight findings, eight charts, and a source-catalog link.                                      |
-| `dashboard.html`                       | Two-mode interactive dashboard with essential controls, metrics, comparison/individual charts, and reset.                              |
-| `src/common.js`                        | Shared data loading, formatting, navigation, calculation adapters, and Chart.js defaults.                                              |
-| `src/analytics.js`                     | Pure calendar/frequency-aware transforms, returns, drawdowns, volatility, correlations, ranks, and regression-tested window semantics. |
-| `src/time-chart.js`                    | Responsive uPlot time-series renderer with value rails, legends, zoom, and keyboard inspection.                                        |
-| `src/series-cache.js`                  | Bounded browser cache and in-flight request deduplication for optional provider histories.                                             |
-| `src/report.js`                        | Reproducible report findings and chart rendering.                                                                                      |
-| `src/dashboard.js`                     | Dashboard state, filtering, search, calculations, charts, retained mode views, and expanded-chart controls.                            |
-| `src/presets.js`                       | Declarative high-level macro and market preset definitions.                                                                            |
-| `src/styles.css`                       | Responsive black-and-gold visual system shared across the site.                                                                        |
-| `public/data/snapshot.json`            | Versioned public snapshot used by the report and dashboard.                                                                            |
-| `public/favicon.svg`                   | MacroTrace brand mark.                                                                                                                 |
-| `scripts/catalog.mjs`                  | Declarative catalog of FRED and market series.                                                                                         |
-| `scripts/long-history.mjs`             | Validated Fama–French and Damodaran ingestion, compounding, labels, and provenance hashes.                                             |
-| `scripts/factor-history.mjs`           | Monthly French 3-/5-factor, momentum, emerging-market, and regional factor ingestion with fixed coverage expectations.                 |
-| `scripts/shiller-history.mjs`          | Shiller monthly equity/valuation and annual housing-history ingestion with workbook hashes and rights notes.                           |
-| `scripts/commodity-history.mjs`        | World Bank Pink Sheet monthly commodity-price and group-index ingestion with workbook-vintage provenance.                              |
-| `scripts/world-development.mjs`        | Annual World Bank World Development Indicators ingestion for global/country comparison series.                                         |
-| `scripts/extended-macro-catalog.mjs`   | Validated FRED extension catalog, including long U.K. archives and additional macro, fiscal, productivity, and housing signals.        |
-| `scripts/refresh-data.mjs`             | Concurrent public-data ingestion and normalization.                                                                                    |
-| `scripts/spliced-history.mjs`          | Explicit completed-period proxy joins for the 12 labeled SIM histories; missing/duplicated periods are rejected.                       |
-| `scripts/source-inventory.mjs`         | Generates the complete non-Yahoo Markdown and CSV coverage inventories.                                                                |
-| `scripts/verify-data.mjs`              | Data-contract, ordering, metadata, and coverage checks.                                                                                |
-| `scripts/verify-histories.mjs`         | Proxy-splice, Shiller parity, missing-period, and source-inventory regression checks.                                                  |
-| `scripts/verify-commodity-history.mjs` | Independent Pink Sheet workbook, vintage, frequency, missing-value, and provenance checks.                                             |
-| `scripts/verify-analytics.mjs`         | Deterministic calculation fixtures and snapshot checks.                                                                                |
-| `scripts/verify-release.mjs`           | Independent exact source-boundary calculations and release health checks.                                                              |
-| `scripts/verify-api.mjs`               | Offline, mocked endpoint validation and provider-failure tests.                                                                        |
-| `scripts/verify-dashboard.mjs`         | Preset integrity and explicit macro/market semantic regression checks.                                                                 |
-| `api/market.js`                        | Validated, CDN-cached Vercel endpoint for on-demand ticker history.                                                                    |
-| `api/search.js`                        | Unified bundled, Yahoo Finance, and FRED search endpoint.                                                                              |
-| `api/fred.js`                          | Validated, cached endpoint for arbitrary public FRED series.                                                                           |
-| `.github/workflows/pages.yml`          | Builds and publishes the static site to GitHub Pages.                                                                                  |
-| `.github/workflows/refresh-data.yml`   | Refreshes, checks, and commits the public snapshot daily.                                                                              |
-| `.github/workflows/vercel.yml`         | Verifies and publishes the production Vercel deployment.                                                                               |
-| `package.json`, `package-lock.json`    | Reproducible dependencies and development, test, and formatting commands.                                                              |
-| `.gitignore`                           | Excludes dependencies, build output, local settings, and credentials.                                                                  |
-| `vite.config.js`                       | Three-page Vite production build configuration.                                                                                        |
-| `vercel.json`                          | CDN and browser security headers.                                                                                                      |
-| `.env.example`                         | Documents the optional public market API origin without secrets.                                                                       |
-| `SUBMISSION.md`                        | Four-line course submission record.                                                                                                    |
+| Path                                    | Purpose                                                                                                                                |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`                            | Scrollable report with headline numbers, eight findings, eight charts, and a source-catalog link.                                      |
+| `dashboard.html`                        | Two-mode interactive dashboard with essential controls, metrics, comparison/individual charts, and reset.                              |
+| `src/common.js`                         | Shared data loading, background refresh, formatting, navigation, and calculation adapters.                                             |
+| `src/data-store.js`                     | On-demand verified histories, concurrent request sharing, and bounded persistent IndexedDB cache.                                      |
+| `src/banner.js`                         | Bounded animated ticker that cycles through the complete catalog.                                                                      |
+| `src/chart-theme.js`                    | Shared Chart.js registration and dashboard theme, split out of report/source entry points.                                             |
+| `src/api-cache.js`                      | Bounded warm-function response caching, in-flight sharing, and per-instance concurrency protection.                                    |
+| `src/fonts.css`, `public/fonts/`        | Self-hosted font faces, compressed Latin font files, licenses, and source notes.                                                       |
+| `src/analytics.js`                      | Pure calendar/frequency-aware transforms, returns, drawdowns, volatility, correlations, ranks, and regression-tested window semantics. |
+| `src/time-chart.js`                     | Responsive uPlot time-series renderer with value rails, legends, zoom, and keyboard inspection.                                        |
+| `src/series-cache.js`                   | Bounded browser cache and in-flight request deduplication for optional provider histories.                                             |
+| `src/report.js`                         | Reproducible report findings and chart rendering.                                                                                      |
+| `src/dashboard.js`                      | Dashboard state, filtering, search, calculations, charts, retained mode views, and expanded-chart controls.                            |
+| `src/presets.js`                        | Declarative high-level macro and market preset definitions.                                                                            |
+| `src/styles.css`                        | Responsive black-and-gold visual system shared across the site.                                                                        |
+| `public/data/snapshot.json`             | Versioned public snapshot used by the report and dashboard.                                                                            |
+| `public/favicon.svg`                    | MacroTrace brand mark.                                                                                                                 |
+| `scripts/catalog.mjs`                   | Declarative catalog of FRED and market series.                                                                                         |
+| `scripts/long-history.mjs`              | Validated Fama–French and Damodaran ingestion, compounding, labels, and provenance hashes.                                             |
+| `scripts/factor-history.mjs`            | Monthly French 3-/5-factor, momentum, emerging-market, and regional factor ingestion with fixed coverage expectations.                 |
+| `scripts/shiller-history.mjs`           | Shiller monthly equity/valuation and annual housing-history ingestion with workbook hashes and rights notes.                           |
+| `scripts/commodity-history.mjs`         | World Bank Pink Sheet monthly commodity-price and group-index ingestion with workbook-vintage provenance.                              |
+| `scripts/world-development.mjs`         | Annual World Bank World Development Indicators ingestion for global/country comparison series.                                         |
+| `scripts/extended-macro-catalog.mjs`    | Validated FRED extension catalog, including long U.K. archives and additional macro, fiscal, productivity, and housing signals.        |
+| `scripts/refresh-data.mjs`              | Concurrent public-data ingestion and normalization.                                                                                    |
+| `scripts/build-data.mjs`                | Generates the metadata catalog and content-addressed, lossless histories from the committed snapshot.                                  |
+| `scripts/verify-delivery.mjs`           | Exhaustive data/provenance/banner parity, cache failure/eviction checks, and compressed-transfer budgets.                              |
+| `scripts/verify-render-performance.mjs` | Reproducible pure-calculation benchmark; not a browser or production load test.                                                        |
+| `public/data/runtime/`                  | Generated, untracked catalog and immutable history chunks included in every production build.                                          |
+| `PERFORMANCE.md`                        | Delivery design, measurements, scale/cost assumptions, and operational limits.                                                         |
+| `scripts/spliced-history.mjs`           | Explicit completed-period proxy joins for the 12 labeled SIM histories; missing/duplicated periods are rejected.                       |
+| `scripts/source-inventory.mjs`          | Generates the complete non-Yahoo Markdown and CSV coverage inventories.                                                                |
+| `scripts/verify-data.mjs`               | Data-contract, ordering, metadata, and coverage checks.                                                                                |
+| `scripts/verify-histories.mjs`          | Proxy-splice, Shiller parity, missing-period, and source-inventory regression checks.                                                  |
+| `scripts/verify-commodity-history.mjs`  | Independent Pink Sheet workbook, vintage, frequency, missing-value, and provenance checks.                                             |
+| `scripts/verify-analytics.mjs`          | Deterministic calculation fixtures and snapshot checks.                                                                                |
+| `scripts/verify-release.mjs`            | Independent exact source-boundary calculations and release health checks.                                                              |
+| `scripts/verify-api.mjs`                | Offline, mocked endpoint validation and provider-failure tests.                                                                        |
+| `scripts/verify-dashboard.mjs`          | Preset integrity and explicit macro/market semantic regression checks.                                                                 |
+| `api/market.js`                         | Validated, CDN-cached Vercel endpoint for on-demand ticker history.                                                                    |
+| `api/search.js`                         | Unified bundled, Yahoo Finance, and FRED search endpoint.                                                                              |
+| `api/fred.js`                           | Validated, cached endpoint for arbitrary public FRED series.                                                                           |
+| `.github/workflows/pages.yml`           | Builds and publishes the static site to GitHub Pages.                                                                                  |
+| `.github/workflows/refresh-data.yml`    | Refreshes, checks, and commits the public snapshot daily.                                                                              |
+| `.github/workflows/vercel.yml`          | Verifies and publishes the production Vercel deployment.                                                                               |
+| `package.json`, `package-lock.json`     | Reproducible dependencies and development, test, and formatting commands.                                                              |
+| `.gitignore`                            | Excludes dependencies, build output, local settings, and credentials.                                                                  |
+| `vite.config.js`                        | Three-page Vite production build configuration.                                                                                        |
+| `vercel.json`                           | CDN and browser security headers.                                                                                                      |
+| `.env.example`                          | Documents the optional public market API origin without secrets.                                                                       |
+| `SUBMISSION.md`                         | Four-line course submission record.                                                                                                    |
 
 ### Source catalog and refresh support
 
@@ -129,4 +143,4 @@ For a bounded update of only the bundled Yahoo benchmarks, run `npm run data:ref
 
 The Vercel workflow uses a project-scoped token stored only in GitHub Actions secrets. `scripts/deploy-vercel.mjs` uploads an explicit allowlist of tracked application files through Vercel's deployment API and waits for readiness, avoiding the CLI's team-settings lookup. The current deployment token expires September 22, 2027 and must be rotated before then; it cannot access Simfolio projects. The daily refresh has been exercised on GitHub with all 425 series and zero provider failures.
 
-MacroTrace has no accounts, tracking cookies, database, or private credentials. Optional provider data is cached in this browser’s local storage only; no user portfolio is stored. The public project contains no Simfolio source code, secrets, private endpoints, or internal data. The ticker endpoint accepts only a short validated symbol; it never accepts arbitrary upstream URLs.
+MacroTrace has no accounts, tracking cookies, server database, or embedded private credentials. Bundled public histories use a bounded browser IndexedDB cache; optional provider histories use a separate bounded local-storage cache. Neither stores user portfolios. The public project contains no Simfolio source code, secrets, private endpoints, or internal data. The ticker endpoint accepts only a short validated symbol; it never accepts arbitrary upstream URLs.
