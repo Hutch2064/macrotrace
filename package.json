@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "data:refresh": "node scripts/refresh-data.mjs",
-    "data:verify": "node scripts/verify-data.mjs",
+    "data:verify": "node scripts/verify-data.mjs && node scripts/verify-histories.mjs",
     "dashboard:verify": "node scripts/verify-dashboard.mjs && node scripts/verify-sources.mjs",
     "analytics:verify": "node scripts/verify-analytics.mjs && node scripts/verify-release.mjs && node scripts/verify-experience.mjs && node scripts/verify-interactions.mjs && node scripts/verify-diagnostics.mjs",
     "api:verify": "node scripts/verify-api.mjs",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "prettier": "^3.9.8",
-    "vite": "^6.1.0"
+    "vite": "^6.1.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   }
 }

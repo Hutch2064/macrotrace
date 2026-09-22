@@ -17,6 +17,26 @@ const yahooDefaults = (symbol) => ({
 });
 
 export const marketSeries = [
+  ...[
+    ["VTI", "U.S. total-market equities · Vanguard Total Stock Market ETF"],
+    ["IWD", "U.S. large-cap value · iShares Russell 1000 Value ETF"],
+    ["IWF", "U.S. large-cap growth · iShares Russell 1000 Growth ETF"],
+    ["IWN", "U.S. small-cap value · iShares Russell 2000 Value ETF"],
+    ["IWO", "U.S. small-cap growth · iShares Russell 2000 Growth ETF"],
+    ["XLE", "U.S. energy · Energy Select Sector SPDR Fund"],
+    ["XLV", "U.S. health care · Health Care Select Sector SPDR Fund"],
+    ["XLU", "U.S. utilities · Utilities Select Sector SPDR Fund"],
+    ["XLK", "U.S. technology · Technology Select Sector SPDR Fund"],
+  ].map(([id, name]) => ({
+    ...yahooDefaults(id),
+    name,
+    category: "Global Markets",
+    marketRole: "proxy_component",
+    assetClass: "equity",
+    instrumentType: "ETF",
+    unit: "USD/share",
+    currency: "USD",
+  })),
   {
     ...yahooDefaults("VT"),
     name: "Global equities · Vanguard Total World Stock Index Fund ETF Shares (ETF proxy)",

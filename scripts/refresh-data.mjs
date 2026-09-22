@@ -1,10 +1,20 @@
 import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { fredSeries } from "./catalog.mjs";
+import { extendedFredSeries } from "./extended-macro-catalog.mjs";
 import { marketSeries } from "./market-catalog.mjs";
 import { fetchLongHistorySeries } from "./long-history.mjs";
+import { fetchShillerHistorySeries } from "./shiller-history.mjs";
+import { buildSplicedHistory } from "./spliced-history.mjs";
+import { writeSourceInventory } from "./source-inventory.mjs";
+import { fetchFactorHistorySeries } from "./factor-history.mjs";
+import { fetchCommodityHistorySeries } from "./commodity-history.mjs";
+import { fetchWorldDevelopmentSeries } from "./world-development.mjs";
 
-const start = "1800-01-01";
-const startEpoch = Math.floor(new Date(`${start}T00:00:00Z`).getTime() / 1000);
+const marketStart = "1800-01-01";
+const fredStart = "1000-01-01";
+const startEpoch = Math.floor(
+  new Date(`${marketStart}T00:00:00Z`).getTime() / 1000,
+);
 const endEpoch = Math.floor(Date.now() / 1000);
 const marketsOnly = process.argv.includes("--markets-only");
 const previous = JSON.parse(
@@ -39,7 +49,7 @@ async function fetchFred([
   transform = "identity",
   metadata = {},
 ]) {
-  const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}&cosd=${start}`;
+  const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}&cosd=${fredStart}`;
   const response = await fetch(url, { signal: AbortSignal.timeout(45000) });
   if (!response.ok) throw new Error(`FRED ${id}: ${response.status}`);
   return {
@@ -157,49 +167,99 @@ async function mapWithConcurrency(items, mapper, limit = 6) {
   return results;
 }
 
-const [macro, markets, longHistory] = marketsOnly
+async function fetchDataset(dataset, fetcher) {
+  try {
+    return (await fetcher()).map((series) => ({ ...series, dataset }));
+  } catch (error) {
+    const cached = previous.series.filter(
+      (series) =>
+        series.dataset === dataset ||
+        (dataset === "french-damodaran" &&
+          !series.dataset &&
+          series.historyType === "observed_public"),
+    );
+    if (!cached.length) throw error;
+    console.warn(
+      `${dataset}: retaining ${cached.length} series after ${error.message}`,
+    );
+    failures.push(...cached.map(({ id }) => id));
+    return cached.map((series) => ({
+      ...series,
+      dataset,
+      refreshStatus: "upstream-unavailable",
+      checkedAt: series.checkedAt || previous.generatedAt,
+    }));
+  }
+}
+
+const [
+  macro,
+  markets,
+  longHistory,
+  shiller,
+  factors,
+  commodities,
+  development,
+] = marketsOnly
   ? [
-      previous.series.filter(({ id }) => !marketIds.has(id)),
+      previous.series.filter(
+        ({ id, historyType }) =>
+          !marketIds.has(id) && historyType !== "proxy_splice",
+      ),
       await mapWithConcurrency(marketSeries, fetchMarket, 2),
+      [],
+      [],
+      [],
+      [],
       [],
     ]
   : await Promise.all([
-      mapWithConcurrency(fredSeries, fetchFred),
+      mapWithConcurrency([...fredSeries, ...extendedFredSeries], fetchFred),
       mapWithConcurrency(marketSeries, fetchMarket, 2),
-      fetchLongHistorySeries().catch((error) => {
-        const cached = previous.series.filter(
-          ({ historyType }) => historyType === "observed_public",
-        );
-        if (!cached.length) throw error;
-        failures.push(...cached.map(({ id }) => id));
-        return cached.map((series) => ({
-          ...series,
-          refreshStatus: "upstream-unavailable",
-          checkedAt: series.checkedAt || previous.generatedAt,
-        }));
-      }),
+      fetchDataset("french-damodaran", fetchLongHistorySeries),
+      fetchDataset("shiller", fetchShillerHistorySeries),
+      fetchDataset("french-factors", fetchFactorHistorySeries),
+      fetchDataset("worldbank-commodities", fetchCommodityHistorySeries),
+      fetchDataset("worldbank-development", fetchWorldDevelopmentSeries),
     ]);
 
 if (marketsOnly) {
   failures.push(
-    ...(previous.refreshFailures || []).filter((id) => !marketIds.has(id)),
+    ...(previous.refreshFailures || []).filter(
+      (id) => !marketIds.has(id) && !id.endsWith("_SIM"),
+    ),
   );
 }
 
+const generatedAt = new Date().toISOString();
+const sourceSeries = [
+  ...macro,
+  ...markets,
+  ...longHistory,
+  ...shiller,
+  ...factors,
+  ...commodities,
+  ...development,
+];
+const spliced = buildSplicedHistory(sourceSeries, generatedAt);
+failures.push(
+  ...spliced.filter((series) => series.refreshStatus).map(({ id }) => id),
+);
 const snapshot = {
-  generatedAt: new Date().toISOString(),
+  generatedAt,
   refreshFailures: [...new Set(failures)],
   methodology: marketsOnly
     ? previous.methodology
     : {
-        start,
+        fredStart,
+        marketStart,
         marketValue: "Adjusted close when available; otherwise close.",
         missingValues:
           "Rows with missing or non-numeric observations are omitted.",
         normalization:
           "Indexed views divide each series by its first visible observation and multiply by 100.",
       },
-  series: [...macro, ...markets, ...longHistory],
+  series: [...sourceSeries, ...spliced],
 };
 
 await mkdir("public/data", { recursive: true });
@@ -208,6 +268,7 @@ await writeFile(
   "public/data/version.json",
   `${JSON.stringify({ generatedAt: snapshot.generatedAt })}\n`,
 );
+await writeSourceInventory(snapshot);
 console.log(
   `Wrote ${snapshot.series.length} series and ${snapshot.series.reduce((n, item) => n + item.observations.length, 0).toLocaleString()} observations${marketsOnly ? " (markets only)" : ""}.`,
 );

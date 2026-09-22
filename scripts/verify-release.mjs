@@ -31,10 +31,27 @@ assert.equal(
   "Unique series identifiers",
 );
 for (const series of snapshot.series) {
-  const age =
-    (Date.parse(snapshot.generatedAt) -
-      Date.parse(series.observations.at(-1)[0])) /
-    86400000;
+  if (series.historyStatus === "archived") {
+    assert.ok(
+      series.archiveReason && series.methodology,
+      `${series.id}: archives require documented status and methodology`,
+    );
+    continue;
+  }
+  const latestDate = series.observations.at(-1)[0];
+  const year = Number(latestDate.slice(0, 4)),
+    month = Number(latestDate.slice(5, 7));
+  // FRED labels many annual/quarterly/monthly periods by their first day.
+  // Freshness is measured from the covered period's end, not that label.
+  const periodEnd =
+    series.frequency === "annual" && latestDate.endsWith("-01-01")
+      ? Date.UTC(year, 12, 0)
+      : series.frequency === "quarterly"
+        ? Date.UTC(year, Math.ceil(month / 3) * 3, 0)
+        : series.frequency === "monthly"
+          ? Date.UTC(year, month, 0)
+          : Date.parse(latestDate);
+  const age = (Date.parse(snapshot.generatedAt) - periodEnd) / 86400000;
   const maximumAge = {
     daily: 30,
     weekly: 60,

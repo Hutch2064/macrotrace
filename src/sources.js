@@ -32,12 +32,13 @@ const formatDate = (value) => {
 };
 
 const isYahoo = (series) =>
-  String(series?.source ?? "")
+  series?.historyType !== "proxy_splice" &&
+  (String(series?.source ?? "")
     .toLowerCase()
     .includes("yahoo") ||
-  String(series?.sourceUrl ?? "")
-    .toLowerCase()
-    .includes("yahoo");
+    String(series?.sourceUrl ?? "")
+      .toLowerCase()
+      .includes("yahoo"));
 
 const observationBounds = (series) => {
   const observations = Array.isArray(series?.observations)
@@ -146,6 +147,14 @@ const renderSeries = (series) => {
           ${renderOptionalField("Category", series.category)}
           ${renderOptionalField("Source family", series.sourceFamily)}
           ${renderOptionalField("Data role", series.dataRole)}
+          ${renderOptionalField("History classification", series.historyStatus || series.historyType)}
+          ${renderOptionalField("Archive note", series.archiveReason)}
+          ${renderOptionalField("Proxy source / security", series.splice ? `${series.splice.proxyId} → ${series.splice.securityId}` : "")}
+          ${renderOptionalField("Splice anchor", series.splice?.anchorDate)}
+          ${renderOptionalField("ETF source value type", series.splice?.securityValueType)}
+          ${renderOptionalField("ETF source data through", series.splice?.securitySourceAsOf)}
+          ${renderOptionalField("ETF source hash", series.splice?.securitySourceHash)}
+          ${renderOptionalField("Observed overlap", series.splice ? `${series.splice.overlap.start} – ${series.splice.overlap.end}; ${series.splice.overlap.pairedReturns} paired returns; correlation ${series.splice.overlap.correlation?.toFixed(3)}; annualized tracking-difference volatility ${series.splice.overlap.annualizedTrackingDifferenceVolatility.toFixed(2)}%` : "")}
           ${renderOptionalField("Checked", series.checkedAt ? formatDate(series.checkedAt.slice(0, 10)) : "")}
           ${renderOptionalField("Last verified observation", series.lastVerifiedObservation)}
           ${renderOptionalField("Source file", series.sourceFile)}

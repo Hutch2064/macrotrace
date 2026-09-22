@@ -62,16 +62,45 @@ for (const series of snapshot.series) {
       !/^[a-f0-9]{64}$/.test(series.sourceHash ?? "")
     )
       throw new Error(`Incomplete long-history provenance for ${series.id}.`);
-    const requiredStart = /^FF_(DEVELOPED|EUROPE|JAPAN|ASIAPAC)/.test(series.id)
-      ? "1990-12-31"
-      : "1927-12-31";
+    const requiredStart =
+      series.expectedStart ||
+      (/^FF_(DEVELOPED|EUROPE|JAPAN|ASIAPAC)/.test(series.id)
+        ? "1990-12-31"
+        : "1927-12-31");
     if (series.observations[0][0] > requiredStart)
       throw new Error(
         `${series.id} does not provide the promised long history.`,
       );
+    if (
+      series.expectedStart &&
+      (series.coverageStart !== series.expectedStart ||
+        series.observations[1]?.[0] !== series.expectedStart)
+    )
+      throw new Error(
+        `${series.id} does not begin with the independently specified first source return.`,
+      );
+    if (series.dataset === "french-damodaran") {
+      const baseline = series.id.startsWith("HIST_")
+        ? "1927-12-31"
+        : /^FF_(DEVELOPED|EUROPE|JAPAN|ASIAPAC)/.test(series.id)
+          ? "1990-06-30"
+          : "1926-06-30";
+      if (series.observations[0][0] !== baseline)
+        throw new Error(`${series.id} lost its promised historical baseline.`);
+    }
   }
   let previous = "";
   for (const [date, value] of series.observations) {
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+      !Number.isFinite(Date.parse(date)) ||
+      new Date(date).toISOString().slice(0, 10) !== date
+    )
+      throw new Error(`${series.id} has an invalid calendar date: ${date}.`);
+    if (date > snapshot.generatedAt.slice(0, 10))
+      throw new Error(
+        `${series.id} contains a future-dated observation: ${date}.`,
+      );
     if (date <= previous)
       throw new Error(`${series.id} dates are not strictly increasing.`);
     if (!Number.isFinite(value))

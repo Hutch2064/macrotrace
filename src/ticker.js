@@ -42,7 +42,7 @@ export function tickerReadings(snapshot, horizon = "365") {
         value: Number.isFinite(value)
           ? `${value > 0 ? "+" : ""}${number.format(value)}${suffix}`
           : "Unavailable",
-        detail: `${series.marketRole === "global_benchmark" ? "ETF proxy · " : ""}${horizonLabel(horizon)} change`,
+        detail: `${series.historyStatus === "archived" ? "Archive · " : series.historyType === "proxy_splice" ? "SIM · " : series.marketRole === "global_benchmark" ? "ETF proxy · " : ""}${horizonLabel(horizon)} change`,
         retained: series.refreshStatus === "upstream-unavailable",
       };
     })

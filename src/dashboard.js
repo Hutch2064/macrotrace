@@ -560,7 +560,7 @@ async function main() {
       !preset.symbols?.length ||
       preset.symbols.every((symbol) => loaded.has(symbol))
     ) {
-      presetStatus.textContent = `${preset.label} · ${state.selected.length} ${preset.horizon === "max" ? "unspliced research series" : "current series"}`;
+      presetStatus.textContent = `${preset.label} · ${state.selected.length} ${preset.id === "extended-etfs" ? "explicit SIM proxies" : preset.horizon === "max" ? "historical series" : "series"}`;
       return;
     }
     presetStatus.textContent = `Loading ${preset.label}…`;
@@ -710,9 +710,7 @@ async function main() {
     const drawdowns = seriesList
       .map((series) => maxDrawdown(series, state.horizon))
       .filter(Number.isFinite);
-    const research = seriesList.some(
-      ({ historyType }) => historyType === "observed_public",
-    );
+    const research = seriesList.some(({ historyType }) => Boolean(historyType));
     const metrics =
       state.mode === "macro"
         ? [
@@ -742,7 +740,7 @@ async function main() {
             [
               String(seriesList.length),
               research
-                ? "Research series in current view"
+                ? "Market / research series in view"
                 : "Securities in current view",
             ],
             [
@@ -783,9 +781,7 @@ async function main() {
           ? transform(sliceWindow(series, state.horizon).points, "indexed")
           : [];
     });
-    const research = seriesList.some(
-      ({ historyType }) => historyType === "observed_public",
-    );
+    const research = seriesList.some(({ historyType }) => Boolean(historyType));
     setText(
       "trend-title",
       macro ? "Economic cycle percentiles" : "Cumulative return path",
@@ -795,7 +791,7 @@ async function main() {
       macro
         ? "Growth rates for quantities; levels for rates/signed indexes. Full-history percentile ranks keep extremes visible on a common 0–100 scale."
         : research
-          ? "Cumulative public research returns; not ETF prices or stitched histories"
+          ? "Research histories and SIM proxies are labeled individually; source definitions and splice dates are in Data Sources."
           : "Cumulative change from the horizon boundary; adjusted close where available",
     );
     charts.trend = timeChart("#trend-chart", seriesList, pointLists, {
@@ -839,6 +835,13 @@ async function main() {
     });
     card.querySelector(".chart-subhead").innerHTML =
       `<span class="series-daily ${move.value > 0 ? "positive" : move.value < 0 ? "negative" : ""}">${signed(move.value)}${move.suffix} <small>${move.label}</small></span><span>${move.date} · Updated ${escapeHtml(updated)}</span><span class="series-window">${horizonLabel(horizonValue)} · ${view.label}${view.logarithmic ? " · log scale" : ""}</span>`;
+    if (series.splice || series.historyStatus === "archived")
+      card
+        .querySelector(".chart-subhead")
+        .insertAdjacentHTML(
+          "beforeend",
+          `<a class="series-window" href="./sources.html#source-${encodeURIComponent(series.id)}">${series.splice ? `SIM proxy → ${escapeHtml(series.splice.securityId)} · join ${series.splice.anchorDate}` : `Historical archive · ends ${move.date}`}</a>`,
+        );
     charts[host.id] = lazyChart(host, () =>
       timeChart(host, [series], [view.points], {
         ...view,
