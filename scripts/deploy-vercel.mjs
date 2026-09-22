@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 
 // Use only tracked application inputs. Never upload .env, .vercel, or other repos.
 const paths = execFileSync("git", ["ls-files", "-z"], { encoding: "utf8" })
@@ -31,7 +32,7 @@ if (process.argv.includes("--dry-run")) {
   } = process.env;
   if (!token || !teamId || !project)
     throw new Error("Missing encrypted deployment configuration");
-  const request = async (path, body) => {
+  const request = async (path, body, headers = {}) => {
     const response = await fetch(
       `https://api.vercel.com${path}?teamId=${encodeURIComponent(teamId)}`,
       {
@@ -39,20 +40,46 @@ if (process.argv.includes("--dry-run")) {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+          ...headers,
         },
-        ...(body ? { body: JSON.stringify(body) } : {}),
+        ...(body
+          ? { body: Buffer.isBuffer(body) ? body : JSON.stringify(body) }
+          : {}),
         signal: AbortSignal.timeout(120000),
       },
     );
-    if (!response.ok)
-      throw new Error(`Vercel ${path}: HTTP ${response.status}`);
-    return response.json();
+    if (!response.ok) {
+      const failure = await response.json().catch(() => ({}));
+      const detail = String(
+        failure.error?.message || failure.error?.code || "",
+      ).replaceAll(token, "[redacted]");
+      throw new Error(`Vercel ${path}: HTTP ${response.status} ${detail}`);
+    }
+    const result = await response.text();
+    return result ? JSON.parse(result) : null;
   };
+  // Content-addressed uploads keep the deployment manifest below the 10 MB limit.
+  const manifest = [];
+  for (let offset = 0; offset < files.length; offset += 4) {
+    const uploaded = await Promise.all(
+      files.slice(offset, offset + 4).map(async ({ file, data }) => {
+        const content = Buffer.from(data);
+        const sha = createHash("sha1").update(content).digest("hex");
+        await request("/v2/files", content, {
+          "Content-Type": "application/octet-stream",
+          "Content-Length": String(content.length),
+          "x-vercel-digest": sha,
+        });
+        return { file, sha, size: content.length };
+      }),
+    );
+    manifest.push(...uploaded);
+  }
   const deployment = await request("/v13/deployments", {
     name: "macrotrace",
     project,
     target: "production",
-    files,
+    files: manifest,
     projectSettings: {
       framework: "vite",
       installCommand: "npm ci",
