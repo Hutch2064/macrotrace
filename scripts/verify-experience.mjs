@@ -2,11 +2,24 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { tickerReadings } from "../src/ticker.js";
 import { reportTitles } from "../src/report-readings.js";
+import { logVolatility, maxDrawdown } from "../src/analytics.js";
 
 const snapshot = JSON.parse(
   await readFile("public/data/snapshot.json", "utf8"),
 );
 const readings = tickerReadings(snapshot);
+for (const series of snapshot.series.filter(
+  ({ source }) => source === "Yahoo Finance",
+)) {
+  assert.ok(
+    Number.isFinite(logVolatility(series, "1y")),
+    `${series.id}: volatility retains prior-trading-day boundaries`,
+  );
+  assert.ok(
+    Number.isFinite(maxDrawdown(series, "1y")),
+    `${series.id}: drawdown retains prior-trading-day boundaries`,
+  );
+}
 assert.equal(
   readings.length,
   snapshot.series.length,

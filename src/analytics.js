@@ -316,6 +316,8 @@ function hasWindowCoverage(window) {
   return (
     !window.cutoff ||
     !window.observations.length ||
+    (window.anchor &&
+      dateValue(window.anchor[0]) <= dateValue(window.cutoff)) ||
     dateValue(window.observations[0][0]) <= dateValue(window.cutoff)
   );
 }
