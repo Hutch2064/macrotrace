@@ -1,10 +1,22 @@
 # MacroTrace
 
-MacroTrace is a public economic report, interactive dashboard, and categorized source catalog built by Aidan Hutchison. It connects 145 macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series with 39 public long-history research indexes and 33 daily Yahoo market benchmarks (18 ETFs and 15 country/region indexes). A unified search adds FRED series or Yahoo Finance instruments immediately, while 20 presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, global-market, century-asset-class, and size/style views. Annual World Bank inflation rates remain separate from monthly CPI indexes; native frequencies are never presented as live observations.
+MacroTrace is a public economic report, interactive dashboard, and categorized source catalog built by Aidan Hutchison. It connects 148 macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series with 39 public long-history research indexes and 33 daily Yahoo market benchmarks (18 ETFs and 15 country/region indexes). A unified search adds FRED series or Yahoo Finance instruments immediately, while 21 presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, global-market, century-asset-class, and size/style views. Annual World Bank inflation rates remain separate from monthly CPI indexes; native frequencies are never presented as live observations.
 
-The dashboard has two explicit analytical modes. Macro mode uses standardized economic signals, observation-to-observation momentum, growth/level cycle percentiles, observation age, frequency-aware correlation, a month-over-month heat map, and category breadth. Markets mode uses indexed return paths, horizon returns, return-momentum percentiles, drawdown, annualized log-return volatility, frequency-aware correlation, a return heat map, and return-versus-risk. Log scale is available only where it is mathematically valid. Time-series panels use uPlot with crosshairs, a below-chart value rail, clickable legends, drag zoom, keyboard date inspection, and full-screen expansion. Native-unit small multiples accompany the eight comparison panels. The responsive grid expands to five square cards across wide displays.
+The dashboard has two explicit analytical modes. Macro mode uses percentile-ranked economic signals, observation-to-observation momentum, growth/level cycle percentiles, observation age, frequency-aware correlation, a month-over-month heat map, and category breadth. Markets mode uses cumulative return paths, horizon returns, return-momentum percentiles, drawdown, annualized log-return volatility, frequency-aware correlation, a return heat map, and return-versus-risk. Log scale is available only where it is mathematically valid. Time-series panels use uPlot with crosshairs, a below-chart value rail, clickable legends, drag zoom, keyboard date inspection, and full-screen expansion. Cumulative-change small multiples accompany twelve comparison and diagnostic panels. The responsive grid expands to five square cards across wide displays.
 
 ## Live sites
+
+### September 2026 interaction update
+
+The catalog now contains 220 series and 21 presets, including household debt service, credit-card delinquency, and residential mortgage delinquency from the Federal Reserve via FRED. These are quarterly releases—not daily measurements. The Data Sources catalog lists the 187 non-Yahoo series; securities-provider coverage is summarized separately without a ticker inventory.
+
+Individual cards show the latest native-period change and the observation date alongside the snapshot check time. Daily market changes are close-to-close, not intraday quotes. Cards plot cumulative percentage change from the horizon boundary; rates use basis points and signed indexes use points. Expanded cards offer twelve horizon labels; “previous 12 months” and “1 year” intentionally use the same calendar window. Log mode plots the positive wealth index but converts axes and inspection readouts back to cumulative percent changes. The banner has its own persisted horizon, and each item opens its corresponding chart.
+
+Four additional panels show rolling annual changes, rolling annualized variability, an empirical change distribution for the first selected series, and cross-series breadth/acceleration. Macro paths use full-history percentile ranks to compare incompatible units without clipping outliers. Monthly/quarterly/annual data are never interpolated into daily returns. Volatility uses adjacent native log returns for positive levels (semantic changes for rates/signed indexes), sample standard deviation, and the native annualization factor. Breadth is the share of measured series with positive complete-period changes; acceleration is the share whose change exceeds its preceding complete-period change. Neither means “economically good.” Distribution bins retain the full range, including genuine extremes.
+
+Research references: [FRED aggregation and observation contract](https://fred.stlouisfed.org/docs/api/fred/series_observations.html), [Federal Reserve debt-service ratios](https://fred.stlouisfed.org/series/TDSP), [credit-card delinquency](https://fred.stlouisfed.org/series/DRCCLACBS), [mortgage delinquency](https://fred.stlouisfed.org/series/DRSFRMACBS), and [research on realized volatility and correlation](https://www.nber.org/papers/w7933). The older OECD normalized CLI mirror was reviewed but not bundled because its published observations stop in 2024.
+
+Window and banner results are cached by immutable snapshot identity. Offscreen plots are prepared within 600 pixels of the viewport, while cached mode views preserve charts. Touch, pointer, and keyboard inspection use the full-resolution data. Daily publication remains automatic; an open page checks the version manifest hourly and on return to the tab.
 
 - Vercel: https://macrotrace.vercel.app
 - GitHub Pages: https://hutch2064.github.io/macrotrace/
@@ -80,15 +92,20 @@ The committed snapshot pins every report number to reproducible data. Calendar c
 
 ### Source catalog and refresh support
 
-| Path                                                | Purpose                                                                                     |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| `sources.html`, `src/sources.js`, `src/sources.css` | Searchable categorized references, per-series provenance, observed values, and CSV exports. |
-| `src/ticker.js`                                     | Unit-aware readings for every bundled series in the daily tape.                             |
-| `src/report-readings.js`                            | Pure deterministic report-title calculations.                                               |
-| `scripts/market-catalog.mjs`                        | Explicit Yahoo benchmark identifiers, instrument types, names, and units.                   |
-| `public/data/version.json`                          | Small snapshot manifest for open-page background refresh.                                   |
-| `scripts/verify-experience.mjs`                     | Complete tape coverage, changing report findings, and daily workflow regression checks.     |
-| `scripts/verify-sources.mjs`                        | Source completeness and catalog wiring checks.                                              |
+| Path                                                                | Purpose                                                                                     |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `sources.html`, `src/sources.js`, `src/sources.css`                 | Searchable categorized references, per-series provenance, observed values, and CSV exports. |
+| `src/ticker.js`                                                     | Unit-aware readings for every bundled series in the daily tape.                             |
+| `src/horizons.js`, `src/series-view.js`                             | Shared horizon contract, native-period headlines, and cumulative/log chart transformations. |
+| `src/select.js`, `src/disclosure.js`                                | Accessible shared selectors and animated source disclosures with reduced-motion support.    |
+| `src/lazy-chart.js`                                                 | Viewport-aware chart construction and cleanup.                                              |
+| `src/diagnostics.js`                                                | Pure rolling, distribution, and breadth diagnostics.                                        |
+| `scripts/verify-interactions.mjs`, `scripts/verify-diagnostics.mjs` | Exhaustive horizon parity and diagnostic edge-case checks.                                  |
+| `src/report-readings.js`                                            | Pure deterministic report-title calculations.                                               |
+| `scripts/market-catalog.mjs`                                        | Explicit Yahoo benchmark identifiers, instrument types, names, and units.                   |
+| `public/data/version.json`                                          | Small snapshot manifest for open-page background refresh.                                   |
+| `scripts/verify-experience.mjs`                                     | Complete tape coverage, changing report findings, and daily workflow regression checks.     |
+| `scripts/verify-sources.mjs`                                        | Source completeness and catalog wiring checks.                                              |
 
 For a bounded update of only the bundled Yahoo benchmarks, run `npm run data:refresh -- --markets-only`. The scheduled workflow refreshes all providers.
 

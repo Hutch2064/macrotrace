@@ -1,9 +1,10 @@
 import {
   Chart,
-  changePercentile,
+  changePercentile as computeChangePercentile,
   changeSuffix,
   changeType,
   chartOptions,
+  colorReadings,
   format,
   loadSnapshot,
   maxDrawdown,
@@ -14,12 +15,21 @@ import {
   seriesKind,
   signed,
   sliceHorizon,
-  standardize,
   transform,
   volatility,
 } from "./common.js";
 import { presetById, presets } from "./presets.js";
 import { timeChart } from "./time-chart.js";
+import { enhanceSelect as sharedSelect } from "./select.js";
+import { fillHorizons, horizons, horizonLabel } from "./horizons.js";
+import { cumulativeView, latestChange } from "./series-view.js";
+import { lazyChart } from "./lazy-chart.js";
+import {
+  rollingAnnualReturn,
+  rollingVolatilityPath,
+  changeDistribution,
+  breadthAcceleration,
+} from "./diagnostics.js";
 import { requestSeries } from "./series-cache.js";
 import {
   median,
@@ -58,6 +68,20 @@ const escapeHtml = (value) =>
       ],
   );
 const signalCache = new WeakMap();
+const nativeSignalCache = new WeakMap();
+const rankCache = new WeakMap();
+const cycleCache = new WeakMap();
+const marketPercentileCache = new WeakMap();
+function changePercentile(series) {
+  if (!marketPercentileCache.has(series))
+    marketPercentileCache.set(series, computeChangePercentile(series));
+  return marketPercentileCache.get(series);
+}
+function nativeSignal(series) {
+  if (!nativeSignalCache.has(series))
+    nativeSignalCache.set(series, rollingChanges(series));
+  return nativeSignalCache.get(series);
+}
 function macroSignal(series) {
   if (!signalCache.has(series))
     signalCache.set(
@@ -69,11 +93,14 @@ function macroSignal(series) {
   return signalCache.get(series);
 }
 function cyclePercentile(series) {
+  if (cycleCache.has(series)) return cycleCache.get(series);
   const points = macroSignal(series);
-  return percentileRank(
+  const result = percentileRank(
     points.at(-1)?.[1],
     points.map(([, value]) => value),
   );
+  cycleCache.set(series, result);
+  return result;
 }
 const mean = (values) =>
   values.reduce((sum, value) => sum + value, 0) / values.length;
@@ -89,7 +116,7 @@ const matchesSearch = (series, query) => {
 };
 
 async function main() {
-  const snapshot = await loadSnapshot();
+  let snapshot = await loadSnapshot();
   mountChrome(snapshot, "dashboard");
   const state = {
     series: snapshot.series,
@@ -102,9 +129,22 @@ async function main() {
   let charts = {};
   const modeViews = new Map();
   let analysisView = document.querySelector("#analysis-view");
+  for (const [id, title] of [
+    ["annual", "Rolling annual change"],
+    ["variability", "Rolling variability"],
+    ["distribution", "Change distribution"],
+    ["breadth", "Breadth through time"],
+  ]) {
+    const card = document.createElement("article");
+    card.className = "chart-card";
+    card.dataset.chartCard = "";
+    card.innerHTML = `<div class="chart-heading"><h2 id="${id}-title">${title}</h2><button class="chart-expand" type="button" aria-label="Expand ${title}">${expandIcon}</button></div><div class="chart-subhead" id="${id}-note"></div><div class="chart-wrap" id="${id}-chart"></div>`;
+    analysisView.querySelector(".dashboard-grid").append(card);
+  }
   const viewTemplate = analysisView.cloneNode(true);
   const loaded = new Map(state.series.map((series) => [series.id, series]));
   const horizon = document.querySelector("#horizon-filter");
+  fillHorizons(horizon, state.horizon);
   const search = document.querySelector("#series-search");
   const results = document.querySelector("#search-results");
   const status = document.querySelector("#ticker-status");
@@ -114,6 +154,25 @@ async function main() {
   let searchTimer;
   let searchRequest;
   const queryCache = new Map();
+  let pendingSnapshot;
+  document.addEventListener("snapshot-updated", (event) => {
+    pendingSnapshot = event.detail;
+    if (!document.querySelector(".chart-expanded")) applyFreshSnapshot();
+  });
+  function applyFreshSnapshot() {
+    if (!pendingSnapshot) return;
+    snapshot = pendingSnapshot;
+    pendingSnapshot = null;
+    for (const view of modeViews.values())
+      if (view.charts !== charts)
+        Object.values(view.charts).forEach((chart) => chart.destroy());
+    modeViews.clear();
+    for (const series of snapshot.series) loaded.set(series.id, series);
+    state.series = [...loaded.values()];
+    document.querySelector("#freshness").textContent =
+      `Daily snapshot · ${new Date(snapshot.generatedAt).toLocaleString()}`;
+    render();
+  }
 
   document.querySelector("#freshness").textContent =
     `Daily snapshot · ${new Date(snapshot.generatedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}`;
@@ -144,93 +203,11 @@ async function main() {
     );
 
   function enhanceSelect(select) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "custom-select";
-    const trigger = document.createElement("button");
-    trigger.type = "button";
-    trigger.className = "select-trigger";
-    trigger.setAttribute("aria-haspopup", "listbox");
-    const menu = document.createElement("div");
-    menu.className = "select-menu";
-    menu.setAttribute("role", "listbox");
-    menu.hidden = true;
-    const renderOptions = () => {
-      trigger.innerHTML = `<span>${escapeHtml(select.selectedOptions[0]?.textContent ?? "Select")}</span><i aria-hidden="true"></i>`;
-      menu.innerHTML = [...select.options]
-        .filter((option) => !option.disabled)
-        .map(
-          (option) =>
-            `<button type="button" role="option" data-value="${escapeHtml(option.value)}" aria-selected="${option.selected}">${escapeHtml(option.textContent)}</button>`,
-        )
-        .join("");
-    };
-    trigger.setAttribute("aria-expanded", "false");
-    trigger.setAttribute(
-      "aria-label",
-      select.id === "horizon-filter" ? "Horizon" : "Explore a collection",
-    );
-    const close = () => {
-      menu.hidden = true;
-      trigger.setAttribute("aria-expanded", "false");
-      wrapper.classList.remove("open");
-    };
-    const open = () => {
-      menu.hidden = false;
-      trigger.setAttribute("aria-expanded", "true");
-      wrapper.classList.add("open");
-      menu.querySelector('[aria-selected="true"]')?.focus();
-    };
-    trigger.addEventListener("click", () => (menu.hidden ? open() : close()));
-    trigger.addEventListener("keydown", (event) => {
-      if (["ArrowDown", "ArrowUp", "Enter", " "].includes(event.key)) {
-        event.preventDefault();
-        open();
-      }
-    });
-    menu.addEventListener("click", (event) => {
-      const option = event.target.closest("[data-value]");
-      if (!option) return;
-      select.value = option.dataset.value;
-      select.dispatchEvent(new Event("change"));
-      renderOptions();
-      close();
-      trigger.focus();
-    });
-    if (select.id === "view-filter")
-      menu.addEventListener("pointerover", (event) => {
-        const preset = presetById(
-          event.target.closest("[data-value]")?.dataset.value,
-        );
-        for (const id of preset?.symbols ?? [])
-          if (!loaded.has(id))
-            void fetchSeries({ id, kind: "market" }).catch(() => {});
-      });
-    menu.addEventListener("keydown", (event) => {
-      const options = [...menu.querySelectorAll("[role=option]")];
-      const index = options.indexOf(document.activeElement);
-      if (event.key === "Escape") {
-        close();
-        trigger.focus();
-      }
-      if (["ArrowDown", "ArrowUp"].includes(event.key)) {
-        event.preventDefault();
-        options[
-          (index + (event.key === "ArrowDown" ? 1 : -1) + options.length) %
-            options.length
-        ]?.focus();
-      }
-      if (["Home", "End"].includes(event.key)) {
-        event.preventDefault();
-        options[event.key === "Home" ? 0 : options.length - 1]?.focus();
-      }
-    });
-    select.hidden = true;
-    select.after(wrapper);
-    wrapper.append(trigger, menu);
-    select._renderCustom = renderOptions;
-    renderOptions();
-    document.addEventListener("click", (event) => {
-      if (!wrapper.contains(event.target)) close();
+    return sharedSelect(select, (id) => {
+      if (select.id !== "view-filter") return;
+      for (const symbol of presetById(id)?.symbols ?? [])
+        if (!loaded.has(symbol))
+          void fetchSeries({ id: symbol, kind: "market" }).catch(() => {});
     });
   }
   enhanceSelect(horizon);
@@ -260,12 +237,23 @@ async function main() {
     if (expanded) {
       card.setAttribute("aria-modal", "true");
       card.setAttribute("aria-label", card.querySelector("h2").textContent);
-      const chart = Object.values(charts).find(
+      let chart = Object.values(charts).find(
         (item) =>
           (item.host || item.canvas)?.closest("[data-chart-card]") === card,
       );
       const toolbar = document.createElement("div");
       toolbar.className = "chart-explorer-tools";
+      if (card.dataset.seriesId) {
+        const picker = document.createElement("select");
+        picker.setAttribute("aria-label", "Chart horizon");
+        fillHorizons(picker, state.horizon);
+        toolbar.append(picker);
+        picker.addEventListener("change", () => {
+          drawIndividual(loaded.get(card.dataset.seriesId), card, picker.value);
+          chart = charts[card.querySelector(".chart-wrap").id];
+        });
+        enhanceSelect(picker);
+      }
       const reset = document.createElement("button");
       reset.className = "secondary-button";
       reset.textContent = "Reset chart";
@@ -280,11 +268,13 @@ async function main() {
       });
       const help = document.createElement("span");
       help.setAttribute("role", "status");
-      help.textContent = chart?.host
-        ? "Drag to zoom · arrow keys inspect dates · click a legend to hide a series"
-        : chart
-          ? "Hover to inspect values · click a legend to isolate datasets"
-          : "Select any cell to inspect its exact change and period";
+      help.textContent =
+        chart?.hint ||
+        (chart?.host
+          ? "Drag to zoom · arrow keys inspect dates · click a legend to hide a series"
+          : chart
+            ? "Hover to inspect values · click a legend to isolate datasets"
+            : "Select any cell to inspect its exact change and period");
       if (chart) toolbar.append(reset);
       if (chart?.data) {
         const legend = document.createElement("button");
@@ -304,6 +294,9 @@ async function main() {
       card.removeAttribute("aria-modal");
       card.removeAttribute("aria-label");
       card.querySelector(".chart-explorer-tools")?.remove();
+      if (card.dataset.seriesId)
+        drawIndividual(loaded.get(card.dataset.seriesId), card, state.horizon);
+      applyFreshSnapshot();
     }
     button.innerHTML = expanded ? closeIcon : expandIcon;
     button.setAttribute(
@@ -629,7 +622,8 @@ async function main() {
     };
   }
   function setText(id, text) {
-    document.querySelector(`#${id}`).textContent = text;
+    const element = document.querySelector(`#${id}`);
+    if (element) element.textContent = text;
   }
   function render() {
     const renderStarted = performance.now();
@@ -645,6 +639,8 @@ async function main() {
     renderHeatmap(seriesList);
     renderProfile(seriesList);
     renderIndividual(seriesList);
+    colorReadings(analysisView);
+    renderDiagnostics(seriesList);
     if (import.meta.env.DEV)
       document.body.dataset.renderMs = (
         performance.now() - renderStarted
@@ -687,7 +683,11 @@ async function main() {
     renderPresetButtons();
   }
   function annualizedView() {
-    return state.horizon === "max" || Number(state.horizon) >= 365;
+    return (
+      state.horizon === "max" ||
+      state.horizon === "12m" ||
+      Number(state.horizon) >= 365
+    );
   }
   function renderMetrics(seriesList) {
     const returns = seriesList
@@ -777,37 +777,32 @@ async function main() {
     destroyChart("trend");
     const macro = state.mode === "macro";
     const pointLists = seriesList.map((series) => {
-      const visible = sliceHorizon(series.observations, state.horizon);
       return macro
-        ? standardize(
-            sliceHorizon(macroSignal(series), state.horizon),
-            macroSignal(series),
-          )
-        : transform(
-            Number.isFinite(semanticChange(series, state.horizon))
-              ? sliceWindow(series, state.horizon).points
-              : visible,
-            "indexed",
-          );
+        ? sliceHorizon(rankedPath(macroSignal(series)), state.horizon)
+        : Number.isFinite(semanticChange(series, state.horizon))
+          ? transform(sliceWindow(series, state.horizon).points, "indexed")
+          : [];
     });
     const research = seriesList.some(
       ({ historyType }) => historyType === "observed_public",
     );
-    setText("trend-kicker", macro ? "01 · Cycle" : "01 · Performance");
     setText(
       "trend-title",
-      macro ? "Economic cycle comparison" : "Indexed return path",
+      macro ? "Economic cycle percentiles" : "Cumulative return path",
     );
     setText(
       "trend-note",
       macro
-        ? "Growth rates for quantities; levels for rates/signed indexes. Each standardized against its own history."
+        ? "Growth rates for quantities; levels for rates/signed indexes. Full-history percentile ranks keep extremes visible on a common 0–100 scale."
         : research
-          ? "Public research returns rebased to 100; not ETF prices or stitched histories"
-          : "First visible adjusted close = 100",
+          ? "Cumulative public research returns; not ETF prices or stitched histories"
+          : "Cumulative change from the horizon boundary; adjusted close where available",
     );
     charts.trend = timeChart("#trend-chart", seriesList, pointLists, {
       logarithmic: !macro && state.logarithmic,
+      suffix: "%",
+      valueTransform: macro ? (value) => value : (value) => value - 100,
+      valueLabel: macro ? "Historical percentile" : "Cumulative return",
     });
   }
   function renderIndividual(seriesList) {
@@ -821,15 +816,193 @@ async function main() {
     container.innerHTML = seriesList
       .map(
         (series, index) =>
-          `<article class="chart-card" data-chart-card><div class="chart-heading"><div><span class="chart-kicker">${escapeHtml(series.category)} · ${escapeHtml(series.frequency)}</span><h2>${escapeHtml(series.name)}</h2></div><button class="chart-expand" type="button" aria-label="Expand ${escapeHtml(series.name)}">${expandIcon}</button></div><div class="chart-subhead">${format(series.observations.at(-1)[1])} ${escapeHtml(series.unit)} · observation ${series.observations.at(-1)[0]}</div><div class="chart-wrap" id="individual-${index}"></div></article>`,
+          `<article class="chart-card" data-chart-card data-series-id="${escapeHtml(series.id)}"><div class="chart-heading"><div><h2>${escapeHtml(series.name)}</h2></div><button class="chart-expand" type="button" aria-label="Expand ${escapeHtml(series.name)}">${expandIcon}</button></div><div class="chart-subhead"></div><div class="chart-wrap" id="individual-${index}"></div></article>`,
       )
       .join("");
     seriesList.forEach((series, index) => {
-      charts[`individual-${index}`] = timeChart(
-        `#individual-${index}`,
-        [series],
-        [sliceHorizon(series.observations, state.horizon)],
-        { logarithmic: state.logarithmic },
+      drawIndividual(series, container.children[index], state.horizon);
+    });
+  }
+  function drawIndividual(series, card, horizonValue) {
+    const host = card.querySelector(".chart-wrap");
+    destroyChart(host.id);
+    const move = latestChange(series);
+    const view = cumulativeView(series, horizonValue, state.logarithmic);
+    const updated = new Date(
+      series.checkedAt || snapshot.generatedAt,
+    ).toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZoneName: "short",
+    });
+    card.querySelector(".chart-subhead").innerHTML =
+      `<span class="series-daily ${move.value > 0 ? "positive" : move.value < 0 ? "negative" : ""}">${signed(move.value)}${move.suffix} <small>${move.label}</small></span><span>${move.date} · Updated ${escapeHtml(updated)}</span><span class="series-window">${horizonLabel(horizonValue)} · ${view.label}${view.logarithmic ? " · log scale" : ""}</span>`;
+    charts[host.id] = lazyChart(host, () =>
+      timeChart(host, [series], [view.points], {
+        ...view,
+        valueLabel: view.label,
+      }),
+    );
+  }
+  const diagnosticCache = new WeakMap();
+  function diagnosticsFor(series) {
+    if (!diagnosticCache.has(series))
+      diagnosticCache.set(series, {
+        annual: rollingAnnualReturn(series).rows.map(({ date, value }) => [
+          date,
+          value,
+        ]),
+        variability: rollingVolatilityPath(series).rows.map(
+          ({ date, value }) => [date, value],
+        ),
+      });
+    return diagnosticCache.get(series);
+  }
+  function rankedPath(points) {
+    if (rankCache.has(points)) return rankCache.get(points);
+    const sorted = points.map(([, value]) => value).sort((a, b) => a - b);
+    const bound = (value, upper) => {
+      let low = 0,
+        high = sorted.length;
+      while (low < high) {
+        const mid = (low + high) >>> 1;
+        if (sorted[mid] < value || (upper && sorted[mid] === value))
+          low = mid + 1;
+        else high = mid;
+      }
+      return low;
+    };
+    const ranked = points.map(([date, value]) => [
+      date,
+      ((bound(value, false) + bound(value, true)) / (2 * sorted.length)) * 100,
+    ]);
+    rankCache.set(points, ranked);
+    return ranked;
+  }
+  function renderDiagnostics(seriesList) {
+    const macro = state.mode === "macro",
+      horizonValue = state.horizon;
+    for (const id of ["annual", "variability", "distribution", "breadth"])
+      destroyChart(id);
+    setText(
+      "annual-title",
+      macro ? "Annual change percentile" : "Rolling annual return",
+    );
+    setText(
+      "annual-note",
+      macro
+        ? "Annual changes ranked against each series’ full history; 50 is the median. No clipping."
+        : "Trailing 12-month total change at each date; the selected horizon sets the display window.",
+    );
+    setText(
+      "variability-title",
+      macro ? "Variability percentile" : "Rolling annualized volatility",
+    );
+    setText(
+      "variability-note",
+      macro
+        ? "Trailing-year variability ranked within each series’ history; compatible ranks, not mixed units."
+        : "Trailing-year log-return sample deviation × √periods per year; full-year coverage required.",
+    );
+    for (const id of ["annual", "variability"]) {
+      const host = document.querySelector(`#${id}-chart`);
+      charts[id] = lazyChart(host, () => {
+        const points = seriesList.map((series) => {
+          const path = diagnosticsFor(series)[id];
+          return sliceHorizon(macro ? rankedPath(path) : path, horizonValue);
+        });
+        return timeChart(host, seriesList, points, {
+          suffix: "%",
+          valueLabel: macro
+            ? "Historical percentile"
+            : id === "annual"
+              ? "Annual return"
+              : "Annualized volatility",
+        });
+      });
+    }
+    const first = seriesList[0];
+    setText("distribution-title", "Period-change distribution");
+    setText(
+      "distribution-note",
+      first
+        ? `${first.name} · Native ${first.frequency} changes; full range, no outliers discarded.`
+        : "Select a series to inspect its distribution.",
+    );
+    const distributionHost = document.querySelector("#distribution-chart");
+    charts.distribution = lazyChart(distributionHost, () => {
+      const result = first
+        ? changeDistribution(first, { horizon: horizonValue })
+        : { rows: [], n: 0 };
+      const canvas = document.createElement("canvas");
+      distributionHost.replaceChildren(canvas);
+      const chart = new Chart(canvas, {
+        type: "bar",
+        data: {
+          labels: result.rows.map(
+            (row) =>
+              `${format(row.lower)} to ${format(row.upper)}${changeSuffix(first)}`,
+          ),
+          datasets: [
+            {
+              label: `Share of ${result.n} changes (%)`,
+              data: result.rows.map((row) => row.share),
+              backgroundColor: result.rows.map((row) =>
+                row.midpoint < 0 ? "#f1978d" : "#7dd3a7",
+              ),
+              borderRadius: 3,
+            },
+          ],
+        },
+        options: chartOptions({ percent: true, legend: false }),
+      });
+      return {
+        resize: () => chart.resize(),
+        reset: () => chart.reset(),
+        destroy: () => chart.destroy(),
+      };
+    });
+    charts.distribution.hint =
+      "Hover or tap a bin to inspect its frequency and change interval";
+    setText(
+      "breadth-note",
+      "Share rising and accelerating in each complete common calendar period. Direction is not economic desirability; membership may vary.",
+    );
+    const breadthHost = document.querySelector("#breadth-chart");
+    charts.breadth = lazyChart(breadthHost, () => {
+      const result = breadthAcceleration(seriesList, { horizon: horizonValue });
+      const names = [
+        {
+          name: "Rising",
+          frequency:
+            result.period === "year"
+              ? "annual"
+              : result.period === "quarter"
+                ? "quarterly"
+                : "monthly",
+        },
+        {
+          name: "Accelerating",
+          frequency:
+            result.period === "year"
+              ? "annual"
+              : result.period === "quarter"
+                ? "quarterly"
+                : "monthly",
+        },
+      ];
+      return timeChart(
+        breadthHost,
+        names,
+        [
+          result.rows.map((row) => [row.date, row.positiveSharePct]),
+          result.rows
+            .filter((row) => Number.isFinite(row.accelerationPositiveSharePct))
+            .map((row) => [row.date, row.accelerationPositiveSharePct]),
+        ],
+        { suffix: "%", valueLabel: "Share of measured series" },
       );
     });
   }
@@ -946,7 +1119,6 @@ async function main() {
   function renderFourth(seriesList) {
     destroyChart("drawdown");
     if (state.mode === "markets") {
-      setText("metric-four-kicker", "04 · Drawdown");
       setText("metric-four-title", "Underwater history");
       setText(
         "metric-four-note",
@@ -960,22 +1132,22 @@ async function main() {
       );
       return;
     }
-    setText("metric-four-kicker", "04 · Momentum");
     setText("metric-four-title", "Observation momentum");
     setText(
       "metric-four-note",
-      "Native observation-to-observation changes standardized within each series",
+      "Native period changes ranked within each series’ full history; 50 is the median. Extremes remain visible without distorting the scale.",
     );
     const pointLists = seriesList.map((series) => {
-      const visible = rollingChanges(series, state.horizon);
-      return standardize(visible, rollingChanges(series));
+      return sliceHorizon(rankedPath(nativeSignal(series)), state.horizon);
     });
-    charts.drawdown = timeChart("#drawdown-chart", seriesList, pointLists);
+    charts.drawdown = timeChart("#drawdown-chart", seriesList, pointLists, {
+      suffix: "%",
+      valueLabel: "Momentum percentile",
+    });
   }
   function renderFifth(seriesList) {
     destroyChart("volatility");
     if (state.mode === "markets") {
-      setText("metric-five-kicker", "05 · Risk");
       setText("metric-five-title", "Annualized volatility");
       setText(
         "metric-five-note",
@@ -1007,7 +1179,6 @@ async function main() {
       );
       return;
     }
-    setText("metric-five-kicker", "05 · Freshness");
     setText("metric-five-title", "Observation age");
     setText(
       "metric-five-note",
@@ -1241,7 +1412,20 @@ async function main() {
       options: horizontalBarOptions({ min: 0, max: 100, percent: true }),
     });
   }
-  await applyPreset("macro");
+  const params = new URLSearchParams(location.search);
+  const requested = loaded.get(params.get("series"));
+  if (requested) {
+    state.mode = seriesKind(requested) === "market" ? "markets" : "macro";
+    state.selected = [requested.id];
+    state.activePreset = null;
+    const requestedHorizon = params.get("horizon");
+    if (horizons.some(([id]) => id === requestedHorizon))
+      state.horizon = requestedHorizon;
+    horizon.value = state.horizon;
+    horizon._renderCustom();
+    render();
+    document.querySelector("#series-charts .chart-expand")?.click();
+  } else await applyPreset("macro");
   const warmMarkets = async () => {
     const symbols = [...(presetById("markets")?.symbols ?? [])];
     await Promise.all(
@@ -1256,6 +1440,22 @@ async function main() {
         }
       }),
     );
+    // Prime immutable statistics one series per idle turn, never blocking
+    // initial paint or constructing hidden mode charts.
+    const queue = (presetById("markets")?.symbols ?? [])
+      .map((id) => loaded.get(id))
+      .filter(Boolean);
+    const warmNext = () => {
+      const series = queue.shift();
+      if (!series) return;
+      changePercentile(series);
+      periodChanges(series, "month");
+      if (queue.length) {
+        if ("requestIdleCallback" in window) requestIdleCallback(warmNext);
+        else setTimeout(warmNext, 16);
+      }
+    };
+    warmNext();
   };
   if ("requestIdleCallback" in window)
     window.requestIdleCallback(warmMarkets, { timeout: 2000 });

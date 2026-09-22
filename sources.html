@@ -61,30 +61,16 @@
         tabindex="-1"
       >
         <div>
-          <div class="section-index">On-demand provider</div>
-          <h2 id="yahoo-heading">Yahoo Finance market histories</h2>
+          <div class="section-index">Provider-supplied securities data</div>
+          <h2 id="yahoo-heading">Yahoo-supplied securities data</h2>
         </div>
         <div class="sources-provider-copy">
           <p>
-            Yahoo Finance powers a compact set of bundled benchmark histories
-            and user-selected symbols from the Dashboard; this is not an
-            exhaustive ticker catalog. MacroTrace uses adjusted close when
-            available and close otherwise, keeps provider daily observations in
-            a bounded six-hour browser cache, and shows the observation date
-            beside every result.
+            MacroTrace can display Yahoo-supplied securities data for
+            user-selected symbols from the Dashboard; this is not an exhaustive
+            ticker catalog. Adjusted close is used when available, close
+            otherwise, and provider availability may vary.
           </p>
-          <p id="yahoo-cache-note" class="sources-note">
-            Cached Yahoo symbols will appear here when available in this
-            browser.
-          </p>
-          <div id="yahoo-bundled-list"></div>
-          <a
-            class="sources-inline-link"
-            href="https://finance.yahoo.com/"
-            target="_blank"
-            rel="noreferrer"
-            >Visit Yahoo Finance ↗</a
-          >
         </div>
       </section>
 
@@ -93,14 +79,14 @@
       </section>
 
       <section class="sources-methodology" id="methodology">
-        <details>
+        <details class="disclosure">
           <summary>
             <span>
               <span class="section-index">Methodology</span>
               <strong>How source rows become MacroTrace observations</strong>
             </span>
           </summary>
-          <div class="sources-methodology-grid">
+          <div class="sources-methodology-grid disclosure-panel">
             <p>
               <strong>One row, one observation.</strong> Every row is a
               <span class="formula"
@@ -126,12 +112,13 @@
             </p>
             <p>
               <strong>Cycles and ranks.</strong> Macro cycles use native
-              frequency levels or 12-month percentage growth, standardized as
-              <span class="formula"
-                >(value − historical mean) ÷ sample standard deviation</span
-              >. Percentiles use the same signal with midpoint ranks for ties;
-              momentum compares the latest change with its own history. Breadth
-              is the share of measurable selected series moving higher.
+              frequency levels or 12-month percentage growth. Cycle and momentum
+              paths use full-history midpoint percentile ranks for ties,
+              preserving extremes on a common 0–100 scale. The change momentum
+              score compares the latest change with its historical mean in
+              sample-standard-deviation units. Breadth is the share of measured
+              series moving higher; acceleration compares each change with its
+              preceding complete-period change, not with other units.
             </p>
             <p>
               <strong>Returns and risk.</strong> Drawdown is
@@ -144,6 +131,18 @@
                 >100 × ((last ÷ boundary)^(1 / elapsed years) − 1)</span
               >; the median averages the two middle values when the count is
               even.
+            </p>
+            <p>
+              <strong>Rolling diagnostics.</strong> Annual change paths use
+              trailing calendar years. Rolling volatility requires a full
+              calendar-year boundary and enough adjacent native changes; macro
+              variability is ranked within each source’s own history. Change
+              distributions use the first selected series, native-period
+              changes, and equal-width bins spanning every valid value—no
+              outliers are removed. Positive and negative colors indicate sign,
+              not economic desirability. Daily headlines are close-to-close;
+              monthly, quarterly, and annual cards retain their actual periods.
+              “Updated” is the data-check timestamp, not a trade timestamp.
             </p>
             <p>
               <strong>Calendar comparisons.</strong> Correlation uses Pearson’s

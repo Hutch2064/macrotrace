@@ -797,7 +797,7 @@ select:focus {
   border-radius: 16px;
   background: var(--sf-dropdown-bg);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-  animation: macrotrace-menu-enter 0.3s ease-out both;
+  animation: none;
   transform-origin: top center;
 }
 .select-menu button {
@@ -1700,4 +1700,114 @@ select.view-select option {
 }
 .chart-card.chart-expanded .heatmap-label {
   white-space: normal;
+}
+
+/* Shared inspection controls stay compact on desktop and usable by touch. */
+.tape-item,
+.tape-item:hover {
+  text-decoration: none;
+}
+.tape-item::after {
+  display: none;
+}
+.banner-horizon {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.66rem;
+  color: var(--muted);
+}
+.banner-horizon .custom-select {
+  min-width: 100px;
+}
+.banner-horizon .select-trigger {
+  min-height: 32px;
+  padding: 5px 8px;
+  font-size: 0.72rem;
+}
+.banner-horizon .select-menu {
+  min-width: 170px;
+}
+.chart-heading {
+  min-height: 42px;
+  flex-shrink: 0;
+  gap: 10px;
+}
+.chart-heading h2 {
+  line-height: 1.25;
+  margin: 3px 0 6px;
+}
+.chart-subhead {
+  line-height: 1.45;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.chart-card:not(.chart-expanded) .chart-heading h2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.chart-card:not(.chart-expanded):not([data-series-id]) .chart-subhead {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.chart-card:not(.chart-expanded) .chart-rail {
+  max-height: 58px;
+}
+[data-series-id] .chart-subhead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+  font-size: 0.64rem;
+}
+.series-daily {
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+.series-daily small {
+  font-size: 0.65rem;
+}
+.series-window {
+  flex-basis: 100%;
+  color: var(--muted);
+}
+.chart-explorer-tools .custom-select {
+  min-width: 150px;
+}
+.chart-rail b.positive,
+.metric-value.positive,
+.story-stat.positive {
+  color: var(--positive);
+}
+.chart-rail b.negative,
+.metric-value.negative,
+.story-stat.negative {
+  color: var(--negative);
+}
+.chart-rail button {
+  touch-action: manipulation;
+}
+.select-menu {
+  overflow-x: hidden;
+  max-height: min(320px, 50dvh);
+}
+@media (max-width: 700px) {
+  .banner-horizon {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .chart-explorer-tools {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chart-explorer-tools > [role="status"] {
+    flex-basis: 100%;
+    font-size: 0.65rem;
+  }
+  .chart-card.chart-expanded {
+    padding: 14px;
+  }
 }

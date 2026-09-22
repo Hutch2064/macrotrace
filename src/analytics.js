@@ -25,6 +25,7 @@ const OBSERVATION_CACHE = new WeakMap();
 const SERIES_OBSERVATION_CACHE = new WeakMap();
 const CHANGE_TYPE_CACHE = new WeakMap();
 const CALENDAR_CACHE = new WeakMap();
+const WINDOW_CACHE = new WeakMap();
 
 function asSource(input) {
   return Array.isArray(input) ? input : (input?.observations ?? []);
@@ -56,8 +57,8 @@ function cleanObservations(input) {
     const value = Number(point[1]);
     if (date && Number.isFinite(value)) byDate.set(date, [date, value]);
   }
-  const cleaned = [...byDate.values()].sort(
-    (a, b) => dateValue(a[0]) - dateValue(b[0]),
+  const cleaned = [...byDate.values()].sort((a, b) =>
+    a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0,
   );
   if (source && typeof source === "object")
     OBSERVATION_CACHE.set(source, cleaned);
@@ -169,6 +170,13 @@ function cutoffForLatest(latest, horizon) {
  */
 export function sliceWindow(input, horizon = "max") {
   const observations = cleanObservations(input);
+  let windows = WINDOW_CACHE.get(observations);
+  if (!windows) {
+    windows = new Map();
+    WINDOW_CACHE.set(observations, windows);
+  }
+  const key = String(horizon ?? "max");
+  if (windows.has(key)) return windows.get(key);
   if (!observations.length)
     return {
       observations: [],
@@ -179,9 +187,15 @@ export function sliceWindow(input, horizon = "max") {
     };
   const latest = observations.at(-1);
   const cutoff = cutoffForLatest(latest[0], horizon);
-  const startIndex = cutoff
-    ? observations.findIndex(([date]) => dateValue(date) >= cutoff.getTime())
-    : 0;
+  const cutoffText = cutoff?.toISOString().slice(0, 10);
+  let low = 0,
+    high = observations.length;
+  while (cutoff && low < high) {
+    const middle = (low + high) >>> 1;
+    if (observations[middle][0] < cutoffText) low = middle + 1;
+    else high = middle;
+  }
+  const startIndex = low === observations.length ? -1 : low;
   if (startIndex < 0)
     return {
       observations: [],
@@ -197,13 +211,15 @@ export function sliceWindow(input, horizon = "max") {
   const exactCutoff = cutoff && dateValue(inside[0]?.[0]) === cutoff.getTime();
   const anchor =
     startIndex > 0 && !exactCutoff ? observations[startIndex - 1] : null;
-  return {
+  const result = {
     observations: inside,
     anchor,
     cutoff: cutoff ? cutoff.toISOString().slice(0, 10) : null,
     latest,
     points: anchor ? [anchor, ...inside] : inside,
   };
+  windows.set(key, result);
+  return result;
 }
 
 /** Backward-compatible name for callers that only need inside-window points. */

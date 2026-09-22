@@ -1,5 +1,21 @@
 export const presets = [
   {
+    id: "household-credit",
+    mode: "macro",
+    label: "Household credit",
+    description:
+      "Household debt burden, mortgage and credit-card delinquencies, borrowing rates, and labor conditions",
+    series: [
+      "TDSP",
+      "DRCCLACBS",
+      "DRSFRMACBS",
+      "MORTGAGE30US",
+      "UNRATE",
+      "FEDFUNDS",
+    ],
+    measure: "level",
+  },
+  {
     id: "macro",
     mode: "macro",
     label: "Macro pulse",

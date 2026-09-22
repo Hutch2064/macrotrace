@@ -5,6 +5,7 @@ const snapshot = JSON.parse(
 );
 const page = await readFile("sources.html", "utf8");
 const module = await readFile("src/sources.js", "utf8");
+const styles = await readFile("src/sources.css", "utf8");
 
 if (!Array.isArray(snapshot.series) || !snapshot.series.length)
   throw new Error("Source snapshot does not contain any series.");
@@ -34,10 +35,30 @@ for (const required of [
   'href="/src/styles.css"',
   'href="/src/sources.css"',
   'src="/src/sources.js"',
+  'class="disclosure"',
+  "Yahoo-supplied securities data",
 ]) {
   if (!page.includes(required))
     throw new Error(`sources.html is missing ${required}.`);
 }
+
+for (const forbidden of [
+  "yahoo-bundled-list",
+  "sources-yahoo-bundled",
+  "Visit Yahoo Finance",
+]) {
+  if (page.includes(forbidden) || module.includes(forbidden))
+    throw new Error(`Yahoo catalog UI must not include ${forbidden}.`);
+}
+
+if (!styles.includes("grid-template-columns: minmax(0, 1fr)"))
+  throw new Error("Source categories must remain vertically stacked.");
+if (!styles.includes("height 0.3s ease-out"))
+  throw new Error(
+    "Source disclosures must animate height with the shared motion timing.",
+  );
+if (!styles.includes("cubic-bezier(0.4, 0, 0.2, 1)"))
+  throw new Error("Source disclosure underline motion is missing.");
 
 for (const required of [
   "loadSnapshot",

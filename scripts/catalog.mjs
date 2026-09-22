@@ -1,4 +1,43 @@
 export const fredSeries = [
+  [
+    "TDSP",
+    "Household Debt-Service Ratio",
+    "Credit",
+    "%",
+    "quarterly",
+    "identity",
+    {
+      provider: "Board of Governors of the Federal Reserve System",
+      methodology:
+        "Required household debt payments divided by disposable personal income; seasonally adjusted. Quarterly releases, not daily observations.",
+    },
+  ],
+  [
+    "DRCCLACBS",
+    "Credit Card Loan Delinquency Rate",
+    "Credit",
+    "%",
+    "quarterly",
+    "identity",
+    {
+      provider: "Board of Governors of the Federal Reserve System",
+      methodology:
+        "Delinquent credit card loans at all commercial banks, seasonally adjusted. Source rate; changes displayed in basis points.",
+    },
+  ],
+  [
+    "DRSFRMACBS",
+    "Residential Mortgage Delinquency Rate",
+    "Credit",
+    "%",
+    "quarterly",
+    "identity",
+    {
+      provider: "Board of Governors of the Federal Reserve System",
+      methodology:
+        "Single-family residential mortgage delinquency rate at domestic offices of all commercial banks, seasonally adjusted.",
+    },
+  ],
   ["UNRATE", "Unemployment Rate", "Labor", "%", "monthly"],
   ["PAYEMS", "Nonfarm Payrolls", "Labor", "thousands", "monthly"],
   ["ICSA", "Initial Jobless Claims", "Labor", "thousands", "weekly"],

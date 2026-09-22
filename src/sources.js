@@ -1,5 +1,6 @@
 import { loadSnapshot, mountChrome } from "./common.js";
 import { readCachedSeries } from "./series-cache.js";
+import { initDisclosure, openDisclosure } from "./disclosure.js";
 
 const escapeHtml = (value) =>
   String(value ?? "").replace(
@@ -110,7 +111,7 @@ const renderSeries = (series) => {
     ? `<a href="${escapeHtml(series.sourceDownloadUrl)}" target="_blank" rel="noreferrer">Source data download ↗</a>`
     : `<button type="button" data-export-series="${escapeHtml(series.id)}">Export observations CSV</button>`;
   return `
-    <details class="source-series" data-series-card data-search-text="${escapeHtml(
+    <details class="source-series disclosure" data-series-card data-search-text="${escapeHtml(
       [
         series.id,
         series.name,
@@ -126,10 +127,10 @@ const renderSeries = (series) => {
         <span class="source-series-title"><strong>${escapeHtml(series.name || series.id)}</strong><code>${escapeHtml(series.id)}</code></span>
         <span class="source-series-source">${sourceLink}</span>
         <span class="source-series-frequency">${escapeHtml(series.frequency || "unknown")}</span>
-        <span class="source-series-latest"><b>${latestDate ? escapeHtml(formatDate(latestDate)) : "No observation"}</b><small>${latestValue === undefined ? "" : `${escapeHtml(formatNumber(latestValue))}${series.unit ? ` ${escapeHtml(series.unit)}` : ""}`}</small></span>
+        <span class="source-series-latest"><b>${latestDate ? escapeHtml(formatDate(latestDate)) : "No observation"}</b><small class="${latestValue > 0 ? "positive" : latestValue < 0 ? "negative" : ""}">${latestValue === undefined ? "" : `${escapeHtml(formatNumber(latestValue))}${series.unit ? ` ${escapeHtml(series.unit)}` : ""}`}</small></span>
         <span class="source-series-chevron" aria-hidden="true">+</span>
       </summary>
-      <div class="source-series-body">
+      <div class="source-series-body disclosure-panel">
         <dl class="source-series-meta">
           <div><dt>Source</dt><dd>${sourceLink}</dd></div>
           ${
@@ -207,22 +208,33 @@ const renderCatalog = (series, query) => {
   catalog.innerHTML = visibleGroups
     .map(
       ([category, items]) => `
-        <details class="source-group" ${query ? "open" : ""}>
+        <details class="source-group disclosure" ${query ? "open" : ""}>
           <summary><span><span class="section-index">${escapeHtml(category)}</span><strong>${items.length.toLocaleString("en-US")} series</strong></span></summary>
-          <div class="source-group-list">${items.map(renderSeries).join("")}</div>
+          <div class="source-group-list disclosure-panel">${items.map(renderSeries).join("")}</div>
         </details>`,
     )
     .join("");
   catalog.querySelectorAll("[data-series-card]").forEach((card) => {
     card.id = `source-${card.dataset.seriesId}`;
   });
+  initDisclosure(catalog);
   return visibleGroups.reduce((total, [, items]) => total + items.length, 0);
 };
 
-const openHashTarget = () => {
-  const targetId = decodeURIComponent(window.location.hash.slice(1));
+const openHashTarget = async (render, search) => {
+  let targetId = "";
+  try {
+    targetId = decodeURIComponent(window.location.hash.slice(1));
+  } catch {
+    return;
+  }
   if (!targetId.startsWith("source-")) return;
-  const target = document.getElementById(targetId);
+  let target = document.getElementById(targetId);
+  if (!target && search.value) {
+    search.value = "";
+    render();
+    target = document.getElementById(targetId);
+  }
   if (!target) {
     const provider = document.querySelector("#yahoo-provider");
     if (!provider) return;
@@ -232,10 +244,9 @@ const openHashTarget = () => {
     );
     return;
   }
-  if (target.matches("details")) target.open = true;
-  target
-    .closest(".source-group, .sources-yahoo-bundled")
-    ?.setAttribute("open", "");
+  const group = target.closest(".source-group");
+  if (group) await openDisclosure(group);
+  if (target.matches("details")) await openDisclosure(target);
   window.requestAnimationFrame(() =>
     target.scrollIntoView({ behavior: "smooth", block: "center" }),
   );
@@ -256,49 +267,26 @@ async function main() {
   const snapshot = await loadSnapshot();
   mountChrome(snapshot, "sources");
   const snapshotSeries = snapshot.series || [];
-  const bundledYahoo = snapshotSeries.filter(isYahoo);
   const bundled = snapshotSeries.filter((series) => !isYahoo(series));
   const bundledIds = new Set(snapshotSeries.map((series) => series.id));
   const cachedNonYahoo = (readCachedSeries?.() || []).filter(
     (series) => !bundledIds.has(series.id) && !isYahoo(series),
   );
   const series = [...bundled, ...cachedNonYahoo];
-  const exportSeries = [...series, ...bundledYahoo];
+  const exportSeries = series;
   const search = document.querySelector("#sources-search");
   const summary = document.querySelector("#sources-snapshot-summary");
   const count = document.querySelector("#sources-result-count");
-  const cacheNote = document.querySelector("#yahoo-cache-note");
   const queryLabel = () => search.value.trim();
   const render = () => {
     const query = queryLabel();
-    const visible = renderCatalog(series, query) + renderYahoo(query);
+    const visible = renderCatalog(series, query);
     count.textContent = query
       ? `${visible.toLocaleString("en-US")} matching series`
-      : `${visible.toLocaleString("en-US")} series · ${groupSeries(series).size} categories + Yahoo benchmarks`;
+      : `${visible.toLocaleString("en-US")} series · ${groupSeries(series).size} categories`;
   };
 
-  summary.textContent = `${exportSeries.length.toLocaleString("en-US")} series · ${snapshotSeries.length.toLocaleString("en-US")} in the daily snapshot · Snapshot ${formatDate(snapshot.generatedAt.slice(0, 10))}`;
-  const cachedYahoo = (readCachedSeries?.() || []).filter(isYahoo);
-  cacheNote.textContent = cachedYahoo.length
-    ? `${cachedYahoo.length.toLocaleString("en-US")} Yahoo symbol${cachedYahoo.length === 1 ? " is" : "s are"} currently cached in this browser.`
-    : "No Yahoo symbols are cached in this browser yet. Add one from Dashboard and return here to see the provider cache note.";
-  const bundledYahooList = document.querySelector("#yahoo-bundled-list");
-  function renderYahoo(query) {
-    const matchesYahoo = bundledYahoo.filter((item) => matches(item, query));
-    if (!matchesYahoo.length) {
-      bundledYahooList.replaceChildren();
-      return 0;
-    }
-    bundledYahooList.innerHTML = `
-      <details class="source-group sources-yahoo-bundled" ${query ? "open" : ""}>
-        <summary><span><span class="section-index">Bundled Yahoo benchmarks</span><strong>${matchesYahoo.length.toLocaleString("en-US")} series</strong></span></summary>
-        <div class="source-group-list">${matchesYahoo.map(renderSeries).join("")}</div>
-      </details>`;
-    bundledYahooList.querySelectorAll("[data-series-card]").forEach((card) => {
-      card.id = `source-${card.dataset.seriesId}`;
-    });
-    return matchesYahoo.length;
-  }
+  summary.textContent = `${exportSeries.length.toLocaleString("en-US")} series · ${series.length.toLocaleString("en-US")} in the source catalog · Snapshot ${formatDate(snapshot.generatedAt.slice(0, 10))}`;
 
   document.querySelector("#snapshot-methodology-note").textContent =
     snapshotRuleSummary(snapshot);
@@ -359,8 +347,12 @@ async function main() {
     if (item) exportObservations(item);
   });
   render();
-  openHashTarget();
-  window.addEventListener("hashchange", openHashTarget);
+  initDisclosure(document.querySelector(".sources-methodology"));
+  void openHashTarget(render, search);
+  window.addEventListener(
+    "hashchange",
+    () => void openHashTarget(render, search),
+  );
 }
 
 main().catch((error) => {

@@ -10,7 +10,7 @@
     "data:refresh": "node scripts/refresh-data.mjs",
     "data:verify": "node scripts/verify-data.mjs",
     "dashboard:verify": "node scripts/verify-dashboard.mjs && node scripts/verify-sources.mjs",
-    "analytics:verify": "node scripts/verify-analytics.mjs && node scripts/verify-release.mjs && node scripts/verify-experience.mjs",
+    "analytics:verify": "node scripts/verify-analytics.mjs && node scripts/verify-release.mjs && node scripts/verify-experience.mjs && node scripts/verify-interactions.mjs && node scripts/verify-diagnostics.mjs",
     "api:verify": "node scripts/verify-api.mjs",
     "format": "prettier --write src api scripts '*.html' '*.md' '*.json' vite.config.js '.github/workflows/*.yml'",
     "check": "npm run data:verify && npm run dashboard:verify && npm run analytics:verify && npm run api:verify && npm run build"

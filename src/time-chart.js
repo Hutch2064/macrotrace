@@ -7,7 +7,12 @@ export function timeChart(
   target,
   series,
   pointLists,
-  { logarithmic = false, suffix = "" } = {},
+  {
+    logarithmic = false,
+    suffix = "",
+    valueTransform = (value) => value,
+    valueLabel = "",
+  } = {},
 ) {
   const host =
     typeof target === "string" ? document.querySelector(target) : target;
@@ -20,6 +25,7 @@ export function timeChart(
       "Not enough observations in this window. Choose a longer horizon.";
     host.append(empty);
     return {
+      host,
       destroy() {
         host.replaceChildren();
       },
@@ -79,20 +85,21 @@ export function timeChart(
   const updateRail = (plot) => {
     const index = plot.cursor.idx;
     dateLabel.textContent =
-      index == null ? "Latest observations" : (dates[index] ?? "");
+      `${index == null ? "Latest" : (dates[index] ?? "")} ${valueLabel}`.trim();
     buttons.forEach(({ button, value }, i) => {
       const latest = pointLists[i].at(-1);
-      value.textContent = format(
-        index == null ? latest?.[1] : data[i + 1][index],
-        suffix,
-      );
+      const raw = index == null ? latest?.[1] : data[i + 1][index];
+      const reading = Number.isFinite(raw) ? valueTransform(raw) : NaN;
+      value.textContent = `${reading > 0 ? "+" : ""}${format(reading, suffix)}`;
+      value.className =
+        reading > 0 ? "positive" : reading < 0 ? "negative" : "";
       button.title = `${series[i].name} · ${index == null ? (latest?.[0] ?? "no observations") : dates[index]}`;
     });
   };
   const size = () => ({
     width: Math.max(160, host.clientWidth),
     height: Math.max(
-      130,
+      80,
       host.clientHeight - Math.min(110, rail.offsetHeight + 10),
     ),
   });
@@ -129,7 +136,7 @@ export function timeChart(
           size: 52,
           values: (_, values) =>
             values.map((value) =>
-              value == null ? "" : `${compact(value)}${suffix}`,
+              value == null ? "" : `${compact(valueTransform(value))}${suffix}`,
             ),
         },
       ],
@@ -162,6 +169,19 @@ export function timeChart(
     `${series.map(({ name }) => name).join(", ")} time series. Drag to zoom, double click to reset. Arrow keys inspect dates.`,
   );
   let keyboardIndex = dates.length - 1;
+  // Touch inspection does not block vertical page scrolling. Horizontal drags
+  // update the same date/legend readout as desktop hover, without synthetic data.
+  const inspectTouch = (event) => {
+    if (event.pointerType !== "touch") return;
+    const bounds = plot.over.getBoundingClientRect();
+    plot.setCursor({
+      left: Math.max(0, Math.min(bounds.width, event.clientX - bounds.left)),
+      top: Math.max(0, event.clientY - bounds.top),
+    });
+  };
+  plot.over.style.touchAction = "pan-y";
+  plot.over.addEventListener("pointerdown", inspectTouch);
+  plot.over.addEventListener("pointermove", inspectTouch);
   plot.over.addEventListener("keydown", (event) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
     event.preventDefault();

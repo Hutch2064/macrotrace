@@ -1,5 +1,6 @@
 import {
   format,
+  colorReadings,
   loadSnapshot,
   mountChrome,
   periodChange,
@@ -9,6 +10,7 @@ import {
 } from "./common.js";
 import { timeChart } from "./time-chart.js";
 import { reportTitles } from "./report-readings.js";
+import { rollingHorizonChanges } from "./analytics.js";
 
 const reportCharts = [];
 let chromeMounted = false;
@@ -129,21 +131,13 @@ async function main(updatedSnapshot) {
     const dates = seriesList.map((series) => series.observations.at(-1)[0]);
 
     const caption = `${seriesList.map((series) => series.id).join(" · ")} · ${story.measure === "indexed" ? "first visible observation = 100" : story.measure === "yoy" ? "year-over-year percent change" : "reported level"} · latest observations ${dates.join(" / ")} · FRED`;
-    article.innerHTML = `<div class="story-copy"><div class="story-number">0${index + 1}</div><h2>${findingTitles[index]}</h2><p>${story.copy(seriesList)}</p></div><figure class="story-chart"><div class="chart-wrap"></div><figcaption>${caption}</figcaption></figure>`;
+    article.innerHTML = `<div class="story-copy"><h2>${findingTitles[index]}</h2><p>${story.copy(seriesList)}</p></div><figure class="story-chart"><div class="chart-wrap"></div><figcaption>${caption}</figcaption></figure>`;
     container.append(article);
     const points = seriesList.map((series) => {
       const visible = sliceHorizon(series.observations, story.horizon);
       if (story.measure === "level") return visible;
       if (story.measure === "yoy")
-        return visible.flatMap(([date], cursor) => {
-          const subset = series.observations.slice(
-            0,
-            series.observations.findIndex(([candidate]) => candidate === date) +
-              1,
-          );
-          const value = yoyChange(subset);
-          return Number.isFinite(value) ? [[date, value]] : [];
-        });
+        return sliceHorizon(rollingHorizonChanges(series, "1y"), story.horizon);
       const base = visible[0][1];
       return visible.map(([date, value]) => [date, (value / base) * 100]);
     });
@@ -153,6 +147,7 @@ async function main(updatedSnapshot) {
       }),
     );
   }
+  colorReadings();
 }
 
 document.addEventListener("snapshot-updated", (event) => {

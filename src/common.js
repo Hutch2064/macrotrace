@@ -1,5 +1,7 @@
 import * as analytics from "./analytics.js";
 import { tickerReadings } from "./ticker.js";
+import { fillHorizons, horizons } from "./horizons.js";
+import { enhanceSelect } from "./select.js";
 import { Chart, registerables } from "chart.js";
 
 const crosshair = {
@@ -117,6 +119,12 @@ export function rollingChanges(series, horizon = "max") {
 }
 
 export function mountChrome(snapshot, page) {
+  let bannerHorizon = "365";
+  try {
+    bannerHorizon = localStorage.getItem("macrotrace-banner-horizon") || "365";
+  } catch {}
+  if (!horizons.some(([id]) => id === bannerHorizon)) bannerHorizon = "365";
+  let currentSnapshot = snapshot;
   const escape = (value) =>
     String(value).replace(
       /[&<>"']/g,
@@ -130,10 +138,10 @@ export function mountChrome(snapshot, page) {
         })[character],
     );
   const tapeMarkup = (data) =>
-    tickerReadings(data)
+    tickerReadings(data, bannerHorizon)
       .map(
         (row) =>
-          `<a class="tape-item" href="./sources.html#source-${encodeURIComponent(row.id)}" title="${escape(row.name)} · observation ${row.date}${row.retained ? " · retained successful data" : ""}"><b>${escape(row.name)}</b><span>${escape(row.value)}</span><small>${row.detail} · ${row.date}</small></a>`,
+          `<a class="tape-item" href="./dashboard.html?series=${encodeURIComponent(row.id)}&horizon=${encodeURIComponent(bannerHorizon)}" title="${escape(row.name)} · ${row.date}${row.retained ? " · retained successful data" : ""}"><b>${escape(row.name)}</b><span class="${row.direction}">${escape(row.value)}</span><small>${row.detail} · ${row.date}</small></a>`,
       )
       .join("");
   const tape = tapeMarkup(snapshot);
@@ -144,6 +152,7 @@ export function mountChrome(snapshot, page) {
         <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>
         <nav class="nav-links" aria-label="Primary navigation">
           <a href="./index.html" ${page === "report" ? 'aria-current="page"' : ""}>Report</a>
+          <div class="banner-horizon"><span>Banner horizon</span><select id="banner-horizon" aria-label="Banner horizon"></select></div>
           <a href="./dashboard.html" ${page === "dashboard" ? 'aria-current="page"' : ""}>Dashboard</a>
           <a href="./sources.html" ${page === "sources" ? 'aria-current="page"' : ""}>Data Sources</a>
           <a class="nav-cta" href="./dashboard.html">Open data</a>
@@ -160,6 +169,28 @@ export function mountChrome(snapshot, page) {
   };
   requestAnimationFrame(resizeTape);
   document.fonts.ready.then(resizeTape);
+  const bannerSelect = document.querySelector("#banner-horizon");
+  fillHorizons(bannerSelect, bannerHorizon);
+  enhanceSelect(bannerSelect);
+  const refreshTape = () => {
+    const markup = tapeMarkup(currentSnapshot);
+    document.querySelectorAll(".tape-group").forEach((group) => {
+      group.innerHTML = markup;
+    });
+    document
+      .querySelectorAll('.tape-group[aria-hidden="true"] a')
+      .forEach((link) => {
+        link.tabIndex = -1;
+      });
+    resizeTape();
+  };
+  bannerSelect.addEventListener("change", () => {
+    bannerHorizon = bannerSelect.value;
+    try {
+      localStorage.setItem("macrotrace-banner-horizon", bannerHorizon);
+    } catch {}
+    refreshTape();
+  });
   let currentVersion = snapshot.generatedAt;
   let checking = false;
   async function checkForSnapshot() {
@@ -181,11 +212,8 @@ export function mountChrome(snapshot, page) {
       const data = await fresh.json();
       if (!data.series?.length) return;
       currentVersion = data.generatedAt;
-      const markup = tapeMarkup(data);
-      document.querySelectorAll(".tape-group").forEach((group) => {
-        group.innerHTML = markup;
-      });
-      resizeTape();
+      currentSnapshot = data;
+      refreshTape();
       document.dispatchEvent(
         new CustomEvent("snapshot-updated", { detail: data }),
       );
@@ -299,6 +327,13 @@ export function chartOptions({
         bodyColor: "rgba(255,255,255,.9)",
         displayColors: true,
         callbacks: {
+          labelTextColor: (context) => {
+            const value =
+              context.chart.options.indexAxis === "y"
+                ? context.parsed.x
+                : context.parsed.y;
+            return value > 0 ? "#7dd3a7" : value < 0 ? "#f1978d" : "#cbd5e1";
+          },
           label: (context) =>
             `${context.dataset.label}: ${format(context.chart.options.indexAxis === "y" ? context.parsed.x : context.parsed.y, percent ? "%" : "")}`,
         },
@@ -320,20 +355,32 @@ export function chartOptions({
   };
 }
 
+const fineNumber = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+const largeNumber = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 1,
+});
+const compactNumber = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
 export function format(value, suffix = "") {
   if (!Number.isFinite(value)) return "—";
-  return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: Math.abs(value) < 10 ? 2 : 1 }).format(value)}${suffix}`;
+  return `${(Math.abs(value) < 10 ? fineNumber : largeNumber).format(value)}${suffix}`;
 }
 export function compact(value) {
-  return new Intl.NumberFormat("en-US", {
-    notation: "compact",
-    maximumFractionDigits: 1,
-  }).format(value);
+  return compactNumber.format(value);
 }
 export function signed(value) {
   return `${value >= 0 ? "+" : ""}${format(value)}`;
 }
 export function changeClass(value) {
-  return value >= 0 ? "positive" : "negative";
+  return value > 0 ? "positive" : value < 0 ? "negative" : "";
+}
+export function colorReadings(root = document) {
+  root.querySelectorAll(".metric-value, .story-stat").forEach((element) => {
+    const value = Number.parseFloat(element.textContent.replaceAll(",", ""));
+    element.classList.toggle("positive", value > 0);
+    element.classList.toggle("negative", value < 0);
+  });
 }
 export { Chart };

@@ -27,13 +27,16 @@ assert.equal(
 );
 assert.equal(new Set(readings.map(({ id }) => id)).size, readings.length);
 const activity = readings.find(({ id }) => id === "CFNAI");
-assert.equal(activity.detail, "latest level");
+assert.equal(activity.detail, "1 year change");
 assert.ok(
   !activity.value.includes("%"),
   "Signed activity indexes are not percentage returns",
 );
-assert.equal(readings.find(({ id }) => id === "UNRATE").detail, "latest level");
-assert.equal(readings.find(({ id }) => id === "CPIAUCSL").detail, "1Y change");
+assert.ok(readings.find(({ id }) => id === "UNRATE").value.endsWith(" bp"));
+assert.equal(
+  readings.find(({ id }) => id === "CPIAUCSL").detail,
+  "1 year change",
+);
 assert.ok(
   readings.every(
     ({ date, name, value }) => date && name && !value.includes("NaN"),

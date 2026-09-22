@@ -1,6 +1,8 @@
-import { change, changeType } from "./analytics.js";
+import { change, changeSuffix } from "./analytics.js";
+import { horizonLabel } from "./horizons.js";
 
 const number = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+const readingsCache = new WeakMap();
 const priority = [
   "VT",
   "^GSPC",
@@ -15,13 +17,18 @@ const priority = [
 ];
 
 // Every bundled series participates; rates and signed indexes are never treated as price returns.
-export function tickerReadings(snapshot) {
-  return snapshot.series
+export function tickerReadings(snapshot, horizon = "365") {
+  let cache = readingsCache.get(snapshot);
+  if (!cache) {
+    cache = new Map();
+    readingsCache.set(snapshot, cache);
+  }
+  if (cache.has(horizon)) return cache.get(horizon);
+  const rows = snapshot.series
     .map((series) => {
-      const [date, latest] = series.observations.at(-1);
-      const isReturn = changeType(series) === "percent";
-      const value = isReturn ? change(series, "1y") : latest;
-      const suffix = isReturn || series.unit === "%" ? "%" : ` ${series.unit}`;
+      const [date] = series.observations.at(-1);
+      const value = change(series, horizon);
+      const suffix = changeSuffix(series);
       return {
         id: series.id,
         name:
@@ -31,14 +38,11 @@ export function tickerReadings(snapshot) {
             : series.name),
         date,
         category: series.category,
+        direction: value > 0 ? "positive" : value < 0 ? "negative" : "",
         value: Number.isFinite(value)
-          ? `${isReturn && value >= 0 ? "+" : ""}${number.format(value)}${suffix}`
+          ? `${value > 0 ? "+" : ""}${number.format(value)}${suffix}`
           : "Unavailable",
-        detail: isReturn
-          ? series.marketRole === "global_benchmark"
-            ? "ETF proxy · 1Y change"
-            : "1Y change"
-          : "latest level",
+        detail: `${series.marketRole === "global_benchmark" ? "ETF proxy · " : ""}${horizonLabel(horizon)} change`,
         retained: series.refreshStatus === "upstream-unavailable",
       };
     })
@@ -53,4 +57,6 @@ export function tickerReadings(snapshot) {
         a.name.localeCompare(b.name)
       );
     });
+  cache.set(horizon, rows);
+  return rows;
 }
