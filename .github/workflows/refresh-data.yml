@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   refresh:
@@ -28,3 +29,9 @@ jobs:
           git add public/data/snapshot.json
           git commit -m "data: refresh public snapshot"
           git push
+      - name: Publish refreshed snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run pages.yml --ref main
+          gh workflow run vercel.yml --ref main

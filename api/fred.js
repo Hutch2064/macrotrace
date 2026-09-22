@@ -6,25 +6,88 @@ function parseCsv(text) {
     const [date, raw] = row.split(",");
     const clean = raw?.trim();
     const value = Number(clean);
-    return date && clean && clean !== "." && Number.isFinite(value) ? [[date, value]] : [];
+    return date && clean && clean !== "." && Number.isFinite(value)
+      ? [[date, value]]
+      : [];
   });
 }
 
 export default async function handler(request, response) {
   response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   if (request.method === "OPTIONS") return response.status(204).end();
-  if (request.method !== "GET") return response.status(405).json({ error: "Method not allowed" });
-  const id = String(request.query.id ?? "").trim().toUpperCase();
-  const name = String(request.query.name ?? id).trim().slice(0, 180);
-  if (!idPattern.test(id)) return response.status(400).json({ error: "Invalid FRED series" });
-  const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${encodeURIComponent(id)}&cosd=1990-01-01`;
+  if (request.method !== "GET")
+    return response.status(405).json({ error: "Method not allowed" });
+  const id = String(request.query.id ?? "")
+    .trim()
+    .toUpperCase();
+  if (!idPattern.test(id))
+    return response.status(400).json({ error: "Invalid FRED series" });
+  const sourceUrl = `https://fred.stlouisfed.org/series/${id}`;
+  const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${encodeURIComponent(id)}&cosd=1800-01-01`;
   try {
-    const upstream = await fetch(url, { signal: AbortSignal.timeout(8000), headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
-    if (!upstream.ok) return response.status(upstream.status === 404 ? 404 : 502).json({ error: "FRED data unavailable" });
+    const [upstream, metadata] = await Promise.all(
+      [url, sourceUrl].map((address) =>
+        fetch(address, {
+          signal: AbortSignal.timeout(8000),
+          headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" },
+        }),
+      ),
+    );
+    if (!upstream.ok)
+      return response
+        .status(upstream.status === 404 ? 404 : 502)
+        .json({ error: "FRED data unavailable" });
     const observations = parseCsv(await upstream.text());
-    if (!observations.length) return response.status(404).json({ error: "FRED series not found" });
-    response.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
-    return response.status(200).json({ id, name, category: "FRED search", unit: "reported", frequency: "native", source: "Federal Reserve Bank of St. Louis (FRED)", sourceUrl: `https://fred.stlouisfed.org/series/${id}`, observations });
+    if (!observations.length)
+      return response.status(404).json({ error: "FRED series not found" });
+    const html = metadata.ok ? await metadata.text() : "";
+    const clean = (value) =>
+      String(value ?? "")
+        .replace(/<[^>]+>/g, "")
+        .replaceAll("&amp;", "&")
+        .replaceAll("&#39;", "'")
+        .replaceAll("&quot;", '"')
+        .trim();
+    const field = (name) =>
+      clean(
+        html.match(new RegExp(`class="${name}">([\\s\\S]*?)<\\/span>`))?.[1],
+      );
+    const rawUnit = field("series-meta-value-units");
+    const unit = rawUnit === "Percent" ? "%" : rawUnit || "reported units";
+    const nativeFrequency = field("series-meta-value-frequency").toLowerCase();
+    const frequency =
+      ["daily", "weekly", "monthly", "quarterly", "annual"].find((value) =>
+        nativeFrequency.startsWith(value),
+      ) || "unknown";
+    const name =
+      clean(html.match(/<title>([\s\S]*?)<\/title>/)?.[1])
+        .replace(/\s*\|\s*FRED.*$/, "")
+        .replace(new RegExp(`\\s*\\(${id}\\)$`), "") || id;
+    if (!rawUnit || frequency === "unknown")
+      return response
+        .status(502)
+        .json({
+          error:
+            "FRED metadata unavailable; retry shortly to avoid unverified units.",
+        });
+    response.setHeader(
+      "Cache-Control",
+      "s-maxage=3600, stale-while-revalidate=86400",
+    );
+    return response
+      .status(200)
+      .json({
+        id,
+        name,
+        category: "FRED search",
+        unit,
+        frequency,
+        source: "Federal Reserve Bank of St. Louis (FRED)",
+        sourceUrl,
+        checkedAt: new Date().toISOString(),
+        observations,
+      });
   } catch {
     return response.status(502).json({ error: "FRED data unavailable" });
   }

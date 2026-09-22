@@ -10,15 +10,20 @@
     "data:refresh": "node scripts/refresh-data.mjs",
     "data:verify": "node scripts/verify-data.mjs",
     "dashboard:verify": "node scripts/verify-dashboard.mjs",
-    "check": "npm run data:verify && npm run dashboard:verify && npm run build"
+    "analytics:verify": "node scripts/verify-analytics.mjs && node scripts/verify-release.mjs",
+    "api:verify": "node scripts/verify-api.mjs",
+    "format": "prettier --write src api scripts '*.html' '*.md' '*.json' vite.config.js '.github/workflows/*.yml'",
+    "check": "npm run data:verify && npm run dashboard:verify && npm run analytics:verify && npm run api:verify && npm run build"
   },
   "dependencies": {
     "chart.js": "^4.4.8",
     "date-fns": "^4.1.0",
     "fflate": "^0.8.2",
-    "lucide": "^0.468.0"
+    "lucide": "^0.468.0",
+    "uplot": "^1.6.32"
   },
   "devDependencies": {
+    "prettier": "^3.9.8",
     "vite": "^6.1.0"
   }
 }

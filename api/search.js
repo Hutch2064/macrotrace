@@ -2,10 +2,17 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const cache = new Map();
+let snapshotPromise;
 const MAX_QUERY_LENGTH = 80;
 const matchesSearch = (series, query) => {
-  const text = `${series.id} ${series.name} ${series.category}`.toLowerCase().replace(/[^a-z0-9]+/g, " ");
-  return query.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).every((token) => text.includes(token));
+  const text = `${series.id} ${series.name} ${series.category}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ");
+  return query
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+    .every((token) => text.includes(token));
 };
 
 function decode(value) {
@@ -18,11 +25,21 @@ function decode(value) {
 }
 
 async function bundledResults(query) {
-  const snapshot = JSON.parse(await readFile(join(process.cwd(), "public/data/snapshot.json"), "utf8"));
+  const snapshot = await (snapshotPromise ??= readFile(
+    join(process.cwd(), "public/data/snapshot.json"),
+    "utf8",
+  ).then(JSON.parse));
   return snapshot.series
     .filter((series) => matchesSearch(series, query))
     .slice(0, 8)
-    .map((series) => ({ id: series.id, name: series.name, kind: series.kind === "market" ? "market" : "fred", source: series.source, bundled: true, meta: `${series.category} · ${series.frequency}` }));
+    .map((series) => ({
+      id: series.id,
+      name: series.name,
+      kind: series.kind === "market" ? "market" : "fred",
+      source: series.source,
+      bundled: true,
+      meta: `${series.category} · ${series.frequency}`,
+    }));
 }
 
 async function yahooResults(query) {
@@ -32,27 +49,70 @@ async function yahooResults(query) {
   url.searchParams.set("newsCount", "0");
   url.searchParams.set("listsCount", "0");
   url.searchParams.set("enableFuzzyQuery", "true");
-  const upstream = await fetch(url, { signal: AbortSignal.timeout(2500), headers: { accept: "application/json", "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
-  if (!upstream.ok) return [];
+  const upstream = await fetch(url, {
+    signal: AbortSignal.timeout(2500),
+    headers: {
+      accept: "application/json",
+      "User-Agent": "Mozilla/5.0 MacroTrace/1.0",
+    },
+  });
+  if (!upstream.ok) throw new Error("Yahoo search unavailable");
   const payload = await upstream.json();
-  const allowed = new Set(["EQUITY", "ETF", "MUTUALFUND", "INDEX", "CURRENCY", "CRYPTOCURRENCY", "FUTURE"]);
-  return (payload.quotes ?? []).flatMap((quote) => {
-    const id = String(quote.symbol ?? "").toUpperCase();
-    const type = String(quote.quoteType ?? "").toUpperCase();
-    if (!id || !allowed.has(type)) return [];
-    return [{ id, name: quote.longname || quote.shortname || id, kind: "market", source: "Yahoo Finance", meta: [type, quote.exchange].filter(Boolean).join(" · ") }];
-  }).slice(0, 8);
+  const allowed = new Set([
+    "EQUITY",
+    "ETF",
+    "MUTUALFUND",
+    "INDEX",
+    "CURRENCY",
+    "CRYPTOCURRENCY",
+    "FUTURE",
+  ]);
+  return (payload.quotes ?? [])
+    .flatMap((quote) => {
+      const id = String(quote.symbol ?? "").toUpperCase();
+      const type = String(quote.quoteType ?? "").toUpperCase();
+      if (!id || !allowed.has(type)) return [];
+      return [
+        {
+          id,
+          name: quote.longname || quote.shortname || id,
+          kind: "market",
+          source: "Yahoo Finance",
+          meta: [type, quote.exchange].filter(Boolean).join(" · "),
+        },
+      ];
+    })
+    .slice(0, 8);
 }
 
 async function fredResults(query) {
-  const upstream = await fetch(`https://fred.stlouisfed.org/searchresults?st=${encodeURIComponent(query)}`, { signal: AbortSignal.timeout(2500), headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" } });
-  if (!upstream.ok) return [];
+  const upstream = await fetch(
+    `https://fred.stlouisfed.org/searchresults?st=${encodeURIComponent(query)}`,
+    {
+      signal: AbortSignal.timeout(2500),
+      headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" },
+    },
+  );
+  if (!upstream.ok) throw new Error("FRED search unavailable");
   const html = await upstream.text();
-  const pattern = /<a href="\/series\/([A-Z0-9_-]+)" aria-label="([^"]+)" class="series-title[^>]*>[\s\S]*?<\/a>[\s\S]*?<span class="search-result-meta">([\s\S]*?)<\/span>/g;
+  const pattern =
+    /<a href="\/series\/([A-Z0-9_-]+)" aria-label="([^"]+)" class="series-title[^>]*>[\s\S]*?<\/a>[\s\S]*?<span class="search-result-meta">([\s\S]*?)<\/span>/g;
   const results = [];
   for (const match of html.matchAll(pattern)) {
-    const meta = decode(match[3].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim());
-    results.push({ id: match[1], name: decode(match[2]), kind: "fred", source: "FRED", bundled: false, meta });
+    const meta = decode(
+      match[3]
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim(),
+    );
+    results.push({
+      id: match[1],
+      name: decode(match[2]),
+      kind: "fred",
+      source: "FRED",
+      bundled: false,
+      meta,
+    });
     if (results.length === 8) break;
   }
   return results;
@@ -60,18 +120,48 @@ async function fredResults(query) {
 
 export default async function handler(request, response) {
   response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   if (request.method === "OPTIONS") return response.status(204).end();
-  if (request.method !== "GET") return response.status(405).json({ error: "Method not allowed" });
+  if (request.method !== "GET")
+    return response.status(405).json({ error: "Method not allowed" });
   const query = String(request.query.q ?? "").trim();
-  if (!query || query.length > MAX_QUERY_LENGTH) return response.status(200).json({ results: [] });
+  if (!query || query.length > MAX_QUERY_LENGTH)
+    return response.status(200).json({ results: [] });
   const key = query.toLowerCase();
+  response.setHeader(
+    "Cache-Control",
+    "s-maxage=900, stale-while-revalidate=86400",
+  );
   const cached = cache.get(key);
-  if (cached && cached.expiresAt > Date.now()) return response.status(200).json({ results: cached.results });
-  const [bundled, yahoo, fred] = await Promise.allSettled([bundledResults(query), yahooResults(query), fredResults(query)]);
-  const ordered = [...(bundled.value ?? []), ...(yahoo.value ?? []), ...(fred.value ?? [])];
+  if (cached && cached.expiresAt > Date.now())
+    return response.status(200).json({ results: cached.results });
+  const [bundled, yahoo, fred] = await Promise.allSettled([
+    bundledResults(query),
+    yahooResults(query),
+    fredResults(query),
+  ]);
+  const ordered = [
+    ...(bundled.value ?? []),
+    ...(yahoo.value ?? []),
+    ...(fred.value ?? []),
+  ];
   const seen = new Set();
-  const results = ordered.filter((item) => !seen.has(`${item.kind}:${item.id}`) && seen.add(`${item.kind}:${item.id}`)).slice(0, 14);
+  const results = ordered
+    .filter(
+      (item) =>
+        !seen.has(`${item.kind}:${item.id}`) &&
+        seen.add(`${item.kind}:${item.id}`),
+    )
+    .slice(0, 14);
+  if (yahoo.status === "rejected" || fred.status === "rejected") {
+    response.setHeader("Cache-Control", "no-store");
+    return response.status(results.length ? 200 : 502).json({ results });
+  }
+  if (cache.size >= 200) cache.delete(cache.keys().next().value);
   cache.set(key, { results, expiresAt: Date.now() + 15 * 60 * 1000 });
-  response.setHeader("Cache-Control", "s-maxage=900, stale-while-revalidate=86400");
+  response.setHeader(
+    "Cache-Control",
+    "s-maxage=900, stale-while-revalidate=86400",
+  );
   return response.status(200).json({ results });
 }
