@@ -1,6 +1,6 @@
 # MacroTrace non-Yahoo source inventory
 
-Snapshot: 2026-09-22T06:14:26.015Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
+Snapshot: 2026-09-22T15:32:26.921Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
 
 ## Credit
 
@@ -12,7 +12,7 @@ Snapshot: 2026-09-22T06:14:26.015Z. 383 series, including explicitly labeled der
 | [M2SL](https://fred.stlouisfed.org/series/M2SL) | M2 Money Stock | monthly | 1959-01-01 | 2026-07-01 | 67.5 |
 | [NFCI](https://fred.stlouisfed.org/series/NFCI) | National Financial Conditions Index | weekly | 1971-01-08 | 2026-09-11 | 55.7 |
 | [STLFSI4](https://fred.stlouisfed.org/series/STLFSI4) | St. Louis Fed Financial Stress Index | weekly | 1993-12-31 | 2026-09-11 | 32.7 |
-| [VIXCLS](https://fred.stlouisfed.org/series/VIXCLS) | CBOE Volatility Index | daily | 1990-01-02 | 2026-09-18 | 36.7 |
+| [VIXCLS](https://fred.stlouisfed.org/series/VIXCLS) | CBOE Volatility Index | daily | 1990-01-02 | 2026-09-21 | 36.7 |
 | [BOGMBASE](https://fred.stlouisfed.org/series/BOGMBASE) | Monetary Base | monthly | 1959-01-01 | 2026-07-01 | 67.5 |
 | [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | weekly | 2002-12-18 | 2026-09-16 | 23.7 |
 | [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | daily | 1986-01-02 | 2026-09-18 | 40.7 |
@@ -97,7 +97,7 @@ Snapshot: 2026-09-22T06:14:26.015Z. 383 series, including explicitly labeled der
 | [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | daily | 1976-06-01 | 2026-09-21 | 50.3 |
 | [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | daily | 1982-01-04 | 2026-09-21 | 44.7 |
 | [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | daily | 1954-07-01 | 2026-09-18 | 72.2 |
-| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | daily | 2018-04-03 | 2026-09-18 | 8.5 |
+| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | daily | 2018-04-03 | 2026-09-21 | 8.5 |
 | [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-18 | 23.7 |
 | [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-18 | 23.7 |
 | [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | daily | 2010-02-22 | 2026-09-18 | 16.6 |
