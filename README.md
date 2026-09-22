@@ -1,6 +1,6 @@
 # MacroTrace
 
-MacroTrace is a public, two-page economic report and interactive dashboard built by Aidan Hutchison. It connects 145 macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series with 39 public long-history research indexes. A unified search adds FRED series or Yahoo Finance instruments immediately, while 20 presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, global-market, century-asset-class, and size/style views. Annual World Bank inflation rates remain separate from monthly CPI indexes; native frequencies are never presented as live observations.
+MacroTrace is a public economic report, interactive dashboard, and categorized source catalog built by Aidan Hutchison. It connects 145 macroeconomic, labor, inflation, growth, rate, housing, currency, and financial-condition series with 39 public long-history research indexes and 33 daily Yahoo market benchmarks (18 ETFs and 15 country/region indexes). A unified search adds FRED series or Yahoo Finance instruments immediately, while 20 presets load standardized sector, currency, commodity, labor, inflation, growth, rates, housing, conditions, global-market, century-asset-class, and size/style views. Annual World Bank inflation rates remain separate from monthly CPI indexes; native frequencies are never presented as live observations.
 
 The dashboard has two explicit analytical modes. Macro mode uses standardized economic signals, observation-to-observation momentum, growth/level cycle percentiles, observation age, frequency-aware correlation, a month-over-month heat map, and category breadth. Markets mode uses indexed return paths, horizon returns, return-momentum percentiles, drawdown, annualized log-return volatility, frequency-aware correlation, a return heat map, and return-versus-risk. Log scale is available only where it is mathematically valid. Time-series panels use uPlot with crosshairs, a below-chart value rail, clickable legends, drag zoom, keyboard date inspection, and full-screen expansion. Native-unit small multiples accompany the eight comparison panels. The responsive grid expands to five square cards across wide displays.
 
@@ -17,11 +17,11 @@ npm run data:refresh
 npm run dev
 ```
 
-Run `npm run check` before publishing. It validates the data contract and creates both production pages in `dist/`.
+Run `npm run check` before publishing. It validates the data contract and creates all three production pages in `dist/`.
 
 ## Data and calculations
 
-Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. On-demand ticker histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available and are not committed to this repository. Market responses use a five-minute CDN cache with a one-hour stale fallback and a bounded six-hour browser cache; bundled observations refresh daily, and arbitrary FRED series use a one-hour CDN cache. A collection hover prefetches its optional market symbols; first-time provider requests are not claimed to be instantaneous. Observation dates and successful check dates are disclosed. A latest daily Yahoo bar may still be in progress. Missing or non-numeric rows are removed and native release frequencies are preserved.
+Macroeconomic observations come from the [Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/) CSV service. The bundled daily benchmark catalog and on-demand ticker histories use adjusted closing prices from [Yahoo Finance](https://finance.yahoo.com/) when available. VT is explicitly an ETF proxy for global equities, not a published global index. Country indexes remain distinct from ETFs. Additional on-demand histories are cached in the browser rather than committed. Market responses use a five-minute CDN cache with a one-hour stale fallback and a bounded six-hour browser cache; bundled observations refresh daily, and arbitrary FRED series use a one-hour CDN cache. A collection hover prefetches its optional market symbols; first-time provider requests are not claimed to be instantaneous. Observation dates and successful check dates are disclosed. A latest daily Yahoo bar may still be in progress. Missing or non-numeric rows are removed and native release frequencies are preserved.
 
 The long-history library is separate from live ETFs and contains no hidden splices:
 
@@ -39,22 +39,22 @@ Public availability does not imply identical definitions or unrestricted commerc
 - Correlation: Pearson correlation of aligned complete month/quarter/year changes at the coarsest selected frequency—never raw levels; sample counts are displayed
 - Drawdown: `value / running peak − 1`, only for positive market-price paths
 
-The committed snapshot pins every report number to reproducible data. Calendar cutoffs prefer an exact boundary observation, otherwise the prior observed boundary. Short horizons do not silently widen to twelve observations. Independent source-boundary tests cover CPI, payrolls, PCE, the French market index, and annual gold returns. A scheduled GitHub Action refreshes and verifies the snapshot daily, then explicitly dispatches both publishing workflows (bot pushes alone do not trigger them). Source failures preserve prior data for diagnosis but block publication until checks pass. A content-derived version binds each build to its snapshot. This product uses FRED® data but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Some source series may carry additional provider terms; MacroTrace provides attribution and source links for each series.
+The committed snapshot pins every report number to reproducible data. Calendar cutoffs prefer an exact boundary observation, otherwise the prior observed boundary. Short horizons do not silently widen to twelve observations. Independent source-boundary tests cover CPI, payrolls, PCE, the French market index, and annual gold returns. A scheduled GitHub Action refreshes and verifies the snapshot daily, then explicitly dispatches both publishing workflows (bot pushes alone do not trigger them). Source failures retain the last successful observations with an explicit status; stale observations beyond frequency-specific limits fail the publication checks. A content-derived version binds each build to its snapshot. The refresh workflow runs daily at 11:17 UTC (GitHub may delay scheduled starts), commits both the snapshot and a small version manifest, and republishes both hosts. Every report heading is derived deterministically from the snapshot. Open pages check the manifest hourly and on returning to the tab; a newer snapshot updates the banner and report without manual editing or reloading. Values only change when their source publishes new or revised observations. The scrolling tape includes every bundled series with its observation date and an appropriate level or one-year change. Both analysis modes retain their rendered views for fast return visits; changing the horizon recalculates the affected view. This product uses FRED® data but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Some source series may carry additional provider terms; MacroTrace provides attribution and source links for each series.
 
 ## Files
 
 | Path                                 | Purpose                                                                                                                                |
 | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `index.html`                         | Scrollable report with headline numbers, eight findings, eight charts, and methodology.                                                |
-| `dashboard.html`                     | Two-mode interactive dashboard with essential controls, metrics, eight charts, source table, reset, and CSV download.                  |
+| `index.html`                         | Scrollable report with headline numbers, eight findings, eight charts, and a source-catalog link.                                      |
+| `dashboard.html`                     | Two-mode interactive dashboard with essential controls, metrics, comparison/individual charts, and reset.                              |
 | `src/common.js`                      | Shared data loading, formatting, navigation, calculation adapters, and Chart.js defaults.                                              |
 | `src/analytics.js`                   | Pure calendar/frequency-aware transforms, returns, drawdowns, volatility, correlations, ranks, and regression-tested window semantics. |
 | `src/time-chart.js`                  | Responsive uPlot time-series renderer with value rails, legends, zoom, and keyboard inspection.                                        |
 | `src/series-cache.js`                | Bounded browser cache and in-flight request deduplication for optional provider histories.                                             |
 | `src/report.js`                      | Reproducible report findings and chart rendering.                                                                                      |
-| `src/dashboard.js`                   | Dashboard state, filtering, search, calculations, charts, table, and export.                                                           |
+| `src/dashboard.js`                   | Dashboard state, filtering, search, calculations, charts, retained mode views, and expanded-chart controls.                            |
 | `src/presets.js`                     | Declarative high-level macro and market preset definitions.                                                                            |
-| `src/styles.css`                     | Responsive black-and-gold visual system shared by both pages.                                                                          |
+| `src/styles.css`                     | Responsive black-and-gold visual system shared across the site.                                                                        |
 | `public/data/snapshot.json`          | Versioned public snapshot used by the report and dashboard.                                                                            |
 | `public/favicon.svg`                 | MacroTrace brand mark.                                                                                                                 |
 | `scripts/catalog.mjs`                | Declarative catalog of FRED and market series.                                                                                         |
@@ -73,10 +73,24 @@ The committed snapshot pins every report number to reproducible data. Calendar c
 | `.github/workflows/vercel.yml`       | Verifies and publishes the production Vercel deployment.                                                                               |
 | `package.json`, `package-lock.json`  | Reproducible dependencies and development, test, and formatting commands.                                                              |
 | `.gitignore`                         | Excludes dependencies, build output, local settings, and credentials.                                                                  |
-| `vite.config.js`                     | Two-page Vite production build configuration.                                                                                          |
+| `vite.config.js`                     | Three-page Vite production build configuration.                                                                                        |
 | `vercel.json`                        | CDN and browser security headers.                                                                                                      |
 | `.env.example`                       | Documents the optional public market API origin without secrets.                                                                       |
 | `SUBMISSION.md`                      | Four-line course submission record.                                                                                                    |
+
+### Source catalog and refresh support
+
+| Path                                                | Purpose                                                                                     |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `sources.html`, `src/sources.js`, `src/sources.css` | Searchable categorized references, per-series provenance, observed values, and CSV exports. |
+| `src/ticker.js`                                     | Unit-aware readings for every bundled series in the daily tape.                             |
+| `src/report-readings.js`                            | Pure deterministic report-title calculations.                                               |
+| `scripts/market-catalog.mjs`                        | Explicit Yahoo benchmark identifiers, instrument types, names, and units.                   |
+| `public/data/version.json`                          | Small snapshot manifest for open-page background refresh.                                   |
+| `scripts/verify-experience.mjs`                     | Complete tape coverage, changing report findings, and daily workflow regression checks.     |
+| `scripts/verify-sources.mjs`                        | Source completeness and catalog wiring checks.                                              |
+
+For a bounded update of only the bundled Yahoo benchmarks, run `npm run data:refresh -- --markets-only`. The scheduled workflow refreshes all providers.
 
 ## Privacy and security
 

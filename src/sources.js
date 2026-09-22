@@ -1,0 +1,371 @@
+import { loadSnapshot, mountChrome } from "./common.js";
+import { readCachedSeries } from "./series-cache.js";
+
+const escapeHtml = (value) =>
+  String(value ?? "").replace(
+    /[&<>'"]/g,
+    (character) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[
+        character
+      ],
+  );
+
+const formatNumber = (value) => {
+  if (!Number.isFinite(value)) return "Unavailable";
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 8,
+  }).format(value);
+};
+
+const formatDate = (value) => {
+  if (!value) return "Unavailable";
+  const date = new Date(`${value}T00:00:00Z`);
+  return Number.isNaN(date.getTime())
+    ? value
+    : new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC",
+      }).format(date);
+};
+
+const isYahoo = (series) =>
+  String(series?.source ?? "")
+    .toLowerCase()
+    .includes("yahoo") ||
+  String(series?.sourceUrl ?? "")
+    .toLowerCase()
+    .includes("yahoo");
+
+const observationBounds = (series) => {
+  const observations = Array.isArray(series?.observations)
+    ? series.observations.filter(
+        (observation) =>
+          Array.isArray(observation) &&
+          observation.length >= 2 &&
+          observation[0] &&
+          Number.isFinite(observation[1]),
+      )
+    : [];
+  return {
+    count: observations.length,
+    first: observations[0],
+    latest: observations.at(-1),
+  };
+};
+
+const csvCell = (value) => {
+  const text = String(value ?? "");
+  return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+};
+
+const downloadCsv = (filename, rows) => {
+  const blob = new Blob(
+    [rows.map((row) => row.map(csvCell).join(",")).join("\n")],
+    {
+      type: "text/csv;charset=utf-8",
+    },
+  );
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+};
+
+const exportObservations = (series) => {
+  const bounds = observationBounds(series);
+  downloadCsv(`${series.id}-observations.csv`, [
+    ["series_id", "date", "value"],
+    ...(series.observations ?? []).map(([date, value]) => [
+      series.id,
+      date,
+      value,
+    ]),
+  ]);
+  return bounds;
+};
+
+const renderOptionalField = (label, value) =>
+  value ? `<div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>` : "";
+
+const renderSeries = (series) => {
+  const bounds = observationBounds(series);
+  const firstDate = bounds.first?.[0];
+  const latestDate = bounds.latest?.[0];
+  const latestValue = bounds.latest?.[1];
+  const sourceUrl = series.sourceUrl || series.sourceDownloadUrl;
+  const sourceLink = sourceUrl
+    ? `<a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(series.source || "Public source")} ↗</a>`
+    : escapeHtml(series.source || "Public source");
+  const status =
+    series.refreshStatus && series.refreshStatus !== "ok"
+      ? `<p class="source-series-status">Refresh status: ${escapeHtml(series.refreshStatus)}. The displayed history is the last successful snapshot.</p>`
+      : "";
+  const downloadUrl = series.sourceDownloadUrl
+    ? `<a href="${escapeHtml(series.sourceDownloadUrl)}" target="_blank" rel="noreferrer">Source data download ↗</a>`
+    : `<button type="button" data-export-series="${escapeHtml(series.id)}">Export observations CSV</button>`;
+  return `
+    <details class="source-series" data-series-card data-search-text="${escapeHtml(
+      [
+        series.id,
+        series.name,
+        series.category,
+        series.source,
+        series.sourceFamily,
+        series.dataRole,
+      ]
+        .filter(Boolean)
+        .join(" "),
+    )}" data-series-id="${escapeHtml(series.id)}">
+      <summary class="source-series-summary">
+        <span class="source-series-title"><strong>${escapeHtml(series.name || series.id)}</strong><code>${escapeHtml(series.id)}</code></span>
+        <span class="source-series-source">${sourceLink}</span>
+        <span class="source-series-frequency">${escapeHtml(series.frequency || "unknown")}</span>
+        <span class="source-series-latest"><b>${latestDate ? escapeHtml(formatDate(latestDate)) : "No observation"}</b><small>${latestValue === undefined ? "" : `${escapeHtml(formatNumber(latestValue))}${series.unit ? ` ${escapeHtml(series.unit)}` : ""}`}</small></span>
+        <span class="source-series-chevron" aria-hidden="true">+</span>
+      </summary>
+      <div class="source-series-body">
+        <dl class="source-series-meta">
+          <div><dt>Source</dt><dd>${sourceLink}</dd></div>
+          ${
+            sourceUrl
+              ? `<div><dt>Source URL</dt><dd><a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(sourceUrl)}</a></dd></div>`
+              : ""
+          }
+          <div><dt>Series ID</dt><dd><code>${escapeHtml(series.id)}</code></dd></div>
+          <div><dt>Frequency</dt><dd>${escapeHtml(series.frequency || "unknown")}</dd></div>
+          <div><dt>Unit</dt><dd>${escapeHtml(series.unit || "reported units")}</dd></div>
+          <div><dt>Coverage</dt><dd>${firstDate ? `${escapeHtml(formatDate(firstDate))} – ${escapeHtml(formatDate(latestDate))}` : "No observations"} · ${bounds.count.toLocaleString("en-US")} observations</dd></div>
+          <div><dt>Latest observation</dt><dd>${latestDate ? `${escapeHtml(formatDate(latestDate))} · ${escapeHtml(formatNumber(latestValue))}${series.unit ? ` ${escapeHtml(series.unit)}` : ""}` : "Unavailable"}</dd></div>
+          ${renderOptionalField("Category", series.category)}
+          ${renderOptionalField("Source family", series.sourceFamily)}
+          ${renderOptionalField("Data role", series.dataRole)}
+          ${renderOptionalField("Checked", series.checkedAt ? formatDate(series.checkedAt.slice(0, 10)) : "")}
+          ${renderOptionalField("Last verified observation", series.lastVerifiedObservation)}
+          ${renderOptionalField("Source file", series.sourceFile)}
+          ${renderOptionalField("Source column", series.sourceColumn)}
+          ${renderOptionalField("Source hash", series.sourceHash)}
+        </dl>
+        ${series.methodology ? `<p class="source-series-methodology"><strong>Methodology.</strong> ${escapeHtml(series.methodology)}</p>` : ""}
+        ${series.availabilityNote ? `<p class="source-series-note"><strong>Availability note.</strong> ${escapeHtml(series.availabilityNote)}</p>` : ""}
+        ${series.rightsNote ? `<p class="source-series-note"><strong>Rights note.</strong> ${escapeHtml(series.rightsNote)}</p>` : ""}
+        <div class="source-series-actions">${downloadUrl}</div>
+        ${status}
+      </div>
+    </details>`;
+};
+
+const matches = (series, query) => {
+  if (!query) return true;
+  const text = [
+    series.id,
+    series.name,
+    series.category,
+    series.source,
+    series.sourceFamily,
+    series.dataRole,
+    series.frequency,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  return query
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+    .every((token) => text.includes(token));
+};
+
+const groupSeries = (series) => {
+  const groups = new Map();
+  for (const item of series) {
+    const category = item.category || "Other sources";
+    if (!groups.has(category)) groups.set(category, []);
+    groups.get(category).push(item);
+  }
+  return groups;
+};
+
+const renderCatalog = (series, query) => {
+  const groups = groupSeries(series);
+  const catalog = document.querySelector("#source-catalog");
+  const visibleGroups = [...groups.entries()]
+    .map(([category, items]) => [
+      category,
+      items.filter((item) => matches(item, query)),
+    ])
+    .filter(([, items]) => items.length);
+  if (!visibleGroups.length) {
+    catalog.innerHTML = `<div class="sources-empty"><strong>No matching source series.</strong><span>Try a shorter name, publisher, category, or series ID.</span></div>`;
+    return 0;
+  }
+  catalog.innerHTML = visibleGroups
+    .map(
+      ([category, items]) => `
+        <details class="source-group" ${query ? "open" : ""}>
+          <summary><span><span class="section-index">${escapeHtml(category)}</span><strong>${items.length.toLocaleString("en-US")} series</strong></span></summary>
+          <div class="source-group-list">${items.map(renderSeries).join("")}</div>
+        </details>`,
+    )
+    .join("");
+  catalog.querySelectorAll("[data-series-card]").forEach((card) => {
+    card.id = `source-${card.dataset.seriesId}`;
+  });
+  return visibleGroups.reduce((total, [, items]) => total + items.length, 0);
+};
+
+const openHashTarget = () => {
+  const targetId = decodeURIComponent(window.location.hash.slice(1));
+  if (!targetId.startsWith("source-")) return;
+  const target = document.getElementById(targetId);
+  if (!target) {
+    const provider = document.querySelector("#yahoo-provider");
+    if (!provider) return;
+    provider.focus({ preventScroll: true });
+    window.requestAnimationFrame(() =>
+      provider.scrollIntoView({ behavior: "smooth", block: "center" }),
+    );
+    return;
+  }
+  if (target.matches("details")) target.open = true;
+  target
+    .closest(".source-group, .sources-yahoo-bundled")
+    ?.setAttribute("open", "");
+  window.requestAnimationFrame(() =>
+    target.scrollIntoView({ behavior: "smooth", block: "center" }),
+  );
+};
+
+const snapshotRuleSummary = (snapshot) => {
+  const rules = snapshot.methodology || {};
+  return [
+    rules.marketValue ? `Market values: ${rules.marketValue}` : "",
+    rules.missingValues ? rules.missingValues : "",
+    rules.normalization ? `Indexed views: ${rules.normalization}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+};
+
+async function main() {
+  const snapshot = await loadSnapshot();
+  mountChrome(snapshot, "sources");
+  const snapshotSeries = snapshot.series || [];
+  const bundledYahoo = snapshotSeries.filter(isYahoo);
+  const bundled = snapshotSeries.filter((series) => !isYahoo(series));
+  const bundledIds = new Set(snapshotSeries.map((series) => series.id));
+  const cachedNonYahoo = (readCachedSeries?.() || []).filter(
+    (series) => !bundledIds.has(series.id) && !isYahoo(series),
+  );
+  const series = [...bundled, ...cachedNonYahoo];
+  const exportSeries = [...series, ...bundledYahoo];
+  const search = document.querySelector("#sources-search");
+  const summary = document.querySelector("#sources-snapshot-summary");
+  const count = document.querySelector("#sources-result-count");
+  const cacheNote = document.querySelector("#yahoo-cache-note");
+  const queryLabel = () => search.value.trim();
+  const render = () => {
+    const query = queryLabel();
+    const visible = renderCatalog(series, query) + renderYahoo(query);
+    count.textContent = query
+      ? `${visible.toLocaleString("en-US")} matching series`
+      : `${visible.toLocaleString("en-US")} series · ${groupSeries(series).size} categories + Yahoo benchmarks`;
+  };
+
+  summary.textContent = `${exportSeries.length.toLocaleString("en-US")} series · ${snapshotSeries.length.toLocaleString("en-US")} in the daily snapshot · Snapshot ${formatDate(snapshot.generatedAt.slice(0, 10))}`;
+  const cachedYahoo = (readCachedSeries?.() || []).filter(isYahoo);
+  cacheNote.textContent = cachedYahoo.length
+    ? `${cachedYahoo.length.toLocaleString("en-US")} Yahoo symbol${cachedYahoo.length === 1 ? " is" : "s are"} currently cached in this browser.`
+    : "No Yahoo symbols are cached in this browser yet. Add one from Dashboard and return here to see the provider cache note.";
+  const bundledYahooList = document.querySelector("#yahoo-bundled-list");
+  function renderYahoo(query) {
+    const matchesYahoo = bundledYahoo.filter((item) => matches(item, query));
+    if (!matchesYahoo.length) {
+      bundledYahooList.replaceChildren();
+      return 0;
+    }
+    bundledYahooList.innerHTML = `
+      <details class="source-group sources-yahoo-bundled" ${query ? "open" : ""}>
+        <summary><span><span class="section-index">Bundled Yahoo benchmarks</span><strong>${matchesYahoo.length.toLocaleString("en-US")} series</strong></span></summary>
+        <div class="source-group-list">${matchesYahoo.map(renderSeries).join("")}</div>
+      </details>`;
+    bundledYahooList.querySelectorAll("[data-series-card]").forEach((card) => {
+      card.id = `source-${card.dataset.seriesId}`;
+    });
+    return matchesYahoo.length;
+  }
+
+  document.querySelector("#snapshot-methodology-note").textContent =
+    snapshotRuleSummary(snapshot);
+  search.addEventListener("input", render);
+  document.querySelector("#export-catalog").addEventListener("click", () => {
+    downloadCsv("macrotrace-source-catalog.csv", [
+      [
+        "series_id",
+        "name",
+        "category",
+        "source",
+        "source_url",
+        "frequency",
+        "unit",
+        "coverage_start",
+        "coverage_end",
+        "observation_count",
+        "latest_date",
+        "latest_value",
+        "source_family",
+        "data_role",
+        "source_file",
+        "source_column",
+        "source_hash",
+        "methodology",
+      ],
+      ...exportSeries.map((item) => {
+        const bounds = observationBounds(item);
+        return [
+          item.id,
+          item.name,
+          item.category,
+          item.source,
+          item.sourceUrl || item.sourceDownloadUrl,
+          item.frequency,
+          item.unit,
+          bounds.first?.[0],
+          bounds.latest?.[0],
+          bounds.count,
+          bounds.latest?.[0],
+          bounds.latest?.[1],
+          item.sourceFamily,
+          item.dataRole,
+          item.sourceFile,
+          item.sourceColumn,
+          item.sourceHash,
+          item.methodology,
+        ];
+      }),
+    ]);
+  });
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-export-series]");
+    if (!button) return;
+    const item = exportSeries.find(
+      ({ id }) => id === button.dataset.exportSeries,
+    );
+    if (item) exportObservations(item);
+  });
+  render();
+  openHashTarget();
+  window.addEventListener("hashchange", openHashTarget);
+}
+
+main().catch((error) => {
+  const catalog = document.querySelector("#source-catalog");
+  if (catalog) {
+    catalog.innerHTML = `<div class="sources-empty"><strong>Source catalog unavailable.</strong><span>${escapeHtml(error.message)}</span></div>`;
+  }
+});

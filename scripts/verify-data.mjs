@@ -1,12 +1,22 @@
 import { readFile } from "node:fs/promises";
+import { marketSeries } from "./market-catalog.mjs";
 
 const snapshot = JSON.parse(
   await readFile("public/data/snapshot.json", "utf8"),
 );
+const version = JSON.parse(await readFile("public/data/version.json", "utf8"));
+if (version.generatedAt !== snapshot.generatedAt)
+  throw new Error("Version manifest does not match the data snapshot.");
 if (snapshot.series.length < 40)
   throw new Error("Expected at least 40 series.");
 
 const ids = new Set(snapshot.series.map(({ id }) => id));
+const marketIds = new Set(marketSeries.map(({ id }) => id));
+if (marketIds.size !== marketSeries.length)
+  throw new Error("Market catalog contains duplicate identifiers.");
+for (const id of marketIds)
+  if (!ids.has(id)) throw new Error(`Missing daily market series ${id}.`);
+
 for (const id of [
   "DEXUSAL",
   "DEXCAUS",
@@ -71,6 +81,24 @@ for (const series of snapshot.series) {
 }
 
 const byId = new Map(snapshot.series.map((series) => [series.id, series]));
+for (const spec of marketSeries) {
+  const series = byId.get(spec.id);
+  if (
+    series.kind !== "market" ||
+    series.frequency !== "daily" ||
+    series.name !== spec.name ||
+    series.category !== spec.category ||
+    series.provider !== "Yahoo Finance" ||
+    series.source !== "Yahoo Finance" ||
+    series.sourceUrl !== spec.sourceUrl ||
+    series.instrumentType !== spec.instrumentType ||
+    series.marketRole !== spec.marketRole ||
+    series.unit !== spec.unit
+  )
+    throw new Error(`Incomplete Yahoo benchmark metadata for ${spec.id}.`);
+  if (!/^\w+_close$/.test(series.valueType ?? ""))
+    throw new Error(`Missing Yahoo close value type for ${spec.id}.`);
+}
 if (Math.abs(byId.get("FF_US_MARKET").observations[1][1] - 103.11) > 1e-6)
   throw new Error("Fama–French market return reconstruction changed.");
 if (Math.abs(byId.get("HIST_SP500_TR").observations[1][1] - 143.81) > 1e-6)

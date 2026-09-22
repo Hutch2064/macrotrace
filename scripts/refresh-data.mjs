@@ -1,10 +1,12 @@
 import { mkdir, writeFile, readFile } from "node:fs/promises";
-import { fredSeries, marketSeries } from "./catalog.mjs";
+import { fredSeries } from "./catalog.mjs";
+import { marketSeries } from "./market-catalog.mjs";
 import { fetchLongHistorySeries } from "./long-history.mjs";
 
 const start = "1800-01-01";
 const startEpoch = Math.floor(new Date(`${start}T00:00:00Z`).getTime() / 1000);
 const endEpoch = Math.floor(Date.now() / 1000);
+const marketsOnly = process.argv.includes("--markets-only");
 const previous = JSON.parse(
   await readFile("public/data/snapshot.json", "utf8").catch(
     () => '{"series":[]}',
@@ -13,6 +15,7 @@ const previous = JSON.parse(
 const previousById = new Map(
   previous.series.map((series) => [series.id, series]),
 );
+const marketIds = new Set(marketSeries.map(({ id }) => id));
 const failures = [];
 
 function parseCsv(text) {
@@ -58,24 +61,35 @@ async function fetchFred([
   };
 }
 
-async function fetchMarket([symbol, name, category]) {
+async function fetchMarket(spec) {
+  const {
+    id: symbol,
+    name,
+    category,
+    unit,
+    source,
+    sourceUrl,
+    provider,
+    frequency,
+    ...metadata
+  } = spec;
   const params = new URLSearchParams({
     period1: String(startEpoch),
     period2: String(endEpoch),
     interval: "1d",
     events: "history",
   });
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?${params}`;
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?${params}`;
   const response = await fetch(url, {
+    signal: AbortSignal.timeout(8000),
     headers: { "User-Agent": "Mozilla/5.0 MacroTrace/1.0" },
   });
   if (!response.ok) throw new Error(`Yahoo ${symbol}: ${response.status}`);
   const result = (await response.json()).chart.result?.[0];
   if (!result) throw new Error(`Yahoo ${symbol}: no data`);
-  const closes =
-    result.indicators.adjclose?.[0]?.adjclose ??
-    result.indicators.quote[0].close;
-  const observations = result.timestamp.flatMap((timestamp, index) => {
+  const adjusted = result.indicators.adjclose?.[0]?.adjclose;
+  const closes = adjusted ?? result.indicators.quote?.[0]?.close ?? [];
+  const observations = (result.timestamp ?? []).flatMap((timestamp, index) => {
     const value = closes[index];
     return Number.isFinite(value)
       ? [
@@ -90,12 +104,21 @@ async function fetchMarket([symbol, name, category]) {
     id: symbol,
     name,
     category,
-    unit: "$",
-    frequency: "daily",
-    source: "Yahoo Finance",
-    sourceUrl: `https://finance.yahoo.com/quote/${symbol}/history`,
+    unit,
+    frequency,
+    kind: "market",
+    checkedAt: new Date().toISOString(),
+    valueType: adjusted ? "adjusted_close" : "unadjusted_close",
+    source,
+    sourceUrl,
+    provider,
+    ...metadata,
     observations,
   };
+}
+
+function itemId(item) {
+  return Array.isArray(item) ? item[0] : item.id;
 }
 
 async function mapWithConcurrency(items, mapper, limit = 6) {
@@ -108,19 +131,22 @@ async function mapWithConcurrency(items, mapper, limit = 6) {
       try {
         results[index] = await mapper(item);
         if (!results[index].observations.length)
-          throw new Error(`Empty series ${item[0]}`);
+          throw new Error(`Empty series ${itemId(item)}`);
       } catch (error) {
         try {
-          results[index] = await mapper(item);
+          const retry = await mapper(item);
+          if (!retry.observations.length)
+            throw new Error(`Empty series ${itemId(item)}`);
+          results[index] = retry;
         } catch {
-          const cached = previousById.get(item[0]);
+          const cached = previousById.get(itemId(item));
           if (!cached) throw error;
           results[index] = {
             ...cached,
             refreshStatus: "upstream-unavailable",
             checkedAt: cached.checkedAt || previous.generatedAt,
           };
-          failures.push(item[0]);
+          failures.push(itemId(item));
         }
       }
     }
@@ -131,38 +157,57 @@ async function mapWithConcurrency(items, mapper, limit = 6) {
   return results;
 }
 
-const [macro, markets, longHistory] = await Promise.all([
-  mapWithConcurrency(fredSeries, fetchFred),
-  mapWithConcurrency(marketSeries, fetchMarket),
-  fetchLongHistorySeries().catch((error) => {
-    const cached = previous.series.filter(
-      ({ historyType }) => historyType === "observed_public",
-    );
-    if (!cached.length) throw error;
-    failures.push("research histories");
-    return cached.map((series) => ({
-      ...series,
-      refreshStatus: "upstream-unavailable",
-      checkedAt: series.checkedAt || previous.generatedAt,
-    }));
-  }),
-]);
+const [macro, markets, longHistory] = marketsOnly
+  ? [
+      previous.series.filter(({ id }) => !marketIds.has(id)),
+      await mapWithConcurrency(marketSeries, fetchMarket, 2),
+      [],
+    ]
+  : await Promise.all([
+      mapWithConcurrency(fredSeries, fetchFred),
+      mapWithConcurrency(marketSeries, fetchMarket, 2),
+      fetchLongHistorySeries().catch((error) => {
+        const cached = previous.series.filter(
+          ({ historyType }) => historyType === "observed_public",
+        );
+        if (!cached.length) throw error;
+        failures.push(...cached.map(({ id }) => id));
+        return cached.map((series) => ({
+          ...series,
+          refreshStatus: "upstream-unavailable",
+          checkedAt: series.checkedAt || previous.generatedAt,
+        }));
+      }),
+    ]);
+
+if (marketsOnly) {
+  failures.push(
+    ...(previous.refreshFailures || []).filter((id) => !marketIds.has(id)),
+  );
+}
 
 const snapshot = {
   generatedAt: new Date().toISOString(),
-  refreshFailures: failures,
-  methodology: {
-    start,
-    marketValue: "Adjusted close when available; otherwise close.",
-    missingValues: "Rows with missing or non-numeric observations are omitted.",
-    normalization:
-      "Indexed views divide each series by its first visible observation and multiply by 100.",
-  },
+  refreshFailures: [...new Set(failures)],
+  methodology: marketsOnly
+    ? previous.methodology
+    : {
+        start,
+        marketValue: "Adjusted close when available; otherwise close.",
+        missingValues:
+          "Rows with missing or non-numeric observations are omitted.",
+        normalization:
+          "Indexed views divide each series by its first visible observation and multiply by 100.",
+      },
   series: [...macro, ...markets, ...longHistory],
 };
 
 await mkdir("public/data", { recursive: true });
 await writeFile("public/data/snapshot.json", `${JSON.stringify(snapshot)}\n`);
+await writeFile(
+  "public/data/version.json",
+  `${JSON.stringify({ generatedAt: snapshot.generatedAt })}\n`,
+);
 console.log(
-  `Wrote ${snapshot.series.length} series and ${snapshot.series.reduce((n, item) => n + item.observations.length, 0).toLocaleString()} observations.`,
+  `Wrote ${snapshot.series.length} series and ${snapshot.series.reduce((n, item) => n + item.observations.length, 0).toLocaleString()} observations${marketsOnly ? " (markets only)" : ""}.`,
 );

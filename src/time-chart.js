@@ -179,16 +179,27 @@ export function timeChart(
             );
     plot.setCursor({ left: plot.valToPos(x[keyboardIndex], "x"), top: 0 });
   });
-  const observer = new ResizeObserver(() => plot.setSize(size()));
+  const resize = () => {
+    if (host.isConnected && host.clientWidth) plot.setSize(size());
+  };
+  const observer = new ResizeObserver(resize);
   observer.observe(host);
   return {
+    host,
+    reset() {
+      plot.setScale("x", { min: x[0], max: x.at(-1) });
+      buttons.forEach(({ button }, index) => {
+        plot.setSeries(index + 1, { show: true });
+        button.setAttribute("aria-pressed", "true");
+      });
+    },
     destroy() {
       observer.disconnect();
       plot.destroy();
       host.replaceChildren();
     },
     resize() {
-      plot.setSize(size());
+      resize();
     },
   };
 }

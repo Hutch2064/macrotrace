@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Trace every MacroTrace observation to its public data source, series ID, frequency, and coverage."
+    />
+    <title>Data sources — MacroTrace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=League+Spartan:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/sources.css" />
+  </head>
+  <body data-page="sources">
+    <div id="site-header"></div>
+    <main class="sources-page shell">
+      <section class="sources-hero">
+        <div class="eyebrow">Data sources · Updated daily</div>
+        <h1>Every trace has a source.</h1>
+        <p class="sources-deck">
+          Browse the public series behind MacroTrace. Each entry keeps its
+          publisher, identifier, native frequency, complete observed coverage,
+          latest value, and any available transformation provenance close at
+          hand.
+        </p>
+        <div class="sources-byline">
+          <span id="sources-snapshot-summary">Loading source catalog…</span>
+          <a href="#methodology">Read the source methodology</a>
+        </div>
+      </section>
+
+      <section class="sources-toolbar" aria-label="Source catalog controls">
+        <label class="sources-search">
+          <span>Search series, publisher, category, or ID</span>
+          <input
+            id="sources-search"
+            type="search"
+            placeholder="Try CPI, FRED, unemployment, value factor…"
+            autocomplete="off"
+          />
+        </label>
+        <div class="sources-toolbar-actions">
+          <span id="sources-result-count" class="sources-result-count"></span>
+          <button id="export-catalog" class="secondary-button" type="button">
+            Export catalog CSV
+          </button>
+        </div>
+      </section>
+
+      <section
+        class="sources-provider"
+        id="yahoo-provider"
+        aria-labelledby="yahoo-heading"
+        tabindex="-1"
+      >
+        <div>
+          <div class="section-index">On-demand provider</div>
+          <h2 id="yahoo-heading">Yahoo Finance market histories</h2>
+        </div>
+        <div class="sources-provider-copy">
+          <p>
+            Yahoo Finance powers a compact set of bundled benchmark histories
+            and user-selected symbols from the Dashboard; this is not an
+            exhaustive ticker catalog. MacroTrace uses adjusted close when
+            available and close otherwise, keeps provider daily observations in
+            a bounded six-hour browser cache, and shows the observation date
+            beside every result.
+          </p>
+          <p id="yahoo-cache-note" class="sources-note">
+            Cached Yahoo symbols will appear here when available in this
+            browser.
+          </p>
+          <div id="yahoo-bundled-list"></div>
+          <a
+            class="sources-inline-link"
+            href="https://finance.yahoo.com/"
+            target="_blank"
+            rel="noreferrer"
+            >Visit Yahoo Finance ↗</a
+          >
+        </div>
+      </section>
+
+      <section id="source-catalog" class="sources-catalog" aria-live="polite">
+        <div class="sources-loading">Loading the source catalog…</div>
+      </section>
+
+      <section class="sources-methodology" id="methodology">
+        <details>
+          <summary>
+            <span>
+              <span class="section-index">Methodology</span>
+              <strong>How source rows become MacroTrace observations</strong>
+            </span>
+          </summary>
+          <div class="sources-methodology-grid">
+            <p>
+              <strong>One row, one observation.</strong> Every row is a
+              <span class="formula"
+                >series ID, date, value, unit, frequency, source</span
+              >
+              observation. Dates remain at their publisher’s native daily,
+              weekly, monthly, quarterly, or annual frequency.
+            </p>
+            <p>
+              <strong>Cleaning.</strong> Header rows, blanks, non-numeric
+              values, duplicate dates, missing FRED values, and null market
+              closes are omitted. No observations are fabricated between
+              releases.
+            </p>
+            <p>
+              <strong>Comparability.</strong> Positive quantities and indexes
+              use <span class="formula">(last ÷ boundary − 1) × 100</span>;
+              rates use <span class="formula">(last − boundary) × 100</span>
+              basis points; signed indexes use point differences. Calendar
+              horizons use an exact boundary observation when present, otherwise
+              the prior observed value. Unmeasurable short windows stay
+              unavailable.
+            </p>
+            <p>
+              <strong>Cycles and ranks.</strong> Macro cycles use native
+              frequency levels or 12-month percentage growth, standardized as
+              <span class="formula"
+                >(value − historical mean) ÷ sample standard deviation</span
+              >. Percentiles use the same signal with midpoint ranks for ties;
+              momentum compares the latest change with its own history. Breadth
+              is the share of measurable selected series moving higher.
+            </p>
+            <p>
+              <strong>Returns and risk.</strong> Drawdown is
+              <span class="formula">100 × (value ÷ running peak − 1)</span>.
+              Volatility is sample standard deviation of native-frequency log
+              returns multiplied by
+              <span class="formula">100 × √periods per year</span>, using 252,
+              52, 12, 4, or 1. Market windows of at least one year show CAGR as
+              <span class="formula"
+                >100 × ((last ÷ boundary)^(1 / elapsed years) − 1)</span
+              >; the median averages the two middle values when the count is
+              even.
+            </p>
+            <p>
+              <strong>Calendar comparisons.</strong> Correlation uses Pearson’s
+              coefficient on aligned changes, never raw levels. The coarsest
+              selected frequency determines month, quarter, or year comparisons;
+              incomplete periods and gaps are excluded, and at least three
+              paired changes are required. Heat maps use the last observation of
+              each complete period and label percent, basis-point, or point
+              units; color measures direction, not desirability.
+            </p>
+            <p>
+              <strong>Freshness and interpretation.</strong> The bundled
+              snapshot is refreshed daily, not streamed live. An observation
+              date is a reference date, not a publication date. Yahoo history
+              may be in progress and depends on provider availability. Upstream
+              failures retain the last successful snapshot and are disclosed in
+              each entry’s details.
+            </p>
+            <p>
+              <strong>Research histories.</strong> Fama–French and Damodaran
+              histories preserve source-file details, hashes, and transformation
+              descriptions. Compounded research indexes use
+              <span class="formula"
+                >indexₜ = indexₜ₋₁ × (1 + returnₜ / 100)</span
+              >
+              from 100; industry portfolios and factors are not investable
+              funds. Annual histories remain annual, with no synthetic daily
+              path or undisclosed ETF splice.
+            </p>
+            <p>
+              <strong>Shared snapshot rules.</strong>
+              <span id="snapshot-methodology-note"
+                >Loading snapshot rules…</span
+              >
+            </p>
+            <p class="source-note">
+              This product uses FRED® data but is not endorsed or certified by
+              the Federal Reserve Bank of St. Louis. Data are informational, may
+              be revised by their original publishers, and are not investment
+              advice.
+            </p>
+          </div>
+        </details>
+      </section>
+    </main>
+    <div id="site-footer"></div>
+    <script type="module" src="/src/sources.js"></script>
+  </body>
+</html>

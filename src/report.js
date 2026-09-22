@@ -8,10 +8,17 @@ import {
   yoyChange,
 } from "./common.js";
 import { timeChart } from "./time-chart.js";
+import { reportTitles } from "./report-readings.js";
 
-async function main() {
-  const snapshot = await loadSnapshot();
-  mountChrome(snapshot, "report");
+const reportCharts = [];
+let chromeMounted = false;
+async function main(updatedSnapshot) {
+  const snapshot = updatedSnapshot || (await loadSnapshot());
+  if (!chromeMounted) {
+    mountChrome(snapshot, "report");
+    chromeMounted = true;
+  }
+  reportCharts.splice(0).forEach((chart) => chart.destroy());
   const byId = Object.fromEntries(
     snapshot.series.map((series) => [series.id, series]),
   );
@@ -50,7 +57,6 @@ async function main() {
     {
       ids: ["UNRATE", "JTSJOL"],
       horizon: 1825,
-      title: "The labor market is cooler, not frozen.",
       copy: ([unrate, openings]) =>
         `Unemployment is <span class="story-stat">${format(unrate.observations[unrate.observations.length - 1][1], "%")}</span>, while job openings have changed <span class="story-stat">${signed(periodChange(openings.observations, 1095))}%</span> over three years. These measure different things: unemployment is a share of the labor force, while openings count unfilled positions. Indexed lines compare their relative paths, not their units or economic desirability.`,
       measure: "indexed",
@@ -58,7 +64,6 @@ async function main() {
     {
       ids: ["CPIAUCSL", "PCEPILFE"],
       horizon: 1825,
-      title: "Inflation has slowed, but the last mile remains visible.",
       copy: ([cpi, corePce]) =>
         `Headline CPI is running at <span class="story-stat">${format(yoyChange(cpi.observations), "%")}</span> year over year; core PCE is <span class="story-stat">${format(yoyChange(corePce.observations), "%")}</span>. CPI covers consumer prices; core PCE excludes food and energy within a different consumption basket. Neither is a price-level reduction when its growth rate stays positive.`,
       measure: "yoy",
@@ -66,15 +71,13 @@ async function main() {
     {
       ids: ["GDPC1", "INDPRO"],
       horizon: 3650,
-      title: "Output growth is broader than a single GDP print.",
       copy: ([gdp, production]) =>
-        `Real GDP has expanded <span class="story-stat">${signed(periodChange(gdp.observations, 1825))}%</span> over five years, while industrial production changed <span class="story-stat">${signed(periodChange(production.observations, 1825))}%</span>. The comparison separates economy-wide growth from the factory cycle.`,
+        `Real GDP changed <span class="story-stat">${signed(periodChange(gdp.observations, 1825))}%</span> over five years, while industrial production changed <span class="story-stat">${signed(periodChange(production.observations, 1825))}%</span>. The comparison separates economy-wide growth from the factory cycle.`,
       measure: "indexed",
     },
     {
       ids: ["FEDFUNDS", "DGS10", "DGS2"],
       horizon: 1825,
-      title: "The yield curve records the policy handoff.",
       copy: ([fed, ten, two]) => {
         const twoByDate = new Map(two.observations);
         const common = ten.observations
@@ -89,7 +92,6 @@ async function main() {
     {
       ids: ["HOUST", "PERMIT"],
       horizon: 3650,
-      title: "Housing’s pipeline shows where supply may turn next.",
       copy: ([starts, permits]) =>
         `Housing starts changed <span class="story-stat">${signed(periodChange(starts.observations, 365))}%</span> over one year, while building permits moved <span class="story-stat">${signed(periodChange(permits.observations, 365))}%</span>. Both are seasonally adjusted annual rates in the source, not counts of homes completed in that month.`,
       measure: "indexed",
@@ -97,7 +99,6 @@ async function main() {
     {
       ids: ["DCOILWTICO", "GASREGW"],
       horizon: 1095,
-      title: "Energy shocks reach households with a lag.",
       copy: ([oil, gas]) =>
         `WTI crude changed <span class="story-stat">${signed(periodChange(oil.observations, 365))}%</span> over the last year; regular gasoline changed <span class="story-stat">${signed(periodChange(gas.observations, 365))}%</span>. Crude is quoted per barrel and gasoline per gallon. Rebasing highlights relative movements without equating these physical units or claiming causation.`,
       measure: "indexed",
@@ -105,7 +106,6 @@ async function main() {
     {
       ids: ["NFCI", "STLFSI4"],
       horizon: 1825,
-      title: "Financial conditions separate pressure from panic.",
       copy: ([conditions, stress]) =>
         `The National Financial Conditions Index is <span class="story-stat">${format(conditions.observations[conditions.observations.length - 1][1])}</span>, while the St. Louis Fed stress index is <span class="story-stat">${format(stress.observations[stress.observations.length - 1][1])}</span>. Values below zero indicate conditions or stress below their historical averages.`,
       measure: "level",
@@ -113,39 +113,23 @@ async function main() {
     {
       ids: ["USEHS", "USCONS", "USINFO"],
       horizon: 1825,
-      title: "Sector hiring reveals an uneven expansion.",
       copy: ([health, construction, information]) =>
-        `Over one year, education and health payrolls grew <span class="story-stat">${signed(periodChange(health.observations, 365))}%</span>, construction changed <span class="story-stat">${signed(periodChange(construction.observations, 365))}%</span>, and information changed <span class="story-stat">${signed(periodChange(information.observations, 365))}%</span>. These are payroll counts by industry, not sector equity returns. Different growth rates reveal where employment is expanding or contracting.`,
+        `Over one year, education and health payrolls changed <span class="story-stat">${signed(periodChange(health.observations, 365))}%</span>, construction changed <span class="story-stat">${signed(periodChange(construction.observations, 365))}%</span>, and information changed <span class="story-stat">${signed(periodChange(information.observations, 365))}%</span>. These are payroll counts by industry, not sector equity returns. Different growth rates reveal where employment is expanding or contracting.`,
       measure: "indexed",
     },
   ];
 
+  const findingTitles = reportTitles(snapshot);
   const container = document.querySelector("#report-sections");
+  container.replaceChildren();
   for (const [index, story] of stories.entries()) {
     const seriesList = story.ids.map((id) => byId[id]);
     const article = document.createElement("article");
     article.className = "report-story";
     const dates = seriesList.map((series) => series.observations.at(-1)[0]);
-    const findingTitles = [
-      () =>
-        `Unemployment is ${format(byId.UNRATE.observations.at(-1)[1], "%")}; hiring demand has its own cycle.`,
-      () =>
-        `Consumer prices rose ${format(yoyChange(byId.CPIAUCSL.observations), "%")} over twelve months.`,
-      () =>
-        `Real output changed ${signed(periodChange(byId.GDPC1.observations, 1825))}% over five years.`,
-      () =>
-        `The 10-year Treasury yields ${format(byId.DGS10.observations.at(-1)[1], "%")}.`,
-      () =>
-        `Housing starts changed ${signed(periodChange(byId.HOUST.observations, 365))}% over a year.`,
-      () =>
-        `Crude oil changed ${signed(periodChange(byId.DCOILWTICO.observations, 365))}% over a year.`,
-      () =>
-        `Financial conditions register ${format(byId.NFCI.observations.at(-1)[1])} on the Chicago Fed index.`,
-      () =>
-        `Education and health payrolls changed ${signed(periodChange(byId.USEHS.observations, 365))}% over a year.`,
-    ];
+
     const caption = `${seriesList.map((series) => series.id).join(" · ")} · ${story.measure === "indexed" ? "first visible observation = 100" : story.measure === "yoy" ? "year-over-year percent change" : "reported level"} · latest observations ${dates.join(" / ")} · FRED`;
-    article.innerHTML = `<div class="story-copy"><div class="story-number">0${index + 1}</div><h2>${findingTitles[index]()}</h2><p>${story.copy(seriesList)}</p></div><figure class="story-chart"><div class="chart-wrap"></div><figcaption>${caption}</figcaption></figure>`;
+    article.innerHTML = `<div class="story-copy"><div class="story-number">0${index + 1}</div><h2>${findingTitles[index]}</h2><p>${story.copy(seriesList)}</p></div><figure class="story-chart"><div class="chart-wrap"></div><figcaption>${caption}</figcaption></figure>`;
     container.append(article);
     const points = seriesList.map((series) => {
       const visible = sliceHorizon(series.observations, story.horizon);
@@ -163,12 +147,17 @@ async function main() {
       const base = visible[0][1];
       return visible.map(([date, value]) => [date, (value / base) * 100]);
     });
-    timeChart(article.querySelector(".chart-wrap"), seriesList, points, {
-      suffix: story.measure === "yoy" ? "%" : "",
-    });
+    reportCharts.push(
+      timeChart(article.querySelector(".chart-wrap"), seriesList, points, {
+        suffix: story.measure === "yoy" ? "%" : "",
+      }),
+    );
   }
 }
 
+document.addEventListener("snapshot-updated", (event) => {
+  void main(event.detail);
+});
 main().catch((error) => {
   console.error(error);
   document.querySelector("#report-sections").innerHTML =

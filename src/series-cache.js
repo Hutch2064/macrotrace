@@ -3,6 +3,26 @@ const TTL = 6 * 60 * 60 * 1000;
 const PREFIX = "macrotrace-series-v2:";
 const pending = new Map();
 
+export function readCachedSeries() {
+  try {
+    return Object.keys(localStorage)
+      .filter((key) => key.startsWith(PREFIX))
+      .flatMap((key) => {
+        try {
+          const cached = JSON.parse(localStorage.getItem(key));
+          return cached?.expiresAt > Date.now() &&
+            cached.series?.observations?.length
+            ? [cached.series]
+            : [];
+        } catch {
+          return [];
+        }
+      });
+  } catch {
+    return [];
+  }
+}
+
 export async function requestSeries(item, apiOrigin = "") {
   const key = `${PREFIX}${item.kind}:${item.id}`;
   try {

@@ -1,6 +1,5 @@
 import {
   Chart,
-  changeClass,
   changePercentile,
   changeSuffix,
   changeType,
@@ -34,6 +33,10 @@ import {
 } from "./analytics.js";
 
 const MAX_SELECTED = 24;
+const expandIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg>';
+const closeIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
 const chartLabel = (series) => {
   const international = {
     "International Inflation": series.unit === "%" ? "Inflation" : "CPI",
@@ -96,7 +99,10 @@ async function main() {
     activePreset: "macro",
     logarithmic: false,
   };
-  const charts = {};
+  let charts = {};
+  const modeViews = new Map();
+  let analysisView = document.querySelector("#analysis-view");
+  const viewTemplate = analysisView.cloneNode(true);
   const loaded = new Map(state.series.map((series) => [series.id, series]));
   const horizon = document.querySelector("#horizon-filter");
   const search = document.querySelector("#series-search");
@@ -228,6 +234,13 @@ async function main() {
     });
   }
   enhanceSelect(horizon);
+  document.querySelectorAll(".chart-expand").forEach((button) => {
+    button.innerHTML = expandIcon;
+  });
+  // Keep the unrendered template consistent when opening the other mode first.
+  viewTemplate.querySelectorAll(".chart-expand").forEach((button) => {
+    button.innerHTML = expandIcon;
+  });
 
   document.addEventListener("click", (event) => {
     const button = event.target.closest(".chart-expand");
@@ -238,7 +251,7 @@ async function main() {
     card.setAttribute("role", expanded ? "dialog" : "article");
     document
       .querySelectorAll(
-        "main > *, .dashboard-grid > *, #site-header, #site-footer",
+        "main > *, #analysis-view > *, .dashboard-grid > *, #site-header, #site-footer",
       )
       .forEach((element) => {
         if (element !== card && !element.contains(card))
@@ -246,16 +259,59 @@ async function main() {
       });
     if (expanded) {
       card.setAttribute("aria-modal", "true");
+      card.setAttribute("aria-label", card.querySelector("h2").textContent);
+      const chart = Object.values(charts).find(
+        (item) =>
+          (item.host || item.canvas)?.closest("[data-chart-card]") === card,
+      );
+      const toolbar = document.createElement("div");
+      toolbar.className = "chart-explorer-tools";
+      const reset = document.createElement("button");
+      reset.className = "secondary-button";
+      reset.textContent = "Reset chart";
+      reset.addEventListener("click", () => {
+        if (chart?.reset && chart.host) chart.reset();
+        else if (chart?.data) {
+          chart.data.datasets.forEach((_, index) =>
+            chart.setDatasetVisibility(index, true),
+          );
+          chart.update("none");
+        }
+      });
+      const help = document.createElement("span");
+      help.setAttribute("role", "status");
+      help.textContent = chart?.host
+        ? "Drag to zoom · arrow keys inspect dates · click a legend to hide a series"
+        : chart
+          ? "Hover to inspect values · click a legend to isolate datasets"
+          : "Select any cell to inspect its exact change and period";
+      if (chart) toolbar.append(reset);
+      if (chart?.data) {
+        const legend = document.createElement("button");
+        legend.className = "secondary-button";
+        legend.textContent = "Toggle legend";
+        legend.addEventListener("click", () => {
+          chart.options.plugins.legend.display =
+            !chart.options.plugins.legend.display;
+          chart.update("none");
+        });
+        toolbar.append(legend);
+      }
+      toolbar.append(help);
+      card.querySelector(".chart-subhead").after(toolbar);
       button.focus();
-    } else card.removeAttribute("aria-modal");
-    button.textContent = expanded ? "×" : "↗";
+    } else {
+      card.removeAttribute("aria-modal");
+      card.removeAttribute("aria-label");
+      card.querySelector(".chart-explorer-tools")?.remove();
+    }
+    button.innerHTML = expanded ? closeIcon : expandIcon;
     button.setAttribute(
       "aria-label",
       expanded ? "Close expanded chart" : "Expand chart",
     );
-    window.setTimeout(
-      () => Object.values(charts).forEach((chart) => chart.resize()),
-      40,
+    requestAnimationFrame(() =>
+      Object.values(charts).forEach((chart) => chart.resize()),
     );
   });
   document.addEventListener("keydown", (event) => {
@@ -277,6 +333,15 @@ async function main() {
       }
     }
   });
+  const inspectCell = (event) => {
+    const cell = event.target.closest(".heatmap-cell");
+    const help = cell
+      ?.closest(".chart-expanded")
+      ?.querySelector(".chart-explorer-tools [role=status]");
+    if (help) help.textContent = cell.getAttribute("aria-label");
+  };
+  document.addEventListener("focusin", inspectCell);
+  document.addEventListener("click", inspectCell);
 
   function selectedSeries() {
     return state.selected.map((id) => loaded.get(id)).filter(Boolean);
@@ -290,12 +355,35 @@ async function main() {
     charts[name]?.destroy();
   }
   function setMode(mode) {
-    if (mode !== state.mode) {
-      state.mode = mode;
-      state.logarithmic = false;
-      document.querySelector("#log-scale").checked = false;
-      applyPreset(mode === "macro" ? "macro" : "markets");
-    }
+    if (mode === state.mode) return;
+    const started = performance.now();
+    modeViews.set(state.mode, {
+      element: analysisView,
+      charts,
+      selected: [...state.selected],
+      activePreset: state.activePreset,
+      logarithmic: state.logarithmic,
+      horizon: state.horizon,
+      status: presetStatus.textContent,
+    });
+    const cached = modeViews.get(mode);
+    const next = cached?.element || viewTemplate.cloneNode(true);
+    analysisView.replaceWith(next);
+    analysisView = next;
+    charts = cached?.charts || {};
+    state.mode = mode;
+    state.logarithmic = cached?.logarithmic || false;
+    document.querySelector("#log-scale").checked = state.logarithmic;
+    if (cached) {
+      state.selected = [...cached.selected];
+      state.activePreset = cached.activePreset;
+      presetStatus.textContent = cached.status;
+      renderControls(selectedSeries());
+      if (cached.horizon !== state.horizon) render();
+      else Object.values(charts).forEach((chart) => chart.resize());
+    } else applyPreset(mode === "macro" ? "macro" : "markets");
+    if (import.meta.env.DEV)
+      document.body.dataset.switchMs = (performance.now() - started).toFixed(1);
   }
   function renderPresetButtons() {
     const container = document.querySelector("#preset-list");
@@ -329,6 +417,7 @@ async function main() {
     return series;
   }
   async function addResult(item) {
+    if (!item) return;
     setSearchOpen(false);
     search.value = "";
     status.textContent = `Adding ${item.id}…`;
@@ -338,8 +427,10 @@ async function main() {
         item.kind === "market" || seriesKind(series) === "market"
           ? "markets"
           : "macro";
-      if (nextMode !== state.mode) state.selected = [];
-      state.mode = nextMode;
+      if (nextMode !== state.mode) {
+        setMode(nextMode);
+        state.selected = [];
+      }
       if (!state.selected.includes(series.id))
         state.selected = [
           ...state.selected.slice(-(MAX_SELECTED - 1)),
@@ -472,7 +563,10 @@ async function main() {
       horizon._renderCustom?.();
     }
     render();
-    if (!preset.symbols?.length) {
+    if (
+      !preset.symbols?.length ||
+      preset.symbols.every((symbol) => loaded.has(symbol))
+    ) {
       presetStatus.textContent = `${preset.label} · ${state.selected.length} ${preset.horizon === "max" ? "unspliced research series" : "current series"}`;
       return;
     }
@@ -538,7 +632,25 @@ async function main() {
     document.querySelector(`#${id}`).textContent = text;
   }
   function render() {
+    const renderStarted = performance.now();
     const seriesList = selectedSeries();
+    renderControls(seriesList);
+    renderMetrics(seriesList);
+    renderTrend(seriesList);
+    renderHorizonChanges(seriesList);
+    renderPosition(seriesList);
+    renderFourth(seriesList);
+    renderFifth(seriesList);
+    renderRelationships(seriesList);
+    renderHeatmap(seriesList);
+    renderProfile(seriesList);
+    renderIndividual(seriesList);
+    if (import.meta.env.DEV)
+      document.body.dataset.renderMs = (
+        performance.now() - renderStarted
+      ).toFixed(1);
+  }
+  function renderControls(seriesList) {
     document
       .querySelectorAll("[data-mode]")
       .forEach(
@@ -573,17 +685,6 @@ async function main() {
         ),
       );
     renderPresetButtons();
-    renderMetrics(seriesList);
-    renderTrend(seriesList);
-    renderHorizonChanges(seriesList);
-    renderPosition(seriesList);
-    renderFourth(seriesList);
-    renderFifth(seriesList);
-    renderRelationships(seriesList);
-    renderHeatmap(seriesList);
-    renderProfile(seriesList);
-    renderTable(seriesList);
-    renderIndividual(seriesList);
   }
   function annualizedView() {
     return state.horizon === "max" || Number(state.horizon) >= 365;
@@ -720,7 +821,7 @@ async function main() {
     container.innerHTML = seriesList
       .map(
         (series, index) =>
-          `<article class="chart-card" data-chart-card><div class="chart-heading"><div><span class="chart-kicker">${escapeHtml(series.category)} · ${escapeHtml(series.frequency)}</span><h2>${escapeHtml(series.name)}</h2></div><button class="chart-expand" type="button" aria-label="Expand ${escapeHtml(series.name)}">↗</button></div><div class="chart-subhead">${format(series.observations.at(-1)[1])} ${escapeHtml(series.unit)} · observation ${series.observations.at(-1)[0]}</div><div class="chart-wrap" id="individual-${index}"></div></article>`,
+          `<article class="chart-card" data-chart-card><div class="chart-heading"><div><span class="chart-kicker">${escapeHtml(series.category)} · ${escapeHtml(series.frequency)}</span><h2>${escapeHtml(series.name)}</h2></div><button class="chart-expand" type="button" aria-label="Expand ${escapeHtml(series.name)}">${expandIcon}</button></div><div class="chart-subhead">${format(series.observations.at(-1)[1])} ${escapeHtml(series.unit)} · observation ${series.observations.at(-1)[0]}</div><div class="chart-wrap" id="individual-${index}"></div></article>`,
       )
       .join("");
     seriesList.forEach((series, index) => {
@@ -1140,80 +1241,6 @@ async function main() {
       options: horizontalBarOptions({ min: 0, max: 100, percent: true }),
     });
   }
-  function renderTable(seriesList) {
-    setText(
-      "secondary-change-heading",
-      state.mode === "macro" ? "Cycle percentile" : "Annualized volatility",
-    );
-    document.querySelector("#data-table").innerHTML = seriesList
-      .map((series) => {
-        const latest = series.observations.at(-1),
-          movement = semanticChange(series, state.horizon);
-        const secondary =
-          state.mode === "macro"
-            ? cyclePercentile(series)
-            : volatility(series, state.horizon);
-        const window = sliceWindow(series, state.horizon);
-        const details = [
-          `${series.id} · ${series.frequency}`,
-          series.dataRole?.replaceAll("_", " "),
-          series.methodology,
-          series.valueType?.replaceAll("_", " "),
-          series.availabilityNote,
-          series.rightsNote,
-          `History: ${series.observations[0][0]} – ${latest[0]}`,
-          `Checked: ${(series.checkedAt || snapshot.generatedAt).slice(0, 10)}`,
-          series.refreshStatus === "upstream-unavailable"
-            ? "Refresh unavailable; previous successful snapshot retained."
-            : "",
-        ]
-          .filter(Boolean)
-          .join(" · ");
-        return `<tr><td><details><summary>${escapeHtml(series.name)}</summary><p>${escapeHtml(details)}</p></details></td><td>${escapeHtml(series.category)}</td><td>${latest[0]}</td><td>${format(latest[1])} ${escapeHtml(series.unit)}</td><td class="${changeClass(movement)}" title="Window begins ${(window.anchor || window.observations[0])?.[0] ?? "—"}">${signed(movement)}${Number.isFinite(movement) ? changeSuffix(series) : ""}</td><td>${format(secondary, "%")}</td><td><a href="${escapeHtml(series.sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(series.source)}</a></td></tr>`;
-      })
-      .join("");
-  }
-
-  document.querySelector("#download-csv").addEventListener("click", () => {
-    const rows = [
-      [
-        "series_id",
-        "series_name",
-        "date",
-        "value",
-        "unit",
-        "frequency",
-        "source_url",
-        "data_role",
-      ],
-      ...selectedSeries().flatMap((series) =>
-        sliceHorizon(series.observations, state.horizon).map(
-          ([date, value]) => [
-            series.id,
-            series.name,
-            date,
-            value,
-            series.unit,
-            series.frequency,
-            series.sourceUrl,
-            series.dataRole || series.valueType || "observed_level",
-          ],
-        ),
-      ),
-    ];
-    const csv = rows
-      .map((row) =>
-        row
-          .map((value) => `"${String(value).replaceAll('"', '""')}"`)
-          .join(","),
-      )
-      .join("\n");
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
-    link.download = "macrotrace-current-view.csv";
-    link.click();
-    URL.revokeObjectURL(link.href);
-  });
   await applyPreset("macro");
   const warmMarkets = async () => {
     const symbols = [...(presetById("markets")?.symbols ?? [])];

@@ -111,212 +111,261 @@
         <div id="selected-series" class="selected-series"></div>
       </section>
 
-      <section
-        class="dashboard-metrics"
-        id="dashboard-metrics"
-        aria-label="Summary statistics"
-      ></section>
+      <div id="analysis-view">
+        <section
+          class="dashboard-metrics"
+          id="dashboard-metrics"
+          aria-label="Summary statistics"
+        ></section>
 
-      <section class="dashboard-grid">
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker" id="trend-kicker">01 · Cycle</span>
-              <h2 id="trend-title">Standardized history</h2>
-            </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand path chart"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="trend-note"></div>
-          <div class="chart-wrap" id="trend-chart"></div>
-        </article>
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker">02 · Momentum</span>
-              <h2 id="ranking-title">Change across horizons</h2>
-            </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand momentum chart"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="ranking-note">
-            Per-series units: percent, basis points, or index points
-          </div>
-          <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
-        </article>
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker">03 · Position</span>
-              <h2 id="position-title">Current historical percentile</h2>
-            </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand percentile chart"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="position-note">
-            Latest reported level within each series’ full history
-          </div>
-          <div class="chart-wrap"><canvas id="correlation-chart"></canvas></div>
-        </article>
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker" id="metric-four-kicker"
-                >04 · Momentum</span
+        <section class="dashboard-grid">
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker" id="trend-kicker">01 · Cycle</span>
+                <h2 id="trend-title">Standardized history</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand path chart"
               >
-              <h2 id="metric-four-title">Change trend</h2>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
             </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand fourth chart"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="metric-four-note">
-            Native release-to-release movement
-          </div>
-          <div class="chart-wrap" id="drawdown-chart"></div>
-        </article>
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker" id="metric-five-kicker"
-                >05 · Freshness</span
+            <div class="chart-subhead" id="trend-note"></div>
+            <div class="chart-wrap" id="trend-chart"></div>
+          </article>
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker">02 · Momentum</span>
+                <h2 id="ranking-title">Change across horizons</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand momentum chart"
               >
-              <h2 id="metric-five-title">Days since latest release</h2>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
             </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand fifth chart"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="metric-five-note">
-            Native release calendars; fewer days is fresher
-          </div>
-          <div class="chart-wrap"><canvas id="volatility-chart"></canvas></div>
-        </article>
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker">06 · Relationship</span>
-              <h2>Change correlation to anchor</h2>
+            <div class="chart-subhead" id="ranking-note">
+              Per-series units: percent, basis points, or index points
             </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand relationship chart"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="relationship-note">
-            Aligned period changes, never raw levels
-          </div>
-          <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
-        </article>
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker">07 · Calendar</span>
-              <h2 id="heatmap-title">Month-over-month change</h2>
+            <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
+          </article>
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker">03 · Position</span>
+                <h2 id="position-title">Current historical percentile</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand percentile chart"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
             </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand monthly heat map"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="heatmap-note">
-            Latest 12 months in each series’ economically meaningful unit
-          </div>
-          <div
-            id="monthly-heatmap"
-            class="heatmap-wrap"
-            role="img"
-            aria-label="Month-over-month change heat map"
-          ></div>
-        </article>
-        <article class="chart-card" data-chart-card>
-          <div class="chart-heading">
-            <div>
-              <span class="chart-kicker">08 · Overview</span>
-              <h2 id="profile-title">Category breadth</h2>
+            <div class="chart-subhead" id="position-note">
+              Latest reported level within each series’ full history
             </div>
-            <button
-              class="chart-expand"
-              type="button"
-              aria-label="Expand overview chart"
-            >
-              ↗
-            </button>
-          </div>
-          <div class="chart-subhead" id="profile-note">
-            Share of selected indicators moving higher
-          </div>
-          <div class="chart-wrap"><canvas id="profile-chart"></canvas></div>
-        </article>
-      </section>
+            <div class="chart-wrap">
+              <canvas id="correlation-chart"></canvas>
+            </div>
+          </article>
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker" id="metric-four-kicker"
+                  >04 · Momentum</span
+                >
+                <h2 id="metric-four-title">Change trend</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand fourth chart"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
+            </div>
+            <div class="chart-subhead" id="metric-four-note">
+              Native release-to-release movement
+            </div>
+            <div class="chart-wrap" id="drawdown-chart"></div>
+          </article>
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker" id="metric-five-kicker"
+                  >05 · Freshness</span
+                >
+                <h2 id="metric-five-title">Days since latest release</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand fifth chart"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
+            </div>
+            <div class="chart-subhead" id="metric-five-note">
+              Native release calendars; fewer days is fresher
+            </div>
+            <div class="chart-wrap">
+              <canvas id="volatility-chart"></canvas>
+            </div>
+          </article>
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker">06 · Relationship</span>
+                <h2>Change correlation to anchor</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand relationship chart"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
+            </div>
+            <div class="chart-subhead" id="relationship-note">
+              Aligned period changes, never raw levels
+            </div>
+            <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
+          </article>
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker">07 · Calendar</span>
+                <h2 id="heatmap-title">Month-over-month change</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand monthly heat map"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
+            </div>
+            <div class="chart-subhead" id="heatmap-note">
+              Latest 12 months in each series’ economically meaningful unit
+            </div>
+            <div
+              id="monthly-heatmap"
+              class="heatmap-wrap"
+              role="img"
+              aria-label="Month-over-month change heat map"
+            ></div>
+          </article>
+          <article class="chart-card" data-chart-card>
+            <div class="chart-heading">
+              <div>
+                <span class="chart-kicker">08 · Overview</span>
+                <h2 id="profile-title">Category breadth</h2>
+              </div>
+              <button
+                class="chart-expand"
+                type="button"
+                aria-label="Expand overview chart"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                </svg>
+              </button>
+            </div>
+            <div class="chart-subhead" id="profile-note">
+              Share of selected indicators moving higher
+            </div>
+            <div class="chart-wrap"><canvas id="profile-chart"></canvas></div>
+          </article>
+        </section>
 
-      <section class="series-detail" aria-label="Individual series histories">
-        <div class="table-heading">
-          <div>
-            <div class="section-index">Native units · individual histories</div>
-            <h2>Every series, in context.</h2>
+        <section class="series-detail" aria-label="Individual series histories">
+          <div class="table-heading">
+            <div>
+              <div class="section-index">
+                Native units · individual histories
+              </div>
+              <h2>Every series, in context.</h2>
+            </div>
+            <p>Hover to inspect. Drag to zoom. Expand for a closer view.</p>
           </div>
-          <p>Hover to inspect. Drag to zoom. Expand for a closer view.</p>
-        </div>
-        <div id="series-charts" class="dashboard-grid"></div>
-      </section>
-
-      <section class="data-table-section">
-        <div class="table-heading">
-          <div>
-            <div class="section-index">Current view</div>
-            <h2>The numbers behind the charts</h2>
-          </div>
-          <button id="download-csv" class="secondary-button" type="button">
-            Download CSV
-          </button>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Series</th>
-                <th>Category</th>
-                <th>Latest date</th>
-                <th>Latest value</th>
-                <th>Window change</th>
-                <th id="secondary-change-heading">12-month change</th>
-                <th>Source</th>
-              </tr>
-            </thead>
-            <tbody id="data-table"></tbody>
-          </table>
-        </div>
-      </section>
+          <div id="series-charts" class="dashboard-grid"></div>
+        </section>
+      </div>
+      <p class="source-link">
+        <a href="./sources.html"
+          >Browse data sources and download observations →</a
+        >
+      </p>
     </main>
     <div id="site-footer"></div>
     <script type="module" src="/src/dashboard.js"></script>

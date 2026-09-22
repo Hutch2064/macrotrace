@@ -58,99 +58,24 @@
 
       <section class="methodology shell" id="methodology">
         <div>
-          <div class="section-index">Methodology</div>
-          <h2>One row is one observed value on one date.</h2>
+          <div class="section-index">Data Sources</div>
+          <h2>Trace each observation to its source.</h2>
         </div>
-        <div class="method-grid">
-          <p>
-            <strong>Sources and rows.</strong> Macroeconomic series come from
-            FRED; optional market histories use Yahoo Finance adjusted close.
-            Long-history research indexes use Fama–French monthly returns and
-            Damodaran annual returns with source-file hashes. One row is one
-            <span class="formula"
-              >series_id, date, value, unit, frequency, source</span
-            >
-            observation, and every series retains its source link.
-          </p>
-          <p>
-            <strong>Cleaning.</strong> Header rows, blank or “.” FRED
-            observations, non-numeric values, duplicate dates, and Yahoo rows
-            with null adjusted closes are dropped. Dates remain at their native
-            daily, weekly, monthly, quarterly, or annual frequency; no
-            observations are fabricated between releases.
-          </p>
-          <p>
-            <strong>Comparability.</strong> Positive quantities and indexes use
-            <span class="formula">(last ÷ boundary − 1) × 100</span>. Rates use
-            <span class="formula">(last − boundary) × 100</span> basis points;
-            signed indexes use point differences. Calendar horizons use an exact
-            boundary observation when present, otherwise the prior observed
-            value. Short windows that cannot be measured at the native frequency
-            remain unavailable. Indexed market paths start at 100; their source
-            may be a price, adjusted close, or research index, as disclosed in
-            the table.
-          </p>
-          <p>
-            <strong>Cycles and ranks.</strong> Macro cycle charts use 12-month
-            percentage growth for positive quantities, and levels for rates or
-            signed indexes. Each is standardized as
-            <span class="formula"
-              >(value − historical mean) ÷ sample standard deviation</span
-            >. Percentiles use the same economic signal and midpoint ranks for
-            ties, not the raw CPI price level. Momentum scores compare the
-            latest horizon change with its own historical mean and standard
-            deviation. Breadth is the share of measurable selected series moving
-            higher—not a claim that the economy is improving.
-          </p>
-          <p>
-            <strong>Returns and risk.</strong> Drawdown is
-            <span class="formula">100 × (value ÷ running peak − 1)</span> within
-            the selected window, for positive market paths only; moves between
-            native observations are not captured. Volatility is the sample
-            standard deviation of native-frequency log returns multiplied by
-            <span class="formula">100 × √periods per year</span>, using 252, 52,
-            12, 4, or 1. Missing observations are not treated as single-period
-            returns. Market windows of at least one year show compound annual
-            growth as
-            <span class="formula"
-              >100 × ((last ÷ boundary)^(1 / elapsed years) − 1)</span
-            >. The median averages the two middle values when the count is even.
-          </p>
-          <p>
-            <strong>Calendar comparisons.</strong> Correlation uses Pearson’s
-            coefficient on aligned changes, never raw price levels. The coarsest
-            selected frequency determines month, quarter, or year comparisons;
-            incomplete aggregated periods and gaps are excluded. At least three
-            paired changes are required, with sample counts shown. Heat maps use
-            the last observed level of each complete period; each row states
-            percent, basis-point, or point units. Color measures direction, not
-            economic desirability.
-          </p>
-          <p>
-            <strong>Freshness and interpretation.</strong> The public snapshot
-            is refreshed daily, not streamed live. The ticker banner shows
-            observation dates; these are not publication dates. A monthly
-            observation may be dated at the start of its reference month. Yahoo
-            search/history is cached, its latest daily bar may be in progress,
-            and availability depends on the provider. The table exposes source,
-            frequency, full coverage, and the latest successful check.
-          </p>
-          <p>
-            <strong>Research histories.</strong> Fama–French and Damodaran
-            returns are compounded as
-            <span class="formula">indexₜ = indexₜ₋₁ × (1 + returnₜ / 100)</span>
-            from 100. Industry portfolios and long-short size/value factors are
-            academic research series, not investable funds. Gold is a
-            price-return history. Annual histories remain annual; no synthetic
-            daily path or undisclosed ETF splice is presented. Exact source
-            hashes and transformation descriptions travel with the snapshot.
-          </p>
-        </div>
-        <div class="source-note">
-          This product uses FRED® data but is not endorsed or certified by the
-          Federal Reserve Bank of St. Louis. Data are informational, may be
-          revised by their original publishers, and are not investment advice.
-        </div>
+        <p>
+          One row is one observed value for one series and date. Missing and
+          nonnumeric observations are excluded; native daily, monthly,
+          quarterly, and annual frequencies are preserved. Report figures are
+          calculated from the daily published snapshot, not manually maintained.
+        </p>
+        <a class="secondary-button" href="./sources.html"
+          >Browse the categorized source catalog</a
+        >
+        <p class="source-note">
+          The catalog includes exact series references, downloadable
+          observations, coverage, and calculation definitions. A daily refresh
+          checks for newly published data; source release schedules and outages
+          can leave observations unchanged.
+        </p>
       </section>
     </main>
     <div id="site-footer"></div>

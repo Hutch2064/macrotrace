@@ -1,4 +1,5 @@
 import * as analytics from "./analytics.js";
+import { tickerReadings } from "./ticker.js";
 import { Chart, registerables } from "chart.js";
 
 const crosshair = {
@@ -116,53 +117,26 @@ export function rollingChanges(series, horizon = "max") {
 }
 
 export function mountChrome(snapshot, page) {
-  const byId = new Map(snapshot.series.map((series) => [series.id, series]));
-  const signal = (id, label, value, detail) => {
-    const series = byId.get(id);
-    if (!series) return "";
-    return `<span class="tape-item" title="Observation ${series.observations.at(-1)[0]} · snapshot ${snapshot.generatedAt.slice(0, 10)}"><b>${label}</b><span>${value(series)}</span><small>${detail(series)} · ${series.observations.at(-1)[0]}</small></span>`;
-  };
-  const latest = (series) =>
-    series.observations[series.observations.length - 1];
-  const signals = [
-    signal(
-      "CPIAUCSL",
-      "Consumer inflation",
-      (series) => format(yoyChange(series.observations), "%"),
-      () => "year over year",
-    ),
-    signal(
-      "UNRATE",
-      "Unemployment",
-      (series) => format(latest(series)[1], "%"),
-      () => "latest rate",
-    ),
-    signal(
-      "PAYEMS",
-      "Payroll growth",
-      (series) => format(yoyChange(series.observations), "%"),
-      () => "year over year",
-    ),
-    signal(
-      "FEDFUNDS",
-      "Effective fed funds",
-      (series) => format(latest(series)[1], "%"),
-      () => "monthly average",
-    ),
-    signal(
-      "DGS10",
-      "10-year Treasury",
-      (series) => format(latest(series)[1], "%"),
-      () => "latest yield",
-    ),
-    signal(
-      "DTWEXBGS",
-      "U.S. dollar",
-      (series) => `${signed(yoyChange(series.observations))}%`,
-      () => "year over year",
-    ),
-  ].filter(Boolean);
-  const tape = signals.join("");
+  const escape = (value) =>
+    String(value).replace(
+      /[&<>"']/g,
+      (character) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[character],
+    );
+  const tapeMarkup = (data) =>
+    tickerReadings(data)
+      .map(
+        (row) =>
+          `<a class="tape-item" href="./sources.html#source-${encodeURIComponent(row.id)}" title="${escape(row.name)} · observation ${row.date}${row.retained ? " · retained successful data" : ""}"><b>${escape(row.name)}</b><span>${escape(row.value)}</span><small>${row.detail} · ${row.date}</small></a>`,
+      )
+      .join("");
+  const tape = tapeMarkup(snapshot);
   document.querySelector("#site-header").innerHTML = `
     <header class="site-nav">
       <div class="nav-row">
@@ -171,7 +145,7 @@ export function mountChrome(snapshot, page) {
         <nav class="nav-links" aria-label="Primary navigation">
           <a href="./index.html" ${page === "report" ? 'aria-current="page"' : ""}>Report</a>
           <a href="./dashboard.html" ${page === "dashboard" ? 'aria-current="page"' : ""}>Dashboard</a>
-          <a href="${page === "report" ? "#methodology" : "./index.html#methodology"}">Methodology</a>
+          <a href="./sources.html" ${page === "sources" ? 'aria-current="page"' : ""}>Data Sources</a>
           <a class="nav-cta" href="./dashboard.html">Open data</a>
         </nav>
       </div>
@@ -179,6 +153,50 @@ export function mountChrome(snapshot, page) {
     </header>`;
   document.querySelector("#site-footer").innerHTML = `
     <footer class="site-footer"><div class="footer-row shell"><span>MacroTrace · Public economic data, made legible.</span><span>Built by Aidan Hutchison · Daily snapshots, not a live feed</span></div></footer>`;
+  const resizeTape = () => {
+    const track = document.querySelector(".tape-track");
+    if (track)
+      track.style.animationDuration = `${Math.max(30, track.scrollWidth / 2 / 45)}s`;
+  };
+  requestAnimationFrame(resizeTape);
+  document.fonts.ready.then(resizeTape);
+  let currentVersion = snapshot.generatedAt;
+  let checking = false;
+  async function checkForSnapshot() {
+    if (document.hidden || checking) return;
+    checking = true;
+    try {
+      const response = await fetch("./data/version.json", {
+        cache: "no-store",
+      });
+      if (!response.ok) return;
+      const version = await response.json();
+      if (!version.generatedAt || version.generatedAt === currentVersion)
+        return;
+      const fresh = await fetch(
+        `./data/snapshot.json?v=${encodeURIComponent(version.generatedAt)}`,
+        { cache: "no-cache" },
+      );
+      if (!fresh.ok) return;
+      const data = await fresh.json();
+      if (!data.series?.length) return;
+      currentVersion = data.generatedAt;
+      const markup = tapeMarkup(data);
+      document.querySelectorAll(".tape-group").forEach((group) => {
+        group.innerHTML = markup;
+      });
+      resizeTape();
+      document.dispatchEvent(
+        new CustomEvent("snapshot-updated", { detail: data }),
+      );
+    } catch {
+      /* Keep the successful snapshot during a provider/network outage. */
+    } finally {
+      checking = false;
+    }
+  }
+  window.setInterval(checkForSnapshot, 60 * 60 * 1000);
+  document.addEventListener("visibilitychange", checkForSnapshot);
   const button = document.querySelector(".menu-button");
   const links = document.querySelector(".nav-links");
   button.addEventListener("click", () => {

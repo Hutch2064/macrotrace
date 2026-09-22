@@ -655,10 +655,9 @@ label.view-select {
 .control-panel {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(320px, 1fr) minmax(170px, 240px) minmax(
-      150px,
-      190px
-    ) auto;
+  grid-template-columns:
+    minmax(320px, 1fr) minmax(170px, 240px) minmax(150px, 190px)
+    auto;
   gap: 18px;
   align-items: end;
   padding: 18px;
@@ -1088,6 +1087,30 @@ select:focus {
 .chart-expand:hover {
   border-color: var(--gold);
   color: var(--text);
+}
+.chart-expand svg {
+  width: 18px;
+  height: 18px;
+}
+.chart-explorer-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+.chart-explorer-tools span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.chart-explorer-tools .secondary-button {
+  padding: 7px 12px;
+  font-size: 0.75rem;
+}
+.source-link {
+  margin: 26px 0 0;
+  color: var(--gold);
+  font-size: 0.85rem;
 }
 .chart-wrap {
   position: relative;
@@ -1656,4 +1679,25 @@ select.view-select option {
   * {
     transition-duration: 0.01ms !important;
   }
+}
+.chart-card.chart-expanded .chart-wrap,
+.chart-card.chart-expanded .heatmap-wrap {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+}
+.chart-card.chart-expanded .heatmap-wrap {
+  align-content: stretch;
+  grid-auto-rows: minmax(30px, 1fr);
+}
+.chart-card.chart-expanded .chart-heading,
+.chart-card.chart-expanded .chart-subhead,
+.chart-card.chart-expanded .chart-explorer-tools {
+  flex-shrink: 0;
+}
+.chart-card.chart-expanded .chart-subhead {
+  margin-top: 6px;
+}
+.chart-card.chart-expanded .heatmap-label {
+  white-space: normal;
 }
