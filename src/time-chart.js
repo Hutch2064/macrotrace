@@ -128,7 +128,9 @@ export function timeChart(
           font: "11px Inter",
           size: 52,
           values: (_, values) =>
-            values.map((value) => `${compact(value)}${suffix}`),
+            values.map((value) =>
+              value == null ? "" : `${compact(value)}${suffix}`,
+            ),
         },
       ],
       series: [
