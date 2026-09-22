@@ -43,8 +43,28 @@ for (const [ticker, proxyId, label, caveat] of spliceSpecs) {
     security = byId.get(ticker),
     output = byId.get(`${ticker}_SIM`);
   assert.ok(output, `Missing ${ticker} extension`);
+  const rebuilt = spliceHistory(
+    proxy,
+    security,
+    snapshot.generatedAt,
+    label,
+    caveat,
+  );
+  // libm log/sqrt can differ by a few ulps across operating systems.
+  // Keep observations and all other provenance exact; tolerate only diagnostics.
+  for (const metric of [
+    "correlation",
+    "annualizedTrackingDifferenceVolatility",
+  ]) {
+    close(
+      rebuilt.splice.overlap[metric],
+      output.splice.overlap[metric],
+      `${ticker}: overlap ${metric}`,
+    );
+    rebuilt.splice.overlap[metric] = output.splice.overlap[metric];
+  }
   assert.deepEqual(
-    spliceHistory(proxy, security, snapshot.generatedAt, label, caveat),
+    rebuilt,
     output,
     `${ticker}: deterministic complete reconstruction`,
   );
