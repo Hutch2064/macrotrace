@@ -1,6 +1,6 @@
 # MacroTrace non-Yahoo source inventory
 
-Snapshot: 2026-09-25T15:50:47.932Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
+Snapshot: 2026-09-26T14:59:33.980Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
 
 ## Credit
 
@@ -15,8 +15,8 @@ Snapshot: 2026-09-25T15:50:47.932Z. 383 series, including explicitly labeled der
 | [VIXCLS](https://fred.stlouisfed.org/series/VIXCLS) | CBOE Volatility Index | daily | 1990-01-02 | 2026-09-22 | 36.7 |
 | [BOGMBASE](https://fred.stlouisfed.org/series/BOGMBASE) | Monetary Base | monthly | 1959-01-01 | 2026-08-01 | 67.6 |
 | [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | weekly | 2002-12-18 | 2026-09-23 | 23.8 |
-| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | daily | 1986-01-02 | 2026-09-23 | 40.7 |
-| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | daily | 1983-01-03 | 2026-09-23 | 43.7 |
+| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | daily | 1986-01-02 | 2026-09-24 | 40.7 |
+| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | daily | 1983-01-03 | 2026-09-24 | 43.7 |
 | [BAA](https://fred.stlouisfed.org/series/BAA) | Moody's Seasoned Baa Corporate Bond Yield | monthly | 1919-01-01 | 2026-08-01 | 107.6 |
 | [AAA](https://fred.stlouisfed.org/series/AAA) | Moody's Seasoned Aaa Corporate Bond Yield | monthly | 1919-01-01 | 2026-08-01 | 107.6 |
 | [M1SL](https://fred.stlouisfed.org/series/M1SL) | M1 Money Stock | monthly | 1959-01-01 | 2026-08-01 | 67.6 |
@@ -60,9 +60,9 @@ Snapshot: 2026-09-25T15:50:47.932Z. 383 series, including explicitly labeled der
 | [PCEPI](https://fred.stlouisfed.org/series/PCEPI) | PCE Price Index | monthly | 1959-01-01 | 2026-07-01 | 67.5 |
 | [PCEPILFE](https://fred.stlouisfed.org/series/PCEPILFE) | Core PCE Price Index | monthly | 1959-01-01 | 2026-07-01 | 67.5 |
 | [PPIACO](https://fred.stlouisfed.org/series/PPIACO) | Producer Price Index | monthly | 1913-01-01 | 2026-08-01 | 113.6 |
-| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-24 | 23.7 |
-| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-24 | 23.7 |
-| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | daily | 2003-01-02 | 2026-09-24 | 23.7 |
+| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-25 | 23.7 |
+| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-25 | 23.7 |
+| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | daily | 2003-01-02 | 2026-09-25 | 23.7 |
 
 ## Growth
 
@@ -84,23 +84,23 @@ Snapshot: 2026-09-25T15:50:47.932Z. 383 series, including explicitly labeled der
 | ID | Series | Frequency | From | Through | Years |
 | --- | --- | --- | --- | --- | --- |
 | [FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) | Federal Funds Rate | monthly | 1954-07-01 | 2026-08-01 | 72.1 |
-| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | daily | 2001-07-31 | 2026-09-23 | 25.1 |
-| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | daily | 1981-09-01 | 2026-09-23 | 45.1 |
-| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | daily | 1981-09-01 | 2026-09-23 | 45.1 |
-| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | daily | 1962-01-02 | 2026-09-23 | 64.7 |
-| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | daily | 1976-06-01 | 2026-09-23 | 50.3 |
-| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | daily | 1962-01-02 | 2026-09-23 | 64.7 |
-| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | daily | 1969-07-01 | 2026-09-23 | 57.2 |
-| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | daily | 1962-01-02 | 2026-09-23 | 64.7 |
-| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | daily | 1962-01-02 | 2026-09-23 | 64.7 |
-| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | daily | 1977-02-15 | 2026-09-23 | 49.6 |
-| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | daily | 1976-06-01 | 2026-09-24 | 50.3 |
-| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | daily | 1982-01-04 | 2026-09-24 | 44.7 |
-| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | daily | 1954-07-01 | 2026-09-23 | 72.2 |
+| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | daily | 2001-07-31 | 2026-09-24 | 25.2 |
+| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | daily | 1981-09-01 | 2026-09-24 | 45.1 |
+| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | daily | 1981-09-01 | 2026-09-24 | 45.1 |
+| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
+| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | daily | 1976-06-01 | 2026-09-24 | 50.3 |
+| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
+| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | daily | 1969-07-01 | 2026-09-24 | 57.2 |
+| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
+| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
+| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | daily | 1977-02-15 | 2026-09-24 | 49.6 |
+| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | daily | 1976-06-01 | 2026-09-25 | 50.3 |
+| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | daily | 1982-01-04 | 2026-09-25 | 44.7 |
+| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | daily | 1954-07-01 | 2026-09-24 | 72.2 |
 | [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | daily | 2018-04-03 | 2026-09-24 | 8.5 |
-| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-23 | 23.7 |
-| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-23 | 23.7 |
-| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | daily | 2010-02-22 | 2026-09-23 | 16.6 |
+| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-24 | 23.7 |
+| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-24 | 23.7 |
+| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | daily | 2010-02-22 | 2026-09-24 | 16.6 |
 
 ## Housing
 
@@ -278,13 +278,13 @@ Snapshot: 2026-09-25T15:50:47.932Z. 383 series, including explicitly labeled der
 
 | ID | Series | Frequency | From | Through | Years |
 | --- | --- | --- | --- | --- | --- |
-| [FF_US_MARKET](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Equity Market · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_SMALL_GROWTH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Small-Cap Growth · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_SMALL_CORE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Small-Cap Core · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_SMALL_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Small-Cap Value · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_LARGE_GROWTH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Large-Cap Growth · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_LARGE_CORE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Large-Cap Core · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_LARGE_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Large-Cap Value · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
+| [FF_US_MARKET](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Equity Market · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_SMALL_GROWTH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Small-Cap Growth · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_SMALL_CORE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Small-Cap Core · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_SMALL_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Small-Cap Value · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_LARGE_GROWTH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Large-Cap Growth · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_LARGE_CORE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Large-Cap Core · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_LARGE_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Large-Cap Value · Fama–French Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
 | [HIST_SP500_TR](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html) | S&P 500 Total Return · Damodaran | annual | 1927-12-31 | 2025-12-31 | 98 |
 | [HIST_US_SMALL](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html) | U.S. Small Stocks (Bottom Decile) · Damodaran | annual | 1927-12-31 | 2025-12-31 | 98 |
 | [HIST_TBILL](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html) | U.S. 3-Month Treasury Bills · Damodaran | annual | 1927-12-31 | 2025-12-31 | 98 |
@@ -292,16 +292,16 @@ Snapshot: 2026-09-25T15:50:47.932Z. 383 series, including explicitly labeled der
 | [HIST_BAA_CORP](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html) | U.S. Baa Corporate Bond Total Return · Damodaran | annual | 1927-12-31 | 2025-12-31 | 98 |
 | [HIST_REAL_ESTATE](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html) | U.S. Real Estate Research Series · Damodaran | annual | 1927-12-31 | 2025-12-31 | 98 |
 | [HIST_GOLD](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html) | Gold Price Return · Damodaran | annual | 1927-12-31 | 2025-12-31 | 98 |
-| [FF_INDUSTRY_NONDURABLES](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Nondurables · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_DURABLES](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Durables · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_MANUFACTURING](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Manufacturing · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_ENERGY](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Energy · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_HITECH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. High Tech · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_TELECOM](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Telecommunications · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_SHOPS](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Shops · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_HEALTH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Health Care · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_UTILITIES](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Utilities · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_INDUSTRY_OTHER](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Other · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
+| [FF_INDUSTRY_NONDURABLES](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Nondurables · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_DURABLES](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Durables · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_MANUFACTURING](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Manufacturing · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_ENERGY](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Energy · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_HITECH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. High Tech · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_TELECOM](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Telecommunications · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_SHOPS](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Shops · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_HEALTH](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Health Care · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_UTILITIES](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Utilities · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_INDUSTRY_OTHER](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Other · Fama–French Industry Research Portfolio | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
 | [FF_DEVELOPED_MARKET](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Developed Markets · Fama–French Market Research Portfolio | monthly | 1990-06-30 | 2026-08-31 | 36.2 |
 | [FF_DEVELOPED_SMALL](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Developed Markets · Fama–French Size Factor | monthly | 1990-06-30 | 2026-08-31 | 36.2 |
 | [FF_DEVELOPED_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Developed Markets · Fama–French Value Factor | monthly | 1990-06-30 | 2026-08-31 | 36.2 |
@@ -317,11 +317,11 @@ Snapshot: 2026-09-25T15:50:47.932Z. 383 series, including explicitly labeled der
 | [FF_ASIAPAC_EXJP_MARKET](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Asia Pacific ex Japan · Fama–French Market Research Portfolio | monthly | 1990-06-30 | 2026-08-31 | 36.2 |
 | [FF_ASIAPAC_EXJP_SMALL](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Asia Pacific ex Japan · Fama–French Size Factor | monthly | 1990-06-30 | 2026-08-31 | 36.2 |
 | [FF_ASIAPAC_EXJP_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Asia Pacific ex Japan · Fama–French Value Factor | monthly | 1990-06-30 | 2026-08-31 | 36.2 |
-| [FF_US_SIZE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Size Factor (SMB) · Fama–French Research Index | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_US_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Value Factor (HML) · Fama–French Research Index | monthly | 1926-06-30 | 2026-07-31 | 100.1 |
-| [FF_US_PROFITABILITY](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Operating Profitability Factor (RMW) · Fama–French Research Index | monthly | 1963-06-30 | 2026-07-31 | 63.1 |
-| [FF_US_INVESTMENT](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Investment Factor (CMA) · Fama–French Research Index | monthly | 1963-06-30 | 2026-07-31 | 63.1 |
-| [FF_US_MOMENTUM](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Momentum Factor (Mom) · Fama–French Research Index | monthly | 1926-12-31 | 2026-07-31 | 99.6 |
+| [FF_US_SIZE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Size Factor (SMB) · Fama–French Research Index | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_US_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Value Factor (HML) · Fama–French Research Index | monthly | 1926-06-30 | 2026-08-31 | 100.2 |
+| [FF_US_PROFITABILITY](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Operating Profitability Factor (RMW) · Fama–French Research Index | monthly | 1963-06-30 | 2026-08-31 | 63.2 |
+| [FF_US_INVESTMENT](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Investment Factor (CMA) · Fama–French Research Index | monthly | 1963-06-30 | 2026-08-31 | 63.2 |
+| [FF_US_MOMENTUM](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | U.S. Momentum Factor (Mom) · Fama–French Research Index | monthly | 1926-12-31 | 2026-08-31 | 99.7 |
 | [FF_EM_MARKET](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Emerging Markets Market · Fama–French Research Portfolio | monthly | 1989-06-30 | 2026-08-31 | 37.2 |
 | [FF_EM_SIZE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Emerging Markets Size Factor (SMB) · Fama–French Research Index | monthly | 1989-06-30 | 2026-08-31 | 37.2 |
 | [FF_EM_VALUE](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | Emerging Markets Value Factor (HML) · Fama–French Research Index | monthly | 1989-06-30 | 2026-08-31 | 37.2 |
