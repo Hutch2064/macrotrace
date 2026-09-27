@@ -1,6 +1,6 @@
 # MacroTrace non-Yahoo source inventory
 
-Snapshot: 2026-09-26T14:59:33.980Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
+Snapshot: 2026-09-27T15:42:13.690Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
 
 ## Credit
 
