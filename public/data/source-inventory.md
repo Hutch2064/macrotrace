@@ -1,6 +1,6 @@
 # MacroTrace non-Yahoo source inventory
 
-Snapshot: 2026-09-27T15:42:13.690Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
+Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
 
 ## Credit
 
@@ -97,7 +97,7 @@ Snapshot: 2026-09-27T15:42:13.690Z. 383 series, including explicitly labeled der
 | [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | daily | 1976-06-01 | 2026-09-25 | 50.3 |
 | [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | daily | 1982-01-04 | 2026-09-25 | 44.7 |
 | [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | daily | 1954-07-01 | 2026-09-24 | 72.2 |
-| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | daily | 2018-04-03 | 2026-09-24 | 8.5 |
+| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | daily | 2018-04-03 | 2026-09-25 | 8.5 |
 | [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-24 | 23.7 |
 | [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-24 | 23.7 |
 | [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | daily | 2010-02-22 | 2026-09-24 | 16.6 |
