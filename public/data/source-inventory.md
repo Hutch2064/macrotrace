@@ -1,6 +1,6 @@
 # MacroTrace non-Yahoo source inventory
 
-Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
+Snapshot: 2026-09-29T16:54:50.951Z. 383 series, including explicitly labeled derived proxy histories that combine external research with Yahoo adjusted closes. Coverage is the actual first/last stored observation, not the data-download date. A compounded index's initial 100 is a reference baseline, not a return observation. Archived data do not become live when refreshed.
 
 ## Credit
 
@@ -15,8 +15,8 @@ Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled der
 | [VIXCLS](https://fred.stlouisfed.org/series/VIXCLS) | CBOE Volatility Index | daily | 1990-01-02 | 2026-09-22 | 36.7 |
 | [BOGMBASE](https://fred.stlouisfed.org/series/BOGMBASE) | Monetary Base | monthly | 1959-01-01 | 2026-08-01 | 67.6 |
 | [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | weekly | 2002-12-18 | 2026-09-23 | 23.8 |
-| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | daily | 1986-01-02 | 2026-09-24 | 40.7 |
-| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | daily | 1983-01-03 | 2026-09-24 | 43.7 |
+| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | daily | 1986-01-02 | 2026-09-25 | 40.7 |
+| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | daily | 1983-01-03 | 2026-09-25 | 43.7 |
 | [BAA](https://fred.stlouisfed.org/series/BAA) | Moody's Seasoned Baa Corporate Bond Yield | monthly | 1919-01-01 | 2026-08-01 | 107.6 |
 | [AAA](https://fred.stlouisfed.org/series/AAA) | Moody's Seasoned Aaa Corporate Bond Yield | monthly | 1919-01-01 | 2026-08-01 | 107.6 |
 | [M1SL](https://fred.stlouisfed.org/series/M1SL) | M1 Money Stock | monthly | 1959-01-01 | 2026-08-01 | 67.6 |
@@ -35,7 +35,7 @@ Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled der
 | [UNRATE](https://fred.stlouisfed.org/series/UNRATE) | Unemployment Rate | monthly | 1948-01-01 | 2026-08-01 | 78.6 |
 | [PAYEMS](https://fred.stlouisfed.org/series/PAYEMS) | Nonfarm Payrolls | monthly | 1939-01-01 | 2026-08-01 | 87.6 |
 | [ICSA](https://fred.stlouisfed.org/series/ICSA) | Initial Jobless Claims | weekly | 1967-01-07 | 2026-09-19 | 59.7 |
-| [JTSJOL](https://fred.stlouisfed.org/series/JTSJOL) | Job Openings | monthly | 2000-12-01 | 2026-07-01 | 25.6 |
+| [JTSJOL](https://fred.stlouisfed.org/series/JTSJOL) | Job Openings | monthly | 2000-12-01 | 2026-08-01 | 25.7 |
 | [U6RATE](https://fred.stlouisfed.org/series/U6RATE) | Underemployment Rate | monthly | 1994-01-01 | 2026-08-01 | 32.6 |
 | [CIVPART](https://fred.stlouisfed.org/series/CIVPART) | Labor Force Participation Rate | monthly | 1948-01-01 | 2026-08-01 | 78.6 |
 | [EMRATIO](https://fred.stlouisfed.org/series/EMRATIO) | Employment-Population Ratio | monthly | 1948-01-01 | 2026-08-01 | 78.6 |
@@ -45,10 +45,10 @@ Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled der
 | [CE16OV](https://fred.stlouisfed.org/series/CE16OV) | Employment Level | monthly | 1948-01-01 | 2026-08-01 | 78.6 |
 | [AHETPI](https://fred.stlouisfed.org/series/AHETPI) | Average Hourly Earnings · Production and Nonsupervisory | monthly | 1964-01-01 | 2026-08-01 | 62.6 |
 | [LES1252881600Q](https://fred.stlouisfed.org/series/LES1252881600Q) | Median Usual Weekly Real Earnings | quarterly | 1979-01-01 | 2026-04-01 | 47.2 |
-| [JTSQUR](https://fred.stlouisfed.org/series/JTSQUR) | Quits Rate · Total Nonfarm | monthly | 2000-12-01 | 2026-07-01 | 25.6 |
-| [JTSHIR](https://fred.stlouisfed.org/series/JTSHIR) | Hires Rate · Total Nonfarm | monthly | 2000-12-01 | 2026-07-01 | 25.6 |
-| [JTSLDL](https://fred.stlouisfed.org/series/JTSLDL) | Layoffs and Discharges · Total Nonfarm | monthly | 2000-12-01 | 2026-07-01 | 25.6 |
-| [JTSTSR](https://fred.stlouisfed.org/series/JTSTSR) | Total Separations Rate · Total Nonfarm | monthly | 2000-12-01 | 2026-07-01 | 25.6 |
+| [JTSQUR](https://fred.stlouisfed.org/series/JTSQUR) | Quits Rate · Total Nonfarm | monthly | 2000-12-01 | 2026-08-01 | 25.7 |
+| [JTSHIR](https://fred.stlouisfed.org/series/JTSHIR) | Hires Rate · Total Nonfarm | monthly | 2000-12-01 | 2026-08-01 | 25.7 |
+| [JTSLDL](https://fred.stlouisfed.org/series/JTSLDL) | Layoffs and Discharges · Total Nonfarm | monthly | 2000-12-01 | 2026-08-01 | 25.7 |
+| [JTSTSR](https://fred.stlouisfed.org/series/JTSTSR) | Total Separations Rate · Total Nonfarm | monthly | 2000-12-01 | 2026-08-01 | 25.7 |
 | [M0892AUSM156SNBR](https://fred.stlouisfed.org/series/M0892AUSM156SNBR) | U.S. Unemployment Rate · NBER Historical Archive | monthly | 1929-04-01 | 1942-06-01 | 13.2 |
 
 ## Inflation
@@ -60,9 +60,9 @@ Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled der
 | [PCEPI](https://fred.stlouisfed.org/series/PCEPI) | PCE Price Index | monthly | 1959-01-01 | 2026-07-01 | 67.5 |
 | [PCEPILFE](https://fred.stlouisfed.org/series/PCEPILFE) | Core PCE Price Index | monthly | 1959-01-01 | 2026-07-01 | 67.5 |
 | [PPIACO](https://fred.stlouisfed.org/series/PPIACO) | Producer Price Index | monthly | 1913-01-01 | 2026-08-01 | 113.6 |
-| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-25 | 23.7 |
-| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-25 | 23.7 |
-| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | daily | 2003-01-02 | 2026-09-25 | 23.7 |
+| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-28 | 23.7 |
+| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | daily | 2003-01-02 | 2026-09-28 | 23.7 |
+| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | daily | 2003-01-02 | 2026-09-28 | 23.7 |
 
 ## Growth
 
@@ -84,23 +84,23 @@ Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled der
 | ID | Series | Frequency | From | Through | Years |
 | --- | --- | --- | --- | --- | --- |
 | [FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) | Federal Funds Rate | monthly | 1954-07-01 | 2026-08-01 | 72.1 |
-| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | daily | 2001-07-31 | 2026-09-24 | 25.2 |
-| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | daily | 1981-09-01 | 2026-09-24 | 45.1 |
-| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | daily | 1981-09-01 | 2026-09-24 | 45.1 |
-| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
-| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | daily | 1976-06-01 | 2026-09-24 | 50.3 |
-| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
-| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | daily | 1969-07-01 | 2026-09-24 | 57.2 |
-| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
-| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | daily | 1962-01-02 | 2026-09-24 | 64.7 |
-| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | daily | 1977-02-15 | 2026-09-24 | 49.6 |
-| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | daily | 1976-06-01 | 2026-09-25 | 50.3 |
-| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | daily | 1982-01-04 | 2026-09-25 | 44.7 |
-| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | daily | 1954-07-01 | 2026-09-24 | 72.2 |
-| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | daily | 2018-04-03 | 2026-09-25 | 8.5 |
-| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-24 | 23.7 |
-| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-24 | 23.7 |
-| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | daily | 2010-02-22 | 2026-09-24 | 16.6 |
+| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | daily | 2001-07-31 | 2026-09-25 | 25.2 |
+| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | daily | 1981-09-01 | 2026-09-25 | 45.1 |
+| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | daily | 1981-09-01 | 2026-09-25 | 45.1 |
+| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | daily | 1962-01-02 | 2026-09-25 | 64.7 |
+| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | daily | 1976-06-01 | 2026-09-25 | 50.3 |
+| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | daily | 1962-01-02 | 2026-09-25 | 64.7 |
+| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | daily | 1969-07-01 | 2026-09-25 | 57.2 |
+| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | daily | 1962-01-02 | 2026-09-25 | 64.7 |
+| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | daily | 1962-01-02 | 2026-09-25 | 64.7 |
+| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | daily | 1977-02-15 | 2026-09-25 | 49.6 |
+| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | daily | 1976-06-01 | 2026-09-28 | 50.3 |
+| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | daily | 1982-01-04 | 2026-09-28 | 44.7 |
+| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | daily | 1954-07-01 | 2026-09-25 | 72.2 |
+| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | daily | 2018-04-03 | 2026-09-28 | 8.5 |
+| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-25 | 23.7 |
+| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | daily | 2003-01-02 | 2026-09-25 | 23.7 |
+| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | daily | 2010-02-22 | 2026-09-25 | 16.6 |
 
 ## Housing
 
@@ -126,7 +126,7 @@ Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled der
 | ID | Series | Frequency | From | Through | Years |
 | --- | --- | --- | --- | --- | --- |
 | [DCOILWTICO](https://fred.stlouisfed.org/series/DCOILWTICO) | WTI Crude Oil | daily | 1986-01-02 | 2026-09-22 | 40.7 |
-| [GASREGW](https://fred.stlouisfed.org/series/GASREGW) | Regular Gas Price | weekly | 1990-08-20 | 2026-09-21 | 36.1 |
+| [GASREGW](https://fred.stlouisfed.org/series/GASREGW) | Regular Gas Price | weekly | 1990-08-20 | 2026-09-28 | 36.1 |
 | [PALLFNFINDEXM](https://fred.stlouisfed.org/series/PALLFNFINDEXM) | IMF Primary Commodity Price Index · All Commodities | monthly | 1992-01-01 | 2026-07-01 | 34.5 |
 | [PPOILUSDM](https://fred.stlouisfed.org/series/PPOILUSDM) | IMF Primary Commodity Price · Crude Oil | monthly | 1992-01-01 | 2026-07-01 | 34.5 |
 | [POILBREUSDM](https://fred.stlouisfed.org/series/POILBREUSDM) | IMF Primary Commodity Price · Brent Crude | monthly | 1992-01-01 | 2026-07-01 | 34.5 |
@@ -143,31 +143,31 @@ Snapshot: 2026-09-28T18:38:01.391Z. 383 series, including explicitly labeled der
 
 | ID | Series | Frequency | From | Through | Years |
 | --- | --- | --- | --- | --- | --- |
-| [DTWEXBGS](https://fred.stlouisfed.org/series/DTWEXBGS) | Trade-Weighted U.S. Dollar | daily | 2006-01-02 | 2026-09-18 | 20.7 |
+| [DTWEXBGS](https://fred.stlouisfed.org/series/DTWEXBGS) | Trade-Weighted U.S. Dollar | daily | 2006-01-02 | 2026-09-25 | 20.7 |
 
 ## Currencies
 
 | ID | Series | Frequency | From | Through | Years |
 | --- | --- | --- | --- | --- | --- |
-| [DEXUSAL](https://fred.stlouisfed.org/series/DEXUSAL) | Australian Dollar | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXCAUS](https://fred.stlouisfed.org/series/DEXCAUS) | Canadian Dollar | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXSZUS](https://fred.stlouisfed.org/series/DEXSZUS) | Swiss Franc | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXUSEU](https://fred.stlouisfed.org/series/DEXUSEU) | Euro | daily | 1999-01-04 | 2026-09-18 | 27.7 |
-| [DEXUSUK](https://fred.stlouisfed.org/series/DEXUSUK) | British Pound | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXJPUS](https://fred.stlouisfed.org/series/DEXJPUS) | Japanese Yen | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXUSNZ](https://fred.stlouisfed.org/series/DEXUSNZ) | New Zealand Dollar | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXCHUS](https://fred.stlouisfed.org/series/DEXCHUS) | Chinese Yuan | daily | 1981-01-02 | 2026-09-18 | 45.7 |
-| [DEXINUS](https://fred.stlouisfed.org/series/DEXINUS) | Indian Rupee | daily | 1973-01-02 | 2026-09-18 | 53.7 |
-| [DEXBZUS](https://fred.stlouisfed.org/series/DEXBZUS) | Brazilian Real | daily | 1995-01-02 | 2026-09-18 | 31.7 |
-| [DEXMXUS](https://fred.stlouisfed.org/series/DEXMXUS) | Mexican Peso | daily | 1993-11-08 | 2026-09-18 | 32.9 |
-| [DEXSDUS](https://fred.stlouisfed.org/series/DEXSDUS) | Swedish Krona | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXNOUS](https://fred.stlouisfed.org/series/DEXNOUS) | Norwegian Krone | daily | 1971-01-04 | 2026-09-18 | 55.7 |
-| [DEXSIUS](https://fred.stlouisfed.org/series/DEXSIUS) | Singapore Dollar | daily | 1981-01-02 | 2026-09-18 | 45.7 |
-| [DEXHKUS](https://fred.stlouisfed.org/series/DEXHKUS) | Hong Kong Dollar | daily | 1981-01-02 | 2026-09-18 | 45.7 |
-| [DEXKOUS](https://fred.stlouisfed.org/series/DEXKOUS) | South Korean Won | daily | 1981-04-13 | 2026-09-18 | 45.4 |
-| [DEXSFUS](https://fred.stlouisfed.org/series/DEXSFUS) | South African Rand | daily | 1980-01-02 | 2026-09-18 | 46.7 |
-| [DTWEXAFEGS](https://fred.stlouisfed.org/series/DTWEXAFEGS) | Trade-Weighted U.S. Dollar · Advanced Foreign Economies | daily | 2006-01-02 | 2026-09-18 | 20.7 |
-| [DTWEXEMEGS](https://fred.stlouisfed.org/series/DTWEXEMEGS) | Trade-Weighted U.S. Dollar · Emerging Market Economies | daily | 2006-01-02 | 2026-09-18 | 20.7 |
+| [DEXUSAL](https://fred.stlouisfed.org/series/DEXUSAL) | Australian Dollar | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXCAUS](https://fred.stlouisfed.org/series/DEXCAUS) | Canadian Dollar | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXSZUS](https://fred.stlouisfed.org/series/DEXSZUS) | Swiss Franc | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXUSEU](https://fred.stlouisfed.org/series/DEXUSEU) | Euro | daily | 1999-01-04 | 2026-09-25 | 27.7 |
+| [DEXUSUK](https://fred.stlouisfed.org/series/DEXUSUK) | British Pound | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXJPUS](https://fred.stlouisfed.org/series/DEXJPUS) | Japanese Yen | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXUSNZ](https://fred.stlouisfed.org/series/DEXUSNZ) | New Zealand Dollar | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXCHUS](https://fred.stlouisfed.org/series/DEXCHUS) | Chinese Yuan | daily | 1981-01-02 | 2026-09-25 | 45.7 |
+| [DEXINUS](https://fred.stlouisfed.org/series/DEXINUS) | Indian Rupee | daily | 1973-01-02 | 2026-09-25 | 53.7 |
+| [DEXBZUS](https://fred.stlouisfed.org/series/DEXBZUS) | Brazilian Real | daily | 1995-01-02 | 2026-09-25 | 31.7 |
+| [DEXMXUS](https://fred.stlouisfed.org/series/DEXMXUS) | Mexican Peso | daily | 1993-11-08 | 2026-09-25 | 32.9 |
+| [DEXSDUS](https://fred.stlouisfed.org/series/DEXSDUS) | Swedish Krona | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXNOUS](https://fred.stlouisfed.org/series/DEXNOUS) | Norwegian Krone | daily | 1971-01-04 | 2026-09-25 | 55.7 |
+| [DEXSIUS](https://fred.stlouisfed.org/series/DEXSIUS) | Singapore Dollar | daily | 1981-01-02 | 2026-09-25 | 45.7 |
+| [DEXHKUS](https://fred.stlouisfed.org/series/DEXHKUS) | Hong Kong Dollar | daily | 1981-01-02 | 2026-09-25 | 45.7 |
+| [DEXKOUS](https://fred.stlouisfed.org/series/DEXKOUS) | South Korean Won | daily | 1981-04-13 | 2026-09-25 | 45.5 |
+| [DEXSFUS](https://fred.stlouisfed.org/series/DEXSFUS) | South African Rand | daily | 1980-01-02 | 2026-09-25 | 46.7 |
+| [DTWEXAFEGS](https://fred.stlouisfed.org/series/DTWEXAFEGS) | Trade-Weighted U.S. Dollar · Advanced Foreign Economies | daily | 2006-01-02 | 2026-09-25 | 20.7 |
+| [DTWEXEMEGS](https://fred.stlouisfed.org/series/DTWEXEMEGS) | Trade-Weighted U.S. Dollar · Emerging Market Economies | daily | 2006-01-02 | 2026-09-25 | 20.7 |
 
 ## Sector Employment
 
