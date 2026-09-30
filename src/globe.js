@@ -1,14 +1,23 @@
-import { countries } from "./countries.js";
 import { format, signed } from "./common.js";
 
 // Orthographic spherical geometry: no WebGL runtime or animation framework.
-export async function economicGlobe(canvas, onSelect, readings = new Map()) {
+export async function economicGlobe(
+  canvas,
+  onSelect,
+  readings = new Map(),
+  countries = [],
+) {
   const context = canvas.getContext("2d");
   if (!context) return { select() {}, setReadings() {}, destroy() {} };
   const response = await fetch("./world.json");
   if (!response.ok) throw new Error("The world map could not be loaded.");
   const map = await response.json();
   const radians = Math.PI / 180;
+  const countryList = (Array.isArray(countries) ? countries : []).filter(
+    (country) => country?.id,
+  );
+  const mapId = (id) =>
+    ({ GGY: "CHI", JEY: "CHI", KOS: "XKX", PSX: "PSE" })[id] || id;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let width = 0,
     height = 0,
@@ -17,7 +26,9 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
     last = 0;
   let yaw = -90 * radians,
     pitch = 24 * radians;
-  let selected = "USA",
+  let selected = countryList.some(({ id }) => id === "USA")
+      ? "USA"
+      : countryList[0]?.id,
     hover,
     destination,
     start,
@@ -36,10 +47,37 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
   };
   const outlines = map.countries.map((country) => ({
     ...country,
+    id: mapId(country.id),
     paths: country.polygons.flatMap((polygon) =>
       polygon.map((ring) => ring.map(sphere)),
     ),
   }));
+  const outlineById = new Map(outlines.map((country) => [country.id, country]));
+  const countryById = new Map(
+    countryList.map((country) => {
+      const outline = outlineById.get(country.id);
+      const lon = Number.isFinite(country.lon)
+        ? country.lon
+        : Number.isFinite(outline?.lon)
+          ? outline.lon
+          : null;
+      const lat = Number.isFinite(country.lat)
+        ? country.lat
+        : Number.isFinite(outline?.lat)
+          ? outline.lat
+          : null;
+      return [country.id, { ...country, lon, lat }];
+    }),
+  );
+  const countryIds = new Set(countryList.map(({ id }) => id));
+  // Coordinates are resolved once, so rendering and hit testing do not scan
+  // or repeatedly convert the full catalog roster on every animation frame.
+  const pins = [...countryById.values()]
+    .filter(({ lon, lat }) => Number.isFinite(lon) && Number.isFinite(lat))
+    .map((country) => ({
+      ...country,
+      vector: sphere([country.lon, country.lat]),
+    }));
   const project = ([x, y, z]) => {
     const rx = x * Math.cos(yaw) - z * Math.sin(yaw);
     const rz = x * Math.sin(yaw) + z * Math.cos(yaw);
@@ -137,7 +175,7 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
     for (const points of grid) stroke(points, "rgba(207,185,125,.11)");
     for (const country of outlines) {
       const emphasized = country.id === selected || country.id === hover;
-      const available = Number.isFinite(readings.get(country.id)?.value);
+      const available = Boolean(readings.get(country.id)?.available);
       if (available) fill(country, "rgba(207,185,125,.3)");
       for (const points of country.paths)
         stroke(
@@ -150,20 +188,30 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
           emphasized ? 1.5 : 0.8,
         );
     }
-    for (const country of countries) {
-      const [x, y, z] = project(sphere([country.lon, country.lat]));
+    for (const country of pins) {
+      const [x, y, z] = project(country.vector);
       if (z < 0.04) continue;
       const emphasized = country.id === selected || country.id === hover;
+      const available = Boolean(readings.get(country.id)?.available);
       context.beginPath();
-      context.arc(x, y, emphasized ? 5 : 3, 0, Math.PI * 2);
-      context.fillStyle = emphasized ? "#fde5b6" : "#cfb97d";
+      context.arc(x, y, emphasized ? 2.2 : 0.9, 0, Math.PI * 2);
+      context.fillStyle = available
+        ? emphasized
+          ? "#fde5b6"
+          : "#cfb97d"
+        : emphasized
+          ? "#d8d7d1"
+          : "#77756e";
       context.fill();
-      context.beginPath();
-      context.arc(x, y, emphasized ? 11 : 7, 0, Math.PI * 2);
-      context.strokeStyle = emphasized
-        ? "rgba(253,229,182,.45)"
-        : "rgba(207,185,125,.25)";
-      context.stroke();
+      if (emphasized) {
+        context.beginPath();
+        context.arc(x, y, 4.5, 0, Math.PI * 2);
+        context.strokeStyle = available
+          ? "rgba(253,229,182,.55)"
+          : "rgba(216,215,209,.45)";
+        context.lineWidth = 0.55;
+        context.stroke();
+      }
     }
   }
   function animate(time) {
@@ -200,10 +248,17 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
     restart();
   };
   function select(id) {
-    const country = countries.find((country) => country.id === id);
+    const country = countryById.get(id);
     if (!country) return;
     selected = id;
-    destination = { yaw: country.lon * radians, pitch: country.lat * radians };
+    destination =
+      Number.isFinite(country.lon) && Number.isFinite(country.lat)
+        ? { yaw: country.lon * radians, pitch: country.lat * radians }
+        : null;
+    if (!destination) {
+      restart();
+      return;
+    }
     if (reduced.matches) {
       yaw = destination.yaw;
       pitch = destination.pitch;
@@ -217,8 +272,8 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
       y = event.clientY - bounds.top;
     let near,
       distance = 22;
-    for (const country of countries) {
-      const [cx, cy, z] = project(sphere([country.lon, country.lat]));
+    for (const country of pins) {
+      const [cx, cy, z] = project(country.vector);
       const delta = Math.hypot(cx - x, cy - y);
       if (z > 0 && delta < distance) {
         distance = delta;
@@ -248,9 +303,9 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
       }
       return result;
     };
-    return map.countries.find(
+    return outlines.find(
       (country) =>
-        countries.some(({ id }) => id === country.id) &&
+        countryIds.has(country.id) &&
         country.polygons.some(
           ([outer, ...holes]) => inside(outer) && !holes.some(inside),
         ),
@@ -284,9 +339,10 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
       canvas.style.cursor = hover ? "pointer" : "grab";
       canvas.title = hover
         ? (() => {
-            const name = countries.find(({ id }) => id === hover).name;
+            const name = countryById.get(hover)?.name || hover;
             const reading = readings.get(hover);
-            return `${name} · ${reading?.year || "No annual reading"}${Number.isFinite(reading?.value) ? ` · Real GDP growth ${format(reading.value)}%` : ""}${Number.isFinite(reading?.change) ? ` · ${signed(reading.change)} pp vs ${Number(reading.year) - 1}` : " · Annual comparison unavailable"}${reading?.retained ? " · Retained snapshot" : ""}`;
+            const provider = reading?.sourceFamily || reading?.source;
+            return `${name} · ${reading?.year || "No annual reading"}${Number.isFinite(reading?.value) ? ` · Real GDP growth ${format(reading.value)}%` : ""}${Number.isFinite(reading?.change) ? ` · ${signed(reading.change)} pp vs ${Number(reading.year) - 1}` : " · Annual comparison unavailable"}${provider ? ` · ${provider}` : ""}${reading?.retained ? " · Retained snapshot" : ""}`;
           })()
         : "Drag in any direction · choose a highlighted country";
       draw();
@@ -326,16 +382,20 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
     }
     if (!["ArrowLeft", "ArrowRight", "Home"].includes(event.key)) return;
     event.preventDefault();
-    const index = countries.findIndex(({ id }) => id === selected);
+    const index = countryList.findIndex(({ id }) => id === selected);
     const next =
-      countries[
+      countryList[
         event.key === "Home"
           ? 0
-          : (index + (event.key === "ArrowRight" ? 1 : -1) + countries.length) %
-            countries.length
+          : (index +
+              (event.key === "ArrowRight" ? 1 : -1) +
+              countryList.length) %
+            countryList.length
       ];
-    select(next.id);
-    onSelect(next.id);
+    if (next) {
+      select(next.id);
+      onSelect(next.id);
+    }
   });
   const resize = new ResizeObserver(() => {
     width = canvas.clientWidth;

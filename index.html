@@ -43,33 +43,24 @@
             id="economic-globe"
             tabindex="0"
             role="img"
-            aria-label="Interactive world globe. Gold countries have available economic data. Drag in any direction to rotate. Up and down arrows tilt the globe; left and right arrows select countries."
+            aria-label="Interactive world globe. Gold countries have available economic data; gray countries have no current reading. Drag to rotate. Up and down arrows tilt the globe; left and right arrows select economies."
           ></canvas>
           <div class="globe-caption">
-            <span class="globe-country-name" id="globe-country-name"
+            <span
+              class="globe-country-name"
+              id="globe-country-name"
+              aria-live="polite"
               >United States</span
             >
-            <small>Drag in any direction · select a country</small>
-            <small>Gold · economies with data</small>
+            <div class="globe-legend" aria-label="Globe legend">
+              <span
+                ><i class="legend-dot legend-dot-data"></i>Economies with
+                data</span
+              >
+              <span><i class="legend-dot legend-dot-none"></i>No data</span>
+            </div>
           </div>
         </div>
-      </section>
-      <section
-        class="country-context shell"
-        aria-label="Country economic snapshot"
-      >
-        <div class="country-controls">
-          <label
-            ><span class="field-label">Economy</span
-            ><select id="country-select" aria-label="Economy"></select
-          ></label>
-          <p class="country-note" id="country-note"></p>
-        </div>
-        <p
-          class="country-caption"
-          id="country-description"
-          aria-live="polite"
-        ></p>
       </section>
       <section
         class="headline-strip shell"

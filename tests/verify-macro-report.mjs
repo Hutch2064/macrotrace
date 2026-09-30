@@ -238,7 +238,9 @@ assert.equal(
       .filter(Boolean),
   ).size,
 );
-assert.match(report.summary, new RegExp(String(snapshot.series.length)));
+assert.ok(
+  report.summary.includes(snapshot.series.length.toLocaleString("en-US")),
+);
 assert.match(report.summary, /topics/);
 assert.match(report.summary, /geograph/i);
 assert.match(report.summary, /freshness|movement/i);

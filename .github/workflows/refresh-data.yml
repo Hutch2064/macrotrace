@@ -59,7 +59,7 @@ jobs:
           fi
           git config user.name "macrotrace-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add public/data/snapshot.json public/data/version.json public/data/source-inventory.csv public/data/source-inventory.md
+          git add public/data/snapshot.json public/data/version.json public/data/source-inventory.csv public/data/source-inventory.md public/data/country-coverage.json
           git commit -m "data: refresh public snapshot"
           git push origin HEAD:refs/heads/main
           echo "changed=true" >> "$GITHUB_OUTPUT"

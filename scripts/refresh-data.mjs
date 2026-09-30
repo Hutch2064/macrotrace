@@ -3,11 +3,14 @@ import { fredSeries } from "./catalog.mjs";
 import { extendedFredSeries } from "./extended-macro-catalog.mjs";
 import { fetchCommodityHistorySeries } from "./commodity-history.mjs";
 import { fetchWorldDevelopmentSeries } from "./world-development.mjs";
+import { fetchInternationalSupplement } from "./international-supplement.mjs";
 import { fetchShillerHousing } from "./shiller-history.mjs";
 import { isMacroSeries, normalizeMacroSeries } from "./macro-scope.mjs";
 
 const fredStart = "1000-01-01";
 const pruneOnly = process.argv.includes("--prune-only");
+const countriesOnly = process.argv.includes("--countries-only");
+const supplementsOnly = process.argv.includes("--supplements-only");
 const previous = JSON.parse(
   await readFile("public/data/snapshot.json", "utf8").catch(
     () => '{"series":[]}',
@@ -17,6 +20,13 @@ const previousById = new Map(
   (previous.series || []).map((series) => [series.id, series]),
 );
 const failures = [];
+let countries = previous.countries || [];
+let countryAudit = previous.countryAudit || null;
+let supplementaryCountries = (previous.countries || []).filter(
+  (country) =>
+    country.sourceFamily && !/World Bank/i.test(country.sourceFamily),
+);
+let supplementaryAudit = previous.countryAudit?.supplementary || null;
 
 function parseCsv(text) {
   const [, ...rows] = text.trim().split(/\r?\n/);
@@ -103,7 +113,21 @@ async function mapWithConcurrency(items, mapper, limit = 6) {
 
 async function fetchDataset(dataset, fetcher) {
   try {
-    return (await fetcher())
+    const result = await fetcher();
+    if (dataset === "worldbank-development") {
+      countries = result.countries;
+      countryAudit = result.audit;
+      failures.push(...result.failures);
+    } else if (dataset === "international-supplement") {
+      supplementaryCountries = result.countries;
+      supplementaryAudit = result.audit;
+      failures.push(
+        ...result.series
+          .filter((series) => series.refreshStatus)
+          .map(({ id }) => id),
+      );
+    }
+    return (Array.isArray(result) ? result : result.series)
       .map((series) => ({ ...series, dataset }))
       .filter(isMacroSeries);
   } catch (error) {
@@ -204,26 +228,100 @@ async function writeMacroInventory(snapshot) {
 }
 
 let sourceSeries;
+const developmentFetcher = () =>
+  fetchWorldDevelopmentSeries({
+    previousSeries: previous.series,
+    previousCountries: countries.filter(
+      (country) =>
+        !country.sourceFamily || /World Bank/i.test(country.sourceFamily),
+    ),
+    previousAudit: countryAudit,
+  });
+const supplementFetcher = () =>
+  fetchInternationalSupplement({
+    previousSeries: previous.series,
+    previousCountries: previous.countries,
+  });
 if (pruneOnly) {
   // Offline scope migration: preserve every retained observation byte-for-byte
   // and retain the prior generation timestamp; no source is fetched.
   sourceSeries = normalizeAll((previous.series || []).filter(isMacroSeries));
+} else if (supplementsOnly) {
+  const supplement = await fetchDataset(
+    "international-supplement",
+    supplementFetcher,
+  );
+  sourceSeries = dedupe(
+    normalizeAll([
+      ...previous.series.filter(
+        (series) => series.dataset !== "international-supplement",
+      ),
+      ...supplement,
+    ]),
+  );
+  failures.push(
+    ...(previous.refreshFailures || []).filter(
+      (id) => previousById.get(id)?.dataset !== "international-supplement",
+    ),
+  );
+} else if (countriesOnly) {
+  const development = await fetchDataset(
+    "worldbank-development",
+    developmentFetcher,
+  );
+  sourceSeries = dedupe(
+    normalizeAll([
+      ...previous.series.filter(
+        (series) => series.dataset !== "worldbank-development",
+      ),
+      ...development,
+    ]),
+  );
+  failures.push(
+    ...(previous.refreshFailures || []).filter((id) => !id.startsWith("WDI_")),
+  );
 } else {
   // The allowlist is applied before any network call. Removed Yahoo, factor,
   // Damodaran, and proxy histories therefore cannot be retried or refetched.
   const fredCatalog = [...fredSeries, ...extendedFredSeries].filter(
     isMacroSeries,
   );
-  const [macro, commodities, development, shillerHousing] = await Promise.all([
-    mapWithConcurrency(fredCatalog, fetchFred),
-    fetchDataset("worldbank-commodities", fetchCommodityHistorySeries),
-    fetchDataset("worldbank-development", fetchWorldDevelopmentSeries),
-    fetchDataset("shiller", fetchShillerHousing),
-  ]);
+  const [macro, commodities, development, shillerHousing, supplement] =
+    await Promise.all([
+      mapWithConcurrency(fredCatalog, fetchFred),
+      fetchDataset("worldbank-commodities", fetchCommodityHistorySeries),
+      fetchDataset("worldbank-development", developmentFetcher),
+      fetchDataset("shiller", fetchShillerHousing),
+      fetchDataset("international-supplement", supplementFetcher),
+    ]);
   sourceSeries = dedupe(
-    normalizeAll([...macro, ...shillerHousing, ...commodities, ...development]),
+    normalizeAll([
+      ...macro,
+      ...shillerHousing,
+      ...commodities,
+      ...development,
+      ...supplement,
+    ]),
   );
 }
+
+const countryMap = new Map(countries.map((country) => [country.id, country]));
+for (const country of supplementaryCountries)
+  if (!countryMap.has(country.id)) countryMap.set(country.id, country);
+countries = [...countryMap.values()]
+  .map((country) => ({
+    ...country,
+    seriesCount: sourceSeries.filter(
+      (series) => series.countryCode === country.id,
+    ).length,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+countryAudit = {
+  ...countryAudit,
+  supplementaryCount:
+    countries.length - (countryAudit?.rosterCount || countries.length),
+  supplementary: supplementaryAudit,
+};
 
 const retainedIds = new Set(sourceSeries.map(({ id }) => id));
 const generatedAt =
@@ -232,6 +330,8 @@ const generatedAt =
     : new Date().toISOString();
 const snapshot = {
   generatedAt,
+  countries,
+  countryAudit,
   refreshFailures: [
     ...new Set(
       (pruneOnly ? previous.refreshFailures || [] : failures).filter((id) =>
@@ -243,7 +343,7 @@ const snapshot = {
     fredStart,
     missingValues: "Rows with missing or non-numeric observations are omitted.",
     scope:
-      "Macroeconomics only: published economic indicators, FX, policy and sovereign yields, actual commodity prices and commodity indexes, World Bank macro histories, and two explicitly retained Shiller actual housing histories. Stocks, securities, ETFs, factors, and reconstructed investment returns are excluded before fetch.",
+      "Macroeconomics only: published economic indicators, FX, policy and sovereign yields, actual commodity prices and commodity indexes, World Bank, UN and Pacific Community macro histories, and two explicitly retained Shiller actual housing histories. Stocks, securities, ETFs, factors, and reconstructed investment returns are excluded before fetch.",
     transformations:
       "Source values are preserved. Panel views calculate native-frequency levels, calendar-year changes and prior-observation changes; rate changes are percentage points, signed index changes use native points, and prices or quantities use percent changes with strictly positive baselines.",
   },
@@ -257,6 +357,44 @@ await writeFile(
   `${JSON.stringify({ generatedAt: snapshot.generatedAt })}\n`,
 );
 await writeMacroInventory(snapshot);
+await writeFile(
+  "public/data/country-coverage.json",
+  `${JSON.stringify({
+    generatedAt,
+    ...countryAudit,
+    countries: countries.map((country) => {
+      const series = sourceSeries.filter(
+        (entry) => entry.countryCode === country.id,
+      );
+      return {
+        ...country,
+        series: series.map((entry) => ({
+          id: entry.id,
+          indicator: entry.sourceIndicator,
+          name: entry.indicatorName,
+          source: entry.source,
+          sourceUrl: entry.sourceUrl,
+          unit: entry.unit,
+          frequency: entry.frequency,
+          start: entry.observations[0][0],
+          end: entry.observations.at(-1)[0],
+          observations: entry.observations.length,
+          checkedAt: entry.checkedAt,
+          retained: Boolean(entry.refreshStatus),
+        })),
+        unavailable: (country.sourceFamily
+          ? []
+          : countryAudit?.indicators || []
+        )
+          .filter(
+            (entry) =>
+              !series.some((item) => item.sourceIndicator === entry.indicator),
+          )
+          .map(({ indicator, label }) => ({ indicator, label })),
+      };
+    }),
+  })}\n`,
+);
 console.log(
   `${pruneOnly ? "Pruned" : "Refreshed"} ${snapshot.series.length} macro series and ${snapshot.series.reduce((n, item) => n + item.observations.length, 0).toLocaleString()} observations${pruneOnly ? " without fetching" : ""}.`,
 );

@@ -184,6 +184,7 @@ export function canonicalMacroCategory(input) {
   if (dataset === "worldbank-commodities" || id.startsWith("WB_CMD_"))
     return "Commodities";
   if (id.startsWith("WDI_")) {
+    if (CANONICAL_CATEGORIES.has(sourceCategory)) return sourceCategory;
     if (/_POP$|_URBAN$/.test(id)) return "Demography";
     if (/_INFLATION$/.test(id)) return "Inflation";
     if (/_UNEMPLOYMENT$/.test(id)) return "Labor";
@@ -219,6 +220,7 @@ function geographyFor(series) {
   const id = text(series.id);
   const category = text(series.category);
   const dataset = text(series.dataset);
+  if (series.countryCode && series.geography) return series.geography;
   if (FX_IDS.has(id) || category === "Currencies") return "FX";
   if (id === "CLVMNACSCAB1GQEA19") return "Euro Area";
   if (

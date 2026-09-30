@@ -234,14 +234,17 @@ small {
   font-size: 12px;
 }
 .hero {
+  position: relative;
+  overflow: clip;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(440px, 0.95fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(500px, 1.1fr);
   min-height: 650px;
   align-items: center;
-  gap: clamp(38px, 5vw, 96px);
+  gap: 0;
   padding-block: 65px;
 }
 .hero-copy {
+  position: relative;
   z-index: 1;
 }
 .hero h1 {
@@ -322,7 +325,7 @@ small {
 .hero-visual {
   position: relative;
   min-width: 0;
-  height: clamp(500px, 42vw, 660px);
+  height: clamp(560px, 48vw, 760px);
   display: grid;
   place-items: center;
 }
@@ -340,10 +343,18 @@ small {
 .globe-stage {
   position: relative;
   min-width: 0;
-  min-height: 560px;
+  min-height: 600px;
+  z-index: 0;
+  margin-left: clamp(-120px, -7vw, -32px);
+  width: calc(100% + clamp(32px, 9vw, 150px));
   display: grid;
   place-items: center;
   isolation: isolate;
+}
+.hero .globe-stage {
+  height: auto;
+  min-height: 0;
+  grid-template-rows: auto auto;
 }
 .globe-stage::before {
   content: "";
@@ -362,7 +373,7 @@ small {
 }
 #economic-globe {
   display: block;
-  width: min(100%, 680px);
+  width: min(100%, 1100px);
   height: auto;
   aspect-ratio: 1;
   touch-action: none;
@@ -381,11 +392,10 @@ small {
   pointer-events: none;
 }
 .globe-caption {
-  position: absolute;
-  bottom: 0;
+  position: relative;
+  margin-top: -32px;
+  padding-bottom: 8px;
   width: 100%;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -396,60 +406,39 @@ small {
   white-space: normal;
   pointer-events: none;
 }
-.globe-caption small {
-  margin: 0;
-  color: var(--faint);
-  font-size: 12px;
-}
-.country-context {
-  position: relative;
-  right: auto;
-  bottom: auto;
-  display: block;
-  max-width: none;
-  margin-top: 22px;
-  margin-bottom: 42px;
-  text-align: left;
-}
-.country-caption {
-  max-width: 1000px;
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.45;
-}
-.country-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: flex-start;
-  gap: 10px 12px;
-  margin-top: 16px;
-}
-.country-controls label {
-  position: relative;
-  min-height: 64px;
-  justify-content: flex-end;
-  gap: 0;
-  min-width: min(13rem, 100%);
-}
-.country-note,
 .dataset-summary {
   color: var(--faint);
   font-size: 12px;
   line-height: 1.45;
-}
-.country-controls .country-note {
-  flex: 0 1 30rem;
-  margin: 0 0 5px;
-}
-.country-context > .country-note {
-  max-width: 30rem;
-  margin-top: 12px;
-}
-.dataset-summary {
   max-width: 1000px;
   margin-top: 14px;
+}
+.globe-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 16px;
+  color: var(--faint);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.globe-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.globe-legend .legend-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.legend-dot-data {
+  background: var(--gold);
+}
+.legend-dot-none {
+  background: #77756e;
 }
 .headline-strip {
   display: grid;
@@ -490,11 +479,16 @@ small {
 .metric-label {
   font-size: 13px;
   color: var(--muted);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 .metric-value {
+  display: block;
   font: 400 clamp(26px, 2.9vw, 42px) var(--font-mono);
   letter-spacing: -0.06em;
-  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   font-variant-numeric: tabular-nums;
 }
 .metric-date {
@@ -507,7 +501,9 @@ small {
   color: var(--muted);
   letter-spacing: 0;
   margin-left: 0.25em;
-  white-space: nowrap;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .metric-currency .metric-unit {
   display: block;
@@ -701,6 +697,91 @@ small {
   font: 10px var(--font-mono);
   text-align: right;
   flex-shrink: 0;
+}
+.source-indicator-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.source-indicator {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.015);
+}
+.source-indicator summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--foreground);
+  font-size: 13px;
+}
+.source-indicator summary::-webkit-details-marker {
+  display: none;
+}
+.source-indicator summary::after {
+  content: "+";
+  color: var(--gold);
+  font-size: 18px;
+  transition: transform 0.36s;
+  flex-shrink: 0;
+}
+.source-indicator[open] summary::after {
+  transform: rotate(45deg);
+}
+.source-indicator[open] summary {
+  background: rgba(255, 255, 255, 0.025);
+}
+.source-indicator-body {
+  padding: 0 14px 14px;
+}
+.source-definition,
+.source-provider {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+  margin: 0 0 11px;
+}
+.source-definition strong,
+.source-provider strong {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.source-country-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+}
+.source-country-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+}
+.source-country-row > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.source-country-row a {
+  color: var(--gold);
+}
+.source-country-row > span {
+  color: var(--faint);
+  font: 10px var(--font-mono);
+  text-align: right;
+  flex-shrink: 0;
+  max-width: 42%;
+}
+#source-freshness a {
+  color: var(--gold);
 }
 .closing {
   padding: 65px 0 100px;
@@ -1526,7 +1607,10 @@ body:has(dialog[open]) {
     min-height: 720px;
   }
   .hero-visual {
-    height: 640px;
+    height: 700px;
+  }
+  .globe-stage {
+    min-height: 680px;
   }
   .indicator-plot {
     height: 290px;
@@ -1542,7 +1626,7 @@ body:has(dialog[open]) {
   .hero {
     min-height: 570px;
     grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
-    gap: 32px;
+    gap: 0;
   }
   .hero h1 {
     font-size: 52px;
@@ -1552,6 +1636,8 @@ body:has(dialog[open]) {
   }
   .globe-stage {
     min-height: 470px;
+    margin-left: clamp(-72px, -5vw, -18px);
+    width: calc(100% + clamp(18px, 6vw, 72px));
   }
   .report-section {
     gap: 35px;
@@ -1632,20 +1718,10 @@ body:has(dialog[open]) {
   .globe-stage {
     min-height: 360px;
     width: 100%;
+    margin-left: 0;
   }
   #economic-globe {
     width: min(100%, 390px);
-  }
-  .country-context {
-    max-width: none;
-    margin-top: 18px;
-    margin-bottom: 34px;
-  }
-  .country-controls {
-    justify-content: flex-start;
-  }
-  .country-controls label {
-    flex: 1 1 12rem;
   }
   .headline-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1710,11 +1786,20 @@ body:has(dialog[open]) {
   .source-list {
     grid-template-columns: 1fr;
   }
+  .source-country-list {
+    grid-template-columns: 1fr;
+  }
   .source-group summary {
     padding: 16px;
   }
   .source-body {
     padding-inline: 16px;
+  }
+  .source-indicator summary {
+    padding-inline: 12px;
+  }
+  .source-indicator-body {
+    padding-inline: 12px;
   }
   .closing {
     padding: 50px 0 65px;

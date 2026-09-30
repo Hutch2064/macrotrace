@@ -62,7 +62,10 @@ assert.match(refresh, /schedule:/);
 assert.match(refresh, /npm run data:refresh/);
 assert.match(refresh, /gh workflow run pages.yml/);
 assert.match(report, /id="economic-globe"/);
-assert.match(report, /id="country-select"/);
+assert.doesNotMatch(report, /id="country-select"/);
+assert.match(report, /id="globe-country-name"/);
+assert.match(report, /Economies with\s+data/);
+assert.match(report, /No data/);
 assert.doesNotMatch(report, /Eight signals/);
 assert.match(await readFile("src/dashboard.js", "utf8"), /const PAGE_SIZE = 8/);
 assert.deepEqual(

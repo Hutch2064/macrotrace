@@ -4,7 +4,6 @@ import {
   escapeHtml as escape,
   format,
   compact,
-  signed,
   dateLabel,
   showError,
 } from "./common.js";
@@ -18,61 +17,72 @@ import { lazyChart } from "./lazy-chart.js";
 import { renderSourceCatalog } from "./source-catalog.js";
 import { economicGlobe } from "./globe.js";
 import {
-  countries,
+  countriesFor,
   countryIds,
   countryReadout,
-  globeIds,
   countryMomentum,
 } from "./countries.js";
 import { loadHistories } from "./data-store.js";
-import { enhanceSelect } from "./select.js";
 
 const charts = [];
 let mounted = false;
 let snapshot,
   globe,
   globeReadings = new Map(),
+  countries = [],
   country = "USA",
   countryRevision = 0,
-  countryMotion;
-const select = document.querySelector("#country-select");
-select.replaceChildren(
-  ...countries.map(({ id, name }) => new Option(name, id)),
-);
-enhanceSelect(select);
-const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-function renderMapNote() {
-  const reading = globeReadings.get(country);
-  const cadence =
-    country === "USA"
-      ? "U.S. releases · monthly and quarterly observations"
-      : "World Bank annual indicators · published years vary";
-  document.querySelector("#country-note").textContent =
-    cadence +
-    (Number.isFinite(reading?.change)
-      ? ` · Map: real GDP growth ${format(reading.value)}% (${reading.year}), ${signed(reading.change)} pp vs ${Number(reading.year) - 1} · World Bank`
-      : "");
+  countryMotion,
+  countryNameMotion;
+function setCountries(roster) {
+  countries = roster;
+  if (!countries.some(({ id }) => id === country))
+    country = countries.find(({ id }) => id === "USA")?.id || countries[0]?.id;
 }
+function sourceLabel(
+  sourceFamily,
+  source,
+  fallback = "Official annual source",
+) {
+  const value = String(sourceFamily || source || "").trim();
+  if (/world bank|world development indicators/i.test(value))
+    return "World Bank WDI";
+  return value || fallback;
+}
+const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 async function renderCountry(id) {
   const token = ++countryRevision;
   country = id;
-  select.value = id;
-  select._renderCustom?.();
   globe?.select(id);
-  const name = countries.find((item) => item.id === id).name;
-  document.querySelector("#globe-country-name").textContent = name;
+  const selectedCountry = countries.find((item) => item.id === id);
+  if (!selectedCountry) return;
+  const name = selectedCountry.name || selectedCountry.id;
+  const countryName = document.querySelector("#globe-country-name");
+  countryName.textContent = name;
+  countryNameMotion?.cancel();
+  countryNameMotion = countryName.animate(
+    [
+      { opacity: 0, transform: "translateY(4px)" },
+      { opacity: 1, transform: "translateY(0)" },
+    ],
+    { duration: reduced() ? 0 : 420, easing: "cubic-bezier(.22,1,.36,1)" },
+  );
   const host = document.querySelector("#headline-metrics");
   host.setAttribute("aria-busy", "true");
   try {
-    await loadHistories(snapshot, countryIds(id));
+    // The catalog's annual coverage fields are enough for non-U.S. cards.
+    // Keep the U.S. four-series behavior unchanged.
+    if (id === "USA") await loadHistories(snapshot, countryIds(id));
     if (token !== countryRevision) return;
     const metrics = countryReadout(snapshot, id);
     countryMotion?.cancel();
     host.innerHTML = metrics
-      .map(
-        (metric) =>
-          `<div class="headline-metric"><span class="metric-label">${escape(metric.label)}</span><span class="metric-value${metric.unit.startsWith("USD") ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + metric.unit)}">${metric.unit.startsWith("USD") ? compact(metric.value) : format(metric.value)}<span class="metric-unit">${escape(metric.unit)}</span></span><span class="metric-date">${metric.frequency === "annual" && metric.date ? metric.date.slice(0, 4) + " · annual" : dateLabel(metric.date)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${id === "USA" ? "FRED" : "World Bank WDI"}</a>` : ""}</div>`,
-      )
+      .map((metric) => {
+        const unit = String(metric.unit || "");
+        const currency = /(USD|dollars|currency)/i.test(unit);
+        const value = currency ? compact(metric.value) : format(metric.value);
+        return `<div class="headline-metric"><span class="metric-label">${escape(metric.label)}</span><span class="metric-value${currency ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + unit)}">${value}<span class="metric-unit">${escape(unit)}</span></span><span class="metric-date">${metric.frequency === "annual" && metric.date ? metric.date.slice(0, 4) + " · annual" : dateLabel(metric.date)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(sourceLabel(metric.sourceFamily, metric.source, id === "USA" ? "FRED" : "Official annual source"))}</a>` : ""}</div>`;
+      })
       .join("");
     countryMotion = host.animate(
       [
@@ -81,22 +91,10 @@ async function renderCountry(id) {
       ],
       { duration: reduced() ? 0 : 650, easing: "cubic-bezier(.22,1,.36,1)" },
     );
-    renderMapNote();
-    document.querySelector("#country-description").textContent =
-      id === "USA"
-        ? "United States: consumer and core PCE inflation are changes in seasonally adjusted price indexes over twelve months. Unemployment is the published rate; real GDP growth compares four quarters. Each date identifies the actual reference period."
-        : `${name}: inflation measures annual consumer-price change; unemployment is the modeled ILO share of the labor force; GDP growth is annual real-output growth. Real GDP per capita is in constant 2015 U.S. dollars, not purchasing-power-adjusted household income. These annual releases are checked daily, not fabricated into daily readings.`;
   } finally {
     if (token === countryRevision) host.setAttribute("aria-busy", "false");
   }
 }
-select.addEventListener(
-  "change",
-  () =>
-    void renderCountry(select.value).catch((error) =>
-      showError(document.querySelector("#headline-metrics"), error),
-    ),
-);
 const reveal = new IntersectionObserver(
   (entries) => {
     for (const entry of entries)
@@ -119,6 +117,17 @@ window.addEventListener(
 async function render(updated) {
   snapshot =
     updated || (await loadSnapshot([...REPORT_IDS, ...countryIds(country)]));
+  const nextCountries = countriesFor(snapshot);
+  const previousIds = countries.map(({ id }) => id);
+  const nextIds = nextCountries.map(({ id }) => id);
+  const rosterChanged =
+    previousIds.length !== nextIds.length ||
+    previousIds.some((id, index) => id !== nextIds[index]);
+  setCountries(nextCountries);
+  if (rosterChanged && globe) {
+    globe.destroy();
+    globe = null;
+  }
   await loadHistories(snapshot, REPORT_IDS);
   const report = buildMacroReport(snapshot);
   if (!mounted) {
@@ -188,9 +197,7 @@ async function render(updated) {
     )
     .join("");
   renderSourceCatalog(snapshot);
-  await loadHistories(snapshot, globeIds);
   globeReadings = countryMomentum(snapshot);
-  renderMapNote();
   if (!globe) {
     try {
       globe = await economicGlobe(
@@ -200,11 +207,10 @@ async function render(updated) {
             showError(document.querySelector("#headline-metrics"), error),
           ),
         globeReadings,
+        countries,
       );
       globe.select(country);
     } catch (error) {
-      document.querySelector(".globe-caption small").textContent =
-        "Use the economy selector below to explore.";
       console.error(error);
     }
   }

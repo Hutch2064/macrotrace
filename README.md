@@ -9,8 +9,9 @@ The project has exactly two pages:
 
 - `index.html` is the source-backed long-form report. Its findings, charts,
   headlines, and methods section are calculated from the published snapshot.
-  Its interactive globe selects four source-dated headline readings for 16
-  economies and rotates in both directions on mouse or touch drag. Countries
+  Its interactive globe selects source-dated headline readings from the full
+  available economy roster, without a country dropdown, and rotates in both
+  directions on mouse or touch drag. Countries
   with available economic data are highlighted in gold; other countries remain
   neutral. Gentle rotation resumes after release, except when reduced motion
   is requested by the device. Country selection does not change the scrolling
@@ -35,12 +36,32 @@ and missing periods are not filled or interpolated.
 
 The current macro scope combines public FRED economic indicators, World Bank
 Pink Sheet commodity reference prices, World Development Indicators, and the
+UN Statistics Division and Pacific Community national accounts, alongside the
 two retained Shiller annual housing indexes. FRED distributes many series but
 is not necessarily the original author; each row keeps the relevant provider
 and attribution. Pink Sheet values are nominal monthly averages or source
 indexes, not futures returns. World Bank and Shiller annual histories retain
 their source-year semantics. Archived or lagged provider tails remain labeled
 and are not silently made current.
+
+World Development Indicators supplies 32 annual indicator families for the
+World Bank's complete non-aggregate roster of 217 economies: output and income,
+inflation, employment, population, sector composition, trade, investment,
+credit, money, reserves, remittances, external debt, and public finances.
+Availability varies by indicator. UN and Pacific Community sources supplement
+territories missing from that roster and provide additional national accounts;
+nominal and real GDP, base years, currency multipliers, modeled estimates, and
+source units remain explicitly distinguished. Missing headline readings stay
+unavailable rather than becoming zero or a different metric.
+
+The generated [country coverage audit](public/data/country-coverage.json) lists
+every available series, its actual first and last reference year, provider check
+time, and retained-cache status. The source catalog groups countries under
+indicator families and shows official definitions and original organizations.
+The [CSV inventory](public/data/source-inventory.csv) and
+[readable inventory](public/data/source-inventory.md) contain every series and
+its source link. Reference-year endings are annual labels, not release dates;
+projections and incomplete calendar years are not ingested.
 
 Measures are calculated separately for each series:
 
@@ -76,9 +97,11 @@ dispatches the Pages workflow after a successful commit. A GitHub push made by
 the bot does not rely on another workflow triggering automatically.
 
 `scripts/build-data.mjs` writes a metadata catalog and complete,
-SHA-256-addressed history chunks. The browser loads static files only and
+SHA-256-addressed history chunks. Country histories share one lossless bundle
+per WDI indicator, so comparing many economies does not require one request per
+economy. Shared source metadata is stored once per indicator. The browser loads static files only and
 requests the histories needed by the report or current panel view. Verified
-histories are retained in a bounded IndexedDB cache and concurrent requests for
+histories are retained in bounded 64 MiB memory and IndexedDB caches; concurrent requests for
 the same history are shared. Storage failure falls back to static network
 delivery. Content addressing supports safe reuse, but this project does not
 claim custom response headers or a measured CDN performance result from GitHub
@@ -133,38 +156,42 @@ The focused commands remain available for data and delivery work:
 
 ### Data and automation
 
-| Path                                                                  | Purpose                                                                                  |
-| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `public/data/snapshot.json`                                           | Reviewed macro snapshot source of truth.                                                 |
-| `public/data/version.json`                                            | Snapshot freshness manifest.                                                             |
-| `public/data/source-inventory.csv`, `public/data/source-inventory.md` | Generated current source inventory.                                                      |
-| `scripts/build-data.mjs`                                              | Packs complete histories into hashed runtime files.                                      |
-| `scripts/refresh-data.mjs`                                            | Fetches, validates, normalizes, and writes public data.                                  |
-| `scripts/macro-scope.mjs`                                             | Shared macro eligibility and metadata normalization.                                     |
-| `scripts/catalog.mjs`, `scripts/extended-macro-catalog.mjs`           | FRED catalogues and source metadata.                                                     |
-| `scripts/commodity-history.mjs`                                       | World Bank Pink Sheet parser and provenance.                                             |
-| `scripts/shiller-history.mjs`                                         | Retained Shiller housing parser and provenance.                                          |
-| `scripts/world-development.mjs`                                       | World Bank annual indicator parser.                                                      |
-| `scripts/build-map.mjs`, `public/world.json`                          | Rebuild script and bundled Natural Earth country outlines; independent of economic data. |
-| `public/favicon.svg`                                                  | MacroTrace mark.                                                                         |
-| `.github/workflows/pages.yml`                                         | GitHub Pages build and deployment.                                                       |
-| `.github/workflows/refresh-data.yml`                                  | Daily/manual refresh, guarded commit, and Pages dispatch.                                |
-| `package.json`, `package-lock.json`                                   | Reproducible commands and dependencies.                                                  |
-| `vite.config.js`, `.gitignore`                                        | Relative-path two-page build and local/generated-file exclusions.                        |
-| `README.md`, `SUBMISSION.txt`                                         | Project documentation and four-line course submission.                                   |
+| Path                                                                  | Purpose                                                                                                |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `public/data/snapshot.json`                                           | Reviewed macro snapshot source of truth.                                                               |
+| `public/data/version.json`                                            | Snapshot freshness manifest.                                                                           |
+| `public/data/source-inventory.csv`, `public/data/source-inventory.md` | Generated current source inventory.                                                                    |
+| `public/data/country-coverage.json`                                   | Machine-readable economy, indicator, coverage, and freshness audit.                                    |
+| `scripts/build-data.mjs`                                              | Packs complete histories into hashed runtime files.                                                    |
+| `scripts/refresh-data.mjs`                                            | Fetches, validates, normalizes, and writes public data.                                                |
+| `scripts/macro-scope.mjs`                                             | Shared macro eligibility and metadata normalization.                                                   |
+| `scripts/catalog.mjs`, `scripts/extended-macro-catalog.mjs`           | FRED catalogues and source metadata.                                                                   |
+| `scripts/commodity-history.mjs`                                       | World Bank Pink Sheet parser and provenance.                                                           |
+| `scripts/shiller-history.mjs`                                         | Retained Shiller housing parser and provenance.                                                        |
+| `scripts/world-development.mjs`                                       | Dynamic World Bank roster, paginated annual observations, source metadata, and per-indicator fallback. |
+| `scripts/international-supplement.mjs`                                | UN and Pacific Community annual national accounts with explicit provider units and cache fallback.     |
+| `scripts/build-map.mjs`, `public/world.json`                          | Rebuild script and bundled Natural Earth country outlines; independent of economic data.               |
+| `public/favicon.svg`                                                  | MacroTrace mark.                                                                                       |
+| `.github/workflows/pages.yml`                                         | GitHub Pages build and deployment.                                                                     |
+| `.github/workflows/refresh-data.yml`                                  | Daily/manual refresh, guarded commit, and Pages dispatch.                                              |
+| `package.json`, `package-lock.json`                                   | Reproducible commands and dependencies.                                                                |
+| `vite.config.js`, `.gitignore`                                        | Relative-path two-page build and local/generated-file exclusions.                                      |
+| `README.md`, `SUBMISSION.txt`                                         | Project documentation and four-line course submission.                                                 |
 
 ### Tests
 
-| Path                            | Purpose                                                                      |
-| ------------------------------- | ---------------------------------------------------------------------------- |
-| `tests/run.mjs`                 | Single verification entrypoint used by `npm run check`.                      |
-| `tests/verify-data.mjs`         | Snapshot scope, metadata, provenance, and date checks.                       |
-| `tests/verify-delivery.mjs`     | Lossless chunks, hashes, persistence, deduplication, eviction, and fallback. |
-| `tests/verify-panel.mjs`        | Native-frequency panel transforms and grouping fixtures.                     |
-| `tests/verify-macro-report.mjs` | Deterministic report calculations and source-boundary fixtures.              |
-| `tests/verify-parity.mjs`       | Report/dashboard point parity.                                               |
-| `tests/verify-countries.mjs`    | Country geometry, all headline sources, and percent/point formatting.        |
-| `tests/verify-site.mjs`         | Exactly-two-page DOM/source contract.                                        |
+| Path                                        | Purpose                                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `tests/run.mjs`                             | Single verification entrypoint used by `npm run check`.                               |
+| `tests/verify-data.mjs`                     | Snapshot scope, metadata, provenance, and date checks.                                |
+| `tests/verify-delivery.mjs`                 | Lossless chunks, hashes, persistence, deduplication, eviction, and fallback.          |
+| `tests/verify-panel.mjs`                    | Native-frequency panel transforms and grouping fixtures.                              |
+| `tests/verify-macro-report.mjs`             | Deterministic report calculations and source-boundary fixtures.                       |
+| `tests/verify-parity.mjs`                   | Report/dashboard point parity.                                                        |
+| `tests/verify-countries.mjs`                | Country geometry, all headline sources, and percent/point formatting.                 |
+| `tests/verify-world-development.mjs`        | Roster exclusions, pagination integrity, annual dates, missing values, and forecasts. |
+| `tests/verify-international-supplement.mjs` | Supplementary provider schemas, missing values, forecast exclusions, and units.       |
+| `tests/verify-site.mjs`                     | Exactly-two-page DOM/source contract.                                                 |
 
 ## Attribution and limitations
 
@@ -175,7 +202,7 @@ redistributing data. MacroTrace is informational and does not provide
 investment advice. No claim of real-time quotes, universal freshness, custom
 cache headers, or performance improvement is made without current evidence.
 
-Map geometry is the public-domain [Natural Earth 1:110m country map](https://www.naturalearthdata.com/about/terms-of-use/).
+Map geometry uses the public-domain [Natural Earth country maps](https://www.naturalearthdata.com/about/terms-of-use/): lightweight 1:110m outlines, missing-economy 1:50m outlines, and label-coordinate pins where needed.
 The checked-in outline file needs no runtime third-party request; rebuild it
 with `node scripts/build-map.mjs` when intentionally updating geography.
 Self-hosted Outfit and Geist Mono fonts retain their attribution and licenses

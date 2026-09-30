@@ -2,7 +2,22 @@
 const pending = new Map();
 const hydrated = new Set();
 const MAX_BYTES = 64 * 1024 * 1024;
+const memory = new Map();
+let memoryBytes = 0;
 let database;
+
+function remember(hash, observations, bytes) {
+  if (memory.has(hash)) memoryBytes -= memory.get(hash).bytes;
+  memory.delete(hash);
+  memory.set(hash, { observations, bytes });
+  memoryBytes += bytes;
+  while (memoryBytes > MAX_BYTES && memory.size > 1) {
+    const oldest = memory.keys().next().value;
+    memoryBytes -= memory.get(oldest).bytes;
+    memory.delete(oldest);
+  }
+  return observations;
+}
 
 function openDatabase() {
   if (!globalThis.indexedDB) return Promise.resolve(null);
@@ -92,6 +107,13 @@ export async function loadSnapshot(ids = [], version = __SNAPSHOT_VERSION__) {
   const snapshot = await response.json();
   if (snapshot.schemaVersion !== 1 || !snapshot.series?.length)
     throw new Error("Unsupported data catalog. Please reload MacroTrace.");
+  snapshot.series = snapshot.series.map(({ metadataKey, ...series }) => {
+    if (!metadataKey) return series;
+    const template = snapshot.metadataTemplates?.[metadataKey];
+    if (!template)
+      throw new Error("Incomplete source metadata. Please reload MacroTrace.");
+    return { ...template, ...series };
+  });
   await loadHistories(snapshot, ids);
   return snapshot;
 }
@@ -104,13 +126,22 @@ export async function loadHistory(snapshot, id) {
   const series = snapshot.series.find((item) => item.id === id);
   if (!series) throw new Error(`Unknown bundled series: ${id}`);
   if (series.observations) return series;
-  const { hash, file, bytes } = series.history;
+  const { hash, file, bytes, member } = series.history;
+  const select = (data) => (member ? data?.[member] : data);
+  if (memory.has(hash)) {
+    const data = remember(hash, memory.get(hash).observations, bytes);
+    if (select(data)?.length !== series.coverage.count)
+      throw new Error(`Incomplete history for ${id}.`);
+    series.observations = select(data);
+    hydrated.add(id);
+    return series;
+  }
   if (!pending.has(hash)) {
     const work = (async () => {
       const cached = await stored(hash);
-      if (cached?.observations?.length === series.coverage.count) {
+      if (select(cached?.observations)?.length === series.coverage.count) {
         void persist({ hash, bytes, usedAt: Date.now() });
-        return cached.observations;
+        return remember(hash, cached.observations, bytes);
       }
       const response = await fetch(`./data/runtime/${file}`, {
         signal: AbortSignal.timeout(15000),
@@ -133,15 +164,17 @@ export async function loadHistory(snapshot, id) {
       if (actual !== hash)
         throw new Error(`History integrity check failed for ${id}.`);
       const observations = JSON.parse(body);
-      if (observations.length !== series.coverage.count)
+      if (select(observations)?.length !== series.coverage.count)
         throw new Error(`Incomplete history for ${id}.`);
       void persist({ hash, observations, bytes, usedAt: Date.now() });
-      return observations;
+      return remember(hash, observations, bytes);
     })();
     pending.set(hash, work);
     work.finally(() => pending.delete(hash)).catch(() => {});
   }
-  series.observations = await pending.get(hash);
+  series.observations = select(await pending.get(hash));
+  if (series.observations?.length !== series.coverage.count)
+    throw new Error(`Incomplete history for ${id}.`);
   hydrated.add(id);
   return series;
 }

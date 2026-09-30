@@ -2,6 +2,8 @@ import { execFileSync } from "node:child_process";
 
 // Each check is isolated: persistence fixtures cannot modify another test's globals.
 for (const file of [
+  "tests/verify-world-development.mjs",
+  "tests/verify-international-supplement.mjs",
   "scripts/build-data.mjs",
   "tests/verify-data.mjs",
   "tests/verify-delivery.mjs",

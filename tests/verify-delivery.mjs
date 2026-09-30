@@ -9,6 +9,10 @@ const snapshot = JSON.parse(
 );
 const catalogText = await readFile("public/data/runtime/catalog.json", "utf8");
 const catalog = JSON.parse(catalogText);
+catalog.series = catalog.series.map(({ metadataKey, ...entry }) => ({
+  ...catalog.metadataTemplates?.[metadataKey],
+  ...entry,
+}));
 const fontCss = await readFile("src/fonts.css", "utf8");
 for (const file of await readdir("public/fonts")) {
   if (!file.endsWith(".woff2")) continue;
@@ -49,7 +53,9 @@ for (const entry of catalog.series) {
     entry.history.hash,
   );
   assert.deepEqual(
-    JSON.parse(body),
+    entry.history.member
+      ? JSON.parse(body)[entry.history.member]
+      : JSON.parse(body),
     original.observations,
     `${entry.id}: every observation is preserved`,
   );
@@ -57,6 +63,15 @@ for (const entry of catalog.series) {
     count: original.observations.length,
     first: original.observations[0],
     latest: original.observations.at(-1),
+    ...(entry.coverage.previousYear
+      ? {
+          previousYear: original.observations.find(
+            ([date]) =>
+              date ===
+              `${Number(original.observations.at(-1)[0].slice(0, 4)) - 1}${original.observations.at(-1)[0].slice(4)}`,
+          ),
+        }
+      : {}),
   });
   const { coverage, history, ...metadata } = entry;
   const { observations, ...sourceMetadata } = original;
@@ -93,10 +108,13 @@ const compressed =
     );
   }, 0);
 assert.ok(
-  compressed < 400000,
+  compressed < 650000,
   `Default data transfer budget exceeded: ${compressed}`,
 );
-assert.ok(gzipSync(catalogText).length < 150000, "Source-only catalog budget");
+assert.ok(
+  gzipSync(catalogText).length < 500000,
+  "Source-only catalog budget for all economy metadata",
+);
 
 globalThis.indexedDB = indexedDB;
 globalThis.document = new EventTarget();
@@ -136,6 +154,38 @@ assert.equal(
   "Persisted histories survive a new page session without network downloads",
 );
 assert.ok(next.series.filter((s) => s.observations).length === ids.length);
+
+const worldInflation = catalog.series.filter(
+  (series) => series.indicatorKey === "INFLATION",
+);
+if (worldInflation.length) {
+  const before = historyRequests;
+  await store.loadHistories(
+    loaded,
+    worldInflation.map(({ id }) => id),
+  );
+  assert.equal(
+    historyRequests - before,
+    1,
+    "A complete cross-country indicator comparison uses one shared bundle",
+  );
+  for (const series of worldInflation)
+    assert.deepEqual(
+      loaded.series.find((entry) => entry.id === series.id).observations,
+      snapshot.series.find((entry) => entry.id === series.id).observations,
+    );
+  const persistentWorld = await nextSession.loadSnapshot([], "test");
+  const beforePersisted = historyRequests;
+  await nextSession.loadHistories(
+    persistentWorld,
+    worldInflation.map(({ id }) => id),
+  );
+  assert.equal(
+    historyRequests,
+    beforePersisted,
+    "The complete country bundle survives a new page session",
+  );
+}
 
 // Exercise the quota using logical byte sizes, without allocating 80 MiB.
 const evictionFactory = new IDBFactory();
@@ -191,6 +241,19 @@ assert.equal(
   beforePrivate + 1,
   "Private/storage-disabled browsing still works",
 );
+if (worldInflation.length) {
+  const before = historyRequests;
+  const privateWorld = await noStorage.loadSnapshot([], "test");
+  await noStorage.loadHistories(
+    privateWorld,
+    worldInflation.map(({ id }) => id),
+  );
+  assert.equal(
+    historyRequests - before,
+    1,
+    "Private-mode cross-country comparisons also share one bounded memory-cached bundle",
+  );
+}
 const corrupt = await noStorage.loadSnapshot([], "test");
 globalThis.fetch = async () => new Response('[["2020-01-01",999]]');
 await assert.rejects(noStorage.loadHistory(corrupt, ids[1]), /integrity/);

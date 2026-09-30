@@ -125,6 +125,9 @@ function metadataHaystack(series) {
     series?.unit,
     series?.provider,
     series?.source,
+    series?.countryCode,
+    series?.region,
+    series?.incomeLevel,
   ]
     .map(lower)
     .join(" ");

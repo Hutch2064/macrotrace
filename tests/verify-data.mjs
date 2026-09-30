@@ -17,6 +17,40 @@ if (!snapshot.generatedAt || version.generatedAt !== snapshot.generatedAt)
   throw new Error("Version manifest does not match the data snapshot.");
 if (!Array.isArray(snapshot.series) || snapshot.series.length < 200)
   throw new Error("Expected a substantial macroeconomic history set.");
+if (!Array.isArray(snapshot.countries) || snapshot.countries.length < 200)
+  throw new Error(
+    "Expected the current non-aggregate World Bank country roster.",
+  );
+
+const countriesById = new Map(
+  snapshot.countries.map((country) => [country.id, country]),
+);
+if (
+  countriesById.has("WLD") ||
+  countriesById.size !== snapshot.countries.length
+)
+  throw new Error(
+    "Country roster must contain unique non-aggregate economies.",
+  );
+const wdiGeographies = new Set(
+  [...countriesById.values()].map(({ id, name }) =>
+    id === "USA" ? "US" : name,
+  ),
+);
+wdiGeographies.add("Global");
+const normalizedCategories = new Set([
+  "Credit",
+  "Currencies",
+  "Commodities",
+  "Demography",
+  "Fiscal",
+  "Growth",
+  "Housing",
+  "Inflation",
+  "Labor",
+  "Productivity",
+  "Rates",
+]);
 
 const byId = new Map();
 for (const series of snapshot.series) {
@@ -28,12 +62,60 @@ for (const series of snapshot.series) {
       `Out-of-scope investment/security series retained: ${series.id}.`,
     );
   if (
+    series.category !== canonicalMacroCategory(series) ||
+    !normalizedCategories.has(series.category)
+  )
+    throw new Error(
+      `Unnormalized macro category for ${series.id}: ${series.category}.`,
+    );
+  const isWdi = series.id.startsWith("WDI_");
+  const isCountrySource =
+    isWdi || series.dataset === "international-supplement";
+  const wdiCode = isWdi ? series.id.match(/^WDI_([A-Z0-9]{3})_/)?.[1] : null;
+  if (isWdi) {
+    if (!wdiCode || series.countryCode !== wdiCode)
+      throw new Error(
+        `WDI countryCode does not match series ID: ${series.id}.`,
+      );
+    if (
+      !series.sourceIndicator ||
+      !series.sourceDefinition ||
+      !series.sourceOrganization
+    )
+      throw new Error(`Incomplete World Bank source provenance: ${series.id}.`);
+    if (wdiCode === "WLD") {
+      if (series.geography !== "Global" || series.country !== null)
+        throw new Error(
+          `World aggregate geography/country mismatch: ${series.id}.`,
+        );
+    } else {
+      const country = countriesById.get(wdiCode);
+      if (!country)
+        throw new Error(
+          `WDI series references an unknown economy: ${series.id}.`,
+        );
+      const expectedGeography = wdiCode === "USA" ? "US" : country.name;
+      if (
+        series.geography !== expectedGeography ||
+        series.country !== country.name
+      )
+        throw new Error(`WDI geography/country mismatch: ${series.id}.`);
+      if (!wdiGeographies.has(series.geography))
+        throw new Error(
+          `WDI geography is outside the current roster: ${series.id}.`,
+        );
+    }
+    if (series.frequency !== "annual" || series.releaseFrequency !== "annual")
+      throw new Error(`WDI history is not annual: ${series.id}.`);
+  }
+  if (
     !series.name ||
     !series.category ||
     !series.sourceUrl ||
     !series.unit ||
     !macroFrequencies.includes(series.frequency) ||
-    !macroGeographies.includes(series.geography)
+    (!isCountrySource && !macroGeographies.includes(series.geography)) ||
+    (isCountrySource && !wdiGeographies.has(series.geography))
   )
     throw new Error(`Incomplete normalized macro metadata for ${series.id}.`);
   if (
@@ -49,7 +131,11 @@ for (const series of snapshot.series) {
     !macroCountries.includes(series.country)
   )
     throw new Error(`FX series has an unknown country: ${series.id}.`);
-  if (!Array.isArray(series.observations) || series.observations.length < 24)
+  const minimumObservations = isCountrySource ? 1 : 24;
+  if (
+    !Array.isArray(series.observations) ||
+    series.observations.length < minimumObservations
+  )
     throw new Error(`Too few observations for ${series.id}.`);
 
   let previousDate = "";
@@ -65,13 +151,45 @@ for (const series of snapshot.series) {
       throw new Error(
         `${series.id} contains a future-dated observation: ${date}.`,
       );
+    if (
+      isCountrySource &&
+      (!date.endsWith("-12-31") ||
+        Number(date.slice(0, 4)) >= Number(snapshot.generatedAt.slice(0, 4)))
+    )
+      throw new Error(
+        `WDI history is not a completed annual year: ${series.id}/${date}.`,
+      );
     if (date <= previousDate)
       throw new Error(`${series.id} dates are not strictly increasing.`);
     if (!Number.isFinite(value))
       throw new Error(`${series.id} has a non-finite value.`);
+    if (isWdi) {
+      const indicatorKey = series.indicatorKey || series.id.split("_").at(-1);
+      if (indicatorKey === "UNEMPLOYMENT" && (value < 0 || value > 100))
+        throw new Error(
+          `${series.id} has an invalid unemployment rate: ${value}.`,
+        );
+      if (indicatorKey === "POP" && !(value > 0))
+        throw new Error(
+          `${series.id} has a non-positive population: ${value}.`,
+        );
+      if (
+        ["GDP", "GDPPC", "GDPNOMINAL", "GDPPCPPP"].includes(indicatorKey) &&
+        !(value > 0)
+      )
+        throw new Error(`${series.id} has a non-positive GDP value: ${value}.`);
+    }
     previousDate = date;
   }
 }
+const wdiCount = snapshot.series.filter(({ id }) =>
+  id.startsWith("WDI_"),
+).length;
+const existingCount = snapshot.series.length - wdiCount;
+if (wdiCount < 1 || existingCount < 24)
+  throw new Error(
+    `Expected at least one WDI history and 24 existing macro histories; received ${wdiCount} and ${existingCount}.`,
+  );
 
 const fredCatalog = [...fredSeries, ...extendedFredSeries].filter(
   isMacroSeries,
