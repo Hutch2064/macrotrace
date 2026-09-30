@@ -13,22 +13,6 @@ const ANNUAL = [
   ["Real GDP growth", "GDPGROWTH", "% annual", "NY.GDP.MKTP.KD.ZG"],
   ["Real GDP per capita", "GDPPC", "USD · 2015 prices", "NY.GDP.PCAP.KD"],
 ];
-const SUPPLEMENT_PRIORITY = new Map([
-  ["INFLATION", 0],
-  ["UNEMPLOYMENT", 1],
-  ["GDPGROWTH", 2],
-  ["GDPPC", 3],
-  ["GDPNOMINAL", 4],
-  ["GDP", 5],
-]);
-const SUPPLEMENT_PLACEHOLDERS = [
-  ["INFLATION", "Inflation", "% annual"],
-  ["UNEMPLOYMENT", "Unemployment rate", "%"],
-  ["GDPGROWTH", "GDP growth", "% annual"],
-  ["GDPPC", "Real GDP per capita", "USD · reported"],
-  ["GDPNOMINAL", "Nominal GDP", "USD · reported"],
-  ["GDP", "Real GDP", "USD · reported"],
-];
 
 function finiteOrNull(value) {
   if (value === null || value === undefined || value === "") return null;
@@ -289,76 +273,39 @@ function readoutForSeries(
     sourceUrl: metadata.sourceUrl,
     frequency: metadata.frequency,
     metricKey: metricKey || indicatorKeyForSeries(series),
-    retained: series?.refreshStatus === "upstream-unavailable",
+    retained: Boolean(series?.refreshStatus),
+    status: series?.observationStatus?.[point?.date] || series?.latestStatus,
     unavailable: !series || !point,
   };
 }
 
 function supplementalReadouts(snapshot, country, seriesList) {
-  const hasRealIncome = seriesList.some(
-    (series) =>
-      indicatorKeyForSeries(series) === "GDPPC" && hasSeriesValue(series),
-  );
-  const rankFor = (key) =>
-    !hasRealIncome && key === "GDPPC_NOMINAL"
-      ? 3
-      : (SUPPLEMENT_PRIORITY.get(key) ?? 6);
-  const available = seriesList
-    .filter((series) => !isWorldBankSeries(series) && hasSeriesValue(series))
-    .sort((left, right) => {
-      const leftKey = indicatorKeyForSeries(left);
-      const rightKey = indicatorKeyForSeries(right);
-      const rank = rankFor(leftKey) - rankFor(rightKey);
-      if (rank) return rank;
-      return (
-        Number(right.sourceFamily === country.sourceFamily) -
-        Number(left.sourceFamily === country.sourceFamily)
-      );
-    });
-  const selected = [];
-  const seen = new Set();
-  for (const series of available) {
-    const metricKey = indicatorKeyForSeries(series);
-    if (seen.has(metricKey)) continue;
-    seen.add(metricKey);
-    selected.push(
-      readoutForSeries(
-        snapshot,
-        series,
-        {
-          id: series.id,
-          label: series.indicatorName || series.name || metricKey,
-          unit: series.unit || "reported",
-          metricKey,
-        },
-        country,
-      ),
+  return ANNUAL.map(([label, metricKey, unit]) => {
+    const series = seriesList
+      .filter(
+        (series) =>
+          indicatorKeyForSeries(series) === metricKey && hasSeriesValue(series),
+      )
+      .sort(
+        (left, right) =>
+          Number(right.sourceFamily === country.sourceFamily) -
+          Number(left.sourceFamily === country.sourceFamily),
+      )[0];
+    return readoutForSeries(
+      snapshot,
+      series,
+      {
+        id: `unavailable:${country.id}:${metricKey}`,
+        label,
+        unit,
+        metricKey,
+      },
+      country,
     );
-    if (selected.length === 4) return selected;
-  }
-  for (const [metricKey, label, unit] of SUPPLEMENT_PLACEHOLDERS) {
-    if (selected.length === 4) break;
-    if (seen.has(metricKey)) continue;
-    seen.add(metricKey);
-    selected.push({
-      id: `unavailable:${country.id}:${metricKey}`,
-      label: `${label} · unavailable`,
-      value: null,
-      unit,
-      date: null,
-      source: country.sourceFamily || "Official annual source",
-      sourceFamily: country.sourceFamily || "Official annual source",
-      sourceUrl: undefined,
-      frequency: "annual",
-      metricKey,
-      retained: false,
-      unavailable: true,
-    });
-  }
-  return selected;
+  });
 }
 
-export function countryReadout(snapshot, id) {
+function coreReadout(snapshot, id) {
   const country = countriesFor(snapshot).find((item) => item.id === id);
   const countrySeries = seriesForCountry(snapshot, id);
   if (country && !isWorldBankCountry(country))
@@ -397,10 +344,76 @@ export function countryReadout(snapshot, id) {
         sourceUrl: metadata.sourceUrl,
         frequency: metadata.frequency,
         metricKey: spec.id,
-        retained: series?.refreshStatus === "upstream-unavailable",
+        retained: Boolean(series?.refreshStatus),
         unavailable: !series || !point,
       };
     }
     return readoutForSeries(snapshot, series, spec, country, true);
+  });
+}
+
+// Missing headline slots may show other actual releases, never an imputed
+// inflation, unemployment or GDP reading. Keep the source's name and units.
+export function countryReadout(snapshot, id) {
+  const readings = coreReadout(snapshot, id);
+  const country = countriesFor(snapshot).find((country) => country.id === id);
+  const used = new Set(
+    readings
+      .filter(({ value }) => Number.isFinite(value))
+      .map(({ metricKey, id }) => metricKey || id),
+  );
+  const priority = [
+    "POP",
+    "POPULATION",
+    "GDPNOMINAL",
+    "GDP_NOMINAL",
+    "GDP",
+    "GDPPC_NOMINAL",
+    "TRADE",
+    "LFPR",
+    "EMPLOYMENT_POP",
+    "POP_GROWTH",
+    "URBAN",
+  ];
+  const candidates = seriesForCountry(snapshot, id)
+    .filter(hasSeriesValue)
+    .sort((a, b) => {
+      const rank = (series) => {
+        const index = priority.indexOf(indicatorKeyForSeries(series));
+        return index < 0 ? priority.length : index;
+      };
+      return (
+        rank(a) - rank(b) ||
+        String(
+          b.coverage?.latest?.[0] || b.observations?.at(-1)?.[0] || "",
+        ).localeCompare(
+          String(a.coverage?.latest?.[0] || a.observations?.at(-1)?.[0] || ""),
+        ) ||
+        a.id.localeCompare(b.id)
+      );
+    });
+  return readings.map((reading) => {
+    if (Number.isFinite(reading.value)) return reading;
+    const series = candidates.find(
+      (series) => !used.has(indicatorKeyForSeries(series)),
+    );
+    if (!series) return reading;
+    const key = indicatorKeyForSeries(series);
+    used.add(key);
+    return {
+      ...readoutForSeries(
+        snapshot,
+        series,
+        {
+          id: series.id,
+          label: series.indicatorName || series.name,
+          unit: series.unit,
+          metricKey: key,
+        },
+        country,
+        isWorldBankSeries(series),
+      ),
+      fallbackFor: reading.label,
+    };
   });
 }

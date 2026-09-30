@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-09-30T19:30:48.350Z. 6448 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-09-30T21:07:37.095Z. 6487 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
@@ -1897,6 +1897,16 @@ Snapshot: 2026-09-30T19:30:48.350Z. 6448 retained macroeconomic series. Coverage
 | [DGBAS_TWN_CPI_INDEX](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price index · Taiwan | Taiwan | annual | index (2021=100) | 1981-12-31 | 2025-12-31 | 45 |
 | [DGBAS_TWN_INFLATION](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1982-12-31 | 2025-12-31 | 44 |
 | [IMF_TWN_INFLATION](https://data.imf.org/en/Datasets/WEO) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
+| [TERR_JEY_RPI_INDEX](https://opendata.gov.je/dataset/rpi-rpi-x-rpi-y-rpi-pensioners-and-rpi-low-income-percentage-changes) | Retail price index · Jersey | Jersey | quarterly | index points (Jersey RPI) | 1989-03-15 | 2026-06-15 | 150 |
+| [TERR_JEY_RPI_INFLATION](https://opendata.gov.je/dataset/rpi-rpi-x-rpi-y-rpi-pensioners-and-rpi-low-income-percentage-changes) | RPI inflation · Jersey | Jersey | quarterly | % | 1990-03-15 | 2026-06-15 | 146 |
+| [TERR_ALA_CPI_INDEX](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__KO/KO007.px/) | Consumer price index · Åland | Åland | monthly | index (2015=100) | 2015-01-01 | 2026-08-01 | 140 |
+| [TERR_ALA_CPI_INFLATION](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__KO/KO007.px/) | CPI inflation · Åland | Åland | monthly | % | 2016-01-01 | 2026-08-01 | 128 |
+| [TERR_BES_GM9001_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Bonaire (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
+| [TERR_BES_GM9001_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Bonaire (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
+| [TERR_BES_GM9002_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Sint Eustatius (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
+| [TERR_BES_GM9002_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Sint Eustatius (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
+| [TERR_BES_GM9003_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Saba (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
+| [TERR_BES_GM9003_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Saba (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
 
 ## Growth
 
@@ -5211,6 +5221,35 @@ Snapshot: 2026-09-30T19:30:48.350Z. 6448 retained macroeconomic series. Coverage
 | [UN_MSR_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Montserrat | Montserrat | annual | % | 1971-12-31 | 2024-12-31 | 54 |
 | [UN_MSR_GDPPC](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP per capita · Montserrat | Montserrat | annual | constant 2020 USD/person | 1970-12-31 | 2024-12-31 | 55 |
 | [UN_MSR_GDPPC_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP per capita · Montserrat | Montserrat | annual | current USD/person | 1970-12-31 | 2024-12-31 | 55 |
+| [TERR_JEY_GDP_REAL](https://opendata.gov.je/dataset/national-accounts/resource/69bc3b4b-9c2f-470f-a42b-97daab3271ec?inner_span=True) | Real GDP · Jersey | Jersey | annual | GBP million (constant 2024 prices) | 2012-12-31 | 2024-12-31 | 13 |
+| [TERR_JEY_GDP_GROWTH](https://opendata.gov.je/dataset/national-accounts/resource/69bc3b4b-9c2f-470f-a42b-97daab3271ec?inner_span=True) | Real GDP growth · Jersey | Jersey | annual | % | 2013-12-31 | 2024-12-31 | 12 |
+| [TERR_GLP_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Guadeloupe | Guadeloupe | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GLP_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Guadeloupe | Guadeloupe | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GLP_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Guadeloupe | Guadeloupe | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_MTQ_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Martinique | Martinique | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_MTQ_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Martinique | Martinique | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_MTQ_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Martinique | Martinique | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_GUF_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · French Guiana | French Guiana | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GUF_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · French Guiana | French Guiana | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GUF_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · French Guiana | French Guiana | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_REU_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Réunion | Réunion | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_REU_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Réunion | Réunion | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_REU_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Réunion | Réunion | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_MYT_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Mayotte | Mayotte | annual | EUR million | 2000-12-31 | 2023-12-31 | 24 |
+| [TERR_MYT_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Mayotte | Mayotte | annual | EUR million (chained volume) | 2000-12-31 | 2023-12-31 | 24 |
+| [TERR_MYT_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Mayotte | Mayotte | annual | % | 2001-12-31 | 2023-12-31 | 23 |
+| [TERR_ALA_GDP_NOMINAL](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Nominal GDP · Åland | Åland | annual | EUR million | 2008-12-31 | 2023-12-31 | 16 |
+| [TERR_ALA_GDP_REAL](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Real GDP · Åland | Åland | annual | EUR million (constant latest reported prices) | 2008-12-31 | 2023-12-31 | 16 |
+| [TERR_ALA_GDP_GROWTH](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Real GDP growth · Åland | Åland | annual | % | 2009-12-31 | 2023-12-31 | 15 |
+| [TERR_BES_GM9001_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Bonaire (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9001_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Bonaire (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9001_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Bonaire (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
+| [TERR_BES_GM9002_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Sint Eustatius (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9002_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Sint Eustatius (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9002_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Sint Eustatius (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
+| [TERR_BES_GM9003_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Saba (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9003_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Saba (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9003_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Saba (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
 
 ## Rates
 

@@ -31,12 +31,13 @@ let snapshot,
   globeReadings = new Map(),
   countries = [],
   country = "USA",
+  geographicCountry,
   countryRevision = 0,
   countryMotion,
   countryNameMotion;
 function setCountries(roster) {
   countries = roster;
-  if (!countries.some(({ id }) => id === country))
+  if (!geographicCountry && !countries.some(({ id }) => id === country))
     country = countries.find(({ id }) => id === "USA")?.id || countries[0]?.id;
 }
 function sourceLabel(
@@ -47,14 +48,19 @@ function sourceLabel(
   const value = String(sourceFamily || source || "").trim();
   if (/world bank|world development indicators/i.test(value))
     return "World Bank WDI";
+  if (/federal reserve bank of st\. louis|\bFRED\b/i.test(value)) return "FRED";
   return value || fallback;
 }
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-async function renderCountry(id) {
+async function renderCountry(id, location) {
   const token = ++countryRevision;
   country = id;
+  if (location) geographicCountry = location;
   globe?.select(id);
-  const selectedCountry = countries.find((item) => item.id === id);
+  const selectedCountry =
+    geographicCountry?.id === id
+      ? geographicCountry
+      : countries.find((item) => item.id === id);
   if (!selectedCountry) return;
   const name = selectedCountry.name || selectedCountry.id;
   const countryName = document.querySelector("#globe-country-name");
@@ -68,30 +74,68 @@ async function renderCountry(id) {
     { duration: reduced() ? 0 : 420, easing: "cubic-bezier(.22,1,.36,1)" },
   );
   const host = document.querySelector("#headline-metrics");
+  const economicId = countries.some((item) => item.id === id)
+    ? id
+    : selectedCountry.economicId || id;
+  const sharedArea =
+    economicId !== id && selectedCountry.sharedAggregate
+      ? countries.find((item) => item.id === economicId)?.name ||
+        selectedCountry.economicName
+      : null;
   host.setAttribute("aria-busy", "true");
   try {
     // The catalog's annual coverage fields are enough for non-U.S. cards.
     // Keep the U.S. four-series behavior unchanged.
-    if (id === "USA") await loadHistories(snapshot, countryIds(id));
+    if (economicId === "USA")
+      await loadHistories(snapshot, countryIds(economicId));
     if (token !== countryRevision) return;
-    const metrics = countryReadout(snapshot, id);
+    const hasData = countries.some((item) => item.id === economicId);
+    const metrics = hasData
+      ? countryReadout(snapshot, economicId)
+      : [
+          ["Consumer price inflation", "% annual"],
+          ["Unemployment rate", "%"],
+          ["Real GDP growth", "% annual"],
+          ["Real GDP per capita", "USD · 2015 prices"],
+        ].map(([label, unit]) => ({ label, unit, value: null, date: null }));
     countryMotion?.cancel();
     host.innerHTML = metrics
       .map((metric) => {
         const unit = String(metric.unit || "");
-        const currency = /(USD|dollars|currency)/i.test(unit);
+        const currency = /(USD|EUR|GBP|dollars|currency)/i.test(unit);
         const magnitude = currency
           ? unit.match(/\b(thousand|million|billion)s?\b/i)?.[1]?.toLowerCase()
           : null;
         const scale =
           { thousand: 1e3, million: 1e6, billion: 1e9 }[magnitude] || 1;
-        const value = currency
-          ? compact(Number.isFinite(metric.value) ? metric.value * scale : null)
-          : format(metric.value);
+        const value =
+          currency || /^(people|persons)$/i.test(unit)
+            ? compact(
+                Number.isFinite(metric.value) ? metric.value * scale : null,
+              )
+            : format(metric.value);
         const displayUnit = magnitude
           ? unit.replace(/\b(thousand|million|billion)s?\b/i, "").trim()
           : unit;
-        return `<div class="headline-metric"><span class="metric-label">${escape(metric.label)}</span><span class="metric-value${currency ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + unit)}">${value}<span class="metric-unit">${escape(displayUnit)}</span></span><span class="metric-date">${metric.frequency === "annual" && metric.date ? metric.date.slice(0, 4) + " · annual" : dateLabel(metric.date)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(sourceLabel(metric.sourceFamily, metric.source, id === "USA" ? "FRED" : "Official annual source"))}</a>` : ""}</div>`;
+        const status = ["provisional", "semi-definitive"].includes(
+          metric.status,
+        )
+          ? ` · ${metric.status}`
+          : "";
+        const reference = !metric.date
+          ? "Unavailable"
+          : metric.frequency === "annual"
+            ? metric.date.slice(0, 4) + " · annual"
+            : metric.frequency === "quarterly"
+              ? `Q${Math.ceil(Number(metric.date.slice(5, 7)) / 3)} ${metric.date.slice(0, 4)} · quarterly`
+              : metric.frequency === "monthly"
+                ? new Intl.DateTimeFormat("en-US", {
+                    month: "short",
+                    year: "numeric",
+                    timeZone: "UTC",
+                  }).format(new Date(metric.date + "T00:00:00Z")) + " · monthly"
+                : dateLabel(metric.date);
+        return `<div class="headline-metric"><span class="metric-label"${metric.fallbackFor ? ` title="${escape("Alternative indicator; " + metric.fallbackFor + " is unavailable.")}"` : ""}>${escape(metric.label)}</span><span class="metric-value${currency ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + unit)}">${value}<span class="metric-unit">${escape(displayUnit)}</span></span>${sharedArea && hasData ? `<span class="metric-date">${escape(sharedArea)} · shared aggregate</span>` : ""}<span class="metric-date">${escape(reference + status)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(sourceLabel(metric.sourceFamily, metric.source, id === "USA" ? "FRED" : "Official source"))}</a>` : ""}</div>`;
       })
       .join("");
     countryMotion = host.animate(
@@ -212,8 +256,8 @@ async function render(updated) {
     try {
       globe = await economicGlobe(
         document.querySelector("#economic-globe"),
-        (id) =>
-          void renderCountry(id).catch((error) =>
+        (id, location) =>
+          void renderCountry(id, location).catch((error) =>
             showError(document.querySelector("#headline-metrics"), error),
           ),
         globeReadings,

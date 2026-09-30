@@ -43,7 +43,7 @@
             id="economic-globe"
             tabindex="0"
             role="img"
-            aria-label="Interactive world globe. Gold countries have available economic data; gray countries have no current reading. Drag to rotate. Up and down arrows tilt the globe; left and right arrows select economies."
+            aria-label="Interactive world globe. Gold countries and territories have economic data in the catalog; gray places have no catalog data. Hover to identify a place, or tap to select it. Drag in any direction to rotate. Up and down arrows tilt the globe; left and right arrows select places."
           ></canvas>
           <div class="globe-caption">
             <span
@@ -107,6 +107,29 @@
         <div id="method-definitions" class="method-grid"></div>
         <div id="source-catalog" class="source-catalog"></div>
         <p class="subtle" id="source-freshness"></p>
+        <p class="subtle">
+          Globe geography is independent of economic coverage. Country and
+          territory outlines come from public-domain
+          <a
+            href="https://www.naturalearthdata.com/downloads/10m-cultural-vectors/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Natural Earth maps</a
+          >, checked against the
+          <a
+            href="https://unstats.un.org/unsd/methodology/m49/overview/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >UN country and area roster</a
+          >. Gray places remain identifiable even without economic data. Where
+          several geographic areas share one economic series, the cards name the
+          shared aggregate. Boundaries follow the mapping source and do not
+          express a position on sovereignty. Tiny islands are preserved at the
+          source map's resolution, not represented as survey-grade coastlines.
+          <a href="./data/geographic-coverage.json"
+            >Geographic coverage audit ↗</a
+          >
+        </p>
       </section>
       <section class="closing shell">
         <p class="eyebrow">From reading to exploring</p>

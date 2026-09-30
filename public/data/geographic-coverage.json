@@ -1,0 +1,3313 @@
+{
+  "generatedAt": "2026-09-30T20:32:09.495Z",
+  "rosterSource": "https://unstats.un.org/unsd/methodology/m49/overview/",
+  "isoRosterSource": "https://www.iso.org/obp/ui/#iso:code:3166",
+  "geometrySource": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_map_units.geojson",
+  "countrySource": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries.geojson",
+  "unM49Count": 248,
+  "isoRosterCount": 249,
+  "additionalGeographyCount": 1,
+  "rosterCount": 250,
+  "naturalEarthCountryFeatureCount": 258,
+  "naturalEarthMapUnitFeatureCount": 298,
+  "geometryEntryCount": 298,
+  "countriesWithPolygons": 250,
+  "coordinateOnly": 0,
+  "missingIsoCodes": [],
+  "aliases": {
+    "map": {
+      "KOS": "XKX",
+      "PSX": "PSE"
+    },
+    "economic": {
+      "GGY": "CHI",
+      "JEY": "CHI",
+      "KOS": "XKX",
+      "PSX": "PSE"
+    }
+  },
+  "entries": [
+    {
+      "isoCode": "DZA",
+      "name": "Algeria",
+      "m49Code": "012",
+      "region": "Africa",
+      "subRegion": "Northern Africa",
+      "geometryIds": [
+        "DZA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "EGY",
+      "name": "Egypt",
+      "m49Code": "818",
+      "region": "Africa",
+      "subRegion": "Northern Africa",
+      "geometryIds": [
+        "EGY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LBY",
+      "name": "Libya",
+      "m49Code": "434",
+      "region": "Africa",
+      "subRegion": "Northern Africa",
+      "geometryIds": [
+        "LBY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MAR",
+      "name": "Morocco",
+      "m49Code": "504",
+      "region": "Africa",
+      "subRegion": "Northern Africa",
+      "geometryIds": [
+        "MAR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SDN",
+      "name": "Sudan",
+      "m49Code": "729",
+      "region": "Africa",
+      "subRegion": "Northern Africa",
+      "geometryIds": [
+        "SDN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TUN",
+      "name": "Tunisia",
+      "m49Code": "788",
+      "region": "Africa",
+      "subRegion": "Northern Africa",
+      "geometryIds": [
+        "TUN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ESH",
+      "name": "Western Sahara",
+      "m49Code": "732",
+      "region": "Africa",
+      "subRegion": "Northern Africa",
+      "geometryIds": [
+        "SAH"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "IOT",
+      "name": "British Indian Ocean Territory",
+      "m49Code": "086",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "IOT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BDI",
+      "name": "Burundi",
+      "m49Code": "108",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "BDI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "COM",
+      "name": "Comoros",
+      "m49Code": "174",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "COM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "DJI",
+      "name": "Djibouti",
+      "m49Code": "262",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "DJI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ERI",
+      "name": "Eritrea",
+      "m49Code": "232",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "ERI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ETH",
+      "name": "Ethiopia",
+      "m49Code": "231",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "ETH"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ATF",
+      "name": "French Southern Territories",
+      "m49Code": "260",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "ATF"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KEN",
+      "name": "Kenya",
+      "m49Code": "404",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "KEN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MDG",
+      "name": "Madagascar",
+      "m49Code": "450",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "MDG"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MWI",
+      "name": "Malawi",
+      "m49Code": "454",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "MWI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MUS",
+      "name": "Mauritius",
+      "m49Code": "480",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "MUS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MYT",
+      "name": "Mayotte",
+      "m49Code": "175",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "MYT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MOZ",
+      "name": "Mozambique",
+      "m49Code": "508",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "MOZ"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "REU",
+      "name": "Réunion",
+      "m49Code": "638",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "REU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "RWA",
+      "name": "Rwanda",
+      "m49Code": "646",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "RWA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SYC",
+      "name": "Seychelles",
+      "m49Code": "690",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "SYC"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SOM",
+      "name": "Somalia",
+      "m49Code": "706",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "SOP",
+        "SOX"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SSD",
+      "name": "South Sudan",
+      "m49Code": "728",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "SDS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "UGA",
+      "name": "Uganda",
+      "m49Code": "800",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "UGA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TZA",
+      "name": "United Republic of Tanzania",
+      "m49Code": "834",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "TZA",
+        "TZZ"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ZMB",
+      "name": "Zambia",
+      "m49Code": "894",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "ZMB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ZWE",
+      "name": "Zimbabwe",
+      "m49Code": "716",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "ZWE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "AGO",
+      "name": "Angola",
+      "m49Code": "024",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "AGO"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CMR",
+      "name": "Cameroon",
+      "m49Code": "120",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "CMR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CAF",
+      "name": "Central African Republic",
+      "m49Code": "140",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "CAF"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TCD",
+      "name": "Chad",
+      "m49Code": "148",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "TCD"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "COG",
+      "name": "Congo",
+      "m49Code": "178",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "COG"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "COD",
+      "name": "Democratic Republic of the Congo",
+      "m49Code": "180",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "COD"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GNQ",
+      "name": "Equatorial Guinea",
+      "m49Code": "226",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "GNQ"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GAB",
+      "name": "Gabon",
+      "m49Code": "266",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "GAB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "STP",
+      "name": "Sao Tome and Principe",
+      "m49Code": "678",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "STP"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BWA",
+      "name": "Botswana",
+      "m49Code": "072",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "BWA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SWZ",
+      "name": "Eswatini",
+      "m49Code": "748",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "SWZ"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LSO",
+      "name": "Lesotho",
+      "m49Code": "426",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "LSO"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NAM",
+      "name": "Namibia",
+      "m49Code": "516",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "NAM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ZAF",
+      "name": "South Africa",
+      "m49Code": "710",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "ZAF"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BEN",
+      "name": "Benin",
+      "m49Code": "204",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "BEN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BFA",
+      "name": "Burkina Faso",
+      "m49Code": "854",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "BFA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CPV",
+      "name": "Cabo Verde",
+      "m49Code": "132",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "CPV"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CIV",
+      "name": "Côte d’Ivoire",
+      "m49Code": "384",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "CIV"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GMB",
+      "name": "Gambia",
+      "m49Code": "270",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "GMB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GHA",
+      "name": "Ghana",
+      "m49Code": "288",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "GHA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GIN",
+      "name": "Guinea",
+      "m49Code": "324",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "GIN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GNB",
+      "name": "Guinea-Bissau",
+      "m49Code": "624",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "GNB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LBR",
+      "name": "Liberia",
+      "m49Code": "430",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "LBR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MLI",
+      "name": "Mali",
+      "m49Code": "466",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "MLI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MRT",
+      "name": "Mauritania",
+      "m49Code": "478",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "MRT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NER",
+      "name": "Niger",
+      "m49Code": "562",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "NER"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NGA",
+      "name": "Nigeria",
+      "m49Code": "566",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "NGA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SHN",
+      "name": "Saint Helena",
+      "m49Code": "654",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "SHN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SEN",
+      "name": "Senegal",
+      "m49Code": "686",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "SEN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SLE",
+      "name": "Sierra Leone",
+      "m49Code": "694",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "SLE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TGO",
+      "name": "Togo",
+      "m49Code": "768",
+      "region": "Africa",
+      "subRegion": "Sub-Saharan Africa",
+      "geometryIds": [
+        "TGO"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "AIA",
+      "name": "Anguilla",
+      "m49Code": "660",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "AIA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ATG",
+      "name": "Antigua and Barbuda",
+      "m49Code": "028",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "ACA",
+        "ACB"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ABW",
+      "name": "Aruba",
+      "m49Code": "533",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "ABW"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BHS",
+      "name": "Bahamas",
+      "m49Code": "044",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "BHS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BRB",
+      "name": "Barbados",
+      "m49Code": "052",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "BRB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BES",
+      "name": "Bonaire, Sint Eustatius and Saba",
+      "m49Code": "535",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "NLY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "VGB",
+      "name": "British Virgin Islands",
+      "m49Code": "092",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "VGB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CYM",
+      "name": "Cayman Islands",
+      "m49Code": "136",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "CYM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CUB",
+      "name": "Cuba",
+      "m49Code": "192",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "CUB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CUW",
+      "name": "Curaçao",
+      "m49Code": "531",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "CUW"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "DMA",
+      "name": "Dominica",
+      "m49Code": "212",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "DMA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "DOM",
+      "name": "Dominican Republic",
+      "m49Code": "214",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "DOM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GRD",
+      "name": "Grenada",
+      "m49Code": "308",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "GRD"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GLP",
+      "name": "Guadeloupe",
+      "m49Code": "312",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "GLP"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "HTI",
+      "name": "Haiti",
+      "m49Code": "332",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "HTI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "JAM",
+      "name": "Jamaica",
+      "m49Code": "388",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "JAM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MTQ",
+      "name": "Martinique",
+      "m49Code": "474",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "MTQ"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MSR",
+      "name": "Montserrat",
+      "m49Code": "500",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "MSR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PRI",
+      "name": "Puerto Rico",
+      "m49Code": "630",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "PRI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BLM",
+      "name": "Saint Barthélemy",
+      "m49Code": "652",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "BLM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KNA",
+      "name": "Saint Kitts and Nevis",
+      "m49Code": "659",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "KNA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LCA",
+      "name": "Saint Lucia",
+      "m49Code": "662",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "LCA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MAF",
+      "name": "Saint Martin (French Part)",
+      "m49Code": "663",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "MAF"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "VCT",
+      "name": "Saint Vincent and the Grenadines",
+      "m49Code": "670",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "VCT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SXM",
+      "name": "Sint Maarten (Dutch part)",
+      "m49Code": "534",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "SXM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TTO",
+      "name": "Trinidad and Tobago",
+      "m49Code": "780",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "TTO"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TCA",
+      "name": "Turks and Caicos Islands",
+      "m49Code": "796",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "TCA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "VIR",
+      "name": "United States Virgin Islands",
+      "m49Code": "850",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "VIR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BLZ",
+      "name": "Belize",
+      "m49Code": "084",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "BLZ"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CRI",
+      "name": "Costa Rica",
+      "m49Code": "188",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "CRI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SLV",
+      "name": "El Salvador",
+      "m49Code": "222",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "SLV"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GTM",
+      "name": "Guatemala",
+      "m49Code": "320",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "GTM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "HND",
+      "name": "Honduras",
+      "m49Code": "340",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "HND"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MEX",
+      "name": "Mexico",
+      "m49Code": "484",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "MEX"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NIC",
+      "name": "Nicaragua",
+      "m49Code": "558",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "NIC"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PAN",
+      "name": "Panama",
+      "m49Code": "591",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "PAN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ARG",
+      "name": "Argentina",
+      "m49Code": "032",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "ARG"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BOL",
+      "name": "Bolivia (Plurinational State of)",
+      "m49Code": "068",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "BOL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BVT",
+      "name": "Bouvet Island",
+      "m49Code": "074",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "BVT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BRA",
+      "name": "Brazil",
+      "m49Code": "076",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "BRA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CHL",
+      "name": "Chile",
+      "m49Code": "152",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "CHL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "COL",
+      "name": "Colombia",
+      "m49Code": "170",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "COL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ECU",
+      "name": "Ecuador",
+      "m49Code": "218",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "ECU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "FLK",
+      "name": "Falkland Islands (Malvinas)",
+      "m49Code": "238",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "FLK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GUF",
+      "name": "French Guiana",
+      "m49Code": "254",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "GUF"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GUY",
+      "name": "Guyana",
+      "m49Code": "328",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "GUY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PRY",
+      "name": "Paraguay",
+      "m49Code": "600",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "PRY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PER",
+      "name": "Peru",
+      "m49Code": "604",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "PER"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SGS",
+      "name": "South Georgia and the South Sandwich Islands",
+      "m49Code": "239",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "SGS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SUR",
+      "name": "Suriname",
+      "m49Code": "740",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "SUR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "URY",
+      "name": "Uruguay",
+      "m49Code": "858",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "URY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "VEN",
+      "name": "Venezuela (Bolivarian Republic of)",
+      "m49Code": "862",
+      "region": "Americas",
+      "subRegion": "Latin America and the Caribbean",
+      "geometryIds": [
+        "VEN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BMU",
+      "name": "Bermuda",
+      "m49Code": "060",
+      "region": "Americas",
+      "subRegion": "Northern America",
+      "geometryIds": [
+        "BMU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CAN",
+      "name": "Canada",
+      "m49Code": "124",
+      "region": "Americas",
+      "subRegion": "Northern America",
+      "geometryIds": [
+        "CAN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GRL",
+      "name": "Greenland",
+      "m49Code": "304",
+      "region": "Americas",
+      "subRegion": "Northern America",
+      "geometryIds": [
+        "GRL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SPM",
+      "name": "Saint Pierre and Miquelon",
+      "m49Code": "666",
+      "region": "Americas",
+      "subRegion": "Northern America",
+      "geometryIds": [
+        "SPM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "USA",
+      "name": "United States of America",
+      "m49Code": "840",
+      "region": "Americas",
+      "subRegion": "Northern America",
+      "geometryIds": [
+        "USA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ATA",
+      "name": "Antarctica",
+      "m49Code": "010",
+      "region": "",
+      "subRegion": "",
+      "geometryIds": [
+        "ATA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KAZ",
+      "name": "Kazakhstan",
+      "m49Code": "398",
+      "region": "Asia",
+      "subRegion": "Central Asia",
+      "geometryIds": [
+        "KAZ"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KGZ",
+      "name": "Kyrgyzstan",
+      "m49Code": "417",
+      "region": "Asia",
+      "subRegion": "Central Asia",
+      "geometryIds": [
+        "KGZ"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TJK",
+      "name": "Tajikistan",
+      "m49Code": "762",
+      "region": "Asia",
+      "subRegion": "Central Asia",
+      "geometryIds": [
+        "TJK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TKM",
+      "name": "Turkmenistan",
+      "m49Code": "795",
+      "region": "Asia",
+      "subRegion": "Central Asia",
+      "geometryIds": [
+        "TKM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "UZB",
+      "name": "Uzbekistan",
+      "m49Code": "860",
+      "region": "Asia",
+      "subRegion": "Central Asia",
+      "geometryIds": [
+        "UZB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CHN",
+      "name": "China",
+      "m49Code": "156",
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "geometryIds": [
+        "CHN",
+        "PFA"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "HKG",
+      "name": "China, Hong Kong Special Administrative Region",
+      "m49Code": "344",
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "geometryIds": [
+        "HKG"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MAC",
+      "name": "China, Macao Special Administrative Region",
+      "m49Code": "446",
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "geometryIds": [
+        "MAC"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PRK",
+      "name": "Democratic People's Republic of Korea",
+      "m49Code": "408",
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "geometryIds": [
+        "KNZ",
+        "PRK"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "JPN",
+      "name": "Japan",
+      "m49Code": "392",
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "geometryIds": [
+        "JPN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MNG",
+      "name": "Mongolia",
+      "m49Code": "496",
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "geometryIds": [
+        "MNG"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KOR",
+      "name": "Republic of Korea",
+      "m49Code": "410",
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "geometryIds": [
+        "KNX",
+        "KOR"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BRN",
+      "name": "Brunei Darussalam",
+      "m49Code": "096",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "BRN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KHM",
+      "name": "Cambodia",
+      "m49Code": "116",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "KHM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "IDN",
+      "name": "Indonesia",
+      "m49Code": "360",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "IDN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LAO",
+      "name": "Lao People's Democratic Republic",
+      "m49Code": "418",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "LAO"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MYS",
+      "name": "Malaysia",
+      "m49Code": "458",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "MYS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MMR",
+      "name": "Myanmar",
+      "m49Code": "104",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "MMR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PHL",
+      "name": "Philippines",
+      "m49Code": "608",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "PHL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SGP",
+      "name": "Singapore",
+      "m49Code": "702",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "SGP"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "THA",
+      "name": "Thailand",
+      "m49Code": "764",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "THA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TLS",
+      "name": "Timor-Leste",
+      "m49Code": "626",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "TLS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "VNM",
+      "name": "Viet Nam",
+      "m49Code": "704",
+      "region": "Asia",
+      "subRegion": "South-eastern Asia",
+      "geometryIds": [
+        "VNM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "AFG",
+      "name": "Afghanistan",
+      "m49Code": "004",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "AFG"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BGD",
+      "name": "Bangladesh",
+      "m49Code": "050",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "BGD"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BTN",
+      "name": "Bhutan",
+      "m49Code": "064",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "BTN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "IND",
+      "name": "India",
+      "m49Code": "356",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "IND"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "IRN",
+      "name": "Iran (Islamic Republic of)",
+      "m49Code": "364",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "IRN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MDV",
+      "name": "Maldives",
+      "m49Code": "462",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "MDV"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NPL",
+      "name": "Nepal",
+      "m49Code": "524",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "NPL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PAK",
+      "name": "Pakistan",
+      "m49Code": "586",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "PAK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LKA",
+      "name": "Sri Lanka",
+      "m49Code": "144",
+      "region": "Asia",
+      "subRegion": "Southern Asia",
+      "geometryIds": [
+        "LKA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ARM",
+      "name": "Armenia",
+      "m49Code": "051",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "ARM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "AZE",
+      "name": "Azerbaijan",
+      "m49Code": "031",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "AZE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BHR",
+      "name": "Bahrain",
+      "m49Code": "048",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "BHR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CYP",
+      "name": "Cyprus",
+      "m49Code": "196",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "CYP"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GEO",
+      "name": "Georgia",
+      "m49Code": "268",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "GEG",
+        "GEA"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "IRQ",
+      "name": "Iraq",
+      "m49Code": "368",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "IRK",
+        "IRR"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ISR",
+      "name": "Israel",
+      "m49Code": "376",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "ISR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "JOR",
+      "name": "Jordan",
+      "m49Code": "400",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "JOR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KWT",
+      "name": "Kuwait",
+      "m49Code": "414",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "KWT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LBN",
+      "name": "Lebanon",
+      "m49Code": "422",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "LBN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "OMN",
+      "name": "Oman",
+      "m49Code": "512",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "OMN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "QAT",
+      "name": "Qatar",
+      "m49Code": "634",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "QAT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SAU",
+      "name": "Saudi Arabia",
+      "m49Code": "682",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "SAU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PSE",
+      "name": "State of Palestine",
+      "m49Code": "275",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "GAZ",
+        "WEB"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SYR",
+      "name": "Syrian Arab Republic",
+      "m49Code": "760",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "SYU",
+        "SYX"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TUR",
+      "name": "Türkiye",
+      "m49Code": "792",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "TUR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ARE",
+      "name": "United Arab Emirates",
+      "m49Code": "784",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "ARE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "YEM",
+      "name": "Yemen",
+      "m49Code": "887",
+      "region": "Asia",
+      "subRegion": "Western Asia",
+      "geometryIds": [
+        "YEM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BLR",
+      "name": "Belarus",
+      "m49Code": "112",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "BLR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BGR",
+      "name": "Bulgaria",
+      "m49Code": "100",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "BGR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CZE",
+      "name": "Czechia",
+      "m49Code": "203",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "CZE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "HUN",
+      "name": "Hungary",
+      "m49Code": "348",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "HUN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "POL",
+      "name": "Poland",
+      "m49Code": "616",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "POL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MDA",
+      "name": "Republic of Moldova",
+      "m49Code": "498",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "MDA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ROU",
+      "name": "Romania",
+      "m49Code": "642",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "ROU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "RUS",
+      "name": "Russian Federation",
+      "m49Code": "643",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "RUS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SVK",
+      "name": "Slovakia",
+      "m49Code": "703",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "SVK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "UKR",
+      "name": "Ukraine",
+      "m49Code": "804",
+      "region": "Europe",
+      "subRegion": "Eastern Europe",
+      "geometryIds": [
+        "UKR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ALA",
+      "name": "Åland Islands",
+      "m49Code": "248",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "ALD"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "DNK",
+      "name": "Denmark",
+      "m49Code": "208",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "DNK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "EST",
+      "name": "Estonia",
+      "m49Code": "233",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "EST"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "FRO",
+      "name": "Faroe Islands",
+      "m49Code": "234",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "FRO"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "FIN",
+      "name": "Finland",
+      "m49Code": "246",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "FIN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GGY",
+      "name": "Guernsey",
+      "m49Code": "831",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "GGY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ISL",
+      "name": "Iceland",
+      "m49Code": "352",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "ISL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "IRL",
+      "name": "Ireland",
+      "m49Code": "372",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "IRL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "IMN",
+      "name": "Isle of Man",
+      "m49Code": "833",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "IMN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "JEY",
+      "name": "Jersey",
+      "m49Code": "832",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "JEY"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LVA",
+      "name": "Latvia",
+      "m49Code": "428",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "LVA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LTU",
+      "name": "Lithuania",
+      "m49Code": "440",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "LTU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NOR",
+      "name": "Norway",
+      "m49Code": "578",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "NOW",
+        "NJM"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SJM",
+      "name": "Svalbard and Jan Mayen Islands",
+      "m49Code": "744",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "NSV"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SWE",
+      "name": "Sweden",
+      "m49Code": "752",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "SWE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GBR",
+      "name": "United Kingdom of Great Britain and Northern Ireland",
+      "m49Code": "826",
+      "region": "Europe",
+      "subRegion": "Northern Europe",
+      "geometryIds": [
+        "NIR",
+        "WLS",
+        "ENG",
+        "SCT"
+      ],
+      "polygonCount": 4,
+      "coordinateCount": 4,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ALB",
+      "name": "Albania",
+      "m49Code": "008",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "ALB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "AND",
+      "name": "Andorra",
+      "m49Code": "020",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "AND"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BIH",
+      "name": "Bosnia and Herzegovina",
+      "m49Code": "070",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "BHF",
+        "BIS",
+        "BHB"
+      ],
+      "polygonCount": 3,
+      "coordinateCount": 3,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "HRV",
+      "name": "Croatia",
+      "m49Code": "191",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "HRV"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GIB",
+      "name": "Gibraltar",
+      "m49Code": "292",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "GIB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GRC",
+      "name": "Greece",
+      "m49Code": "300",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "GRC"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "VAT",
+      "name": "Holy See",
+      "m49Code": "336",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "VAT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ITA",
+      "name": "Italy",
+      "m49Code": "380",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "ITA"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MLT",
+      "name": "Malta",
+      "m49Code": "470",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "MLT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MNE",
+      "name": "Montenegro",
+      "m49Code": "499",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "MNE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MKD",
+      "name": "North Macedonia",
+      "m49Code": "807",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "MKD"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PRT",
+      "name": "Portugal",
+      "m49Code": "620",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "PRX",
+        "PMD",
+        "PAZ"
+      ],
+      "polygonCount": 3,
+      "coordinateCount": 3,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SMR",
+      "name": "San Marino",
+      "m49Code": "674",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "SMR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SRB",
+      "name": "Serbia",
+      "m49Code": "688",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "SRV",
+        "SRS"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SVN",
+      "name": "Slovenia",
+      "m49Code": "705",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "SVN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ESP",
+      "name": "Spain",
+      "m49Code": "724",
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "geometryIds": [
+        "ESP"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "AUT",
+      "name": "Austria",
+      "m49Code": "040",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "AUT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "BEL",
+      "name": "Belgium",
+      "m49Code": "056",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "BFR",
+        "BWR",
+        "BCR"
+      ],
+      "polygonCount": 3,
+      "coordinateCount": 3,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "FRA",
+      "name": "France",
+      "m49Code": "250",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "FXX"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "DEU",
+      "name": "Germany",
+      "m49Code": "276",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "DEU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LIE",
+      "name": "Liechtenstein",
+      "m49Code": "438",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "LIE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "LUX",
+      "name": "Luxembourg",
+      "m49Code": "442",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "LUX"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MCO",
+      "name": "Monaco",
+      "m49Code": "492",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "MCO"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NLD",
+      "name": "Netherlands (Kingdom of the)",
+      "m49Code": "528",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "NLX"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CHE",
+      "name": "Switzerland",
+      "m49Code": "756",
+      "region": "Europe",
+      "subRegion": "Western Europe",
+      "geometryIds": [
+        "CHE"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "AUS",
+      "name": "Australia",
+      "m49Code": "036",
+      "region": "Oceania",
+      "subRegion": "Australia and New Zealand",
+      "geometryIds": [
+        "AUS"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CXR",
+      "name": "Christmas Island",
+      "m49Code": "162",
+      "region": "Oceania",
+      "subRegion": "Australia and New Zealand",
+      "geometryIds": [
+        "CXR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "CCK",
+      "name": "Cocos (Keeling) Islands",
+      "m49Code": "166",
+      "region": "Oceania",
+      "subRegion": "Australia and New Zealand",
+      "geometryIds": [
+        "CCK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "HMD",
+      "name": "Heard Island and McDonald Islands",
+      "m49Code": "334",
+      "region": "Oceania",
+      "subRegion": "Australia and New Zealand",
+      "geometryIds": [
+        "HMD"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NZL",
+      "name": "New Zealand",
+      "m49Code": "554",
+      "region": "Oceania",
+      "subRegion": "Australia and New Zealand",
+      "geometryIds": [
+        "NZL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NFK",
+      "name": "Norfolk Island",
+      "m49Code": "574",
+      "region": "Oceania",
+      "subRegion": "Australia and New Zealand",
+      "geometryIds": [
+        "NFK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "FJI",
+      "name": "Fiji",
+      "m49Code": "242",
+      "region": "Oceania",
+      "subRegion": "Melanesia",
+      "geometryIds": [
+        "FJI"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NCL",
+      "name": "New Caledonia",
+      "m49Code": "540",
+      "region": "Oceania",
+      "subRegion": "Melanesia",
+      "geometryIds": [
+        "NCL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PNG",
+      "name": "Papua New Guinea",
+      "m49Code": "598",
+      "region": "Oceania",
+      "subRegion": "Melanesia",
+      "geometryIds": [
+        "PNX",
+        "PNB"
+      ],
+      "polygonCount": 2,
+      "coordinateCount": 2,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "SLB",
+      "name": "Solomon Islands",
+      "m49Code": "090",
+      "region": "Oceania",
+      "subRegion": "Melanesia",
+      "geometryIds": [
+        "SLB"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "VUT",
+      "name": "Vanuatu",
+      "m49Code": "548",
+      "region": "Oceania",
+      "subRegion": "Melanesia",
+      "geometryIds": [
+        "VUT"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "GUM",
+      "name": "Guam",
+      "m49Code": "316",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "GUM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "KIR",
+      "name": "Kiribati",
+      "m49Code": "296",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "KIR"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MHL",
+      "name": "Marshall Islands",
+      "m49Code": "584",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "MHL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "FSM",
+      "name": "Micronesia (Federated States of)",
+      "m49Code": "583",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "FSM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NRU",
+      "name": "Naoero",
+      "m49Code": "520",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "NRU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "MNP",
+      "name": "Northern Mariana Islands",
+      "m49Code": "580",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "MNP"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PLW",
+      "name": "Palau",
+      "m49Code": "585",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "PLW"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "UMI",
+      "name": "United States Minor Outlying Islands",
+      "m49Code": "581",
+      "region": "Oceania",
+      "subRegion": "Micronesia",
+      "geometryIds": [
+        "JQI",
+        "DQI",
+        "FQI",
+        "HQI",
+        "WQI",
+        "MQI",
+        "BQI",
+        "LQI",
+        "KQI"
+      ],
+      "polygonCount": 9,
+      "coordinateCount": 9,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "ASM",
+      "name": "American Samoa",
+      "m49Code": "016",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "ASM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "COK",
+      "name": "Cook Islands",
+      "m49Code": "184",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "COK"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PYF",
+      "name": "French Polynesia",
+      "m49Code": "258",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "PYF"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "NIU",
+      "name": "Niue",
+      "m49Code": "570",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "NIU"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "PCN",
+      "name": "Pitcairn",
+      "m49Code": "612",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "PCN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "WSM",
+      "name": "Samoa",
+      "m49Code": "882",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "WSM"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TKL",
+      "name": "Tokelau",
+      "m49Code": "772",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "TKL"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TON",
+      "name": "Tonga",
+      "m49Code": "776",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "TON"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TUV",
+      "name": "Tuvalu",
+      "m49Code": "798",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "TUV"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "WLF",
+      "name": "Wallis and Futuna Islands",
+      "m49Code": "876",
+      "region": "Oceania",
+      "subRegion": "Polynesia",
+      "geometryIds": [
+        "WLF"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "TWN",
+      "name": "Taiwan, Province of China",
+      "m49Code": null,
+      "region": "Asia",
+      "subRegion": "Eastern Asia",
+      "rosterNote": "ISO-3166 geography; absent from UN M49 statistical table",
+      "geometryIds": [
+        "TWN"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    },
+    {
+      "isoCode": "XKX",
+      "name": "Kosovo",
+      "m49Code": null,
+      "region": "Europe",
+      "subRegion": "Southern Europe",
+      "rosterNote": "Natural Earth/economic map identity; not an official ISO-3166 assignment",
+      "geometryIds": [
+        "XKX"
+      ],
+      "polygonCount": 1,
+      "coordinateCount": 1,
+      "status": "polygon"
+    }
+  ]
+}

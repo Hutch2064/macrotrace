@@ -211,7 +211,7 @@ function renderFamilyBody(family, countriesById) {
     ...new Set(family.entries.map((entry) => text(entry.unit)).filter(Boolean)),
   ];
   const unitText = units.length
-    ? `<p class="source-provider"><strong>Reported unit:</strong> ${escape(units.join(" · "))} · Native annual observations</p>`
+    ? `<p class="source-provider"><strong>Reported unit:</strong> ${escape(units.join(" · "))} · Native ${escape([...new Set(family.entries.map((entry) => text(entry.frequency, "annual")))].join(" / "))} observations</p>`
     : "";
   return `${unitText}${definitionText}${providerText}<div class="source-country-list">${renderCountryRows(family.entries, countriesById)}</div>`;
 }
@@ -272,8 +272,13 @@ function freshnessMarkup(snapshot, allSeries, countries) {
           0),
     ),
   );
-  const baseCountryCount = Math.max(0, countries.length - supplementaryCount);
-  const fullHeadlineCount = countries.filter(
+  const baseCountries = countries.filter(
+    (country) =>
+      !country.sourceFamily ||
+      /World Bank|World Development/i.test(country.sourceFamily),
+  );
+  const baseCountryCount = baseCountries.length;
+  const fullHeadlineCount = baseCountries.filter(
     (country) =>
       (numberOrNull(country.headlineCount) ?? 0) >= HEADLINE_INDICATORS,
   ).length;
@@ -308,7 +313,7 @@ function freshnessMarkup(snapshot, allSeries, countries) {
   const rosterNote = audit.rosterRetained
     ? " The last verified economy roster is retained while the provider is unavailable."
     : "";
-  return `Snapshot published ${escape(dateLabel(snapshot.generatedAt))}. Automated ingestion checks providers daily; World Bank WDI histories remain native annual observations, so a daily check does not create daily economic data or conceal missing reference years.${coverage}${headlines}${rosterNote}${retainedNote}${yahooNote} ${links}.`;
+  return `Snapshot published ${escape(dateLabel(snapshot.generatedAt))}. Automated ingestion checks providers daily; World Bank WDI histories remain native annual observations, so a daily check does not create daily economic data or conceal missing reference years.${coverage}${headlines} Missing landing-page headline slots may show other available indicators for the same economy, under their actual names and units; these are alternatives, not imputed core metrics.${rosterNote}${retainedNote}${yahooNote} ${links}.`;
 }
 
 export function renderSourceCatalog(snapshot) {

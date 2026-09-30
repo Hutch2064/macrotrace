@@ -1,5 +1,3 @@
-import { format, signed } from "./common.js";
-
 // Orthographic spherical geometry: no WebGL runtime or animation framework.
 export async function economicGlobe(
   canvas,
@@ -13,11 +11,30 @@ export async function economicGlobe(
   if (!response.ok) throw new Error("The world map could not be loaded.");
   const map = await response.json();
   const radians = Math.PI / 180;
-  const countryList = (Array.isArray(countries) ? countries : []).filter(
+  const economicCountries = (Array.isArray(countries) ? countries : []).filter(
     (country) => country?.id,
   );
-  const mapId = (id) =>
-    ({ GGY: "CHI", JEY: "CHI", KOS: "XKX", PSX: "PSE" })[id] || id;
+  const economicById = new Map(
+    economicCountries.map((country) => [country.id, country]),
+  );
+  const represented = new Set(
+    map.countries.map((country) => country.economicId || country.id),
+  );
+  const economicPieces = new Map();
+  for (const country of map.countries) {
+    const id = country.economicId || country.id;
+    economicPieces.set(id, (economicPieces.get(id) || 0) + 1);
+  }
+  const countryList = [
+    ...map.countries.map((country) => ({
+      ...economicById.get(country.economicId || country.id),
+      ...country,
+      sharedAggregate: Boolean(
+        country.economicId && economicPieces.get(country.economicId) > 1,
+      ),
+    })),
+    ...economicCountries.filter(({ id }) => !represented.has(id)),
+  ];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let width = 0,
     height = 0,
@@ -32,7 +49,8 @@ export async function economicGlobe(
     hover,
     destination,
     start,
-    dragging = false;
+    dragging = false,
+    pointer;
   let visible = true,
     destroyed = false;
   const listeners = [];
@@ -45,13 +63,36 @@ export async function economicGlobe(
       b = lat * radians;
     return [Math.cos(b) * Math.sin(a), Math.sin(b), Math.cos(b) * Math.cos(a)];
   };
-  const outlines = map.countries.map((country) => ({
-    ...country,
-    id: mapId(country.id),
-    paths: country.polygons.flatMap((polygon) =>
+  // Unwrap each ring continuously across the date line. A plain longitude
+  // ray cast makes Russia/Fiji cover the opposite side of the Earth.
+  const pickRing = (ring) => {
+    let previous = ring[0]?.[0] || 0;
+    const points = ring.map(([lon, lat]) => {
+      const x = lon + 360 * Math.round((previous - lon) / 360);
+      previous = x;
+      return [x, lat];
+    });
+    const xs = points.map(([x]) => x),
+      ys = points.map(([, y]) => y);
+    return {
+      points,
+      minX: Math.min(...xs),
+      maxX: Math.max(...xs),
+      minY: Math.min(...ys),
+      maxY: Math.max(...ys),
+    };
+  };
+  const outlines = map.countries.map((country) => {
+    const paths = country.polygons.flatMap((polygon) =>
       polygon.map((ring) => ring.map(sphere)),
-    ),
-  }));
+    );
+    return {
+      ...country,
+      paths,
+      projected: paths.map((ring) => ring.map(() => [0, 0, 0])),
+      pickPolygons: country.polygons.map((polygon) => polygon.map(pickRing)),
+    };
+  });
   const outlineById = new Map(outlines.map((country) => [country.id, country]));
   const countryById = new Map(
     countryList.map((country) => {
@@ -69,7 +110,65 @@ export async function economicGlobe(
       return [country.id, { ...country, lon, lat }];
     }),
   );
-  const countryIds = new Set(countryList.map(({ id }) => id));
+  const available = (id) =>
+    Boolean(
+      readings.get(id)?.available ||
+      readings.get(countryById.get(id)?.economicId)?.available,
+    );
+  const tooltip = document.createElement("div");
+  tooltip.id = "globe-country-tooltip";
+  tooltip.className = "globe-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  tooltip.setAttribute("aria-hidden", "true");
+  tooltip.hidden = true;
+  const tooltipSurface = document.createElement("div");
+  tooltipSurface.className = "globe-tooltip-surface";
+  tooltipSurface.dataset.state = "closed";
+  tooltip.append(tooltipSurface);
+  document.body.append(tooltip);
+  const closeTooltip = () => {
+    pointer = null;
+    hover = null;
+    tooltip.setAttribute("aria-hidden", "true");
+    canvas.removeAttribute("aria-describedby");
+    tooltipSurface.dataset.state = "closed";
+    canvas.style.cursor = "grab";
+  };
+  listen(tooltipSurface, "animationend", () => {
+    if (tooltipSurface.dataset.state === "closed") tooltip.hidden = true;
+  });
+  const updateHover = () => {
+    if (!pointer) return;
+    const id = hit(pointer);
+    canvas.style.cursor = id ? "pointer" : "grab";
+    if (!id) {
+      hover = null;
+      tooltip.setAttribute("aria-hidden", "true");
+      canvas.removeAttribute("aria-describedby");
+      tooltipSurface.dataset.state = "closed";
+      return;
+    }
+    hover = id;
+    tooltipSurface.textContent = countryById.get(id)?.name || id;
+    tooltip.hidden = false;
+    tooltip.setAttribute("aria-hidden", "false");
+    canvas.setAttribute("aria-describedby", tooltip.id);
+    tooltipSurface.dataset.state = "open";
+    const tooltipWidth = tooltipSurface.offsetWidth;
+    const tooltipHeight = tooltipSurface.offsetHeight;
+    const x = Math.max(
+      12,
+      Math.min(
+        innerWidth - tooltipWidth - 12,
+        pointer.clientX - tooltipWidth / 2,
+      ),
+    );
+    const top = pointer.clientY - tooltipHeight - 8;
+    tooltip.dataset.side = top >= 12 ? "top" : "bottom";
+    tooltip.style.left = `${x}px`;
+    tooltip.style.top = `${top >= 12 ? top : pointer.clientY + 8}px`;
+    tooltip.style.setProperty("--tooltip-anchor", `${pointer.clientX - x}px`);
+  };
   // Coordinates are resolved once, so rendering and hit testing do not scan
   // or repeatedly convert the full catalog roster on every animation frame.
   const pins = [...countryById.values()]
@@ -78,18 +177,28 @@ export async function economicGlobe(
       ...country,
       vector: sphere([country.lon, country.lat]),
     }));
-  const project = ([x, y, z]) => {
-    const rx = x * Math.cos(yaw) - z * Math.sin(yaw);
-    const rz = x * Math.sin(yaw) + z * Math.cos(yaw);
-    const ry = y * Math.cos(pitch) - rz * Math.sin(pitch);
-    const depth = y * Math.sin(pitch) + rz * Math.cos(pitch);
-    return [width / 2 + rx * radius, height / 2 - ry * radius, depth];
+  let cosYaw, sinYaw, cosPitch, sinPitch;
+  const orient = () => {
+    cosYaw = Math.cos(yaw);
+    sinYaw = Math.sin(yaw);
+    cosPitch = Math.cos(pitch);
+    sinPitch = Math.sin(pitch);
   };
-  function stroke(points, color, lineWidth = 0.7) {
+  const project = ([x, y, z], output = [0, 0, 0]) => {
+    const rx = x * cosYaw - z * sinYaw;
+    const rz = x * sinYaw + z * cosYaw;
+    const ry = y * cosPitch - rz * sinPitch;
+    const depth = y * sinPitch + rz * cosPitch;
+    output[0] = width / 2 + rx * radius;
+    output[1] = height / 2 - ry * radius;
+    output[2] = depth;
+    return output;
+  };
+  function stroke(points, color, lineWidth = 0.7, projected = false) {
     context.beginPath();
     let started = false;
     for (const point of points) {
-      const [x, y, z] = project(point);
+      const [x, y, z] = projected ? point : project(point);
       if (z < 0) {
         started = false;
         continue;
@@ -104,8 +213,7 @@ export async function economicGlobe(
   }
   function fill(country, color) {
     context.beginPath();
-    for (const ring of country.paths) {
-      const points = ring.map(project);
+    for (const points of country.projected) {
       let previous = points.at(-1),
         started = false;
       const add = (x, y) => {
@@ -142,6 +250,7 @@ export async function economicGlobe(
     grid.push(Array.from({ length: 61 }, (_, i) => sphere([lon, -90 + i * 3])));
   function draw() {
     if (!width || destroyed) return;
+    orient();
     context.clearRect(0, 0, width, height);
     const glow = context.createRadialGradient(
       width / 2,
@@ -174,28 +283,32 @@ export async function economicGlobe(
     context.stroke();
     for (const points of grid) stroke(points, "rgba(207,185,125,.11)");
     for (const country of outlines) {
+      for (let ring = 0; ring < country.paths.length; ring++)
+        for (let point = 0; point < country.paths[ring].length; point++)
+          project(country.paths[ring][point], country.projected[ring][point]);
       const emphasized = country.id === selected || country.id === hover;
-      const available = Boolean(readings.get(country.id)?.available);
-      if (available) fill(country, "rgba(207,185,125,.3)");
-      for (const points of country.paths)
+      const hasData = available(country.id);
+      fill(country, hasData ? "rgba(207,185,125,.3)" : "rgba(183,181,169,.09)");
+      for (const points of country.projected)
         stroke(
           points,
           emphasized
             ? "rgba(253,229,182,.95)"
-            : available
+            : hasData
               ? "rgba(207,185,125,.7)"
               : "rgba(183,181,169,.28)",
           emphasized ? 1.5 : 0.8,
+          true,
         );
     }
     for (const country of pins) {
       const [x, y, z] = project(country.vector);
       if (z < 0.04) continue;
       const emphasized = country.id === selected || country.id === hover;
-      const available = Boolean(readings.get(country.id)?.available);
+      const hasData = available(country.id);
       context.beginPath();
       context.arc(x, y, emphasized ? 2.2 : 0.9, 0, Math.PI * 2);
-      context.fillStyle = available
+      context.fillStyle = hasData
         ? emphasized
           ? "#fde5b6"
           : "#cfb97d"
@@ -206,7 +319,7 @@ export async function economicGlobe(
       if (emphasized) {
         context.beginPath();
         context.arc(x, y, 4.5, 0, Math.PI * 2);
-        context.strokeStyle = available
+        context.strokeStyle = hasData
           ? "rgba(253,229,182,.55)"
           : "rgba(216,215,209,.45)";
         context.lineWidth = 0.55;
@@ -229,6 +342,7 @@ export async function economicGlobe(
         if (Math.abs(delta) + Math.abs(latitude) < 0.002) destination = null;
       } else if (!start && !reduced.matches)
         yaw += Math.min(time - last, 100) * 0.000035;
+      updateHover();
       draw();
       last = time;
     }
@@ -267,20 +381,23 @@ export async function economicGlobe(
     restart();
   }
   function hit(event) {
+    orient();
     const bounds = canvas.getBoundingClientRect();
     const x = event.clientX - bounds.left,
       y = event.clientY - bounds.top;
     let near,
-      distance = 22;
+      distance = event.pointerType === "touch" ? 22 : 10;
     for (const country of pins) {
       const [cx, cy, z] = project(country.vector);
       const delta = Math.hypot(cx - x, cy - y);
-      if (z > 0 && delta < distance) {
+      if (z >= 0.04 && delta < distance) {
         distance = delta;
         near = country.id;
       }
     }
-    if (near) return near;
+    // Only the visible marker itself outranks a land boundary. Enlarged island
+    // targets apply over water, never over an adjacent country's territory.
+    if (near && distance <= 2.5) return near;
     // Invert the front hemisphere so the full country area, not only its pin, responds.
     const sx = (x - width / 2) / radius,
       sy = -(y - height / 2) / radius;
@@ -290,29 +407,34 @@ export async function economicGlobe(
     const rz = depth * Math.cos(pitch) - sy * Math.sin(pitch);
     const lon = (Math.atan2(sx, rz) + yaw) / radians;
     const point = [((lon + 540) % 360) - 180, Math.asin(ry) / radians];
-    const inside = (ring) => {
+    const inside = ({ points: ring, minX, maxX, minY, maxY }) => {
+      const px =
+        point[0] + 360 * Math.round(((minX + maxX) / 2 - point[0]) / 360);
+      if (px < minX || px > maxX || point[1] < minY || point[1] > maxY)
+        return false;
       let result = false;
       for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
         const [ax, ay] = ring[i],
           [bx, by] = ring[j];
         if (
           ay > point[1] !== by > point[1] &&
-          point[0] < ((bx - ax) * (point[1] - ay)) / (by - ay) + ax
+          px < ((bx - ax) * (point[1] - ay)) / (by - ay) + ax
         )
           result = !result;
       }
       return result;
     };
-    return outlines.find(
-      (country) =>
-        countryIds.has(country.id) &&
-        country.polygons.some(
+    return (
+      outlines.find((country) =>
+        country.pickPolygons.some(
           ([outer, ...holes]) => inside(outer) && !holes.some(inside),
         ),
-    )?.id;
+      )?.id || near
+    );
   }
   listen(canvas, "pointerdown", (event) => {
     if (!event.isPrimary || event.button !== 0) return;
+    closeTooltip();
     start = { x: event.clientX, y: event.clientY, yaw, pitch };
     dragging = false;
     destination = null;
@@ -335,16 +457,13 @@ export async function economicGlobe(
         draw();
       }
     } else {
-      hover = hit(event);
-      canvas.style.cursor = hover ? "pointer" : "grab";
-      canvas.title = hover
-        ? (() => {
-            const name = countryById.get(hover)?.name || hover;
-            const reading = readings.get(hover);
-            const provider = reading?.sourceFamily || reading?.source;
-            return `${name} · ${reading?.year || "No annual reading"}${Number.isFinite(reading?.value) ? ` · Real GDP growth ${format(reading.value)}%` : ""}${Number.isFinite(reading?.change) ? ` · ${signed(reading.change)} pp vs ${Number(reading.year) - 1}` : " · Annual comparison unavailable"}${provider ? ` · ${provider}` : ""}${reading?.retained ? " · Retained snapshot" : ""}`;
-          })()
-        : "Drag in any direction · choose a highlighted country";
+      if (event.pointerType === "touch") return;
+      pointer = {
+        clientX: event.clientX,
+        clientY: event.clientY,
+        pointerType: event.pointerType,
+      };
+      updateHover();
       draw();
     }
   });
@@ -357,19 +476,26 @@ export async function economicGlobe(
       const id = hit(event);
       if (id) {
         select(id);
-        onSelect(id);
+        onSelect(id, countryById.get(id));
       }
     }
     release();
   });
-  listen(canvas, "pointercancel", release);
+  listen(canvas, "pointercancel", () => {
+    closeTooltip();
+    release();
+  });
   listen(canvas, "lostpointercapture", release);
-  listen(window, "blur", release);
+  listen(window, "blur", () => {
+    closeTooltip();
+    release();
+  });
   listen(canvas, "pointerleave", () => {
-    hover = null;
+    closeTooltip();
     draw();
   });
   listen(canvas, "keydown", (event) => {
+    closeTooltip();
     if (["ArrowUp", "ArrowDown"].includes(event.key)) {
       event.preventDefault();
       destination = null;
@@ -394,7 +520,7 @@ export async function economicGlobe(
       ];
     if (next) {
       select(next.id);
-      onSelect(next.id);
+      onSelect(next.id, countryById.get(next.id));
     }
   });
   const resize = new ResizeObserver(() => {
@@ -413,7 +539,11 @@ export async function economicGlobe(
     restart();
   });
   intersection.observe(canvas);
-  listen(document, "visibilitychange", restart);
+  listen(document, "visibilitychange", () => {
+    closeTooltip();
+    restart();
+  });
+  listen(window, "scroll", closeTooltip);
   listen(reduced, "change", restart);
   return {
     select,
@@ -423,9 +553,11 @@ export async function economicGlobe(
     },
     destroy() {
       destroyed = true;
+      closeTooltip();
       cancelAnimationFrame(frame);
       resize.disconnect();
       intersection.disconnect();
+      tooltip.remove();
       listeners.forEach((remove) => remove());
     },
   };

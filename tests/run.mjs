@@ -4,10 +4,12 @@ import { execFileSync } from "node:child_process";
 for (const file of [
   "tests/verify-world-development.mjs",
   "tests/verify-international-supplement.mjs",
+  "tests/verify-territory-data.mjs",
   "scripts/build-data.mjs",
   "tests/verify-data.mjs",
   "tests/verify-delivery.mjs",
   "tests/verify-panel.mjs",
+  "tests/verify-globe.mjs",
   "tests/verify-macro-report.mjs",
   "tests/verify-parity.mjs",
   "tests/verify-countries.mjs",

@@ -18,7 +18,11 @@ const countries = countriesFor(snapshot);
 const runtimeCountries = countriesFor(runtime);
 const byId = new Map(snapshot.series.map((series) => [series.id, series]));
 const countryById = new Map(countries.map((country) => [country.id, country]));
-const geometryIds = new Set(world.countries.map(({ id }) => id));
+const geometryIds = new Set(
+  world.countries.flatMap(({ id, economicId }) =>
+    [id, economicId].filter(Boolean),
+  ),
+);
 
 assert.ok(
   countries.length >= 200,
@@ -167,9 +171,123 @@ for (const country of countries) {
 }
 
 // Unknown IDs must not create synthetic WDI requests. Known IDs retain only
-// the IDs present in the source snapshot; missing indicators are represented
-// by null readout slots instead.
+// the IDs present in the source snapshot; missing indicators use other actual
+// readings, or remain null when no alternative exists.
 assert.deepEqual(countryIds("ZZZ"), [], "unknown country IDs are filtered");
+
+const partial = {
+  countries: [{ id: "ZZZ", name: "Fixture", region: "Test", seriesCount: 3 }],
+  series: [
+    ["GDPGROWTH", "Real GDP growth", "%", 2.5],
+    ["POP", "Population", "people", 123456],
+    ["GDPNOMINAL", "Nominal GDP", "current USD", 987654321],
+  ].map(([key, name, unit, value]) => ({
+    id: `WDI_ZZZ_${key}`,
+    countryCode: "ZZZ",
+    indicatorKey: key,
+    indicatorName: name,
+    unit,
+    frequency: "annual",
+    sourceUrl: `https://data.worldbank.org/indicator/${key}`,
+    observations: [["2025-12-31", value]],
+  })),
+};
+const filled = countryReadout(partial, "ZZZ");
+assert.deepEqual(
+  filled.map(({ value }) => value),
+  [123456, 987654321, 2.5, null],
+);
+assert.equal(
+  filled[0].label,
+  "Population",
+  "fallback keeps its own actual label",
+);
+assert.equal(filled[0].unit, "people");
+assert.equal(filled[0].date, "2025-12-31");
+assert.ok(filled[0].fallbackFor, "fallback provenance retains replaced slot");
+assert.equal(
+  new Set(filled.filter(({ value }) => value !== null).map(({ id }) => id))
+    .size,
+  3,
+  "fallback readings are not repeated",
+);
+const partialRuntime = {
+  ...partial,
+  series: partial.series.map(({ observations, ...series }) => ({
+    ...series,
+    coverage: { latest: observations.at(-1) },
+  })),
+};
+assert.deepEqual(
+  countryReadout(partialRuntime, "ZZZ"),
+  filled,
+  "fallbacks work instantly from catalog metadata without history loading",
+);
+const territorialFixture = {
+  ...partial,
+  countries: [
+    { ...partial.countries[0], sourceFamily: "Official fixture statistics" },
+  ],
+  series: partial.series.map((series) => ({
+    ...series,
+    id: series.id.replace("WDI_", "TERR_"),
+    sourceFamily: "Official fixture statistics",
+  })),
+};
+assert.deepEqual(
+  countryReadout(territorialFixture, "ZZZ").map(({ value }) => value),
+  [123456, 987654321, 2.5, null],
+  "official supplementary providers follow the same core-slot fallback rules",
+);
+
+const geographyAudit = JSON.parse(
+  await readFile(
+    new URL("../public/data/geographic-coverage.json", import.meta.url),
+  ),
+);
+assert.equal(geographyAudit.isoRosterCount, 249);
+assert.equal(geographyAudit.rosterCount, 250);
+assert.deepEqual(geographyAudit.missingIsoCodes, []);
+assert.equal(
+  new Set(world.countries.map(({ id }) => id)).size,
+  world.countries.length,
+);
+for (const entry of geographyAudit.entries) {
+  assert.ok(
+    entry.geometryIds.length,
+    `${entry.isoCode}: audited geographic representation`,
+  );
+  assert.ok(
+    entry.geometryIds.every((id) =>
+      world.countries.some(
+        (country) => country.id === id && country.polygons.length,
+      ),
+    ),
+    `${entry.isoCode}: real polygon outline, not just a pin`,
+  );
+}
+for (const country of world.countries) {
+  assert.ok(
+    country.name &&
+      Number.isFinite(country.lon) &&
+      Number.isFinite(country.lat),
+    `${country.id}: hover identity and position`,
+  );
+  for (const polygon of country.polygons)
+    for (const ring of polygon) {
+      assert.ok(ring.length >= 4, `${country.id}: noncollapsed island ring`);
+      assert.deepEqual(ring[0], ring.at(-1), `${country.id}: closed boundary`);
+      assert.ok(
+        ring.every(
+          ([lon, lat]) =>
+            Number.isFinite(lon) &&
+            Number.isFinite(lat) &&
+            Math.abs(lon) <= 180 &&
+            Math.abs(lat) <= 90,
+        ),
+      );
+    }
+}
 
 console.log(
   `Verified ${countries.length} source-rostered economies, actual-history/readout contracts, geometry-or-pin availability, complete/runtime momentum parity, exact-year GDP changes, and unknown-ID filtering.`,

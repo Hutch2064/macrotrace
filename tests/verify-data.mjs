@@ -70,7 +70,22 @@ for (const series of snapshot.series) {
     );
   const isWdi = series.id.startsWith("WDI_");
   const isCountrySource =
-    isWdi || series.dataset === "international-supplement";
+    isWdi ||
+    series.dataset === "international-supplement" ||
+    series.dataset === "regional-territories";
+  if (series.dataset === "regional-territories") {
+    const country = countriesById.get(series.countryCode);
+    if (
+      !country ||
+      series.country !== country.name ||
+      !series.sourceHash ||
+      !series.sourceDefinition ||
+      !series.sourceOrganization
+    )
+      throw new Error(
+        `Incomplete territorial country provenance: ${series.id}.`,
+      );
+  }
   if (series.dataset === "international-supplement") {
     const country = countriesById.get(series.countryCode);
     if (
@@ -176,6 +191,7 @@ for (const series of snapshot.series) {
       );
     if (
       isCountrySource &&
+      series.frequency === "annual" &&
       (!date.endsWith("-12-31") ||
         Number(date.slice(0, 4)) >= Number(snapshot.generatedAt.slice(0, 4)))
     )

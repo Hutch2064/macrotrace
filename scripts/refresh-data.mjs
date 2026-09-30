@@ -4,6 +4,7 @@ import { extendedFredSeries } from "./extended-macro-catalog.mjs";
 import { fetchCommodityHistorySeries } from "./commodity-history.mjs";
 import { fetchWorldDevelopmentSeries } from "./world-development.mjs";
 import { fetchInternationalSupplement } from "./international-supplement.mjs";
+import { fetchTerritoryData } from "./territory-data.mjs";
 import { fetchShillerHousing } from "./shiller-history.mjs";
 import { isMacroSeries, normalizeMacroSeries } from "./macro-scope.mjs";
 
@@ -11,6 +12,7 @@ const fredStart = "1000-01-01";
 const pruneOnly = process.argv.includes("--prune-only");
 const countriesOnly = process.argv.includes("--countries-only");
 const supplementsOnly = process.argv.includes("--supplements-only");
+const territoriesOnly = process.argv.includes("--territories-only");
 const previous = JSON.parse(
   await readFile("public/data/snapshot.json", "utf8").catch(
     () => '{"series":[]}',
@@ -27,6 +29,14 @@ let supplementaryCountries = (previous.countries || []).filter(
     country.sourceFamily && !/World Bank/i.test(country.sourceFamily),
 );
 let supplementaryAudit = previous.countryAudit?.supplementary || null;
+let territorialCountries = (previous.countries || []).filter((country) =>
+  previous.series.some(
+    (series) =>
+      series.dataset === "regional-territories" &&
+      series.countryCode === country.id,
+  ),
+);
+let territorialAudit = previous.countryAudit?.territories || null;
 
 function parseCsv(text) {
   const [, ...rows] = text.trim().split(/\r?\n/);
@@ -121,6 +131,14 @@ async function fetchDataset(dataset, fetcher) {
     } else if (dataset === "international-supplement") {
       supplementaryCountries = result.countries;
       supplementaryAudit = result.audit;
+      failures.push(
+        ...result.series
+          .filter((series) => series.refreshStatus)
+          .map(({ id }) => id),
+      );
+    } else if (dataset === "regional-territories") {
+      territorialCountries = result.countries;
+      territorialAudit = result.audit;
       failures.push(
         ...result.series
           .filter((series) => series.refreshStatus)
@@ -242,10 +260,33 @@ const supplementFetcher = () =>
     previousSeries: previous.series,
     previousCountries: previous.countries,
   });
+const territoryFetcher = () =>
+  fetchTerritoryData({
+    previousSeries: previous.series,
+    previousCountries: previous.countries,
+  });
 if (pruneOnly) {
   // Offline scope migration: preserve every retained observation byte-for-byte
   // and retain the prior generation timestamp; no source is fetched.
   sourceSeries = normalizeAll((previous.series || []).filter(isMacroSeries));
+} else if (territoriesOnly) {
+  const territories = await fetchDataset(
+    "regional-territories",
+    territoryFetcher,
+  );
+  sourceSeries = dedupe(
+    normalizeAll([
+      ...previous.series.filter(
+        (series) => series.dataset !== "regional-territories",
+      ),
+      ...territories,
+    ]),
+  );
+  failures.push(
+    ...(previous.refreshFailures || []).filter(
+      (id) => previousById.get(id)?.dataset !== "regional-territories",
+    ),
+  );
 } else if (supplementsOnly) {
   const supplement = await fetchDataset(
     "international-supplement",
@@ -286,14 +327,21 @@ if (pruneOnly) {
   const fredCatalog = [...fredSeries, ...extendedFredSeries].filter(
     isMacroSeries,
   );
-  const [macro, commodities, development, shillerHousing, supplement] =
-    await Promise.all([
-      mapWithConcurrency(fredCatalog, fetchFred),
-      fetchDataset("worldbank-commodities", fetchCommodityHistorySeries),
-      fetchDataset("worldbank-development", developmentFetcher),
-      fetchDataset("shiller", fetchShillerHousing),
-      fetchDataset("international-supplement", supplementFetcher),
-    ]);
+  const [
+    macro,
+    commodities,
+    development,
+    shillerHousing,
+    supplement,
+    territories,
+  ] = await Promise.all([
+    mapWithConcurrency(fredCatalog, fetchFred),
+    fetchDataset("worldbank-commodities", fetchCommodityHistorySeries),
+    fetchDataset("worldbank-development", developmentFetcher),
+    fetchDataset("shiller", fetchShillerHousing),
+    fetchDataset("international-supplement", supplementFetcher),
+    fetchDataset("regional-territories", territoryFetcher),
+  ]);
   sourceSeries = dedupe(
     normalizeAll([
       ...macro,
@@ -301,12 +349,13 @@ if (pruneOnly) {
       ...commodities,
       ...development,
       ...supplement,
+      ...territories,
     ]),
   );
 }
 
 const countryMap = new Map(countries.map((country) => [country.id, country]));
-for (const country of supplementaryCountries) {
+for (const country of [...supplementaryCountries, ...territorialCountries]) {
   const existing = countryMap.get(country.id);
   if (
     !existing ||
@@ -328,6 +377,7 @@ countryAudit = {
   supplementaryCount:
     countries.length - (countryAudit?.rosterCount || countries.length),
   supplementary: supplementaryAudit,
+  territories: territorialAudit,
 };
 
 const retainedIds = new Set(sourceSeries.map(({ id }) => id));
@@ -350,7 +400,7 @@ const snapshot = {
     fredStart,
     missingValues: "Rows with missing or non-numeric observations are omitted.",
     scope:
-      "Macroeconomics only: published economic indicators, FX, policy and sovereign yields, actual commodity prices and commodity indexes, World Bank, UN, Pacific Community, Taiwan DGBAS and actual-only IMF macro histories, and two explicitly retained Shiller actual housing histories. Stocks, securities, ETFs, factors, and reconstructed investment returns are excluded before fetch.",
+      "Macroeconomics only: published economic indicators, FX, policy and sovereign yields, actual commodity prices and commodity indexes, World Bank, UN, Pacific Community, Taiwan DGBAS, official territorial statistics and actual-only IMF macro histories, and two explicitly retained Shiller actual housing histories. Stocks, securities, ETFs, factors, and reconstructed investment returns are excluded before fetch.",
     transformations:
       "Source values are preserved. Panel views calculate native-frequency levels, calendar-year changes and prior-observation changes; rate changes are percentage points, signed index changes use native points, and prices or quantities use percent changes with strictly positive baselines.",
   },
