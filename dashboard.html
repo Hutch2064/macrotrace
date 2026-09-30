@@ -21,7 +21,7 @@
           <p class="eyebrow">The macroeconomic panel</p>
           <h1>Explore the economy.</h1>
         </div>
-        <p class="freshness" id="freshness">Checking snapshot…</p>
+        <p class="freshness" id="freshness">As of: …</p>
       </section>
       <section class="filter-bar" aria-label="Panel filters">
         <label
@@ -60,8 +60,7 @@
       </section>
       <div class="date-range" id="date-range" hidden>
         <label>From<input id="start-filter" type="date" /></label
-        ><label>Through<input id="end-filter" type="date" /></label
-        ><span>Dates refer to the source observation period.</span>
+        ><label>Through<input id="end-filter" type="date" /></label>
       </div>
       <div class="view-bar">
         <label
@@ -77,9 +76,6 @@
             <option value="frequency">Frequency</option>
           </select></label
         >
-        <p id="measure-note">
-          Percent for prices and quantities; percentage points for rates.
-        </p>
       </div>
       <div
         id="panel-status"
@@ -96,10 +92,6 @@
         <div class="section-heading">
           <div>
             <h2>Indicators over time</h2>
-            <p class="subtle">
-              Native units, shared dates. Hover or touch for the reading; expand
-              to zoom.
-            </p>
           </div>
           <div class="pagination">
             <button
@@ -126,22 +118,13 @@
             <h2>Within its own history</h2>
             <span class="chart-unit">Percentile · 0–100</span>
           </div>
-          <p class="chart-subhead">
-            Latest selected measure within the filtered period. Not a forecast.
-          </p>
           <div id="position-chart" class="comparison-plot"></div>
-          <div class="chart-rail">
-            Median = 50th percentile · same indicators as the time-series panel
-          </div>
         </article>
         <article class="chart-card">
           <div class="chart-heading">
             <h2>Direction by group</h2>
             <span class="chart-unit">Share of indicators</span>
           </div>
-          <p class="chart-subhead" id="breadth-note">
-            Positive, negative or unchanged—not a score of economic health.
-          </p>
           <div id="breadth-chart" class="comparison-plot"></div>
           <div class="chart-rail">
             <span><i class="legend-dot positive-bg"></i>Above zero</span
@@ -152,20 +135,12 @@
         <article class="chart-card heatmap-card">
           <div class="chart-heading">
             <h2>A monthly view of the signal</h2>
-            <span id="heatmap-unit" class="chart-unit">Selected measure</span>
           </div>
-          <p class="chart-subhead">
-            Same indicators as the time-series panel; last actual reading in
-            each month, without interpolation. Each row uses its own units and
-            color scale. Annual series appear only in their observation month.
-          </p>
           <div id="panel-heatmap" class="heatmap-wrap"></div>
           <div class="chart-rail">
             <span class="negative">− Lower</span
             ><span class="positive">+ Higher</span><span>— Unavailable</span
-            ><span id="heatmap-reading"
-              >Focus a cell to inspect its value.</span
-            >
+            ><span id="heatmap-reading" aria-live="polite"></span>
           </div>
         </article>
       </section>
@@ -204,8 +179,6 @@
         </div>
       </section>
       <p class="dashboard-source-note">
-        Economic releases can be revised. No missing-value filling or averages
-        across incompatible units.
         <a href="./index.html#sources">Sources and calculation definitions ↗</a>
       </p>
     </main>

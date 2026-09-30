@@ -175,15 +175,9 @@ async function render() {
         format(comparable),
         measureLabels[state.measure],
       );
-    $("#measure-note").textContent =
-      state.measure === "level"
-        ? "Original source units. Separate axes keep unlike indicators separate."
-        : state.measure === "yoy"
-          ? "Calendar-year change: percentage points for rates; percent for positive prices and quantities; native points for signed indexes."
-          : "Change since the prior source release. % = relative change; pp = difference between rates; pts = difference between index readings.";
-    const retained = matched.filter((series) => series.refreshStatus).length;
-    $("#panel-status").textContent =
-      `${dateLabel(scope.start)} – ${dateLabel(scope.end)} · ${matched.length} indicators${retained ? ` · ${retained} histories retained after upstream retrieval failures` : ""}${!rows.length ? " · No observations match this view." : ""}`;
+    $("#panel-status").textContent = rows.length
+      ? ""
+      : "No observations match this view.";
     renderSeries();
     renderBreadth();
     renderTable();
@@ -270,10 +264,6 @@ function renderBreadth() {
       latest.value > 0 ? "positive" : latest.value < 0 ? "negative" : "zero"
     ]++;
   }
-  $("#breadth-note").textContent =
-    state.measure === "level"
-      ? "Share of latest reported levels above, below or equal to zero. Original units are not averaged."
-      : "Share of latest eligible changes above, below or equal to zero. Higher does not necessarily mean better.";
   $("#breadth-chart").innerHTML =
     [...groups]
       .sort(([a], [b]) => a.localeCompare(b))
@@ -304,7 +294,6 @@ function renderHeatmap(current) {
     month.setUTCMonth(month.getUTCMonth() - 11 + i);
     return month.toISOString().slice(0, 7);
   }).filter((month) => month >= range().start.slice(0, 7));
-  $("#heatmap-unit").textContent = measureLabels[state.measure];
   $("#panel-heatmap").innerHTML = current.length
     ? `<table class="heatmap-table"><thead><tr><th>Indicator / unit</th>${months.map((month) => `<th>${new Date(month + "-01T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "2-digit", timeZone: "UTC" })}</th>`).join("")}</tr></thead><tbody>${current
         .map((series) => {
@@ -558,8 +547,7 @@ async function main() {
     }
   });
   const freshness = () => {
-    $("#freshness").textContent =
-      `Snapshot ${dateLabel(snapshot.generatedAt)} · daily source checks · observation dates vary`;
+    $("#freshness").textContent = `As of: ${dateLabel(snapshot.generatedAt)}`;
   };
   freshness();
   document.addEventListener("snapshot-updated", (event) => {

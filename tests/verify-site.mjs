@@ -25,6 +25,28 @@ for (const marker of [
   assert.match(report, new RegExp(marker), `Report source contract: ${marker}`);
 
 assert.match(dashboard, /<body[^>]+data-page="dashboard"/);
+const dashboardScript = await readFile("src/dashboard.js", "utf8");
+for (const copy of [
+  "Calendar-year change:",
+  "Native units, shared dates.",
+  "Same indicators as the time-series panel",
+  "daily source checks",
+  "observation dates vary",
+  "histories retained after upstream retrieval failures",
+])
+  assert.ok(
+    !dashboard.includes(copy) && !dashboardScript.includes(copy),
+    `Removed dashboard helper copy: ${copy}`,
+  );
+for (const id of ["measure-note", "breadth-note", "heatmap-unit"])
+  assert.ok(
+    !dashboard.includes(`id="${id}"`) && !dashboardScript.includes(`#${id}`),
+    `Removed helper hooks: ${id}`,
+  );
+assert.match(
+  dashboardScript,
+  /`As of: \$\{dateLabel\(snapshot\.generatedAt\)\}`/,
+);
 for (const marker of [
   'id="category-filter"',
   'id="geography-filter"',

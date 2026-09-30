@@ -1009,6 +1009,9 @@ input[type="radio"] {
   margin: 0 0 16px;
   text-align: left;
 }
+.panel-status:empty {
+  display: none;
+}
 .dashboard .headline-metric {
   padding: 20px 22px;
 }
