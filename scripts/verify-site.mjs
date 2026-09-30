@@ -51,6 +51,20 @@ assert.match(vite, /report:\s*resolve\([^\n]+index\.html/);
 assert.match(vite, /dashboard:\s*resolve\([^\n]+dashboard\.html/);
 assert.doesNotMatch(vite, /sources:/);
 
+const { headers } = JSON.parse(await readFile("vercel.json", "utf8"));
+const dataRule = headers.findIndex(({ source }) => source === "/data/(.*)");
+const historyRule = headers.findIndex(
+  ({ source }) => source === "/data/runtime/series/(.*)",
+);
+assert.ok(
+  dataRule >= 0 && historyRule > dataRule,
+  "Specific immutable history headers override the earlier mutable data rule",
+);
+assert.match(
+  headers[historyRule].headers.find(({ key }) => key === "Cache-Control").value,
+  /31536000, immutable/,
+);
+
 console.log(
   "Verified exactly two pages, report/dashboard DOM contracts, source anchor, and no legacy sources/API entrypoints.",
 );
