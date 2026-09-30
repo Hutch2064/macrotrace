@@ -7,18 +7,17 @@
     "dev": "node scripts/build-data.mjs && vite",
     "build": "node scripts/build-data.mjs && vite build",
     "data:pack": "node scripts/build-data.mjs",
-    "delivery:verify": "node scripts/build-data.mjs && node scripts/verify-delivery.mjs",
+    "delivery:verify": "node scripts/build-data.mjs && node tests/verify-delivery.mjs",
     "preview": "vite preview",
     "data:refresh": "node scripts/refresh-data.mjs",
-    "data:verify": "node scripts/verify-data.mjs",
-    "panel:verify": "node scripts/verify-panel.mjs",
-    "report:verify": "node scripts/verify-macro-report.mjs && node scripts/verify-parity.mjs",
-    "site:verify": "node scripts/verify-site.mjs",
-    "format": "prettier --write src scripts '*.html' '*.md' '*.json' vite.config.js '.github/workflows/*.yml'",
-    "check": "npm run data:verify && npm run delivery:verify && npm run panel:verify && npm run report:verify && npm run site:verify && npm run build"
+    "data:verify": "node tests/verify-data.mjs",
+    "panel:verify": "node tests/verify-panel.mjs",
+    "report:verify": "node tests/verify-macro-report.mjs && node tests/verify-parity.mjs",
+    "site:verify": "node tests/verify-site.mjs",
+    "format": "prettier --write src scripts tests '*.html' '*.md' '*.json' vite.config.js '.github/workflows/*.yml'",
+    "check": "node tests/run.mjs && npm run build"
   },
   "dependencies": {
-    "fflate": "^0.8.2",
     "uplot": "^1.6.32"
   },
   "devDependencies": {

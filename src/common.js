@@ -20,6 +20,29 @@ export const compact = (value) =>
   Number.isFinite(value) ? compactNumbers.format(value) : "—";
 export const signed = (value) =>
   Number.isFinite(value) ? (value > 0 ? "+" : "") + format(value) : "—";
+// A rate level (%) and a difference between rates (pp) have distinct meanings.
+export const unitLabel = (unit = "") =>
+  String(unit)
+    .replace(/^percentage points$/i, "pp")
+    .replace(/^index points$/i, "pts")
+    .replace(/^percent(?:age)?$/i, "%");
+export const valueText = (value, unit = "", withSign = false) => {
+  const label = unitLabel(unit);
+  const number = withSign ? signed(value) : format(value);
+  return Number.isFinite(value) && label
+    ? number + (label.startsWith("%") ? "" : " ") + label
+    : number;
+};
+export function animateUpdate(host) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  host.animate(
+    [
+      { opacity: 0.45, transform: "translateY(3px)" },
+      { opacity: 1, transform: "translateY(0)" },
+    ],
+    { duration: 550, easing: "cubic-bezier(.22,1,.36,1)" },
+  );
+}
 export const changeClass = (value) =>
   value > 0 ? "positive" : value < 0 ? "negative" : "";
 export const escapeHtml = (value) =>

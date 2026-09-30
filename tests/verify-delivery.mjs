@@ -20,8 +20,18 @@ for (const file of await readdir("public/fonts")) {
   assert.ok(fontCss.includes(file), `${file}: font face is wired`);
 }
 assert.equal(catalog.series.length, snapshot.series.length);
-const expectedChunks = new Set(catalog.series.map((entry) => entry.history.file.split("/").at(-1)));
-assert.deepEqual(new Set((await readdir("public/data/runtime/series")).filter((file) => file.endsWith(".json"))), expectedChunks, "No removed securities remain as orphaned generated histories");
+const expectedChunks = new Set(
+  catalog.series.map((entry) => entry.history.file.split("/").at(-1)),
+);
+assert.deepEqual(
+  new Set(
+    (await readdir("public/data/runtime/series")).filter((file) =>
+      file.endsWith(".json"),
+    ),
+  ),
+  expectedChunks,
+  "No removed securities remain as orphaned generated histories",
+);
 const chunks = new Map();
 for (const entry of catalog.series) {
   assert.equal(

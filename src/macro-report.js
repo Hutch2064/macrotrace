@@ -1,290 +1,309 @@
 /*
- * Pure, source-backed model for the macro-only landing report.
+ * Pure source-backed model for the MacroTrace report.
  *
- * This module deliberately has no DOM, date-fns, chart, or data-loader
- * dependency. The caller supplies the already refreshed snapshot and can use
- * the returned `points` arrays directly with the report chart.
+ * This file owns report composition and selection only. `transformSeries` is
+ * the same pure transformer used by the dashboard, so report charts cannot
+ * quietly drift from dashboard values or semantics.
  */
+import { transformSeries } from "./panel.js";
 
-export const REPORT_IDS = Object.freeze([
-  "CPIAUCSL",
-  "PCEPILFE",
-  "UNRATE",
-  "PAYEMS",
-  "GDPC1",
-  "FEDFUNDS",
-  "HOUST",
-  "PERMIT",
-  "DCOILWTICO",
-  "GASREGW",
-  "INDPRO",
-]);
+const MIN_FINDINGS = 8;
+const TARGET_FINDINGS = 10;
+const DAY_MS = 86_400_000;
+const FREQUENCY_WINDOW_DAYS = Object.freeze({
+  daily: 30,
+  weekly: 90,
+  monthly: 365,
+  quarterly: 730,
+  annual: 1460,
+});
 
-const REPORT_THEMES = Object.freeze([
+/** Curated candidates; selection changes as source dates and values change. */
+export const REPORT_CANDIDATES = Object.freeze([
   {
-    id: "inflation",
+    id: "inflation-core",
     topic: "Inflation",
-    title: "Inflation: headline and core prices",
+    title: "Consumer-price and core PCE inflation",
     ids: ["CPIAUCSL", "PCEPILFE"],
-    transform: "yoy",
+    measure: "yoy",
+    rankMeasure: "yoy",
     suffix: "%",
+    description:
+      "Headline CPI and core PCE are displayed as year-over-year changes in their seasonally adjusted indexes.",
   },
   {
     id: "labor-unemployment",
     topic: "Labor",
-    title: "Labor: unemployment rate",
+    title: "Unemployment rate",
     ids: ["UNRATE"],
-    transform: "level",
+    measure: "level",
+    rankMeasure: "change",
     suffix: "%",
+    description:
+      "The unemployment rate is shown at its native monthly percentage level; adjacent changes are percentage-point differences.",
   },
   {
     id: "jobs",
     topic: "Labor",
-    title: "Jobs: nonfarm payrolls",
+    title: "Nonfarm payroll growth",
     ids: ["PAYEMS"],
-    transform: "level",
-    suffix: " thousand",
+    measure: "yoy",
+    rankMeasure: "yoy",
+    suffix: "%",
+    description:
+      "Nonfarm payrolls are shown as a year-over-year percentage change in the source employment level.",
   },
   {
-    id: "gdp",
+    id: "real-gdp",
     topic: "Growth",
-    title: "Growth: real GDP",
+    title: "Real GDP growth",
     ids: ["GDPC1"],
-    transform: "quarterly-yoy",
+    measure: "yoy",
+    rankMeasure: "yoy",
     suffix: "%",
+    description:
+      "Real GDP is compared with the observation exactly four quarters earlier by calendar period.",
   },
   {
-    id: "monetary",
-    topic: "Rates",
-    title: "Monetary policy: federal funds rate",
-    ids: ["FEDFUNDS"],
-    transform: "level",
+    id: "industrial-production",
+    topic: "Growth",
+    title: "Industrial production growth",
+    ids: ["INDPRO"],
+    measure: "yoy",
+    rankMeasure: "yoy",
     suffix: "%",
+    description:
+      "Industrial production is shown as a year-over-year percentage change in its source index.",
+  },
+  {
+    id: "monetary-policy",
+    topic: "Rates",
+    title: "Federal funds rate",
+    ids: ["FEDFUNDS"],
+    measure: "level",
+    rankMeasure: "change",
+    suffix: "%",
+    description:
+      "The monthly-average federal funds rate remains in its reported percentage level.",
+  },
+  {
+    id: "yield-curve",
+    topic: "Rates",
+    title: "Ten-year minus two-year Treasury spread",
+    ids: ["T10Y2Y"],
+    measure: "level",
+    rankMeasure: "change",
+    suffix: " pp",
+    description:
+      "The Treasury curve is reported in its native percentage-point spread.",
   },
   {
     id: "housing",
     topic: "Housing",
-    title: "Housing: starts and permits",
+    title: "Housing starts and permits",
     ids: ["HOUST", "PERMIT"],
-    transform: "level",
+    measure: "level",
+    rankMeasure: "change",
     suffix: " thousand",
+    description:
+      "Housing starts and building permits retain their source-reported thousands of units, seasonally adjusted annual-rate convention.",
   },
   {
-    id: "energy",
+    id: "credit-conditions",
+    topic: "Credit",
+    title: "Financial conditions",
+    ids: ["NFCI"],
+    measure: "level",
+    rankMeasure: "change",
+    suffix: " pts",
+    description:
+      "The National Financial Conditions Index remains in native index points; a change is a point difference.",
+  },
+  {
+    id: "energy-prices",
     topic: "Commodities",
-    title: "Energy: oil and gasoline",
+    title: "Oil and gasoline prices",
     ids: ["DCOILWTICO", "GASREGW"],
-    transform: "yoy",
+    measure: "yoy",
+    rankMeasure: "yoy",
     suffix: "%",
+    description:
+      "WTI and regular gasoline are compared in a common year-over-year percent-change unit, not in their unlike dollar levels.",
   },
   {
-    id: "industrial",
-    topic: "Growth",
-    title: "Industry: industrial production",
-    ids: ["INDPRO"],
-    transform: "yoy",
+    id: "commodity-index",
+    topic: "Commodities",
+    title: "All-commodities price index",
+    ids: ["PALLFNFINDEXM"],
+    measure: "yoy",
+    rankMeasure: "yoy",
     suffix: "%",
+    description:
+      "The IMF all-commodities index is shown as a year-over-year percentage change.",
+  },
+  {
+    id: "currency",
+    topic: "Currencies",
+    title: "Trade-weighted U.S. dollar",
+    ids: ["DTWEXBGS"],
+    measure: "yoy",
+    rankMeasure: "yoy",
+    suffix: "%",
+    description:
+      "The broad trade-weighted dollar index is shown as a year-over-year percentage change.",
+  },
+  {
+    id: "trade",
+    topic: "Growth",
+    title: "World trade share",
+    ids: ["WDI_WLD_TRADE"],
+    measure: "level",
+    rankMeasure: "change",
+    suffix: " pp",
+    description:
+      "World trade is reported as the World Bank's percentage share of global GDP; changes are percentage points.",
+  },
+  {
+    id: "productivity",
+    topic: "Productivity",
+    title: "Nonfarm business productivity",
+    ids: ["OPHNFB"],
+    measure: "yoy",
+    rankMeasure: "yoy",
+    suffix: "%",
+    description:
+      "Nonfarm business labor productivity is shown as a year-over-year percentage change in the source index.",
+  },
+  {
+    id: "global-growth",
+    topic: "Growth",
+    title: "World real GDP",
+    ids: ["WDI_WLD_GDP"],
+    measure: "yoy",
+    rankMeasure: "yoy",
+    suffix: "%",
+    description:
+      "World real GDP is shown as a year-over-year percentage change in the World Bank series.",
+  },
+  {
+    id: "fiscal-debt",
+    topic: "Fiscal",
+    title: "Federal debt relative to GDP",
+    ids: ["GFDEGDQ188S"],
+    measure: "level",
+    rankMeasure: "change",
+    suffix: " pp",
+    description:
+      "Federal debt as a share of GDP remains a native percentage level; changes are percentage points.",
   },
 ]);
 
-/**
- * Definitions shown in the report's closing methods section. These are kept
- * as data, rather than assembled by the browser, so the copy and formulas
- * remain deterministic across report renders.
- */
+/** All candidate inputs plus the four separate U.S. headline inputs. */
+export const REPORT_IDS = Object.freeze([
+  ...new Set([
+    "CPIAUCSL",
+    "PCEPILFE",
+    "UNRATE",
+    "GDPC1",
+    ...REPORT_CANDIDATES.flatMap(({ ids }) => ids),
+  ]),
+]);
+
 export const methodDefinitions = Object.freeze([
   {
-    title: "Row grain",
+    title: "Row grain and native levels",
     definition:
-      "Each chart point preserves the source observation date and native release frequency. Monthly, quarterly, weekly, and daily rows are not resampled or mixed into a synthetic frequency.",
+      "Every chart point is an actual source observation at its native frequency. Level findings preserve the raw reported value; monthly, quarterly, weekly, daily and annual rows are not resampled or averaged together.",
   },
   {
-    title: "Sources",
+    title: "Sources and freshness",
     definition:
-      "The report uses economic releases distributed by FRED, with the originating agency identified where available. The source catalog links each indicator and shows its observation coverage. Dashboard CSVs preserve source references, check times and refresh status.",
+      "Required candidates are public economic releases represented by the supplied snapshot. Source metadata retains each series URL, observed-through date, provider check time, and upstream refresh status; a retained history is disclosed separately from the chart value.",
   },
   {
     title: "Dropped rows",
     definition:
-      "A transformed point is omitted when the required source row is absent, either value is non-finite, or the percentage-change baseline is nonpositive. Monthly and quarterly comparisons require exact calendar dates; weekly/trading-day energy comparisons use only an observed row on or before the calendar boundary. No future-date or invented value is used. Native-level series retain finite source rows.",
+      "Rows with missing or non-finite values remain unavailable rather than becoming zero. A comparison row is omitted when its required native prior period is missing, its percentage baseline is nonpositive, or a daily/weekly prior boundary is more than seven days earlier; no future row is substituted.",
   },
   {
     title: "Year-over-year formula",
     definition:
-      "For monthly percent-change series, YoY = 100 × (x[t] / x[t − 12 calendar months] − 1), where the lag date must match exactly. Energy uses an observed row on or before that calendar boundary when a weekly/trading-day label has no exact match, but only when the observed row is no more than seven calendar days earlier; no future or remote fallback is used.",
+      "For relative series, YoY = 100 × (x[t] / x[t−1 native year period] − 1). Monthly, quarterly and annual periods use the exact prior calendar period; daily and weekly periods use the last observed row on or before the one-year boundary only within seven calendar days.",
   },
   {
-    title: "Quarterly GDP formula",
+    title: "Change and rate semantics",
     definition:
-      "For real GDP, YoY = 100 × (GDP[t] / GDP[t − 4 quarters] − 1), implemented as an exact date match to the calendar date 12 months earlier; a future or nearby observation is never substituted.",
+      "Change = x[t] − x[t−1 native observation]. Rate and percentage-point series keep point differences; signed index or diffusion series keep index-point differences. Relative percentage changes and point changes are never plotted as one unit.",
   },
   {
-    title: "Native levels and percentage points",
+    title: "Dynamic selection",
     definition:
-      "Unemployment, payrolls, federal funds, housing starts, and permits remain raw native levels. Percentage-valued rates use percentage-point subtraction, not a percent return; non-percent rates and signed quantities keep their native difference units. Chart panels never combine unlike units or average levels with growth rates.",
+      "Available candidates are ranked by source-date freshness and latest movement normalized against that series' own historical absolute-movement distribution using a median scale and empirical percentile. Ties resolve in stable candidate order; the report targets ten themes and never invents an unavailable theme.",
   },
   {
     title: "Deterministic refresh",
     definition:
-      "Given the same ordered snapshot rows, report headings, prose values, transformations, and chart points are deterministic. Source-provider check time is metadata only and is never used as an observation date.",
+      "Given the same snapshot rows, candidate availability, transforms, prose values, scores and selected order are deterministic. Snapshot generation time is metadata and is never used as an economic observation date.",
   },
 ]);
 
-// A named export makes the formula object convenient for non-UI consumers and
-// keeps exact definitions available to verification scripts.
 export const REPORT_METHODS = Object.freeze({
   rowGrain: methodDefinitions[0].definition,
   sources: methodDefinitions[1].definition,
   droppedRows: methodDefinitions[2].definition,
   annualChange: methodDefinitions[3].definition,
-  quarterlyChange: methodDefinitions[4].definition,
-  nativeLevels: methodDefinitions[5].definition,
+  pointChanges: methodDefinitions[4].definition,
+  selection: methodDefinitions[5].definition,
   deterministicRefresh: methodDefinitions[6].definition,
 });
 
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-function isDate(value) {
-  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value))
+function validDate(date) {
+  if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date))
     return false;
-  const parsed = Date.parse(`${value}T00:00:00Z`);
+  const parsed = Date.parse(`${date}T00:00:00Z`);
   return (
     Number.isFinite(parsed) &&
-    new Date(parsed).toISOString().slice(0, 10) === value
+    new Date(parsed).toISOString().slice(0, 10) === date
   );
 }
 
-function finiteObservations(series) {
+function dateValue(date) {
+  return Date.parse(`${date}T00:00:00Z`);
+}
+
+function sourceRows(series) {
   if (!Array.isArray(series?.observations)) return [];
   return series.observations
     .filter(
       (point) =>
         Array.isArray(point) &&
-        point.length >= 2 &&
-        isDate(point[0]) &&
+        validDate(point[0]) &&
         Number.isFinite(point[1]),
     )
     .map(([date, value]) => [date, value])
     .sort(([left], [right]) => left.localeCompare(right));
 }
 
-function addMonths(date, months) {
-  if (!isDate(date)) return null;
-  const year = Number(date.slice(0, 4));
-  const month = Number(date.slice(5, 7));
-  const day = Number(date.slice(8, 10));
-  const monthIndex = year * 12 + (month - 1) + months;
-  const shiftedYear = Math.floor(monthIndex / 12);
-  const shiftedMonth = (monthIndex % 12) + 1;
-  // Exact calendar matching intentionally rejects 29 February when the
-  // corresponding month/day does not exist in the lag year.
-  const candidate = `${String(shiftedYear).padStart(4, "0")}-${String(shiftedMonth).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-  return isDate(candidate) ? candidate : null;
+function latestSourceDate(series) {
+  return sourceRows(series).at(-1)?.[0] || null;
 }
 
-/**
- * Calculate exact-calendar year-over-year changes. Missing lag observations
- * are omitted rather than approximated with a nearby row.
- */
-export function annualChange(observations) {
-  const rows = Array.isArray(observations) ? observations : [];
-  const byDate = new Map(
-    rows.filter(
-      (point) =>
-        Array.isArray(point) && isDate(point[0]) && Number.isFinite(point[1]),
-    ),
-  );
-  return rows.flatMap((point) => {
-    if (
-      !Array.isArray(point) ||
-      !isDate(point[0]) ||
-      !Number.isFinite(point[1])
-    )
-      return [];
-    const lagDate = addMonths(point[0], -12);
-    const lagValue = lagDate === null ? undefined : byDate.get(lagDate);
-    if (!Number.isFinite(lagValue) || lagValue <= 0) return [];
-    const value = (point[1] / lagValue - 1) * 100;
-    return Number.isFinite(value) ? [[point[0], value]] : [];
+function latestPoint(points) {
+  return points.length ? points[points.length - 1] : null;
+}
+
+function formatDate(date) {
+  if (!validDate(date)) return "an unavailable date";
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
   });
-}
-
-/** GDP uses the same exact calendar-date lookup, explicitly representing four quarters. */
-export function quarterlyChange(observations) {
-  return annualChange(observations);
-}
-
-/**
- * Energy prices have weekly/trading-day source labels. Compare each current
- * row with an observed row at the one-year calendar boundary, using the last
- * row on or before the boundary when that exact date is not a publication
- * day. This never selects a future row or invents a value.
- */
-export function energyChange(observations) {
-  const rows = (Array.isArray(observations) ? observations : [])
-    .filter(
-      (point) =>
-        Array.isArray(point) && isDate(point[0]) && Number.isFinite(point[1]),
-    )
-    .sort(([left], [right]) => left.localeCompare(right));
-  let priorIndex = -1;
-  return rows.flatMap((point) => {
-    const boundary = addMonths(point[0], -12);
-    if (!boundary) return [];
-    while (priorIndex + 1 < rows.length && rows[priorIndex + 1][0] <= boundary)
-      priorIndex += 1;
-    const prior = rows[priorIndex];
-    if (
-      !prior ||
-      prior[1] <= 0 ||
-      Date.parse(`${boundary}T00:00:00Z`) -
-        Date.parse(`${prior[0]}T00:00:00Z`) >
-        7 * 86400000
-    )
-      return [];
-    const value = (point[1] / prior[1] - 1) * 100;
-    return Number.isFinite(value) ? [[point[0], value]] : [];
-  });
-}
-
-function latest(observations) {
-  return observations.length ? observations[observations.length - 1] : null;
-}
-
-function findAtDate(observations, date) {
-  if (!date) return null;
-  return observations.find(([candidate]) => candidate === date) || null;
-}
-
-function valueAtLatest(series) {
-  return latest(finiteObservations(series));
-}
-
-function displayDate(date) {
-  if (!isDate(date)) return "an unavailable date";
-  return `${MONTH_NAMES[Number(date.slice(5, 7)) - 1]} ${Number(date.slice(8, 10))}, ${date.slice(0, 4)}`;
 }
 
 function numberText(value, decimals = 2) {
   if (!Number.isFinite(value)) return "unavailable";
-  if (Math.abs(value) >= 1000) {
-    return value.toLocaleString("en-US", {
-      maximumFractionDigits: 0,
-    });
-  }
   return value.toLocaleString("en-US", {
     minimumFractionDigits: 0,
     maximumFractionDigits: decimals,
@@ -297,335 +316,366 @@ function signedText(value, decimals = 2) {
   return `${value > 0 ? "+" : "−"}${numberText(Math.abs(value), decimals)}`;
 }
 
-function annualDifference(observations) {
-  const rows = finiteObservations({ observations });
-  const current = latest(rows);
-  if (!current) return null;
-  const priorDate = addMonths(current[0], -12);
-  const prior = findAtDate(rows, priorDate);
-  return prior ? { current, prior, difference: current[1] - prior[1] } : null;
+function median(values) {
+  if (!values.length) return null;
+  const ordered = [...values].sort((left, right) => left - right);
+  const middle = Math.floor(ordered.length / 2);
+  return ordered.length % 2
+    ? ordered[middle]
+    : (ordered[middle - 1] + ordered[middle]) / 2;
 }
 
-function reportSeriesMeta(series, transformedUnit, transformedName) {
+function midrankPercentile(values, value) {
+  if (!values.length || !Number.isFinite(value)) return 0;
+  let below = 0;
+  let equal = 0;
+  for (const item of values) {
+    if (item < value) below += 1;
+    else if (item === value) equal += 1;
+  }
+  if (values.length === 1) return 1;
+  return (below + equal / 2) / values.length;
+}
+
+function frequencyWindow(series) {
+  return FREQUENCY_WINDOW_DAYS[series?.frequency] || 365;
+}
+
+function unitSuffix(unit) {
+  const value = String(unit || "").toLowerCase();
+  if (value.includes("percentage point")) return " pp";
+  if (value.includes("index point")) return " pts";
+  if (value.includes("%") || value.includes("percent")) return "%";
+  if (value.includes("thousand")) return " thousand";
+  if (value.includes("million")) return " million";
+  return ` ${unit || "reported units"}`;
+}
+
+function measureText(measure, unit) {
+  if (measure === "level") return `native ${unit || "reported"} levels`;
+  if (measure === "change") return `changes in ${unit || "native units"}`;
+  return `year-over-year changes in ${unit || "percent"}`;
+}
+
+function transformEntry(series, measure) {
+  const transformed = transformSeries(series, { measure });
+  const points = transformed
+    .filter(({ date, value }) => validDate(date) && Number.isFinite(value))
+    .map(({ date, value }) => [date, value]);
+  const unit =
+    transformed.find(({ unit: value }) => value)?.unit ||
+    series.unit ||
+    "reported units";
   return {
-    id: series.id,
-    name: transformedName || series.name || series.id,
-    frequency: series.frequency || "unknown",
-    unit: transformedUnit || series.unit || "reported units",
+    source: series,
+    points,
+    unit,
+    latest: latestPoint(points),
   };
 }
 
-function compactCount(value) {
-  if (!Number.isFinite(value)) return "unavailable";
-  return `${(value / 1000).toLocaleString("en-US", {
-    maximumFractionDigits: 1,
-  })}M`;
+function candidateScore(candidate, byId, referenceDate) {
+  const missingIds = candidate.ids.filter((id) => !byId.has(id));
+  const entries = candidate.ids.map((id) => {
+    const source = byId.get(id);
+    const display = source ? transformEntry(source, candidate.measure) : null;
+    const ranking = source
+      ? transformEntry(source, candidate.rankMeasure)
+      : null;
+    return { id, source, display, ranking };
+  });
+  const noDataIds = entries
+    .filter(
+      (entry) => !entry.display?.points.length || !entry.ranking?.points.length,
+    )
+    .map(({ id }) => id);
+  const unavailableIds = [...new Set([...missingIds, ...noDataIds])];
+  const datedEntries = entries
+    .map((entry) => ({ entry, date: entry.display?.latest?.[0] }))
+    .filter(({ date }) => date);
+  const latestDates = datedEntries.map(({ date }) => date).sort();
+  const latestDate = latestDates.length ? latestDates[0] : null;
+  const freshnessScore = datedEntries.length
+    ? datedEntries.reduce((total, { entry, date }) => {
+        const age = Math.max(
+          0,
+          (dateValue(referenceDate) - dateValue(date)) / DAY_MS,
+        );
+        return (
+          total +
+          1 /
+            (1 + age / frequencyWindow({ frequency: entry.source?.frequency }))
+        );
+      }, 0) / datedEntries.length
+    : 0;
+  const movementEntries = entries.map((entry) => {
+    const values = (entry.ranking?.points || []).map(([, value]) => value);
+    const latest = values.at(-1);
+    const history = values
+      .slice(0, -1)
+      .map((value) => Math.abs(value))
+      .filter(Number.isFinite);
+    const latestAbsolute = Number.isFinite(latest) ? Math.abs(latest) : 0;
+    const scale = median(history) || 1;
+    const percentile = midrankPercentile(history, latestAbsolute);
+    const scaleScore = latestAbsolute / (latestAbsolute + scale);
+    return {
+      id: entry.id,
+      latestMovement: latest,
+      historicalMedianAbsoluteMovement: scale,
+      normalizedMovementRatio: latestAbsolute / scale,
+      movementPercentile: percentile,
+      movementScore: 0.6 * percentile + 0.4 * scaleScore,
+    };
+  });
+  const movementScore = movementEntries.length
+    ? movementEntries.reduce((total, entry) => total + entry.movementScore, 0) /
+      movementEntries.length
+    : 0;
+  const score = 0.55 * movementScore + 0.45 * freshnessScore;
+  return {
+    candidate,
+    entries,
+    missingIds: unavailableIds,
+    available: unavailableIds.length === 0,
+    latestDate,
+    freshnessScore,
+    movementScore,
+    score,
+    movementEntries,
+  };
 }
 
-function buildSourceMetadata(series, snapshotFailureIds) {
-  const observations = finiteObservations(series);
+function pickCandidates(scored) {
+  const available = scored
+    .filter((entry) => entry.available)
+    .sort(
+      (left, right) =>
+        right.score - left.score ||
+        right.freshnessScore - left.freshnessScore ||
+        left.candidate.id.localeCompare(right.candidate.id),
+    );
+  const target = Math.min(TARGET_FINDINGS, available.length);
+  const selected = [];
+  const selectedThemes = new Set();
+  for (const entry of available) {
+    if (selected.length >= target) break;
+    if (selectedThemes.has(entry.candidate.id)) continue;
+    selected.push(entry);
+    selectedThemes.add(entry.candidate.id);
+  }
+  if (selected.length < target) {
+    for (const entry of available) {
+      if (selected.length >= target) break;
+      if (!selected.includes(entry)) selected.push(entry);
+    }
+  }
+  return { available, selected };
+}
+
+function valuePhrase(entry) {
+  const point = entry.display.latest;
+  if (!point) return `${entry.source.name || entry.id} is unavailable`;
+  return `${entry.source.name || entry.id} was ${numberText(point[1], 2)}${unitSuffix(entry.display.unit)} on ${formatDate(point[0])}`;
+}
+
+function titleValuePhrase(entry) {
+  const point = entry.display.latest;
+  if (!point) return "unavailable";
+  return `${numberText(point[1], 1)}${unitSuffix(entry.display.unit)}`;
+}
+
+function titleLabels(candidate) {
+  return (
+    {
+      "inflation-core": ["CPI", "core PCE"],
+      "labor-unemployment": ["unemployment"],
+      jobs: ["payrolls"],
+      "real-gdp": ["real GDP"],
+      "industrial-production": ["industrial production"],
+      "monetary-policy": ["fed funds"],
+      "yield-curve": ["curve spread"],
+      housing: ["starts", "permits"],
+      "credit-conditions": ["financial conditions"],
+      "energy-prices": ["WTI", "gasoline"],
+      "commodity-index": ["commodities"],
+      currency: ["dollar"],
+      trade: ["world trade"],
+      productivity: ["productivity"],
+      "global-growth": ["world GDP"],
+      "fiscal-debt": ["debt/GDP"],
+    }[candidate.id] || []
+  );
+}
+
+function dynamicTitle(scored) {
+  const labels = titleLabels(scored.candidate);
+  const values = scored.entries
+    .map(
+      (entry, index) =>
+        `${labels[index] ? `${labels[index]} ` : ""}${titleValuePhrase(entry)}`,
+    )
+    .join(" · ");
+  return `${scored.candidate.title}: ${values}`;
+}
+
+function displayComparison(entry) {
+  const points = entry.display.points;
+  const latest = points.at(-1);
+  const prior = points.at(-2);
+  if (!latest) return `${entry.source.name || entry.id} is unavailable`;
+  const latestText = `${numberText(latest[1], 2)}${unitSuffix(entry.display.unit)}`;
+  if (!prior)
+    return `${entry.source.name || entry.id} is ${latestText} on ${formatDate(latest[0])}; no prior displayed observation is available.`;
+  const delta = latest[1] - prior[1];
+  const unit = String(entry.display.unit || "").toLowerCase();
+  const deltaSuffix =
+    unit.includes("percentage") || unit.includes("%")
+      ? " pp"
+      : unitSuffix(entry.display.unit);
+  return `${entry.source.name || entry.id} is ${latestText} on ${formatDate(latest[0])}, versus ${numberText(prior[1], 2)}${unitSuffix(entry.display.unit)} on ${formatDate(prior[0])} (change ${signedText(delta, 2)}${deltaSuffix}).`;
+}
+
+function dynamicParagraphs(scored) {
+  const latestReadings = scored.entries.map(valuePhrase).join("; ");
+  const comparisons = scored.entries.map(displayComparison).join(" ");
+  return [
+    `${scored.candidate.description} Latest published readings: ${latestReadings}.`,
+    comparisons,
+  ];
+}
+
+function dynamicNote(scored) {
+  const dates = scored.entries
+    .map((entry) => entry.display.latest?.[0])
+    .filter(Boolean)
+    .map(formatDate)
+    .join(" / ");
+  return `${measureText(scored.candidate.measure, scored.entries[0]?.display.unit)}; latest dates ${dates}.`;
+}
+
+function buildAsOf(byId) {
+  const bySeries = Object.fromEntries(
+    REPORT_IDS.map((id) => [id, latestSourceDate(byId.get(id))]),
+  );
+  const dates = Object.values(bySeries).filter(Boolean).sort();
+  return { latest: dates.at(-1) || null, bySeries };
+}
+
+function buildSourceMetadata(id, series, failureIds) {
+  const rows = sourceRows(series);
   const retained =
-    series.refreshStatus === "upstream-unavailable" ||
-    snapshotFailureIds.has(series.id);
+    series.refreshStatus === "upstream-unavailable" || failureIds.has(id);
   return {
-    id: series.id,
-    name: series.name || series.id,
-    source: series.source || "Unknown source",
+    id,
+    name: series.name || id,
+    source: series.source || series.provider || "Unknown source",
     sourceUrl: series.sourceUrl || null,
     frequency: series.frequency || "unknown",
     unit: series.unit || "reported units",
-    observedThrough: latest(observations)?.[0] || null,
+    observedThrough: rows.at(-1)?.[0] || null,
     checkedAt: series.checkedAt || null,
     refreshStatus: series.refreshStatus || "ok",
     retainedSnapshot: retained,
     freshnessNote: retained
-      ? "Last successful observations retained after an unsuccessful upstream refresh; checkedAt is the latest source check recorded for this row."
-      : "observedThrough is the latest source observation; checkedAt is the source check time.",
+      ? "Last successful observations retained after an unsuccessful upstream refresh; the observed-through date remains the displayed economic period."
+      : "Observed-through is the latest source row; checkedAt is the provider check time.",
   };
 }
 
-function unavailableParagraphs(theme, missingIds) {
-  const required = missingIds.join(", ");
+function explicitGeographies(seriesRows) {
   return [
-    `Data unavailable: the required source series ${required} is missing or has no finite observations in this snapshot, so ${theme.title.toLowerCase()} cannot be calculated.`,
-    "No substitute series, nearest-date value, or generated estimate is used when a required input is unavailable.",
-  ];
+    ...new Set(
+      seriesRows
+        .map((series) => series.geography || series.country || series.region)
+        .filter((value) => typeof value === "string" && value.trim()),
+    ),
+  ].sort();
 }
 
-function buildThemeData(theme, byId) {
-  const missingIds = theme.ids.filter((id) => !byId.has(id));
-  if (missingIds.length) {
-    return { missingIds, entries: [], latest: [] };
-  }
-  const entries = theme.ids.map((id) => {
-    const source = byId.get(id);
-    const observations = finiteObservations(source);
-    const transformed =
-      theme.transform === "yoy"
-        ? theme.id === "energy"
-          ? energyChange(observations)
-          : annualChange(observations)
-        : theme.transform === "quarterly-yoy"
-          ? quarterlyChange(observations)
-          : observations;
-    const transformedUnit =
-      theme.transform === "level"
-        ? theme.id === "housing"
-          ? "thousands SAAR"
-          : source.unit || "reported units"
-        : "% YoY";
-    const transformedName =
-      theme.transform === "level"
-        ? theme.id === "housing"
-          ? `${source.name || source.id} (thousand SAAR)`
-          : source.name || source.id
-        : `${source.name || source.id} YoY`;
-    return {
-      source,
-      observations,
-      transformed,
-      meta: reportSeriesMeta(source, transformedUnit, transformedName),
-    };
-  });
+function fullDatasetSummary(seriesRows, selected, scored) {
+  const topics = [
+    ...new Set(seriesRows.map((series) => series.category).filter(Boolean)),
+  ].sort();
+  const geographies = explicitGeographies(seriesRows);
+  const available = scored.filter(
+    ({ available: isAvailable }) => isAvailable,
+  ).length;
+  const selectedTopics = [
+    ...new Set(selected.map(({ candidate }) => candidate.topic)),
+  ].join(", ");
   return {
-    missingIds: entries
-      .filter((entry) => !entry.observations.length)
-      .map((entry) => entry.source.id),
-    entries,
-    latest: entries.map((entry) => latest(entry.transformed)),
+    text: `Explore ${seriesRows.length.toLocaleString("en-US")} economic indicators across ${topics.length} topics and ${geographies.length} geographies. The report follows ${selected.length} timely themes in ${selectedTopics}, selected from ${available} available themes by release freshness and movement within each indicator's own history. Figures, comparisons and theme selection update with the data; they describe the economy without attributing causes.`,
+    indicatorCount: seriesRows.length,
+    topicCount: topics.length,
+    topics,
+    geographyCount: geographies.length,
+    geographies,
   };
 }
 
-function themeTitle(theme, data) {
-  if (
-    data.missingIds.length ||
-    data.entries.some(({ transformed }) => !transformed.length)
-  )
-    return `${theme.topic} data unavailable`;
-  const values = data.latest;
-  switch (theme.id) {
-    case "inflation":
-      return `CPI inflation ${numberText(values[0][1], 1)}%; core PCE ${numberText(values[1][1], 1)}% YoY`;
-    case "labor-unemployment":
-      return `Unemployment is ${numberText(values[0][1], 1)}%`;
-    case "jobs":
-      return `Nonfarm payrolls are ${compactCount(values[0][1])}`;
-    case "gdp":
-      return `Real GDP grew ${numberText(values[0][1], 1)}% YoY`;
-    case "monetary":
-      return `Federal funds averaged ${numberText(values[0][1], 2)}%`;
-    case "housing":
-      return `Housing starts ${numberText(values[0][1], 0)}k; permits ${numberText(values[1][1], 0)}k`;
-    case "energy":
-      return `WTI ${numberText(values[0][1], 1)}%; gasoline ${numberText(values[1][1], 1)}% YoY`;
-    case "industrial":
-      return `Industrial production grew ${numberText(values[0][1], 1)}% YoY`;
-    default:
-      return theme.title;
-  }
+function headline(label, unit, id, measure, byId) {
+  const series = byId.get(id);
+  if (!series) return { label, value: null, unit, date: null };
+  const point = latestPoint(transformEntry(series, measure).points);
+  return { label, value: point?.[1] ?? null, unit, date: point?.[0] ?? null };
 }
 
-function themeParagraphs(theme, data) {
-  if (
-    data.missingIds.length ||
-    data.entries.some(({ transformed }) => !transformed.length)
-  ) {
-    const missing = data.missingIds.length
-      ? data.missingIds
-      : data.entries
-          .filter(({ transformed }) => !transformed.length)
-          .map(({ source }) => source.id);
-    return unavailableParagraphs(theme, missing);
-  }
-
-  const latestValues = data.latest;
-  const entryById = new Map(
-    data.entries.map((entry) => [entry.source.id, entry]),
-  );
-  switch (theme.id) {
-    case "inflation": {
-      const [cpi, pce] = latestValues;
-      return [
-        `The seasonally adjusted CPI index rose ${numberText(cpi[1], 2)}% year over year on ${displayDate(cpi[0])}; the seasonally adjusted core PCE index rose ${numberText(pce[1], 2)}% on ${displayDate(pce[0])}. These are 12-month changes in price indexes, not the official non-seasonally-adjusted CPI headline series or price levels.`,
-        "The two measures retain their native monthly rows and are shown together only after both are expressed in percent year-over-year changes using exact 12-month calendar matches.",
-      ];
-    }
-    case "labor-unemployment": {
-      const entry = entryById.get("UNRATE");
-      const current = latest(entry.transformed);
-      const delta = annualDifference(entry.observations);
-      const comparison = delta
-        ? ` That is ${signedText(delta.difference, 1)} percentage points versus ${numberText(delta.prior[1], 1)}% on ${displayDate(delta.prior[0])}.`
-        : " An exact one-year percentage-point comparison is unavailable.";
-      return [
-        `The unemployment rate was ${numberText(current[1], 1)}% on ${displayDate(current[0])}.${comparison}`,
-        "The chart preserves the reported rate level. Percentage-point comparisons subtract two rate levels; they are not percent changes.",
-      ];
-    }
-    case "jobs": {
-      const entry = entryById.get("PAYEMS");
-      const current = latest(entry.transformed);
-      const delta = annualDifference(entry.observations);
-      const comparison = delta
-        ? ` The exact one-year change was ${signedText(delta.difference, 0)} thousand from ${displayDate(delta.prior[0])} to ${displayDate(delta.current[0])}.`
-        : " An exact one-year comparison is unavailable.";
-      return [
-        `Nonfarm payrolls were ${compactCount(current[1])} (${numberText(current[1], 0)} thousand) on ${displayDate(current[0])}.${comparison}`,
-        "Payrolls remain in the source's reported thousands, with no indexing or equity-market proxy substituted.",
-      ];
-    }
-    case "gdp": {
-      const current = latestValues[0];
-      return [
-        `Real GDP, a seasonally adjusted annual-rate level in the source, grew ${numberText(current[1], 2)}% year over year in the quarter dated ${displayDate(current[0])}. This is not an annualized quarter-over-quarter growth rate.`,
-        "The growth point compares the quarter with the observation exactly four quarters earlier by calendar date; a nearby or future quarter is never used.",
-      ];
-    }
-    case "monetary": {
-      const current = latestValues[0];
-      return [
-        `The monthly-average federal funds rate was ${numberText(current[1], 2)}% in the observation dated ${displayDate(current[0])}.`,
-        "This panel reports the native FRED level and monthly frequency; it is not converted into a return, spread, or policy forecast.",
-      ];
-    }
-    case "housing": {
-      const [starts, permits] = latestValues;
-      return [
-        `Housing starts were ${numberText(starts[1], 0)} thousand on ${displayDate(starts[0])}; building permits were ${numberText(permits[1], 0)} thousand on ${displayDate(permits[0])}.`,
-        "Both series remain native reported seasonally adjusted annual-rate levels in thousands, so the panel does not imply that permits equal completed construction or combine unlike units.",
-      ];
-    }
-    case "energy": {
-      const [oil, gas] = latestValues;
-      return [
-        `WTI crude was ${numberText(oil[1], 2)}% year over year on ${displayDate(oil[0])}; regular gasoline was ${numberText(gas[1], 2)}% on ${displayDate(gas[0])}.`,
-        "Both series are converted to the common percent year-over-year unit before plotting; their native dollar-per-barrel and dollar-per-gallon levels are not treated as comparable.",
-      ];
-    }
-    case "industrial": {
-      const current = latestValues[0];
-      return [
-        `Industrial production grew ${numberText(current[1], 2)}% year over year on ${displayDate(current[0])}.`,
-        "The index is transformed to an exact 12-month percentage change, preserving monthly source dates and omitting rows without an exact lag observation.",
-      ];
-    }
-    default:
-      return [
-        `${theme.title} has a latest value of ${numberText(latestValues[0]?.[1])} on ${displayDate(latestValues[0]?.[0])}.`,
-        "The series is shown using the source-defined frequency and unit.",
-      ];
-  }
-}
-
-function themeNote(theme, data) {
-  if (
-    data.missingIds.length ||
-    data.entries.some(({ transformed }) => !transformed.length)
-  ) {
-    return "Unavailable: required source data are missing or have no exact finite observations.";
-  }
-  if (theme.id === "energy")
-    return "Energy YoY = 100 × (current observation / last observed value on or before the exact one-year calendar boundary − 1), only when that prior row is within seven calendar days of the boundary.";
-  if (theme.transform === "yoy")
-    return "YoY = 100 × (current observation / exact observation 12 calendar months earlier − 1).";
-  if (theme.transform === "quarterly-yoy")
-    return "GDP YoY = 100 × (current quarter / exact observation four quarters earlier − 1); the four-quarter lag is an exact calendar-date match.";
-  return "Native source level; no resampling, rebasing, or synthetic value is applied.";
-}
-
-function buildHeadline(label, unit, id, series, transform) {
-  const observations = finiteObservations(series);
-  const points =
-    transform === "level"
-      ? observations
-      : transform === "yoy"
-        ? id === "DCOILWTICO" || id === "GASREGW"
-          ? energyChange(observations)
-          : annualChange(observations)
-        : quarterlyChange(observations);
-  const current = transform === "level" ? latest(observations) : latest(points);
-  return {
-    label,
-    value: current?.[1] ?? null,
-    unit,
-    date: current?.[0] ?? null,
-  };
-}
-
-function reportSummary(headlines) {
-  const sentence = headlines
-    .map((headline) =>
-      headline.date === null
-        ? `${headline.label} is unavailable`
-        : `${headline.label} was ${numberText(headline.value, 2)}${headline.unit.startsWith("%") ? "%" : ` ${headline.unit}`} on ${displayDate(headline.date)}`,
-    )
-    .join("; ");
-  return `This report follows U.S. inflation, employment, output, monetary policy, housing and energy using public economic releases. In the latest available observations, ${sentence}. Dates identify each source period, not the daily snapshot check.`;
-}
-
-function buildAsOf(snapshotSeries) {
-  const asOfDates = Object.fromEntries(
-    REPORT_IDS.map((id) => [
-      id,
-      latest(finiteObservations(snapshotSeries.get(id)))?.[0] || null,
-    ]),
-  );
-  const observed = Object.values(asOfDates).filter(Boolean).sort();
-  return {
-    latest: observed.length ? observed[observed.length - 1] : null,
-    bySeries: asOfDates,
-  };
-}
-
-/**
- * Build the complete source-backed macro report from one snapshot.
- * Missing required inputs produce explicit unavailable findings/headlines;
- * they never silently borrow another series or snapshot timestamp.
- */
+/** Build the dynamic report from one snapshot. */
 export function buildMacroReport(snapshot) {
-  const sourceRows = Array.isArray(snapshot?.series) ? snapshot.series : [];
+  const sourceRowsList = Array.isArray(snapshot?.series) ? snapshot.series : [];
   const byId = new Map(
-    sourceRows
+    sourceRowsList
       .filter((series) => typeof series?.id === "string")
       .map((series) => [series.id, series]),
   );
-  const snapshotFailureIds = new Set(
+  const sourceDates = sourceRowsList
+    .map(latestSourceDate)
+    .filter(Boolean)
+    .sort();
+  const referenceDate = sourceDates.at(-1) || "1970-01-01";
+  const scored = REPORT_CANDIDATES.map((candidate) =>
+    candidateScore(candidate, byId, referenceDate),
+  );
+  const { available, selected } = pickCandidates(scored);
+  const findings = selected.map((entry) => ({
+    id: entry.candidate.id,
+    topic: entry.candidate.topic,
+    title: dynamicTitle(entry),
+    paragraphs: dynamicParagraphs(entry),
+    series: entry.entries.map(({ source, display }) => ({
+      id: source.id,
+      name: source.name || source.id,
+      frequency: source.frequency || "unknown",
+      unit: display.unit,
+    })),
+    points: entry.entries.map(({ display }) => display.points),
+    suffix: unitSuffix(entry.entries[0]?.display.unit),
+    note: dynamicNote(entry),
+    measure: entry.candidate.measure,
+    asOf: entry.entries.map(({ source, display }) => ({
+      id: source.id,
+      date: display.latest?.[0] || null,
+    })),
+    selectionScore: {
+      freshness: entry.freshnessScore,
+      ownHistoryMovement: entry.movementScore,
+      combined: entry.score,
+    },
+  }));
+  const headlineExistingUS = [
+    headline("Headline CPI (SA index) YoY", "% YoY", "CPIAUCSL", "yoy", byId),
+    headline("Core PCE (SA index) YoY", "% YoY", "PCEPILFE", "yoy", byId),
+    headline("Unemployment rate", "%", "UNRATE", "level", byId),
+    headline("Real GDP growth", "% YoY", "GDPC1", "yoy", byId),
+  ];
+  const sourceFailureIds = new Set(
     Array.isArray(snapshot?.refreshFailures) ? snapshot.refreshFailures : [],
   );
-
-  const headlineSpecs = [
-    ["Headline CPI (SA index) YoY", "% YoY", "CPIAUCSL", "yoy"],
-    ["Core PCE (SA index) YoY", "% YoY", "PCEPILFE", "yoy"],
-    ["Unemployment rate", "%", "UNRATE", "level"],
-    ["Real GDP growth", "% YoY", "GDPC1", "quarterly-yoy"],
-  ];
-  const headlines = headlineSpecs.map(([label, unit, id, transform]) => {
-    const series = byId.get(id);
-    return series
-      ? buildHeadline(label, unit, id, series, transform)
-      : { label, value: null, unit, date: null };
-  });
-
-  const findings = REPORT_THEMES.map((theme) => {
-    const data = buildThemeData(theme, byId);
-    const transformedEntries = data.entries.map((entry) => entry.transformed);
-    return {
-      id: theme.id,
-      topic: theme.topic,
-      title: themeTitle(theme, data),
-      paragraphs: themeParagraphs(theme, data),
-      series: data.entries.map((entry) => entry.meta),
-      points: transformedEntries,
-      suffix: theme.suffix,
-      note: themeNote(theme, data),
-    };
-  });
-
-  const asOf = buildAsOf(byId);
   const sourceMetadata = REPORT_IDS.map((id) => {
     const series = byId.get(id);
     return series
-      ? buildSourceMetadata(series, snapshotFailureIds)
+      ? buildSourceMetadata(id, series, sourceFailureIds)
       : {
           id,
           name: id,
@@ -637,13 +687,38 @@ export function buildMacroReport(snapshot) {
           checkedAt: null,
           refreshStatus: "unavailable",
           retainedSnapshot: false,
-          freshnessNote: "Required source row is unavailable in this snapshot.",
+          freshnessNote:
+            "Required candidate source row is unavailable in this snapshot.",
         };
   });
-
+  const dataset = fullDatasetSummary(sourceRowsList, selected, scored);
+  const selection = {
+    candidateCount: REPORT_CANDIDATES.length,
+    availableCount: available.length,
+    selectedCount: selected.length,
+    minimumFindings: MIN_FINDINGS,
+    targetFindings: TARGET_FINDINGS,
+    selectedIds: selected.map(({ candidate }) => candidate.id),
+    explanation:
+      "Candidates require all listed source rows and finite transformed points. Ranking combines release-date freshness with the latest movement's empirical percentile and median-normalized scale within each series; stable candidate order resolves ties.",
+    candidates: scored.map((entry) => ({
+      id: entry.candidate.id,
+      topic: entry.candidate.topic,
+      available: entry.available,
+      missingIds: entry.missingIds,
+      latestDate: entry.latestDate,
+      freshnessScore: entry.freshnessScore,
+      movementScore: entry.movementScore,
+      score: entry.score,
+    })),
+  };
+  const asOf = buildAsOf(byId);
   return {
-    headlines,
-    summary: reportSummary(headlines),
+    headlines: headlineExistingUS,
+    headlineExistingUS,
+    summary: dataset.text,
+    dataset,
+    selection,
     findings,
     asOf,
     sourceMetadata,

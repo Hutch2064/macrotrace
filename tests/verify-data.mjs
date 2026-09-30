@@ -1,13 +1,13 @@
 import { readFile } from "node:fs/promises";
-import { fredSeries } from "./catalog.mjs";
-import { extendedFredSeries } from "./extended-macro-catalog.mjs";
+import { fredSeries } from "../scripts/catalog.mjs";
+import { extendedFredSeries } from "../scripts/extended-macro-catalog.mjs";
 import {
   canonicalMacroCategory,
   isMacroSeries,
   macroCountries,
   macroGeographies,
   macroFrequencies,
-} from "./macro-scope.mjs";
+} from "../scripts/macro-scope.mjs";
 
 const snapshot = JSON.parse(
   await readFile("public/data/snapshot.json", "utf8"),

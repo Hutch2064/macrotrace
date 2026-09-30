@@ -18,24 +18,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+      - name: Start from current main
+        run: |
+          set -euo pipefail
+          git fetch --prune origin main
+          git switch --force-create data-refresh origin/main
+          git pull --rebase origin main
       - run: npm ci
       - run: npm run data:refresh
       - run: npm run check
-      - name: Commit changed snapshot
+      - name: Commit changed snapshot with a push guard
+        id: commit
+        shell: bash
         run: |
-          if git diff --quiet public/data; then exit 0; fi
+          set -euo pipefail
+          while IFS= read -r status; do
+            path="${status:3}"
+            case "$path" in
+              public/data/*) ;;
+              *) echo "Unexpected generated change outside public/data: $path" >&2; exit 1 ;;
+            esac
+          done < <(git status --porcelain=v1)
+          if git diff --quiet -- public/data && test -z "$(git ls-files --others --exclude-standard public/data)"; then
+            echo "No source observations changed."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --prune origin main
+          expected="$(git rev-parse origin/main)"
+          current="$(git rev-parse HEAD)"
+          if [[ "$current" != "$expected" ]]; then
+            echo "main advanced while this refresh was running; refusing to rebase generated data over concurrent edits." >&2
+            exit 1
+          fi
           git config user.name "macrotrace-data-bot"
           git config user.email "actions@users.noreply.github.com"
           git add public/data/snapshot.json public/data/version.json public/data/source-inventory.csv public/data/source-inventory.md
           git commit -m "data: refresh public snapshot"
-          git push
+          git push origin HEAD:refs/heads/main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
       - name: Publish refreshed snapshot
+        if: steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh workflow run pages.yml --ref main
-          gh workflow run vercel.yml --ref main

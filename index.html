@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Eight source-backed findings about the economy. Explore inflation, employment, output, policy, housing and commodities."
+      content="Explore economies around the world and a daily-updated report on inflation, employment, output, policy, housing and commodities."
     />
     <title>MacroTrace — Read the economy</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
@@ -38,36 +38,58 @@
             ><span id="as-of">Checking the latest snapshot…</span>
           </div>
         </div>
-        <div class="hero-visual">
+        <div class="hero-visual globe-stage">
           <canvas
-            id="economic-orbit"
+            id="economic-globe"
             tabindex="0"
             role="img"
-            aria-label="Decorative interactive three-dimensional economic orbit. Drag or use arrow keys to rotate; this illustration is not a data chart."
+            aria-label="Interactive world globe. Choose a highlighted country to view its economic readings. Drag horizontally to rotate, or use left and right arrow keys to select countries."
           ></canvas>
-          <div class="orbit-caption">
-            <span class="orbit-dot"></span>An interconnected economy
-            <small>Drag to explore</small>
+          <div class="globe-caption">
+            <span class="globe-country-name" id="globe-country-name"
+              >United States</span
+            >
+            <small>Drag to rotate · select a country</small>
           </div>
         </div>
       </section>
       <section
+        class="country-context shell"
+        aria-label="Country economic snapshot"
+      >
+        <div class="country-controls">
+          <label
+            ><span class="field-label">Economy</span
+            ><select id="country-select" aria-label="Economy"></select
+          ></label>
+          <p class="country-note" id="country-note"></p>
+        </div>
+        <p
+          class="country-caption"
+          id="country-description"
+          aria-live="polite"
+        ></p>
+      </section>
+      <section
         class="headline-strip shell"
         id="headline-metrics"
-        aria-label="Four headline economic readings"
+        aria-label="Selected country economic readings"
       ></section>
       <section class="report-intro shell" id="readout">
         <div>
           <p class="eyebrow">The economic readout</p>
           <h2>
-            Eight signals.<br /><span class="muted">One bigger picture.</span>
+            A changing economy.<br /><span class="muted"
+              >A wider perspective.</span
+            >
           </h2>
         </div>
         <div>
           <p id="report-summary">Preparing the source-backed report…</p>
           <p class="subtle">
-            Figures update with the daily snapshot. Dates identify the
-            observation period—not a live quote.
+            The readout below is independent of the globe. Themes are selected
+            from the dataset using observed changes and release recency; figures
+            and descriptions update with every successful snapshot.
           </p>
         </div>
       </section>

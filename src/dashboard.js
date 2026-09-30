@@ -9,9 +9,12 @@ import {
   expandIcon,
   downloadCsv,
   showError,
+  unitLabel,
+  valueText,
+  animateUpdate,
 } from "./common.js";
 import { filterSeries, transformSeries } from "./panel.js";
-import { enhanceSelect } from "./select.js";
+import { enhanceSelect, labelFields } from "./select.js";
 import { timeChart } from "./time-chart.js";
 import { lazyChart } from "./lazy-chart.js";
 
@@ -177,13 +180,15 @@ async function render() {
         ? "Original source units. Separate axes keep unlike indicators separate."
         : state.measure === "yoy"
           ? "Calendar-year change: percentage points for rates; percent for positive prices and quantities; native points for signed indexes."
-          : "Change from the previous actual observation—not necessarily one day or month. Rate changes are percentage points.";
+          : "Change since the prior source release. % = relative change; pp = difference between rates; pts = difference between index readings.";
     const retained = matched.filter((series) => series.refreshStatus).length;
     $("#panel-status").textContent =
       `${dateLabel(scope.start)} – ${dateLabel(scope.end)} · ${matched.length} indicators${retained ? ` · ${retained} histories retained after upstream retrieval failures` : ""}${!rows.length ? " · No observations match this view." : ""}`;
     renderSeries();
     renderBreadth();
     renderTable();
+    animateUpdate($("#dashboard-metrics"));
+    animateUpdate($(".analysis-grid"));
   } catch (error) {
     if (token === revision)
       $("#panel-status").textContent =
@@ -206,7 +211,7 @@ function renderSeries() {
       .map((series) => {
         const points = transformed.get(series.id);
         const latest = finite(points).at(-1);
-        return `<article class="chart-card indicator-card"><div class="chart-heading"><h3>${escape(series.name)}</h3><button class="chart-expand" type="button" data-series="${escape(series.id)}" aria-label="Expand ${escape(series.name)}">${expandIcon}</button></div><div class="indicator-meta"><span>${escape(series.frequency)} · ${escape(latest?.unit || series.unit)}</span><b class="${state.measure !== "level" ? changeClass(latest?.value) : ""}">${state.measure === "level" ? format(latest?.value) : signed(latest?.value)}</b></div><div class="indicator-plot" data-plot="${escape(series.id)}"></div><p class="chart-subhead">${dateLabel(points.at(-1)?.date)}${series.refreshStatus ? " · Retained snapshot" : ""}</p></article>`;
+        return `<article class="chart-card indicator-card"><div class="chart-heading"><h3>${escape(series.name)}</h3><button class="chart-expand" type="button" data-series="${escape(series.id)}" aria-label="Expand ${escape(series.name)}">${expandIcon}</button></div><div class="indicator-meta"><span>${escape(series.frequency)} · ${escape(unitLabel(latest?.unit || series.unit))}</span><b class="numeric-value ${state.measure !== "level" ? changeClass(latest?.value) : ""}">${escape(valueText(latest?.value, latest?.unit, state.measure !== "level"))}</b></div><div class="indicator-plot" data-plot="${escape(series.id)}"></div><p class="chart-subhead">${dateLabel(points.at(-1)?.date)}${series.refreshStatus ? " · Retained snapshot" : ""}</p></article>`;
       })
       .join("") ||
     '<p class="empty-panel">No indicators match these filters. Try another topic, geography or frequency, or reset the view.</p>';
@@ -220,7 +225,7 @@ function renderSeries() {
           [series],
           [points.map(({ date, value }) => [date, value])],
           {
-            suffix: points[0]?.unit ? " " + points[0].unit : "",
+            suffix: points[0]?.unit ? " " + unitLabel(points[0].unit) : "",
             signedValues: state.measure !== "level",
           },
         ),
@@ -229,6 +234,7 @@ function renderSeries() {
   }
   renderPosition(current);
   renderHeatmap(current);
+  animateUpdate($("#series-charts"));
 }
 function renderPosition(current) {
   $("#position-chart").innerHTML =
@@ -311,7 +317,10 @@ function renderHeatmap(current) {
               ...finite(points).map((point) => Math.abs(point.value)),
               0,
             ) || 1;
-          return `<tr><td class="row-label">${escape(series.name)}<small> · ${escape(points.find((point) => point.unit)?.unit || series.unit)}</small></td>${months
+          const rowUnit = unitLabel(
+            points.find((point) => point.unit)?.unit || series.unit,
+          );
+          return `<tr><td class="row-label" title="${escape(series.name)} · ${escape(rowUnit)}"><span>${escape(series.name)}</span><span class="row-unit"> · ${escape(rowUnit)}</span></td>${months
             .map((month) => {
               const point = byMonth.get(month),
                 value = point?.value;
@@ -323,7 +332,7 @@ function renderHeatmap(current) {
                   ? `rgba(241,151,141,${alpha})`
                   : `rgba(125,211,167,${alpha})`
                 : "rgba(255,255,255,.025)";
-              const label = `${series.name} · ${point?.date || month} · ${format(value)} ${point?.unit || ""}`;
+              const label = `${series.name} · ${point?.date || month} · ${valueText(value, point?.unit)}`;
               return `<td><button class="heatmap-cell" style="background:${background}" data-reading="${escape(label)}" aria-label="${escape(label)}">${format(value)}</button></td>`;
             })
             .join("")}</tr>`;
@@ -332,6 +341,7 @@ function renderHeatmap(current) {
     : '<p class="chart-empty">No monthly observations in this view.</p>';
 }
 function renderTable() {
+  $("#measure-column").textContent = measureLabels[state.measure];
   const pages = Math.max(1, Math.ceil(rows.length / TABLE_SIZE));
   tablePage = Math.min(tablePage, pages - 1);
   $("#table-count").textContent =
@@ -344,7 +354,7 @@ function renderTable() {
       .slice(tablePage * TABLE_SIZE, (tablePage + 1) * TABLE_SIZE)
       .map(
         (row) =>
-          `<tr><td>${escape(row.series.name)}<small>${escape(row.series.id)} · ${escape(row.series.frequency)}</small></td><td>${escape(row.series.category)}<small>${escape(row.series.geography)}</small></td><td>${escape(row.date)}</td><td>${format(row.raw)} <small>${escape(row.series.unit)}</small></td><td class="${state.measure !== "level" ? changeClass(row.value) : ""}">${state.measure === "level" ? format(row.value) : signed(row.value)} <small>${escape(row.unit || "")}</small></td><td><a href="${escape(row.series.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(row.series.provider || row.series.source)} ↗</a></td></tr>`,
+          `<tr><td>${escape(row.series.name)}<small>${escape(row.series.id)} · ${escape(row.series.frequency)}</small></td><td>${escape(row.series.category)}<small>${escape(row.series.geography)}</small></td><td>${escape(row.date)}</td><td><span class="numeric-value">${escape(valueText(row.raw, row.series.unit))}</span></td><td><span class="numeric-value ${state.measure !== "level" ? changeClass(row.value) : ""}">${escape(valueText(row.value, row.unit, state.measure !== "level"))}</span></td><td><a href="${escape(row.series.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(row.series.provider || row.series.source)} ↗</a></td></tr>`,
       )
       .join("") ||
     '<tr><td colspan="6">No observations match these filters.</td></tr>';
@@ -365,14 +375,14 @@ function renderExpanded() {
   $("#dialog-source").textContent =
     `${expandedSeries.geography} · ${expandedSeries.frequency} · ${expandedSeries.provider || expandedSeries.source}`;
   $("#dialog-note").textContent =
-    `${measureLabels[state.measure]} · ${dateLabel(scope.start)} – ${dateLabel(scope.end)}. Drag horizontally to zoom; double-click to reset. Click a legend to toggle it. Arrow keys inspect dates.${eligible ? "" : " Log scale requires every plotted value to be strictly positive."}`;
+    `${measureLabels[state.measure]} · ${dateLabel(points[0]?.date)} – ${dateLabel(points.at(-1)?.date)}. Drag to zoom; double-click to reset. Tap a legend to toggle it. Arrow keys inspect dates.${eligible ? "" : " Log scale needs positive readings."}`;
   expanded = timeChart(
     $("#expanded-chart"),
     [expandedSeries],
     [points.map(({ date, value }) => [date, value])],
     {
       logarithmic: logarithmic && eligible,
-      suffix: points[0]?.unit ? " " + points[0].unit : "",
+      suffix: points[0]?.unit ? " " + unitLabel(points[0].unit) : "",
       signedValues: state.measure !== "level",
     },
   );
@@ -405,6 +415,7 @@ function updateState() {
 async function main() {
   snapshot = await loadSnapshot();
   mountChrome(snapshot, "dashboard");
+  labelFields();
   prepareOptions(
     $("#category-filter"),
     [...new Set(snapshot.series.map((series) => series.category))].sort(),

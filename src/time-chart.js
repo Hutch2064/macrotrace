@@ -1,6 +1,6 @@
 import uPlot from "uplot";
 import "uplot/dist/uPlot.min.css";
-import { compact, format, palette } from "./common.js";
+import { compact, valueText, palette } from "./common.js";
 
 // Independent public implementation of the same uPlot visual/interaction contract.
 export function timeChart(
@@ -99,7 +99,7 @@ export function timeChart(
       const latest = pointLists[i].at(-1);
       const raw = index == null ? latest?.[1] : data[i + 1][index];
       const reading = Number.isFinite(raw) ? valueTransform(raw) : NaN;
-      value.textContent = `${signedValues && reading > 0 ? "+" : ""}${format(reading, suffix)}`;
+      value.textContent = valueText(reading, suffix.trim(), signedValues);
       value.className =
         reading > 0 ? "positive" : reading < 0 ? "negative" : "";
       button.title = `${series[i].name} · ${index == null ? (latest?.[0] ?? "no observations") : dates[index]}`;

@@ -1,5 +1,19 @@
 // Shared accessible listbox: animate both directions, including interrupted motion.
 let active;
+export function labelFields(root = document) {
+  for (const label of root.querySelectorAll("label")) {
+    if (!label.querySelector("select, input[type=search], input[type=date]"))
+      continue;
+    for (const node of [...label.childNodes]) {
+      if (node.nodeType !== Node.TEXT_NODE || !node.textContent.trim())
+        continue;
+      const header = document.createElement("span");
+      header.className = "field-label";
+      header.textContent = node.textContent.trim();
+      node.replaceWith(header);
+    }
+  }
+}
 globalThis.document?.addEventListener("click", (event) => {
   if (
     active &&
@@ -11,6 +25,8 @@ globalThis.document?.addEventListener("click", (event) => {
 export function enhanceSelect(select, onPreview) {
   const wrapper = document.createElement("div");
   wrapper.className = "custom-select";
+  // The enclosing label must not forward this click to the hidden native select.
+  wrapper.addEventListener("click", (event) => event.preventDefault());
   const trigger = document.createElement("button");
   trigger.type = "button";
   trigger.className = "select-trigger";
@@ -19,7 +35,8 @@ export function enhanceSelect(select, onPreview) {
   trigger.setAttribute(
     "aria-label",
     select.getAttribute("aria-label") ||
-      (select.id === "horizon-filter" ? "Horizon" : "Explore a collection"),
+      select.closest("label")?.textContent.trim() ||
+      "Select an option",
   );
   const menu = document.createElement("div");
   menu.className = "select-menu";

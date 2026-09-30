@@ -1,65 +1,90 @@
 # MacroTrace
 
-MacroTrace is a public, static-first view of the economy. It has exactly two
-pages: a source-backed long-form report and an exploratory macroeconomic panel.
-There are no stock prices, securities, investment-factor portfolios, or hidden
-proxy splices in the product surface.
+MacroTrace is a static, public macroeconomic report and exploration panel. It
+is published on GitHub Pages:
 
-## Pages
+<https://hutch2064.github.io/macrotrace/>
 
-- `index.html` is the report. Its long-form panels pair a narrative finding
-  with the underlying observations, source links, and a compact data/methods
-  section. The `#sources` section is the public source catalog and methodology
-  anchor.
-- `dashboard.html` is the panel. Filter indicators by topic, geography,
-  native frequency, date period, and text search; inspect paginated plots,
+The project has exactly two pages:
+
+- `index.html` is the source-backed long-form report. Its findings, charts,
+  headlines, and methods section are calculated from the published snapshot.
+  Its interactive globe selects four source-dated headline readings for 16
+  economies. Country selection does not change the scrolling report.
+- `dashboard.html` is the exploration panel. It filters by topic, geography,
+  native frequency, period, measure, and text search; it exposes plots,
   comparisons, a monthly view, and the complete filtered observation table.
-  Every plot keeps its source unit and grain visible.
 
-The former `sources.html` URL redirects to `index.html#sources` for old links.
-The Vercel deployment has no function endpoints; the browser reads the static
-catalog and content-addressed history files.
+There are no accounts, API endpoints, stock prices, securities, investment
+factors, proxy-spliced investment histories, database, worker, or paid runtime.
+GitHub Pages is the only hosting target.
 
 ## Data contract
 
-Each row represents one indicator, geography, native observation date, reported
-value, unit, and public source. The panel keeps daily, weekly, monthly,
-quarterly, and annual observations at their published grain. It never invents
-daily values between releases, averages unlike units, or presents a mixed-unit
-aggregate as an economic score.
+Each observation keeps its indicator, geography, source date, reported value,
+unit, frequency, provider, and source URL. The source frequency is preserved:
+daily, weekly, monthly, quarterly, and annual observations remain at that
+grain. An annual or monthly release is not represented as a daily observation,
+and missing periods are not filled or interpolated.
 
-The selectable measures are calculated per series:
+The current macro scope combines public FRED economic indicators, World Bank
+Pink Sheet commodity reference prices, World Development Indicators, and the
+two retained Shiller annual housing indexes. FRED distributes many series but
+is not necessarily the original author; each row keeps the relevant provider
+and attribution. Pink Sheet values are nominal monthly averages or source
+indexes, not futures returns. World Bank and Shiller annual histories retain
+their source-year semantics. Archived or lagged provider tails remain labeled
+and are not silently made current.
 
-- reported level: the original source value and unit;
-- year-over-year change: a calendar comparison to the prior available native
-  observation, expressed as percent for positive quantities/prices, percentage
-  points for rates, or native points for signed indexes;
-- previous-observation change: the difference from the prior actual release,
-  with the same unit-specific conventions.
+Measures are calculated separately for each series:
 
-Short or incomplete comparisons remain unavailable. Monthly heat-map cells use
-the last actual observation in that month; annual and low-frequency series are
-not interpolated. The report and panel retain complete histories and disclose
-observation dates separately from the daily snapshot check time.
+- Reported level is the original value and unit.
+- Year-over-year change uses the corresponding calendar boundary. Daily and
+  weekly series use an observed row on or before that boundary under the
+  source-specific tolerance; monthly, quarterly, and annual comparisons do
+  not substitute a nearby or future period.
+- Previous-observation change uses the preceding actual release, not an
+  assumed daily or monthly interval.
 
-The public snapshot is refreshed by the scheduled workflow's daily source
-checks and is cached into the published static files; the browser does not call
-providers while a reader filters or charts the panel. Source metadata,
-coverage, units, frequencies, transformations, and direct attribution links
-are shipped with the site. Provider failures retain the last successful values
-and expose the refresh status rather than substituting estimates.
+Positive quantities and prices use a percentage change from the valid baseline.
+Rates use percentage-point differences and signed indexes use native points. A zero,
+missing, non-finite, or otherwise unavailable baseline remains unavailable.
+Unlike units are never pooled into an average, aggregate score, growth rate, or
+single chart axis. Monthly heat-map cells use the last actual observation in
+that month; annual series appear only in their source month.
 
-## Delivery and caching
+The report and panel retain source links, calculation definitions, observation
+dates, and snapshot check time. A provider check timestamp is never presented
+as an economic observation date.
 
-`build-data.mjs` creates a lossless catalog plus SHA-256-addressed history
-chunks. The catalog contains provenance and coverage but no observation arrays;
-the browser requests only histories required by the current report or panel.
-Vercel serves immutable history chunks and fonts through the CDN. The browser
-keeps verified histories in a bounded IndexedDB cache, coalesces concurrent
-requests, and falls back to network delivery when storage is unavailable.
-These are delivery mechanisms, not changes to the public data contract.
+## Refresh and delivery
 
-## Run locally
+`.github/workflows/refresh-data.yml` checks the accepted public providers daily
+at 11:17 UTC and also supports an explicit manual dispatch. GitHub's scheduled
+jobs can be delayed; this is a daily provider check, not a real-time feed.
+`npm run data:refresh` is the
+local/on-demand refresh command. The job starts from a fresh `main`, validates
+the complete snapshot, refuses to overwrite concurrent `main` edits, commits
+only generated `public/data` files, uses a guarded push, and explicitly
+dispatches the Pages workflow after a successful commit. A GitHub push made by
+the bot does not rely on another workflow triggering automatically.
+
+`scripts/build-data.mjs` writes a metadata catalog and complete,
+SHA-256-addressed history chunks. The browser loads static files only and
+requests the histories needed by the report or current panel view. Verified
+histories are retained in a bounded IndexedDB cache and concurrent requests for
+the same history are shared. Storage failure falls back to static network
+delivery. Content addressing supports safe reuse, but this project does not
+claim custom response headers or a measured CDN performance result from GitHub
+Pages.
+
+The report ranks sixteen curated macro themes by the latest movement's
+position in its own history and native-frequency-adjusted freshness, selecting
+up to ten available chart-backed findings. All figures and comparisons are
+recalculated from the snapshot. Selection is descriptive, not a causal model or
+investment recommendation; annual country data remains explicitly annual.
+
+## Local checks
 
 ```bash
 npm ci
@@ -67,86 +92,85 @@ npm run check
 npm run dev
 ```
 
-`npm run check` verifies the normalized data contract, lossless delivery and
-integrity/persistence behavior, numeric panel/report fixtures, the two-page DOM
-and source contract, and the production Vite build. Run
-`npm run data:refresh` only when intentionally updating the public snapshot;
-the committed snapshot is sufficient for local development.
+`npm run check` runs the consolidated `tests/run.mjs` verification entrypoint
+and then the Vite production build. The checks cover macro eligibility,
+metadata/provenance, date ordering, lossless history hashes, persistence and
+integrity failure behavior, panel/report numerical fixtures, report/dashboard
+parity, the exactly-two-page DOM contract, and generated output. The committed
+snapshot is sufficient for development; use `npm run data:refresh` only when an
+intentional source refresh is wanted.
 
-## File map
+The focused commands remain available for data and delivery work:
+`npm run data:verify` checks the source snapshot, while
+`npm run delivery:verify` repacks and checks the browser delivery artifacts.
 
-### Application
+## Repository map
 
-| Path                                               | Purpose                                                                        |
-| -------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `index.html`                                       | Long-form report and `#sources` methodology/catalog section.                   |
-| `dashboard.html`                                   | Filterable macro panel, plots, comparisons, heat map, and observation table.   |
-| `src/common.js`                                    | Shared loading, formatting, chrome, CSV delivery, and error handling.          |
-| `src/data-store.js`                                | Verified history loading, request sharing, and bounded IndexedDB persistence.  |
-| `src/dashboard.js`                                 | Panel state, filters, transforms, charts, comparisons, and table interactions. |
-| `src/macro-report.js`                              | Deterministic report findings and headline calculations.                       |
-| `src/panel.js`                                     | Macro-only filtering and unit/frequency-aware transformations.                 |
-| `src/report.js`                                    | Report rendering, source-method section, and lazy plot setup.                  |
-| `src/source-catalog.js`                            | Source metadata and coverage rendering for the report.                         |
-| `src/time-chart.js`                                | uPlot renderer with legends, crosshair inspection, and expansion support.      |
-| `src/lazy-chart.js`                                | Viewport-aware plot creation and cleanup.                                      |
-| `src/orbit.js`                                     | Decorative report illustration; it is not a data chart.                        |
-| `src/select.js`                                    | Accessible select enhancement.                                                 |
-| `src/disclosure.js`                                | Animated, semantic source-catalog disclosures.                                 |
-| `src/styles.css`, `src/fonts.css`, `public/fonts/` | Shared visual system and self-hosted fonts.                                    |
+### Pages and application
 
-### Data and release
+| Path                                               | Purpose                                                                                  |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `index.html`                                       | Long-form report and source/methodology section.                                         |
+| `dashboard.html`                                   | Filterable macro panel, charts, comparisons, heat map, and observation table.            |
+| `src/common.js`                                    | Shared loading, formatting, page chrome, CSV export, and errors.                         |
+| `src/data-store.js`                                | Catalog/history loading, SHA-256 validation, request sharing, and IndexedDB persistence. |
+| `src/dashboard.js`                                 | Panel state, filters, transformations, charts, comparisons, and table.                   |
+| `src/macro-report.js`                              | Deterministic report findings, headlines, and method definitions.                        |
+| `src/panel.js`                                     | Macro-only filtering and native-frequency transformations.                               |
+| `src/report.js`                                    | Report rendering and lazy chart setup.                                                   |
+| `src/source-catalog.js`                            | Source metadata, coverage, and attribution rendering.                                    |
+| `src/time-chart.js`                                | uPlot charts, legends, crosshair inspection, and expansion.                              |
+| `src/lazy-chart.js`                                | Viewport-aware chart scheduling.                                                         |
+| `src/globe.js`, `src/countries.js`                 | Lightweight spherical map, country interaction, and source-bound headline calculations.  |
+| `src/select.js`, `src/disclosure.js`               | Accessible controls and source disclosures.                                              |
+| `src/styles.css`, `src/fonts.css`, `public/fonts/` | Visual system, self-hosted fonts, and licenses.                                          |
 
-| Path                                                                  | Purpose                                                                  |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `public/data/snapshot.json`                                           | Reviewed macro snapshot source of truth.                                 |
-| `public/data/version.json`                                            | Small freshness manifest used by open pages.                             |
-| `public/data/source-inventory.csv`, `public/data/source-inventory.md` | Generated source coverage and attribution inventory.                     |
-| `scripts/build-data.mjs`                                              | Packs the snapshot into lossless, hashed runtime histories.              |
-| `scripts/refresh-data.mjs`                                            | Scheduled public-provider refresh and normalization entrypoint.          |
-| `scripts/macro-scope.mjs`                                             | Shared macro-only eligibility and metadata normalization rules.          |
-| `scripts/deploy-vercel.mjs`                                           | Explicit tracked-file Vercel deployment allowlist and readiness wait.    |
-| `vite.config.js`                                                      | Two-entry Vite production build.                                         |
-| `vercel.json`                                                         | Legacy-source redirect, CDN cache headers, and browser security headers. |
-| `package.json`, `package-lock.json`                                   | Reproducible scripts and dependencies.                                   |
+### Data and automation
 
-The refresh adapter directory also contains provider-specific parsers and
-catalogues used by the scheduled data job. They are not browser entrypoints:
-`catalog.mjs`, `extended-macro-catalog.mjs`, `commodity-history.mjs`,
-`shiller-history.mjs` (housing only), and `world-development.mjs`.
+| Path                                                                  | Purpose                                                                                  |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `public/data/snapshot.json`                                           | Reviewed macro snapshot source of truth.                                                 |
+| `public/data/version.json`                                            | Snapshot freshness manifest.                                                             |
+| `public/data/source-inventory.csv`, `public/data/source-inventory.md` | Generated current source inventory.                                                      |
+| `scripts/build-data.mjs`                                              | Packs complete histories into hashed runtime files.                                      |
+| `scripts/refresh-data.mjs`                                            | Fetches, validates, normalizes, and writes public data.                                  |
+| `scripts/macro-scope.mjs`                                             | Shared macro eligibility and metadata normalization.                                     |
+| `scripts/catalog.mjs`, `scripts/extended-macro-catalog.mjs`           | FRED catalogues and source metadata.                                                     |
+| `scripts/commodity-history.mjs`                                       | World Bank Pink Sheet parser and provenance.                                             |
+| `scripts/shiller-history.mjs`                                         | Retained Shiller housing parser and provenance.                                          |
+| `scripts/world-development.mjs`                                       | World Bank annual indicator parser.                                                      |
+| `scripts/build-map.mjs`, `public/world.json`                          | Rebuild script and bundled Natural Earth country outlines; independent of economic data. |
+| `public/favicon.svg`                                                  | MacroTrace mark.                                                                         |
+| `.github/workflows/pages.yml`                                         | GitHub Pages build and deployment.                                                       |
+| `.github/workflows/refresh-data.yml`                                  | Daily/manual refresh, guarded commit, and Pages dispatch.                                |
+| `package.json`, `package-lock.json`                                   | Reproducible commands and dependencies.                                                  |
+| `vite.config.js`, `.gitignore`                                        | Relative-path two-page build and local/generated-file exclusions.                        |
+| `README.md`, `SUBMISSION.md`                                          | Project documentation and four-line course submission.                                   |
 
-### Verification
+### Tests
 
-| Path                              | Purpose                                                                                                                                              |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/verify-data.mjs`         | Snapshot/version, provenance, ordering, unit, and coverage checks.                                                                                   |
-| `scripts/verify-delivery.mjs`     | Lossless chunk/hash checks, ten default macro histories, request deduplication, persistence, eviction, private-mode fallback, and rollover behavior. |
-| `scripts/verify-panel.mjs`        | Numeric panel transform and native-frequency fixtures.                                                                                               |
-| `scripts/verify-macro-report.mjs` | Deterministic report fixture and source-boundary checks.                                                                                             |
-| `scripts/verify-parity.mjs`       | Every report point compared with its corresponding dashboard transformation.                                                                         |
-| `scripts/verify-site.mjs`         | Exactly-two-page DOM/source contract and legacy-entrypoint checks.                                                                                   |
+| Path                            | Purpose                                                                      |
+| ------------------------------- | ---------------------------------------------------------------------------- |
+| `tests/run.mjs`                 | Single verification entrypoint used by `npm run check`.                      |
+| `tests/verify-data.mjs`         | Snapshot scope, metadata, provenance, and date checks.                       |
+| `tests/verify-delivery.mjs`     | Lossless chunks, hashes, persistence, deduplication, eviction, and fallback. |
+| `tests/verify-panel.mjs`        | Native-frequency panel transforms and grouping fixtures.                     |
+| `tests/verify-macro-report.mjs` | Deterministic report calculations and source-boundary fixtures.              |
+| `tests/verify-parity.mjs`       | Report/dashboard point parity.                                               |
+| `tests/verify-countries.mjs`    | Country geometry, all headline sources, and percent/point formatting.        |
+| `tests/verify-site.mjs`         | Exactly-two-page DOM/source contract.                                        |
 
-The repository's operational support files are `.github/workflows/pages.yml`
-(GitHub Pages build), `.github/workflows/vercel.yml` (Vercel build),
-`.github/workflows/refresh-data.yml` (daily source refresh), `DATA_AUDIT.md`
-(scope and acceptance record), `macro-research.md` and `commodity-research.md` (dated source notes), `PERFORMANCE.md` (delivery contract),
-`SUBMISSION.md` (course handoff), `public/favicon.svg` (brand mark), and
-`public/fonts/OFL.txt` and `public/fonts/README.md` (font licenses, attribution and hashes), `.gitignore` (generated/local artifacts), and `.prettierignore` (generated-data formatting exclusions).
+## Attribution and limitations
 
-## Privacy and security
+Source URLs and provider notes are published with each series. Public access
+does not remove provider attribution or third-party reuse conditions; review
+current FRED, World Bank, WDI, Shiller, and other original-source terms before
+redistributing data. MacroTrace is informational and does not provide
+investment advice. No claim of real-time quotes, universal freshness, custom
+cache headers, or performance improvement is made without current evidence.
 
-MacroTrace has no accounts, tracking cookies, database, or embedded private
-credentials. Deployment credentials are supplied only through the publishing
-workflow's secret environment. The browser cache stores public histories, not
-user portfolios. Public source terms and attribution remain the responsibility
-of anyone reusing the data.
-
-## Design
-
-The shared typography is Outfit and Geist Mono, self-hosted with their font
-licenses. Warm-charcoal surfaces, gold accents and the heading gradient match
-the current SIMFOL.io theme; its repositories remain unchanged. Interactive
-wireframe/globe treatments on [21st.dev](https://21st.dev/@moazamtrade/components/wireframe-dotted-globe)
-were a visual reference, not a copied component or dependency. MacroTrace's
-orbit is original mathematical canvas geometry, explicitly decorative rather
-than an economic chart, and honors reduced-motion preferences.
+Map geometry is the public-domain [Natural Earth 1:110m country map](https://www.naturalearthdata.com/about/terms-of-use/).
+The checked-in outline file needs no runtime third-party request; rebuild it
+with `node scripts/build-map.mjs` when intentionally updating geography.
+Self-hosted Outfit and Geist Mono fonts retain their attribution and licenses
+in `public/fonts/README.md` and `public/fonts/OFL.txt`.

@@ -51,20 +51,20 @@ assert.match(vite, /report:\s*resolve\([^\n]+index\.html/);
 assert.match(vite, /dashboard:\s*resolve\([^\n]+dashboard\.html/);
 assert.doesNotMatch(vite, /sources:/);
 
-const { headers } = JSON.parse(await readFile("vercel.json", "utf8"));
-const dataRule = headers.findIndex(({ source }) => source === "/data/(.*)");
-const historyRule = headers.findIndex(
-  ({ source }) => source === "/data/runtime/series/(.*)",
-);
-assert.ok(
-  dataRule >= 0 && historyRule > dataRule,
-  "Specific immutable history headers override the earlier mutable data rule",
-);
-assert.match(
-  headers[historyRule].headers.find(({ key }) => key === "Cache-Control").value,
-  /31536000, immutable/,
-);
+const workflows = await readdir(".github/workflows");
+assert.deepEqual(workflows.sort(), ["pages.yml", "refresh-data.yml"]);
+for (const name of workflows) {
+  const workflow = await readFile(`.github/workflows/${name}`, "utf8");
+  assert.doesNotMatch(workflow, /VERCEL|vercel|MARKET_API/);
+}
+const refresh = await readFile(".github/workflows/refresh-data.yml", "utf8");
+assert.match(refresh, /schedule:/);
+assert.match(refresh, /npm run data:refresh/);
+assert.match(refresh, /gh workflow run pages.yml/);
+assert.match(report, /id="economic-globe"/);
+assert.match(report, /id="country-select"/);
+assert.doesNotMatch(report, /Eight signals/);
 
 console.log(
-  "Verified exactly two pages, report/dashboard DOM contracts, source anchor, and no legacy sources/API entrypoints.",
+  "Verified two pages, country globe, report/dashboard DOM contracts, and Pages-only daily publication.",
 );

@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-09-29T16:54:50.951Z. 294 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-09-30T15:34:33.630Z. 345 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
@@ -69,6 +69,22 @@ Snapshot: 2026-09-29T16:54:50.951Z. 294 retained macroeconomic series. Coverage 
 | [JTSLDL](https://fred.stlouisfed.org/series/JTSLDL) | Layoffs and Discharges · Total Nonfarm | US | monthly | thousands | 2000-12-01 | 2026-08-01 | 309 |
 | [JTSTSR](https://fred.stlouisfed.org/series/JTSTSR) | Total Separations Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
 | [M0892AUSM156SNBR](https://fred.stlouisfed.org/series/M0892AUSM156SNBR) | U.S. Unemployment Rate · NBER Historical Archive | US | monthly | % | 1929-04-01 | 1942-06-01 | 159 |
+| [WDI_USA_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · United States | US | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_CAN_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Canada | Canada | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_GBR_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · United Kingdom | United Kingdom | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_DEU_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Germany | Germany | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_FRA_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · France | France | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_ITA_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Italy | Italy | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_JPN_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Japan | Japan | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_AUS_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Australia | Australia | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_CHN_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · China | China | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_IND_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · India | India | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_BRA_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Brazil | Brazil | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_MEX_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Mexico | Mexico | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_KOR_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Korea, Rep. | South Korea | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_ZAF_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · South Africa | South Africa | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_SAU_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Saudi Arabia | Saudi Arabia | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [WDI_IDN_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Indonesia | Indonesia | annual | % | 1991-12-31 | 2025-12-31 | 35 |
 
 ## Inflation
 
@@ -97,6 +113,22 @@ Snapshot: 2026-09-29T16:54:50.951Z. 294 retained macroeconomic series. Coverage 
 | [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | US | daily | % | 2003-01-02 | 2026-09-28 | 5939 |
 | [CPIUKA](https://fred.stlouisfed.org/series/CPIUKA) | Consumer Price Index · United Kingdom · Millennium Archive | United Kingdom | annual | index | 1209-01-01 | 2016-01-01 | 808 |
 | [CPIIUKA](https://fred.stlouisfed.org/series/CPIIUKA) | Consumer Price Inflation · United Kingdom · Millennium Archive | United Kingdom | annual | % | 1210-01-01 | 2016-01-01 | 807 |
+| [WDI_USA_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · United States | US | annual | % | 1960-12-31 | 2024-12-31 | 65 |
+| [WDI_CAN_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Canada | Canada | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_GBR_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · United Kingdom | United Kingdom | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_DEU_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Germany | Germany | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_FRA_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · France | France | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_ITA_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Italy | Italy | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_JPN_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Japan | Japan | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_AUS_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Australia | Australia | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_CHN_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · China | China | annual | % | 1987-12-31 | 2025-12-31 | 39 |
+| [WDI_IND_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · India | India | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_BRA_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Brazil | Brazil | annual | % | 1981-12-31 | 2025-12-31 | 45 |
+| [WDI_MEX_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Mexico | Mexico | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_KOR_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Korea, Rep. | South Korea | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_ZAF_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · South Africa | South Africa | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_SAU_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Saudi Arabia | Saudi Arabia | annual | % | 1964-12-31 | 2025-12-31 | 62 |
+| [WDI_IDN_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Indonesia | Indonesia | annual | % | 1960-12-31 | 2025-12-31 | 66 |
 
 ## Growth
 
@@ -139,10 +171,29 @@ Snapshot: 2026-09-29T16:54:50.951Z. 294 retained macroeconomic series. Coverage 
 | [WDI_IND_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · India | India | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
 | [WDI_BRA_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · Brazil | Brazil | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
 | [WDI_MEX_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · Mexico | Mexico | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
-| [WDI_KOR_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · South Korea | South Korea | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_KOR_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · Korea, Rep. | South Korea | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_ZAF_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · South Africa | South Africa | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_SAU_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · Saudi Arabia | Saudi Arabia | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
+| [WDI_IDN_GDPPC](https://data.worldbank.org/indicator/NY.GDP.PCAP.KD) | Real GDP per capita · Indonesia | Indonesia | annual | constant 2015 USD/person | 1960-12-31 | 2025-12-31 | 66 |
 | [WDI_WLD_TRADE](https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS) | Trade share of GDP · World | Global | annual | % | 1970-12-31 | 2025-12-31 | 56 |
 | [WDI_WLD_INVESTMENT](https://data.worldbank.org/indicator/NE.GDI.TOTL.ZS) | Gross capital formation share of GDP · World | Global | annual | % | 1970-12-31 | 2024-12-31 | 55 |
 | [WDI_WLD_SAVINGS](https://data.worldbank.org/indicator/NY.GNS.ICTR.ZS) | Gross savings share of GDP · World | Global | annual | % | 1981-12-31 | 2024-12-31 | 44 |
+| [WDI_USA_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · United States | US | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_CAN_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Canada | Canada | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_GBR_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · United Kingdom | United Kingdom | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_DEU_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Germany | Germany | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_FRA_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · France | France | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_ITA_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Italy | Italy | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_JPN_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Japan | Japan | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_AUS_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Australia | Australia | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_CHN_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · China | China | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_IND_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · India | India | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_BRA_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Brazil | Brazil | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_MEX_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Mexico | Mexico | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_KOR_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Korea, Rep. | South Korea | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_ZAF_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · South Africa | South Africa | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_SAU_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Saudi Arabia | Saudi Arabia | annual | % | 1961-12-31 | 2025-12-31 | 65 |
+| [WDI_IDN_GDPGROWTH](https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG) | Real GDP growth · Indonesia | Indonesia | annual | % | 1961-12-31 | 2025-12-31 | 65 |
 
 ## Rates
 

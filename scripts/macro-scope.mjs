@@ -71,6 +71,8 @@ const COUNTRIES = [
   "Sweden",
   "Norway",
   "New Zealand",
+  "Saudi Arabia",
+  "Indonesia",
 ];
 
 const COUNTRY_ALIASES = new Map([
@@ -183,6 +185,8 @@ export function canonicalMacroCategory(input) {
     return "Commodities";
   if (id.startsWith("WDI_")) {
     if (/_POP$|_URBAN$/.test(id)) return "Demography";
+    if (/_INFLATION$/.test(id)) return "Inflation";
+    if (/_UNEMPLOYMENT$/.test(id)) return "Labor";
     return "Growth";
   }
   if (SHILLER_HOUSING_IDS.has(id)) return "Housing";
