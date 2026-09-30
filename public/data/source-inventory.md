@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-09-30T15:34:33.630Z. 345 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-09-30T16:12:16.277Z. 345 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
@@ -10,12 +10,12 @@ Snapshot: 2026-09-30T15:34:33.630Z. 345 retained macroeconomic series. Coverage 
 | [DRCCLACBS](https://fred.stlouisfed.org/series/DRCCLACBS) | Credit Card Loan Delinquency Rate | US | quarterly | % | 1991-01-01 | 2026-04-01 | 142 |
 | [DRSFRMACBS](https://fred.stlouisfed.org/series/DRSFRMACBS) | Residential Mortgage Delinquency Rate | US | quarterly | % | 1991-01-01 | 2026-04-01 | 142 |
 | [M2SL](https://fred.stlouisfed.org/series/M2SL) | M2 Money Stock | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
-| [NFCI](https://fred.stlouisfed.org/series/NFCI) | National Financial Conditions Index | US | weekly | index | 1971-01-08 | 2026-09-18 | 2907 |
+| [NFCI](https://fred.stlouisfed.org/series/NFCI) | National Financial Conditions Index | US | weekly | index | 1971-01-08 | 2026-09-25 | 2908 |
 | [STLFSI4](https://fred.stlouisfed.org/series/STLFSI4) | St. Louis Fed Financial Stress Index | US | weekly | index | 1993-12-31 | 2026-09-18 | 1708 |
 | [BOGMBASE](https://fred.stlouisfed.org/series/BOGMBASE) | Monetary Base | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
 | [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | US | weekly | millions | 2002-12-18 | 2026-09-23 | 1241 |
-| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | US | daily | percentage points | 1986-01-02 | 2026-09-25 | 10184 |
-| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | US | daily | percentage points | 1983-01-03 | 2026-09-25 | 10931 |
+| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | US | daily | percentage points | 1986-01-02 | 2026-09-28 | 10185 |
+| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | US | daily | percentage points | 1983-01-03 | 2026-09-28 | 10932 |
 | [BAA](https://fred.stlouisfed.org/series/BAA) | Moody's Seasoned Baa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-08-01 | 1292 |
 | [AAA](https://fred.stlouisfed.org/series/AAA) | Moody's Seasoned Aaa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-08-01 | 1292 |
 | [M1SL](https://fred.stlouisfed.org/series/M1SL) | M1 Money Stock | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
@@ -92,11 +92,11 @@ Snapshot: 2026-09-30T15:34:33.630Z. 345 retained macroeconomic series. Coverage 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [CPIAUCSL](https://fred.stlouisfed.org/series/CPIAUCSL) | Consumer Price Index | US | monthly | index | 1947-01-01 | 2026-08-01 | 955 |
 | [CPILFESL](https://fred.stlouisfed.org/series/CPILFESL) | Core Consumer Price Index | US | monthly | index | 1957-01-01 | 2026-08-01 | 835 |
-| [PCEPI](https://fred.stlouisfed.org/series/PCEPI) | PCE Price Index | US | monthly | index | 1959-01-01 | 2026-07-01 | 811 |
-| [PCEPILFE](https://fred.stlouisfed.org/series/PCEPILFE) | Core PCE Price Index | US | monthly | index | 1959-01-01 | 2026-07-01 | 811 |
+| [PCEPI](https://fred.stlouisfed.org/series/PCEPI) | PCE Price Index | US | monthly | index | 1959-01-01 | 2026-08-01 | 812 |
+| [PCEPILFE](https://fred.stlouisfed.org/series/PCEPILFE) | Core PCE Price Index | US | monthly | index | 1959-01-01 | 2026-08-01 | 812 |
 | [PPIACO](https://fred.stlouisfed.org/series/PPIACO) | Producer Price Index | US | monthly | index | 1913-01-01 | 2026-08-01 | 1364 |
-| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-09-28 | 5939 |
-| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-09-28 | 5939 |
+| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-09-29 | 5940 |
+| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-09-29 | 5940 |
 | [FPCPITOTLZGCAN](https://fred.stlouisfed.org/series/FPCPITOTLZGCAN) | Annual consumer inflation · Canada | Canada | annual | % | 1960-01-01 | 2025-01-01 | 66 |
 | [CP0000DEM086NEST](https://fred.stlouisfed.org/series/CP0000DEM086NEST) | Harmonized Consumer Price Index · Germany | Germany | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
 | [CP0000FRM086NEST](https://fred.stlouisfed.org/series/CP0000FRM086NEST) | Harmonized Consumer Price Index · France | France | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
@@ -110,7 +110,7 @@ Snapshot: 2026-09-30T15:34:33.630Z. 345 retained macroeconomic series. Coverage 
 | [FPCPITOTLZGKOR](https://fred.stlouisfed.org/series/FPCPITOTLZGKOR) | Inflation, consumer prices · South Korea | South Korea | annual | % | 1960-01-01 | 2025-01-01 | 66 |
 | [CP0000ESM086NEST](https://fred.stlouisfed.org/series/CP0000ESM086NEST) | Harmonized Consumer Price Index · Spain | Spain | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
 | [FPCPITOTLZGGBR](https://fred.stlouisfed.org/series/FPCPITOTLZGGBR) | Inflation, consumer prices · United Kingdom | United Kingdom | annual | % | 1960-01-01 | 2025-01-01 | 66 |
-| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | US | daily | % | 2003-01-02 | 2026-09-28 | 5939 |
+| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | US | daily | % | 2003-01-02 | 2026-09-29 | 5940 |
 | [CPIUKA](https://fred.stlouisfed.org/series/CPIUKA) | Consumer Price Index · United Kingdom · Millennium Archive | United Kingdom | annual | index | 1209-01-01 | 2016-01-01 | 808 |
 | [CPIIUKA](https://fred.stlouisfed.org/series/CPIIUKA) | Consumer Price Inflation · United Kingdom · Millennium Archive | United Kingdom | annual | % | 1210-01-01 | 2016-01-01 | 807 |
 | [WDI_USA_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · United States | US | annual | % | 1960-12-31 | 2024-12-31 | 65 |
@@ -200,23 +200,23 @@ Snapshot: 2026-09-30T15:34:33.630Z. 345 retained macroeconomic series. Coverage 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) | Federal Funds Rate | US | monthly | % | 1954-07-01 | 2026-08-01 | 866 |
-| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | US | daily | % | 2001-07-31 | 2026-09-25 | 6291 |
-| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-09-25 | 11267 |
-| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-09-25 | 11267 |
-| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-25 | 16169 |
-| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | US | daily | % | 1976-06-01 | 2026-09-25 | 12577 |
-| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-25 | 16169 |
-| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | US | daily | % | 1969-07-01 | 2026-09-25 | 14299 |
-| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-25 | 16169 |
-| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-25 | 14480 |
-| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | US | daily | % | 1977-02-15 | 2026-09-25 | 12399 |
-| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | US | daily | percentage points | 1976-06-01 | 2026-09-28 | 12578 |
-| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | US | daily | percentage points | 1982-01-04 | 2026-09-28 | 11187 |
-| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | US | daily | % | 1954-07-01 | 2026-09-25 | 26385 |
-| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | US | daily | % | 2018-04-03 | 2026-09-28 | 2120 |
-| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-09-25 | 5938 |
-| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-09-25 | 5938 |
-| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | US | daily | % | 2010-02-22 | 2026-09-25 | 4153 |
+| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | US | daily | % | 2001-07-31 | 2026-09-28 | 6292 |
+| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-09-28 | 11268 |
+| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-09-28 | 11268 |
+| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-28 | 16170 |
+| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | US | daily | % | 1976-06-01 | 2026-09-28 | 12578 |
+| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-28 | 16170 |
+| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | US | daily | % | 1969-07-01 | 2026-09-28 | 14300 |
+| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-28 | 16170 |
+| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-28 | 14481 |
+| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | US | daily | % | 1977-02-15 | 2026-09-28 | 12400 |
+| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | US | daily | percentage points | 1976-06-01 | 2026-09-29 | 12579 |
+| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | US | daily | percentage points | 1982-01-04 | 2026-09-29 | 11188 |
+| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | US | daily | % | 1954-07-01 | 2026-09-28 | 26388 |
+| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | US | daily | % | 2018-04-03 | 2026-09-29 | 2121 |
+| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-09-28 | 5939 |
+| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-09-28 | 5939 |
+| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | US | daily | % | 2010-02-22 | 2026-09-28 | 4154 |
 | [BOERUKA](https://fred.stlouisfed.org/series/BOERUKA) | Bank of England Policy Rate · Millennium Archive | United Kingdom | annual | % | 1694-01-01 | 2016-01-01 | 323 |
 | [LTCYUKA](https://fred.stlouisfed.org/series/LTCYUKA) | Consol Long-Term Bond Yield · United Kingdom · Millennium Archive | United Kingdom | annual | % | 1703-01-01 | 2016-01-01 | 314 |
 
@@ -393,7 +393,7 @@ Snapshot: 2026-09-30T15:34:33.630Z. 345 retained macroeconomic series. Coverage 
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [POPTHM](https://fred.stlouisfed.org/series/POPTHM) | U.S. Population | US | monthly | thousands | 1959-01-01 | 2026-07-01 | 811 |
+| [POPTHM](https://fred.stlouisfed.org/series/POPTHM) | U.S. Population | US | monthly | thousands | 1959-01-01 | 2026-08-01 | 812 |
 | [LFWA64TTUSM647S](https://fred.stlouisfed.org/series/LFWA64TTUSM647S) | U.S. Working-Age Population, Ages 15–64 | US | monthly | persons | 1977-01-01 | 2026-07-01 | 595 |
 | [SPDYNCBRTINUSA](https://fred.stlouisfed.org/series/SPDYNCBRTINUSA) | U.S. Crude Birth Rate | US | annual | births per 1,000 people | 1960-01-01 | 2024-01-01 | 65 |
 | [SPDYNTFRTINUSA](https://fred.stlouisfed.org/series/SPDYNTFRTINUSA) | U.S. Total Fertility Rate | US | annual | births per woman | 1960-01-01 | 2024-01-01 | 65 |
