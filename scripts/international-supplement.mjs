@@ -1,5 +1,9 @@
 import { createHash } from "node:crypto";
+import { createRequire } from "node:module";
 import https from "node:https";
+
+const require = createRequire(import.meta.url);
+const XLSX = require("xlsx");
 
 const UN_BASE = "https://unstats.un.org/unsd/amaapi/api";
 const UN_SOURCE_URL = "https://unstats.un.org/unsd/nationalaccount/ama.asp";
@@ -10,6 +14,12 @@ const SPC_DATAFLOW_URL = `${SPC_BASE}/dataflow/SPC/DF_NATIONAL_ACCOUNTS/1.0?refe
 const SPC_SOURCE_URL =
   "https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts";
 const SPC_RIGHTS_URL = "https://docs.pacificdata.org/dotstat/api";
+const IMF_WEO_PAGE_URL = "https://data.imf.org/en/Datasets/WEO";
+const IMF_WEO_RIGHTS_URL = "https://www.imf.org/external/terms.htm";
+// Verified on 2026-09-30. This is an emergency no-cache fallback only: normal
+// refreshes discover the current workbook from IMF_WEO_PAGE_URL first.
+const IMF_WEO_VERIFIED_FALLBACK_URL =
+  "https://data.imf.org/-/media/iData/External-Storage/Documents/2F78EE59F79143A7921E5E203D3AAA80/en/WEOApr2026all.xlsx";
 const REQUEST_TIMEOUT_MS = 30_000;
 const RETRIES = 2;
 
@@ -136,6 +146,60 @@ const SPC_INDICATORS = Object.freeze([
   },
 ]);
 
+const IMF_TWN_INDICATORS = Object.freeze([
+  {
+    sourceIndicator: "NGDP_RPCH",
+    indicatorKey: "GDPGROWTH",
+    indicatorName: "Real GDP growth",
+    unit: "%",
+    sourceUnit: "Percent",
+    sourceScale: "Units",
+    changeType: "basis-points",
+    category: "Growth",
+  },
+  {
+    sourceIndicator: "NGDPD",
+    indicatorKey: "GDP_NOMINAL",
+    indicatorName: "Nominal GDP",
+    unit: "USD billions",
+    sourceUnit: "US dollar",
+    sourceScale: "Billions",
+    changeType: "percent",
+    category: "Growth",
+  },
+  {
+    sourceIndicator: "NGDPDPC",
+    indicatorKey: "GDPPC_NOMINAL",
+    indicatorName: "Nominal GDP per capita",
+    unit: "USD/person",
+    sourceUnit: "US dollar",
+    sourceScale: "Units",
+    changeType: "percent",
+    category: "Growth",
+  },
+  {
+    sourceIndicator: "PCPIPCH",
+    indicatorKey: "INFLATION",
+    indicatorName: "Consumer price inflation",
+    unit: "%",
+    sourceUnit: "Percent",
+    sourceScale: "Units",
+    changeType: "basis-points",
+    category: "Inflation",
+  },
+  {
+    sourceIndicator: "LUR",
+    indicatorKey: "UNEMPLOYMENT",
+    indicatorName: "Unemployment rate",
+    unit: "%",
+    // WEO's LUR row has a blank UNIT field; retain that fact in sourceUnit.
+    sourceUnit: null,
+    sourceScale: "Units",
+    changeType: "basis-points",
+    category: "Labor",
+  },
+]);
+
 function asText(value) {
   return String(value ?? "").trim();
 }
@@ -159,7 +223,12 @@ function yearEnd(year) {
 }
 
 function sourceHash(...bodies) {
-  return createHash("sha256").update(bodies.join("\n")).digest("hex");
+  const hash = createHash("sha256");
+  for (const [index, body] of bodies.entries()) {
+    if (index) hash.update("\n");
+    hash.update(body);
+  }
+  return hash.digest("hex");
 }
 
 function previousFor(previousSeries, prefix, sourceIndicator) {
@@ -192,6 +261,29 @@ async function requestText(url, fetchImpl, options = {}) {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const body = await response.text();
       if (!body.trim()) throw new Error("empty upstream response");
+      return { body, response };
+    } catch (error) {
+      lastError = error;
+      if (attempt + 1 < RETRIES)
+        await new Promise((resolve) =>
+          setTimeout(resolve, 500 * (attempt + 1)),
+        );
+    }
+  }
+  throw lastError || new Error("upstream request failed");
+}
+
+async function requestBytes(url, fetchImpl, options = {}) {
+  let lastError;
+  for (let attempt = 0; attempt < RETRIES; attempt += 1) {
+    try {
+      const response = await fetchImpl(url, {
+        ...options,
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const body = Buffer.from(await response.arrayBuffer());
+      if (!body.length) throw new Error("empty upstream response");
       return { body, response };
     } catch (error) {
       lastError = error;
@@ -769,6 +861,269 @@ async function fetchSpcProvider({
   return { series, audit, failures: [] };
 }
 
+function discoveredImfDownloads(html) {
+  return [
+    ...html.matchAll(
+      /(?:href|data-href)\s*=\s*["']([^"']+\.xlsx(?:\?[^"']*)?)["']/gi,
+    ),
+  ]
+    .map((match) => match[1].replaceAll("&amp;", "&"))
+    .map((href) => new URL(href, IMF_WEO_PAGE_URL).href)
+    .filter((url) => {
+      const parsed = new URL(url);
+      return (
+        parsed.protocol === "https:" &&
+        (parsed.hostname === "imf.org" ||
+          parsed.hostname.endsWith(".imf.org")) &&
+        /WEO/i.test(url) &&
+        /all\.xlsx(?:\?|$)/i.test(url)
+      );
+    })
+    .sort((left, right) => {
+      const vintage = (url) => {
+        const match = url.match(/WEO(Apr|Oct)(\d{4})all\.xlsx/i);
+        return match
+          ? Number(match[2]) * 12 + (match[1].toLowerCase() === "oct" ? 10 : 4)
+          : 0;
+      };
+      return vintage(right) - vintage(left);
+    });
+}
+
+async function discoverImfWEO(fetchImpl) {
+  const page = await requestText(IMF_WEO_PAGE_URL, fetchImpl, {
+    headers: { accept: "text/html" },
+  });
+  const downloads = discoveredImfDownloads(page.body);
+  if (!downloads.length)
+    throw new Error("IMF WEO page has no full XLSX download link");
+  return {
+    downloadUrl: downloads[0],
+    method: "official-page-html-link",
+    pageUrl: IMF_WEO_PAGE_URL,
+    pageHash: sourceHash(page.body),
+  };
+}
+
+function readImfWEORows(buffer) {
+  const workbook = XLSX.read(buffer, { type: "buffer" });
+  const sheet = workbook.Sheets.Countries;
+  if (!sheet) throw new Error("IMF WEO workbook has no Countries sheet");
+  const rows = XLSX.utils.sheet_to_json(sheet, { defval: null, raw: true });
+  if (!rows.length || !rows[0]["COUNTRY.ID"] || !rows[0]["INDICATOR.ID"])
+    throw new Error("IMF WEO Countries sheet has no expected columns");
+  return rows;
+}
+
+function makeImfSeries({
+  economy,
+  indicator,
+  row,
+  checkedAt,
+  lastYear,
+  providerUpdatedAt,
+  hash,
+  sourceDownloadUrl,
+  sourcePublicationDate,
+}) {
+  const cutoff = finiteNumber(row.LATEST_ACTUAL_ANNUAL_DATA);
+  if (!Number.isInteger(cutoff) || cutoff < 1900)
+    return { series: null, reason: "missing-or-invalid-actual-cutoff" };
+  if (asText(row.FREQUENCY) !== "Annual")
+    return { series: null, reason: "non-annual-frequency" };
+  if (
+    asText(row.UNIT) !== asText(indicator.sourceUnit) ||
+    asText(row.SCALE) !== indicator.sourceScale
+  )
+    return { series: null, reason: "unexpected-native-unit-or-scale" };
+  const latestAllowedYear = Math.min(lastYear, cutoff);
+  const observations = Object.keys(row)
+    .filter((key) => /^\d{4}$/.test(key))
+    .map(Number)
+    .filter((year) => year >= 1900 && year <= latestAllowedYear)
+    .sort((left, right) => left - right)
+    .flatMap((year) => {
+      const value = finiteNumber(row[String(year)]);
+      return value === null ? [] : [[yearEnd(year), value]];
+    });
+  if (!observations.length)
+    return { series: null, reason: "no-valid-actual-observations" };
+  const series = {
+    id: `IMF_TWN_${indicator.indicatorKey}`,
+    name: `${indicator.indicatorName} · ${economy.name}`,
+    indicatorKey: indicator.indicatorKey,
+    indicatorName: indicator.indicatorName,
+    sourceIndicator: indicator.sourceIndicator,
+    category: indicator.category,
+    frequency: "annual",
+    releaseFrequency: "annual",
+    unit: indicator.unit,
+    changeType: indicator.changeType,
+    country: economy.name,
+    countryCode: economy.countryCode,
+    sourceCountryCode: economy.countryCode,
+    geography: economy.name,
+    region: "East Asia & Pacific",
+    incomeLevel: null,
+    // Natural Earth Taiwan centroid, retained for the supplement roster.
+    lon: 120.96,
+    lat: 23.7,
+    source: "International Monetary Fund · World Economic Outlook",
+    sourceFamily: "IMF World Economic Outlook",
+    sourceUrl: IMF_WEO_PAGE_URL,
+    sourceDownloadUrl,
+    sourceColumn: `Countries / COUNTRY.ID=TWN / INDICATOR.ID=${indicator.sourceIndicator}`,
+    sourceFile: "IMF WEO full dataset XLSX · Countries",
+    sourceHash: hash,
+    checkedAt,
+    ...(providerUpdatedAt ? { providerUpdatedAt } : {}),
+    sourceAsOf: observations.at(-1)[0],
+    sourceDefinition:
+      asText(row["INDICATOR.Description"]) || asText(row.INDICATOR),
+    sourceOrganization: `International Monetary Fund, Research Department${asText(row.HISTORICAL_DATA_SOURCE) ? ` · ${asText(row.HISTORICAL_DATA_SOURCE)}` : ""}`,
+    historicalDataSource: asText(row.HISTORICAL_DATA_SOURCE) || null,
+    historyType: "published IMF estimates with a per-series actual cutoff",
+    rightsNote: `Retain IMF attribution and review the IMF terms before redistribution. ${IMF_WEO_RIGHTS_URL}`,
+    availabilityNote:
+      "The WEO workbook identifies the latest actual year per row. Only observations at or before that cutoff and the completed calendar year are admitted; later IMF staff projections are excluded.",
+    methodology:
+      "This adapter selects five Taiwan WEO annual rows and enforces LATEST_ACTUAL_ANNUAL_DATA for each row. Values remain in the workbook's native scale and unit; no interpolation, forecast substitution, or conversion is performed.",
+    observations,
+    actualCutoff: cutoff,
+    sourceUnit: row.UNIT === null ? null : asText(row.UNIT),
+    sourceScale: row.SCALE === null ? null : asText(row.SCALE),
+    sourceFrequency: asText(row.FREQUENCY),
+    providerReleaseFrequency: "semiannual",
+    sourceCurrency: asText(row.CURRENCY) || null,
+    sourcePublicationDate: parseProviderTimestamp(row.PUBLICATION_DATE),
+  };
+  return { series };
+}
+
+async function fetchImfProvider({
+  fetchImpl,
+  checkedAt,
+  lastYear,
+  previousSeries,
+}) {
+  const economy = {
+    countryCode: "TWN",
+    name: "Taiwan",
+  };
+  const cached = previousFor(previousSeries, "IMF_");
+  const audit = {
+    provider: "IMF World Economic Outlook",
+    sourceFamily: "IMF World Economic Outlook",
+    status: "ok",
+    requestedCountries: [economy.countryCode],
+    requestedIndicators: IMF_TWN_INDICATORS.map(
+      ({ sourceIndicator }) => sourceIndicator,
+    ),
+    checkedAt,
+    completedLastYear: lastYear,
+    pageUrl: IMF_WEO_PAGE_URL,
+    actualCutoffField: "LATEST_ACTUAL_ANNUAL_DATA",
+  };
+  let discovery;
+  try {
+    discovery = await discoverImfWEO(fetchImpl);
+  } catch (error) {
+    audit.discoveryStatus = "failed";
+    audit.discoveryError = error.message;
+    error.audit = audit;
+    // A cached verified vintage is preferable to pretending a fixed April
+    // URL is the latest WEO release. Only an empty cache may use the explicit,
+    // verified emergency URL below, and it is marked in the audit.
+    if (cached.length) throw error;
+    discovery = {
+      downloadUrl: IMF_WEO_VERIFIED_FALLBACK_URL,
+      method: "verified-April-2026-fallback",
+      pageUrl: IMF_WEO_PAGE_URL,
+      warning:
+        "The current WEO page could not be discovered; this explicit April 2026 URL is not asserted to be current.",
+    };
+  }
+  audit.discoveryStatus = discovery.warning
+    ? "verified-release-fallback"
+    : "ok";
+  if (discovery.warning) audit.status = "upstream-unavailable";
+  audit.discoveryMethod = discovery.method;
+  audit.downloadUrl = discovery.downloadUrl;
+  if (discovery.pageHash) audit.pageHash = discovery.pageHash;
+  if (discovery.warning) audit.discoveryWarning = discovery.warning;
+  const download = await requestBytes(discovery.downloadUrl, fetchImpl);
+  const workbookHash = sourceHash(download.body);
+  const rows = readImfWEORows(download.body);
+  const selectedRows = new Map(
+    rows
+      .filter((row) => asText(row["COUNTRY.ID"]) === economy.countryCode)
+      .map((row) => [asText(row["INDICATOR.ID"]), row]),
+  );
+  const results = IMF_TWN_INDICATORS.map((indicator) => {
+    const row = selectedRows.get(indicator.sourceIndicator);
+    if (!row)
+      return {
+        indicator,
+        series: null,
+        reason: "indicator-row-not-found",
+      };
+    return {
+      indicator,
+      ...makeImfSeries({
+        economy,
+        indicator,
+        row,
+        checkedAt,
+        lastYear,
+        providerUpdatedAt: parseProviderTimestamp(row.UPDATE_DATE),
+        hash: sourceHash(workbookHash, discovery.downloadUrl),
+        sourceDownloadUrl: discovery.downloadUrl,
+        sourcePublicationDate: row.PUBLICATION_DATE,
+      }),
+    };
+  });
+  const series = results.flatMap(({ series: entry }) => (entry ? [entry] : []));
+  if (discovery.warning)
+    for (const entry of series) entry.refreshStatus = "upstream-unavailable";
+  if (!series.length) {
+    const error = new Error(
+      "IMF WEO workbook produced no valid Taiwan actual series",
+    );
+    error.audit = audit;
+    throw error;
+  }
+  audit.series = results.map(({ indicator, series: entry, reason }) => ({
+    sourceIndicator: indicator.sourceIndicator,
+    indicatorKey: indicator.indicatorKey,
+    actualCutoff: entry?.actualCutoff ?? null,
+    seriesCount: entry ? 1 : 0,
+    observations: entry?.observations.length ?? 0,
+    status: entry ? "ok" : "excluded",
+    ...(reason ? { reason } : {}),
+  }));
+  audit.actualCutoffs = Object.fromEntries(
+    series.map((entry) => [entry.sourceIndicator, entry.actualCutoff]),
+  );
+  audit.providerUpdatedAt = series
+    .map(({ providerUpdatedAt }) => providerUpdatedAt)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+  audit.sourceHash = workbookHash;
+  audit.countriesWithData = series.length ? 1 : 0;
+  audit.seriesCount = series.length;
+  audit.sourcePublicationDate = series
+    .map(({ sourcePublicationDate }) => sourcePublicationDate)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+  return {
+    series,
+    audit,
+    failures: [],
+  };
+}
+
 function fallbackProvider({
   prefix,
   previousSeries,
@@ -801,8 +1156,8 @@ function buildCountries(series, previousCountries) {
       ...(cached || {}),
       id: countryCode,
       name: entry.country,
-      lon: cached?.lon ?? null,
-      lat: cached?.lat ?? null,
+      lon: cached?.lon ?? entry.lon ?? null,
+      lat: cached?.lat ?? entry.lat ?? null,
       region: entry.region,
       incomeLevel: null,
       seriesCount: series.filter(
@@ -819,9 +1174,8 @@ function buildCountries(series, previousCountries) {
 
 /**
  * Fetch annual, non-forecast macro histories for economies absent from the
- * World Bank roster. The IMF/Taiwan candidate is intentionally audit-only:
- * DataMapper values do not expose an actual/forecast cutoff, and this module
- * does not guess one.
+ * World Bank roster. IMF Taiwan values are admitted only from WEO workbook
+ * rows carrying a valid LATEST_ACTUAL_ANNUAL_DATA cutoff.
  */
 export async function fetchInternationalSupplement({
   fetchImpl = globalThis.fetch,
@@ -835,16 +1189,7 @@ export async function fetchInternationalSupplement({
     checkedAt,
     completedLastYear: lastYear,
     providers: [],
-    excluded: [
-      {
-        provider: "IMF WEO/DataMapper",
-        countryCode: "TWN",
-        status: "excluded",
-        reason:
-          "DataMapper provides Taiwan values but no observation-level actual/forecast flag. A verified WEO download carrying LATEST_ACTUAL_ANNUAL_DATA or a validated DGBAS extraction is not wired here; future values are therefore excluded rather than guessed as actuals.",
-        sourceUrl: "https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH",
-      },
-    ],
+    excluded: [],
   };
   const providerResults = await mapWithConcurrency(
     [
@@ -860,6 +1205,12 @@ export async function fetchInternationalSupplement({
         run: () =>
           fetchSpcProvider({ fetchImpl, checkedAt, lastYear, previousSeries }),
       },
+      {
+        prefix: "IMF_",
+        id: "IMF_WEO",
+        run: () =>
+          fetchImfProvider({ fetchImpl, checkedAt, lastYear, previousSeries }),
+      },
     ],
     2,
     async (provider) => {
@@ -873,6 +1224,7 @@ export async function fetchInternationalSupplement({
           status: "upstream-unavailable",
           checkedAt,
           error: error.message,
+          ...(error.audit || {}),
         };
         const fallback = fallbackProvider({
           prefix: provider.prefix,

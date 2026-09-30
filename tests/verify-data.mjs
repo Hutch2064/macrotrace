@@ -71,6 +71,29 @@ for (const series of snapshot.series) {
   const isWdi = series.id.startsWith("WDI_");
   const isCountrySource =
     isWdi || series.dataset === "international-supplement";
+  if (series.dataset === "international-supplement") {
+    const country = countriesById.get(series.countryCode);
+    if (
+      !country ||
+      series.geography !== country.name ||
+      series.country !== country.name ||
+      series.frequency !== "annual" ||
+      !series.sourceHash ||
+      !series.sourceDefinition ||
+      !series.sourceOrganization
+    )
+      throw new Error(
+        `Incomplete supplementary country provenance: ${series.id}.`,
+      );
+    if (
+      series.id.startsWith("IMF_") &&
+      (!Number.isInteger(series.actualCutoff) ||
+        series.observations.some(
+          ([date]) => Number(date.slice(0, 4)) > series.actualCutoff,
+        ))
+    )
+      throw new Error(`IMF actual cutoff not enforced: ${series.id}.`);
+  }
   const wdiCode = isWdi ? series.id.match(/^WDI_([A-Z0-9]{3})_/)?.[1] : null;
   if (isWdi) {
     if (!wdiCode || series.countryCode !== wdiCode)

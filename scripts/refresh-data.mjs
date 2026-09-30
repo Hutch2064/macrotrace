@@ -376,6 +376,7 @@ await writeFile(
           sourceUrl: entry.sourceUrl,
           unit: entry.unit,
           frequency: entry.frequency,
+          ...(entry.actualCutoff ? { actualCutoff: entry.actualCutoff } : {}),
           start: entry.observations[0][0],
           end: entry.observations.at(-1)[0],
           observations: entry.observations.length,

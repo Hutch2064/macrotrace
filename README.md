@@ -35,8 +35,8 @@ grain. An annual or monthly release is not represented as a daily observation,
 and missing periods are not filled or interpolated.
 
 The current macro scope combines public FRED economic indicators, World Bank
-Pink Sheet commodity reference prices, World Development Indicators, and the
-UN Statistics Division and Pacific Community national accounts, alongside the
+Pink Sheet commodity reference prices, World Development Indicators,
+UN Statistics Division and Pacific Community national accounts, IMF WEO actuals, and the
 two retained Shiller annual housing indexes. FRED distributes many series but
 is not necessarily the original author; each row keeps the relevant provider
 and attribution. Pink Sheet values are nominal monthly averages or source
@@ -49,8 +49,11 @@ World Bank's complete non-aggregate roster of 217 economies: output and income,
 inflation, employment, population, sector composition, trade, investment,
 credit, money, reserves, remittances, external debt, and public finances.
 Availability varies by indicator. UN and Pacific Community sources supplement
-territories missing from that roster and provide additional national accounts;
-nominal and real GDP, base years, currency multipliers, modeled estimates, and
+territories missing from that roster and provide additional national accounts.
+Taiwan uses IMF WEO national-statistics-office histories, truncated separately
+at each indicator's published last-actual-year cutoff. Each refresh discovers
+the latest full WEO release; later staff projections are not historical data.
+Nominal and real GDP, base years, currency multipliers, modeled estimates, and
 source units remain explicitly distinguished. Missing headline readings stay
 unavailable rather than becoming zero or a different metric.
 
@@ -197,7 +200,7 @@ The focused commands remain available for data and delivery work:
 
 Source URLs and provider notes are published with each series. Public access
 does not remove provider attribution or third-party reuse conditions; review
-current FRED, World Bank, WDI, Shiller, and other original-source terms before
+current FRED, World Bank, UN, SPC, IMF, Shiller, and other original-source terms before
 redistributing data. MacroTrace is informational and does not provide
 investment advice. No claim of real-time quotes, universal freshness, custom
 cache headers, or performance improvement is made without current evidence.

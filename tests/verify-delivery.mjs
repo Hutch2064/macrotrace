@@ -156,7 +156,8 @@ assert.equal(
 assert.ok(next.series.filter((s) => s.observations).length === ids.length);
 
 const worldInflation = catalog.series.filter(
-  (series) => series.indicatorKey === "INFLATION",
+  (series) =>
+    series.id.startsWith("WDI_") && series.indicatorKey === "INFLATION",
 );
 if (worldInflation.length) {
   const before = historyRequests;
@@ -167,7 +168,7 @@ if (worldInflation.length) {
   assert.equal(
     historyRequests - before,
     1,
-    "A complete cross-country indicator comparison uses one shared bundle",
+    "A complete World Bank cross-country indicator comparison uses one shared bundle",
   );
   for (const series of worldInflation)
     assert.deepEqual(

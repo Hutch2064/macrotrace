@@ -207,7 +207,13 @@ function renderFamilyBody(family, countriesById) {
   const definitionText = definition
     ? `<p class="source-definition"><strong>Official definition:</strong> ${escape(definition)}</p>`
     : "";
-  return `${definitionText}${providerText}<div class="source-country-list">${renderCountryRows(family.entries, countriesById)}</div>`;
+  const units = [
+    ...new Set(family.entries.map((entry) => text(entry.unit)).filter(Boolean)),
+  ];
+  const unitText = units.length
+    ? `<p class="source-provider"><strong>Reported unit:</strong> ${escape(units.join(" · "))} · Native annual observations</p>`
+    : "";
+  return `${unitText}${definitionText}${providerText}<div class="source-country-list">${renderCountryRows(family.entries, countriesById)}</div>`;
 }
 
 function indicatorSummary(family) {
