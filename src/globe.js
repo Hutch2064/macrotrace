@@ -97,14 +97,6 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
     context.fillStyle = color;
     context.fill("evenodd");
   }
-  const tone = (id) => {
-    const change = readings.get(id)?.change;
-    return Number.isFinite(change) && change !== 0
-      ? change > 0
-        ? "125,211,167"
-        : "241,151,141"
-      : "183,181,169";
-  };
   const grid = [];
   for (let lat = -60; lat <= 60; lat += 30)
     grid.push(Array.from({ length: 121 }, (_, i) => sphere([i * 3, lat])));
@@ -145,14 +137,16 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
     for (const points of grid) stroke(points, "rgba(207,185,125,.11)");
     for (const country of outlines) {
       const emphasized = country.id === selected || country.id === hover;
-      const available = Number.isFinite(readings.get(country.id)?.change);
-      if (available) fill(country, `rgba(${tone(country.id)},0.3)`);
+      const available = Number.isFinite(readings.get(country.id)?.value);
+      if (available) fill(country, "rgba(207,185,125,.3)");
       for (const points of country.paths)
         stroke(
           points,
           emphasized
             ? "rgba(253,229,182,.95)"
-            : `rgba(${tone(country.id)},${available ? 0.7 : 0.28})`,
+            : available
+              ? "rgba(207,185,125,.7)"
+              : "rgba(183,181,169,.28)",
           emphasized ? 1.5 : 0.8,
         );
     }
@@ -162,7 +156,7 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
       const emphasized = country.id === selected || country.id === hover;
       context.beginPath();
       context.arc(x, y, emphasized ? 5 : 3, 0, Math.PI * 2);
-      context.fillStyle = emphasized ? "#fde5b6" : `rgb(${tone(country.id)})`;
+      context.fillStyle = emphasized ? "#fde5b6" : "#cfb97d";
       context.fill();
       context.beginPath();
       context.arc(x, y, emphasized ? 11 : 7, 0, Math.PI * 2);
@@ -185,7 +179,8 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
         yaw += delta * 0.065;
         pitch += latitude * 0.065;
         if (Math.abs(delta) + Math.abs(latitude) < 0.002) destination = null;
-      } else if (!dragging && !reduced.matches) yaw += 0.00065;
+      } else if (!start && !reduced.matches)
+        yaw += Math.min(time - last, 100) * 0.000035;
       draw();
       last = time;
     }
@@ -193,9 +188,16 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
   }
   const restart = () => {
     cancelAnimationFrame(frame);
+    last = performance.now();
     draw();
-    if (visible && !document.hidden && !reduced.matches)
+    if (visible && !document.hidden && !reduced.matches && !start)
       frame = requestAnimationFrame(animate);
+  };
+  const release = () => {
+    if (!start) return;
+    start = null;
+    dragging = false;
+    restart();
   };
   function select(id) {
     const country = countries.find((country) => country.id === id);
@@ -259,6 +261,8 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
     start = { x: event.clientX, y: event.clientY, yaw, pitch };
     dragging = false;
     destination = null;
+    canvas.setPointerCapture(event.pointerId);
+    cancelAnimationFrame(frame);
   });
   listen(canvas, "pointermove", (event) => {
     if (start) {
@@ -266,7 +270,6 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
         dy = event.clientY - start.y;
       if (!dragging && Math.hypot(dx, dy) > 6) {
         dragging = true;
-        canvas.setPointerCapture(event.pointerId);
       }
       if (dragging) {
         yaw = start.yaw - dx * 0.006;
@@ -301,16 +304,13 @@ export async function economicGlobe(canvas, onSelect, readings = new Map()) {
         onSelect(id);
       }
     }
-    start = null;
-    dragging = false;
+    release();
   });
-  listen(canvas, "pointercancel", () => {
-    start = null;
-    dragging = false;
-  });
+  listen(canvas, "pointercancel", release);
+  listen(canvas, "lostpointercapture", release);
+  listen(window, "blur", release);
   listen(canvas, "pointerleave", () => {
     hover = null;
-    if (!dragging) start = null;
     draw();
   });
   listen(canvas, "keydown", (event) => {

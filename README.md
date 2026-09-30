@@ -10,11 +10,11 @@ The project has exactly two pages:
 - `index.html` is the source-backed long-form report. Its findings, charts,
   headlines, and methods section are calculated from the published snapshot.
   Its interactive globe selects four source-dated headline readings for 16
-  economies and rotates in both directions on mouse or touch drag. Red/green
-  country shading shows the change in World Bank annual real GDP growth against
-  the exact preceding year, in percentage points—not daily market returns or an
-  economic-health score. Unavailable comparisons remain neutral. Country
-  selection does not change the scrolling report.
+  economies and rotates in both directions on mouse or touch drag. Countries
+  with available economic data are highlighted in gold; other countries remain
+  neutral. Gentle rotation resumes after release, except when reduced motion
+  is requested by the device. Country selection does not change the scrolling
+  report.
 - `dashboard.html` is the exploration panel. It filters by topic, geography,
   native frequency, period, measure, and text search; it exposes plots,
   comparisons, a monthly view, and the complete filtered observation table.

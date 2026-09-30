@@ -401,21 +401,6 @@ small {
   color: var(--faint);
   font-size: 12px;
 }
-.globe-legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  font-size: 11px;
-}
-.globe-legend i {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: currentColor;
-  margin-right: 4px;
-}
 .country-context {
   position: relative;
   right: auto;
