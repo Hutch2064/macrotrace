@@ -93,6 +93,126 @@ const spcCsv = [
   "A,USD,NU,GDPCPCVR,2024,1.7,PERCENT,,,",
 ].join("\n");
 
+const DGBAS_API_BASE =
+  "https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sdmx/";
+const DGBAS_FIXTURES = [
+  {
+    dataset: "A018101010",
+    filter: "3...A",
+    id: "GDPGROWTH",
+    dimensionId: "fldid",
+    valueId: "3",
+    valueName: "經濟成長率(%)",
+    values: { 1960: 7.2, 2024: 5.27, 2025: 8.76, 2026: 0 },
+  },
+  {
+    dataset: "A018101010",
+    filter: "5...A",
+    id: "GDP_NOMINAL",
+    dimensionId: "fldid",
+    valueId: "5",
+    valueName: "國內生產毛額GDP(名目值，百萬美元)",
+    values: { 1960: 1743, 2024: 801529, 2025: 922454, 2026: 0 },
+  },
+  {
+    dataset: "A018101010",
+    filter: "7...A",
+    id: "GDPPC_NOMINAL",
+    dimensionId: "fldid",
+    valueId: "7",
+    valueName: "平均每人GDP(名目值，美元)",
+    values: { 1960: 163, 2024: 34238, 2025: 39515, 2026: 0 },
+  },
+  {
+    dataset: "A030101015",
+    filter: "1...A",
+    id: "CPI_INDEX",
+    dimensionId: "fldid",
+    valueId: "1",
+    valueName: "總指數",
+    values: { 1959: 53, 1960: 54, 2024: 107.81, 2025: 109.6, 2026: 0 },
+  },
+  {
+    dataset: "A040108010",
+    filter: "2.1.1.A",
+    id: "UNEMPLOYMENT",
+    dimensionId: "fldid",
+    valueId: "2",
+    valueName: "失業率",
+    values: { 1960: 5, 2024: 3.38, 2025: 3.35, 2026: 3.33 },
+    extraDimensions: [
+      ["code1", "1", "合計"],
+      ["code2", "1", "合計"],
+    ],
+  },
+];
+
+function dgbasDocument(fixture, options = {}) {
+  const values = { ...fixture.values };
+  if (options.missingYear) delete values[options.missingYear];
+  const valueName =
+    options.wrongUnit && fixture.id === "GDP_NOMINAL"
+      ? `${fixture.valueName} (wrong unit)`
+      : fixture.valueName;
+  const seriesDimensions = [
+    {
+      keyPosition: 0,
+      id: fixture.dimensionId,
+      name: "指標",
+      values: [{ id: fixture.valueId, name: valueName }],
+    },
+    ...(fixture.extraDimensions || []).map(([id, valueId, name], index) => ({
+      keyPosition: index + 1,
+      id,
+      name: id,
+      values: [{ id: valueId, name }],
+    })),
+  ];
+  const observationPeriods = Object.keys(values).map((id) => ({
+    id:
+      options.nonAnnual && fixture.id === "GDPGROWTH" && id === "2025"
+        ? "2025-Q1"
+        : id,
+    name: id,
+  }));
+  const observations = Object.fromEntries(
+    Object.values(values).map((value, index) => [index, [value]]),
+  );
+  const key = seriesDimensions.map(() => "0").join(":");
+  return {
+    meta: {
+      prepared: "2026-09-01 00:00:00 0000",
+      sender: {
+        id: options.badSender ? "other" : "dgbas",
+        name: "行政院主計總處",
+      },
+      links: [{ href: "mock", rel: "request" }],
+    },
+    data: {
+      dataSets: [
+        { action: "Information", series: { [key]: { observations } } },
+      ],
+      structure: {
+        name: fixture.id,
+        dimensions: {
+          series: seriesDimensions,
+          observation: [
+            { id: "ym", name: "統計期", values: observationPeriods },
+          ],
+        },
+      },
+    },
+  };
+}
+
+function dgbasResponseFor(requestUrl, options = {}) {
+  const fixture = DGBAS_FIXTURES.find(({ dataset, filter }) =>
+    requestUrl.includes(`${dataset}/${filter}`),
+  );
+  if (!fixture) return null;
+  return jsonResponse(dgbasDocument(fixture, options));
+}
+
 const IMF_WEO_PAGE = "https://data.imf.org/en/Datasets/WEO";
 const IMF_WEO_DOWNLOAD = "https://data.imf.org/downloads/WEOTaiwanall.xlsx";
 const IMF_INDICATORS = [
@@ -152,10 +272,25 @@ function mockFetch({
   emptyUn = false,
   failImfDiscovery = false,
   missingImfCutoff = false,
+  failDgbas = false,
+  missingDgbasYear = null,
+  wrongDgbasUnit = false,
+  badDgbasDimensions = false,
+  badDgbasSender = false,
 } = {}) {
   const workbook = imfWorkbook({ missingCutoff: missingImfCutoff });
   return async (requestUrl) => {
     const url = new URL(requestUrl);
+    if (url.hostname === "nstatdb.dgbas.gov.tw") {
+      if (failDgbas) throw new Error("mock DGBAS unavailable");
+      const response = dgbasResponseFor(requestUrl, {
+        missingYear: missingDgbasYear,
+        wrongUnit: wrongDgbasUnit,
+        nonAnnual: badDgbasDimensions,
+        badSender: badDgbasSender,
+      });
+      if (response) return response;
+    }
     if (url.href === IMF_WEO_PAGE) {
       if (failImfDiscovery) throw new Error("mock WEO page unavailable");
       return new Response(
@@ -232,6 +367,106 @@ assert.equal(
   ).discoveryMethod,
   "official-page-html-link",
 );
+const dgbasGdp = refreshed.series.find(
+  ({ id }) => id === "DGBAS_TWN_GDP_NOMINAL",
+);
+assert.equal(dgbasGdp.unit, "million USD");
+assert.deepEqual(
+  dgbasGdp.observations.at(-2),
+  ["2024-12-31", 801529],
+  "DGBAS native million-USD GDP level is preserved",
+);
+assert.deepEqual(dgbasGdp.observations.at(-1), ["2025-12-31", 922454]);
+assert.equal(
+  dgbasGdp.observations.some(([date]) => date.startsWith("2026")),
+  false,
+  "DGBAS future placeholder year is capped out",
+);
+const dgbasCpi = refreshed.series.find(
+  ({ id }) => id === "DGBAS_TWN_CPI_INDEX",
+);
+assert.equal(dgbasCpi.unit, "index (2021=100)");
+const dgbasInflation = refreshed.series.find(
+  ({ id }) => id === "DGBAS_TWN_INFLATION",
+);
+assert.equal(dgbasInflation.derivedFrom, "DGBAS_TWN_CPI_INDEX");
+assert.ok(
+  Math.abs(dgbasInflation.observations.at(-1)[1] - (109.6 / 107.81 - 1) * 100) <
+    1e-12,
+  "DGBAS inflation uses the exact adjacent CPI baseline",
+);
+assert.equal(
+  refreshed.audit.providers.find(({ provider }) => provider === "Taiwan DGBAS")
+    .status,
+  "ok",
+);
+
+const missingDgbasRefresh = await fetchInternationalSupplement({
+  fetchImpl: mockFetch({ missingDgbasYear: "2024" }),
+  now: checkedAt,
+});
+const missingDgbasGdp = missingDgbasRefresh.series.find(
+  ({ id }) => id === "DGBAS_TWN_GDP_NOMINAL",
+);
+assert.equal(
+  missingDgbasGdp.observations.some(([date]) => date === "2024-12-31"),
+  false,
+  "DGBAS missing values are omitted, not converted to zero",
+);
+
+const badUnitRefresh = await fetchInternationalSupplement({
+  fetchImpl: mockFetch({ wrongDgbasUnit: true }),
+  now: checkedAt,
+});
+assert.equal(
+  badUnitRefresh.series.some(({ id }) => id === "DGBAS_TWN_GDP_NOMINAL"),
+  false,
+  "DGBAS native-unit label mismatch is rejected",
+);
+assert.ok(badUnitRefresh.failures.includes("DGBAS_TWN_GDP_NOMINAL"));
+
+const badDimensionRefresh = await fetchInternationalSupplement({
+  fetchImpl: mockFetch({ badDgbasDimensions: true }),
+  now: checkedAt,
+});
+assert.ok(
+  badDimensionRefresh.failures.includes("DGBAS_TWN_GDPGROWTH"),
+  "DGBAS non-annual dimensions are rejected",
+);
+
+const cachedDgbas = {
+  id: "DGBAS_TWN_GDP_NOMINAL",
+  sourceIndicator: "5",
+  indicatorKey: "GDP_NOMINAL",
+  country: "Taiwan",
+  countryCode: "TWN",
+  observations: [["2025-12-31", 922454]],
+};
+const failedDgbasRefresh = await fetchInternationalSupplement({
+  fetchImpl: mockFetch({ failDgbas: true }),
+  previousSeries: [cachedDgbas],
+  now: checkedAt,
+});
+assert.deepEqual(
+  failedDgbasRefresh.series.find(({ id }) => id === cachedDgbas.id),
+  { ...cachedDgbas, refreshStatus: "upstream-unavailable" },
+  "DGBAS failure retains the cached indicator independently",
+);
+assert.ok(failedDgbasRefresh.failures.includes("DGBAS_TWN_GDP_NOMINAL"));
+
+const cachedCpi = { ...dgbasCpi, checkedAt: "2026-08-01T00:00:00.000Z" };
+const cachedInflation = { ...dgbasInflation, checkedAt: cachedCpi.checkedAt };
+const retainedCpiRefresh = await fetchInternationalSupplement({
+  fetchImpl: mockFetch({ failDgbas: true }),
+  previousSeries: [cachedCpi, cachedInflation],
+  now: checkedAt,
+});
+const retainedInflation = retainedCpiRefresh.series.find(
+  ({ id }) => id === "DGBAS_TWN_INFLATION",
+);
+assert.equal(retainedInflation.checkedAt, cachedCpi.checkedAt);
+assert.equal(retainedInflation.refreshStatus, "upstream-unavailable");
+assert.deepEqual(retainedInflation.observations, dgbasInflation.observations);
 
 const missingCutoffRefresh = await fetchInternationalSupplement({
   fetchImpl: mockFetch({ missingImfCutoff: true }),

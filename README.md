@@ -36,7 +36,8 @@ and missing periods are not filled or interpolated.
 
 The current macro scope combines public FRED economic indicators, World Bank
 Pink Sheet commodity reference prices, World Development Indicators,
-UN Statistics Division and Pacific Community national accounts, IMF WEO actuals, and the
+UN Statistics Division and Pacific Community national accounts, Taiwan DGBAS,
+IMF WEO actuals, and the
 two retained Shiller annual housing indexes. FRED distributes many series but
 is not necessarily the original author; each row keeps the relevant provider
 and attribution. Pink Sheet values are nominal monthly averages or source
@@ -50,9 +51,14 @@ inflation, employment, population, sector composition, trade, investment,
 credit, money, reserves, remittances, external debt, and public finances.
 Availability varies by indicator. UN and Pacific Community sources supplement
 territories missing from that roster and provide additional national accounts.
-Taiwan uses IMF WEO national-statistics-office histories, truncated separately
-at each indicator's published last-actual-year cutoff. Each refresh discovers
-the latest full WEO release; later staff projections are not historical data.
+Taiwan's primary readings come directly from its Directorate-General of Budget,
+Accounting and Statistics (DGBAS). Annual CPI inflation is derived only from
+adjacent published positive CPI indexes; the source index is retained separately.
+IMF WEO histories remain separate and are truncated at each indicator's published
+last-actual-year cutoff. Each refresh discovers the latest full WEO release when
+accessible; later staff projections are not historical data. If an upstream
+provider rejects a request, previously verified histories retain their original
+check time and an explicit retained-cache status.
 Nominal and real GDP, base years, currency multipliers, modeled estimates, and
 source units remain explicitly distinguished. Missing headline readings stay
 unavailable rather than becoming zero or a different metric.
@@ -159,27 +165,27 @@ The focused commands remain available for data and delivery work:
 
 ### Data and automation
 
-| Path                                                                  | Purpose                                                                                                |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `public/data/snapshot.json`                                           | Reviewed macro snapshot source of truth.                                                               |
-| `public/data/version.json`                                            | Snapshot freshness manifest.                                                                           |
-| `public/data/source-inventory.csv`, `public/data/source-inventory.md` | Generated current source inventory.                                                                    |
-| `public/data/country-coverage.json`                                   | Machine-readable economy, indicator, coverage, and freshness audit.                                    |
-| `scripts/build-data.mjs`                                              | Packs complete histories into hashed runtime files.                                                    |
-| `scripts/refresh-data.mjs`                                            | Fetches, validates, normalizes, and writes public data.                                                |
-| `scripts/macro-scope.mjs`                                             | Shared macro eligibility and metadata normalization.                                                   |
-| `scripts/catalog.mjs`, `scripts/extended-macro-catalog.mjs`           | FRED catalogues and source metadata.                                                                   |
-| `scripts/commodity-history.mjs`                                       | World Bank Pink Sheet parser and provenance.                                                           |
-| `scripts/shiller-history.mjs`                                         | Retained Shiller housing parser and provenance.                                                        |
-| `scripts/world-development.mjs`                                       | Dynamic World Bank roster, paginated annual observations, source metadata, and per-indicator fallback. |
-| `scripts/international-supplement.mjs`                                | UN and Pacific Community annual national accounts with explicit provider units and cache fallback.     |
-| `scripts/build-map.mjs`, `public/world.json`                          | Rebuild script and bundled Natural Earth country outlines; independent of economic data.               |
-| `public/favicon.svg`                                                  | MacroTrace mark.                                                                                       |
-| `.github/workflows/pages.yml`                                         | GitHub Pages build and deployment.                                                                     |
-| `.github/workflows/refresh-data.yml`                                  | Daily/manual refresh, guarded commit, and Pages dispatch.                                              |
-| `package.json`, `package-lock.json`                                   | Reproducible commands and dependencies.                                                                |
-| `vite.config.js`, `.gitignore`                                        | Relative-path two-page build and local/generated-file exclusions.                                      |
-| `README.md`, `SUBMISSION.txt`                                         | Project documentation and four-line course submission.                                                 |
+| Path                                                                  | Purpose                                                                                                  |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `public/data/snapshot.json`                                           | Reviewed macro snapshot source of truth.                                                                 |
+| `public/data/version.json`                                            | Snapshot freshness manifest.                                                                             |
+| `public/data/source-inventory.csv`, `public/data/source-inventory.md` | Generated current source inventory.                                                                      |
+| `public/data/country-coverage.json`                                   | Machine-readable economy, indicator, coverage, and freshness audit.                                      |
+| `scripts/build-data.mjs`                                              | Packs complete histories into hashed runtime files.                                                      |
+| `scripts/refresh-data.mjs`                                            | Fetches, validates, normalizes, and writes public data.                                                  |
+| `scripts/macro-scope.mjs`                                             | Shared macro eligibility and metadata normalization.                                                     |
+| `scripts/catalog.mjs`, `scripts/extended-macro-catalog.mjs`           | FRED catalogues and source metadata.                                                                     |
+| `scripts/commodity-history.mjs`                                       | World Bank Pink Sheet parser and provenance.                                                             |
+| `scripts/shiller-history.mjs`                                         | Retained Shiller housing parser and provenance.                                                          |
+| `scripts/world-development.mjs`                                       | Dynamic World Bank roster, paginated annual observations, source metadata, and per-indicator fallback.   |
+| `scripts/international-supplement.mjs`                                | UN, Pacific Community, Taiwan DGBAS, and actual-only IMF histories with native units and cache fallback. |
+| `scripts/build-map.mjs`, `public/world.json`                          | Rebuild script and bundled Natural Earth country outlines; independent of economic data.                 |
+| `public/favicon.svg`                                                  | MacroTrace mark.                                                                                         |
+| `.github/workflows/pages.yml`                                         | GitHub Pages build and deployment.                                                                       |
+| `.github/workflows/refresh-data.yml`                                  | Daily/manual refresh, guarded commit, and Pages dispatch.                                                |
+| `package.json`, `package-lock.json`                                   | Reproducible commands and dependencies.                                                                  |
+| `vite.config.js`, `.gitignore`                                        | Relative-path two-page build and local/generated-file exclusions.                                        |
+| `README.md`, `SUBMISSION.txt`                                         | Project documentation and four-line course submission.                                                   |
 
 ### Tests
 
@@ -200,7 +206,7 @@ The focused commands remain available for data and delivery work:
 
 Source URLs and provider notes are published with each series. Public access
 does not remove provider attribution or third-party reuse conditions; review
-current FRED, World Bank, UN, SPC, IMF, Shiller, and other original-source terms before
+current FRED, World Bank, UN, SPC, DGBAS, IMF, Shiller, and other original-source terms before
 redistributing data. MacroTrace is informational and does not provide
 investment advice. No claim of real-time quotes, universal freshness, custom
 cache headers, or performance improvement is made without current evidence.

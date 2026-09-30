@@ -295,14 +295,20 @@ function readoutForSeries(
 }
 
 function supplementalReadouts(snapshot, country, seriesList) {
+  const hasRealIncome = seriesList.some(
+    (series) =>
+      indicatorKeyForSeries(series) === "GDPPC" && hasSeriesValue(series),
+  );
+  const rankFor = (key) =>
+    !hasRealIncome && key === "GDPPC_NOMINAL"
+      ? 3
+      : (SUPPLEMENT_PRIORITY.get(key) ?? 6);
   const available = seriesList
     .filter((series) => !isWorldBankSeries(series) && hasSeriesValue(series))
     .sort((left, right) => {
       const leftKey = indicatorKeyForSeries(left);
       const rightKey = indicatorKeyForSeries(right);
-      const rank =
-        (SUPPLEMENT_PRIORITY.get(leftKey) ?? 6) -
-        (SUPPLEMENT_PRIORITY.get(rightKey) ?? 6);
+      const rank = rankFor(leftKey) - rankFor(rightKey);
       if (rank) return rank;
       return (
         Number(right.sourceFamily === country.sourceFamily) -

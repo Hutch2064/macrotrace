@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-09-30T18:50:39.702Z. 6442 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-09-30T19:19:01.715Z. 6448 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
@@ -1478,6 +1478,7 @@ Snapshot: 2026-09-30T18:50:39.702Z. 6442 retained macroeconomic series. Coverage
 | [WDI_ZWE_LFPR](https://data.worldbank.org/indicator/SL.TLF.CACT.ZS) | Labor force participation · modeled ILO estimate · Zimbabwe | Zimbabwe | annual | % | 1990-12-31 | 2025-12-31 | 36 |
 | [WDI_ZWE_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS) | Unemployment rate · modeled ILO estimate · Zimbabwe | Zimbabwe | annual | % | 1991-12-31 | 2025-12-31 | 35 |
 | [WDI_ZWE_YOUTH_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.1524.ZS) | Youth unemployment · modeled ILO estimate · Zimbabwe | Zimbabwe | annual | % | 1991-12-31 | 2025-12-31 | 35 |
+| [DGBAS_TWN_UNEMPLOYMENT](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A040108010&sys=210) | Unemployment rate · Taiwan | Taiwan | annual | % | 1978-12-31 | 2025-12-31 | 48 |
 | [IMF_TWN_UNEMPLOYMENT](https://data.imf.org/en/Datasets/WEO) | Unemployment rate · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
 
 ## Inflation
@@ -1893,6 +1894,8 @@ Snapshot: 2026-09-30T18:50:39.702Z. 6442 retained macroeconomic series. Coverage
 | [WDI_ZMB_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Zambia | Zambia | annual | % | 1986-12-31 | 2025-12-31 | 40 |
 | [WDI_ZWE_CPIINDEX](https://data.worldbank.org/indicator/FP.CPI.TOTL) | Consumer price index · Zimbabwe | Zimbabwe | annual | index (2010=100) | 2009-12-31 | 2022-12-31 | 14 |
 | [WDI_ZWE_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Zimbabwe | Zimbabwe | annual | % | 2010-12-31 | 2022-12-31 | 13 |
+| [DGBAS_TWN_CPI_INDEX](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price index · Taiwan | Taiwan | annual | index (2021=100) | 1981-12-31 | 2025-12-31 | 45 |
+| [DGBAS_TWN_INFLATION](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1982-12-31 | 2025-12-31 | 44 |
 | [IMF_TWN_INFLATION](https://data.imf.org/en/Datasets/WEO) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
 
 ## Growth
@@ -5155,6 +5158,9 @@ Snapshot: 2026-09-30T18:50:39.702Z. 6442 retained macroeconomic series. Coverage
 | [WDI_ZWE_SAVINGS](https://data.worldbank.org/indicator/NY.GNS.ICTR.ZS) | Gross savings share of GDP · Zimbabwe | Zimbabwe | annual | % | 1977-12-31 | 2024-12-31 | 34 |
 | [WDI_ZWE_SERVICES](https://data.worldbank.org/indicator/NV.SRV.TOTL.ZS) | Services value added share of GDP · Zimbabwe | Zimbabwe | annual | % | 1964-12-31 | 2025-12-31 | 62 |
 | [WDI_ZWE_TRADE](https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS) | Trade share of GDP · Zimbabwe | Zimbabwe | annual | % | 1975-12-31 | 2024-12-31 | 50 |
+| [DGBAS_TWN_GDP_NOMINAL](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Nominal GDP · Taiwan | Taiwan | annual | million USD | 1960-12-31 | 2025-12-31 | 66 |
+| [DGBAS_TWN_GDPGROWTH](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Real GDP growth · Taiwan | Taiwan | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [DGBAS_TWN_GDPPC_NOMINAL](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Nominal GDP per capita · Taiwan | Taiwan | annual | USD/person | 1960-12-31 | 2025-12-31 | 66 |
 | [IMF_TWN_GDP_NOMINAL](https://data.imf.org/en/Datasets/WEO) | Nominal GDP · Taiwan | Taiwan | annual | USD billions | 1980-12-31 | 2025-12-31 | 46 |
 | [IMF_TWN_GDPGROWTH](https://data.imf.org/en/Datasets/WEO) | Real GDP growth · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
 | [IMF_TWN_GDPPC_NOMINAL](https://data.imf.org/en/Datasets/WEO) | Nominal GDP per capita · Taiwan | Taiwan | annual | USD/person | 1980-12-31 | 2025-12-31 | 46 |

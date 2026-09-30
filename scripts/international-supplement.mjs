@@ -200,6 +200,107 @@ const IMF_TWN_INDICATORS = Object.freeze([
   },
 ]);
 
+const DGBAS_BASE = "https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sdmx/";
+const DGBAS_API_GUIDE_URL =
+  "https://nstatdb.dgbas.gov.tw/dgbasAll/download/API%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6.pdf";
+const DGBAS_ECONOMY = Object.freeze({
+  countryCode: "TWN",
+  name: "Taiwan",
+});
+const DGBAS_START_YEAR = 1960;
+
+const DGBAS_INDICATORS = Object.freeze([
+  {
+    id: "GDPGROWTH",
+    sourceIndicator: "3",
+    dataset: "A018101010",
+    filter: "3...A",
+    indicatorKey: "GDPGROWTH",
+    indicatorName: "Real GDP growth",
+    unit: "%",
+    category: "Growth",
+    changeType: "basis-points",
+    expectedDimension: "fldid",
+    expectedValueId: "3",
+    expectedValueName: "經濟成長率(%)",
+    sourceDefinition: "經濟成長率(%)",
+    sourceUnit: "%",
+    valueType: "rate",
+  },
+  {
+    id: "GDP_NOMINAL",
+    sourceIndicator: "5",
+    dataset: "A018101010",
+    filter: "5...A",
+    indicatorKey: "GDP_NOMINAL",
+    indicatorName: "Nominal GDP",
+    unit: "million USD",
+    category: "Growth",
+    changeType: "percent",
+    expectedDimension: "fldid",
+    expectedValueId: "5",
+    expectedValueName: "國內生產毛額GDP(名目值，百萬美元)",
+    sourceDefinition: "國內生產毛額GDP(名目值，百萬美元)",
+    sourceUnit: "million USD",
+    valueType: "level",
+  },
+  {
+    id: "GDPPC_NOMINAL",
+    sourceIndicator: "7",
+    dataset: "A018101010",
+    filter: "7...A",
+    indicatorKey: "GDPPC_NOMINAL",
+    indicatorName: "Nominal GDP per capita",
+    unit: "USD/person",
+    category: "Growth",
+    changeType: "percent",
+    expectedDimension: "fldid",
+    expectedValueId: "7",
+    expectedValueName: "平均每人GDP(名目值，美元)",
+    sourceDefinition: "平均每人GDP(名目值，美元)",
+    sourceUnit: "USD/person",
+    valueType: "level",
+  },
+  {
+    id: "CPI_INDEX",
+    sourceIndicator: "1",
+    dataset: "A030101015",
+    filter: "1...A",
+    indicatorKey: "CPI_INDEX",
+    indicatorName: "Consumer price index",
+    unit: "index (2021=100)",
+    category: "Inflation",
+    changeType: "percent",
+    expectedDimension: "fldid",
+    expectedValueId: "1",
+    expectedValueName: "總指數",
+    sourceDefinition: "消費者物價基本分類指數 · 總指數 (民國110年=100)",
+    sourceUnit: "index (2021=100)",
+    valueType: "level",
+    cpi: true,
+  },
+  {
+    id: "UNEMPLOYMENT",
+    sourceIndicator: "2",
+    dataset: "A040108010",
+    filter: "2.1.1.A",
+    indicatorKey: "UNEMPLOYMENT",
+    indicatorName: "Unemployment rate",
+    unit: "%",
+    category: "Labor",
+    changeType: "basis-points",
+    expectedDimensions: [
+      ["fldid", "2", "失業率"],
+      ["code1", "1", "合計"],
+      ["code2", "1", "合計"],
+    ],
+    sourceDefinition: "勞參率及失業率-按教育程度分 · 失業率 · 合計",
+    sourceUnit: "%",
+    valueType: "rate",
+    rejectZero: true,
+  },
+]);
+
 function asText(value) {
   return String(value ?? "").trim();
 }
@@ -397,6 +498,399 @@ function parseCsv(text) {
         headers.map((header, index) => [header, values[index] ?? ""]),
       ),
     );
+}
+
+function dgbasSourceUrl(indicator) {
+  return `https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=${indicator.dataset}&sys=210`;
+}
+
+function dgbasApiUrl(indicator, startYear, endYear) {
+  return `${DGBAS_BASE}${indicator.dataset}/${indicator.filter}&startTime=${startYear}&endTime=${endYear}`;
+}
+
+function parseDgbasPrepared(value) {
+  const match = asText(value).match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})/);
+  return match ? parseProviderTimestamp(`${match[1]}T${match[2]}+08:00`) : null;
+}
+
+function dgbasExpectedDimensions(indicator) {
+  if (indicator.expectedDimensions) return indicator.expectedDimensions;
+  return [
+    [
+      indicator.expectedDimension,
+      indicator.expectedValueId,
+      indicator.expectedValueName,
+    ],
+  ];
+}
+
+function parseDgbasResponse({
+  body,
+  indicator,
+  startYear,
+  lastYear,
+  sourceDownloadUrl,
+}) {
+  let document;
+  try {
+    document = JSON.parse(body);
+  } catch (error) {
+    throw new Error(
+      `DGBAS ${indicator.id} response is not JSON: ${error.message}`,
+    );
+  }
+  const sender = document?.meta?.sender;
+  if (asText(sender?.id).toLowerCase() !== "dgbas")
+    throw new Error(`DGBAS ${indicator.id} sender metadata mismatch`);
+  const data = document?.data;
+  const structure = data?.structure;
+  const dimensions = structure?.dimensions;
+  const seriesDimensions = dimensions?.series;
+  const observationDimension = dimensions?.observation?.[0];
+  if (!Array.isArray(seriesDimensions) || seriesDimensions[0]?.id !== "fldid")
+    throw new Error(`DGBAS ${indicator.id} missing fldid dimension`);
+  if (!observationDimension || observationDimension.id !== "ym")
+    throw new Error(`DGBAS ${indicator.id} missing annual ym dimension`);
+  const periods = observationDimension.values || [];
+  if (!periods.length || periods.some(({ id }) => !/^\d{4}$/.test(asText(id))))
+    throw new Error(`DGBAS ${indicator.id} returned non-annual periods`);
+  const expectedDimensions = dgbasExpectedDimensions(indicator);
+  const indexes = expectedDimensions.map(
+    ([dimensionId, valueId, valueName]) => {
+      const dimension = seriesDimensions.find(({ id }) => id === dimensionId);
+      const value = dimension?.values?.find(({ id }) => asText(id) === valueId);
+      if (!dimension || !value || asText(value.name) !== valueName)
+        throw new Error(`DGBAS ${indicator.id} dimension metadata mismatch`);
+      return dimension.values.indexOf(value);
+    },
+  );
+  const key = indexes.join(":");
+  const dataSet = data?.dataSets?.[0];
+  const selectedSeries = dataSet?.series?.[key];
+  if (!selectedSeries)
+    throw new Error(`DGBAS ${indicator.id} selected annual series missing`);
+  const lowerYear = indicator.cpi ? startYear - 1 : startYear;
+  const values = [];
+  let invalidValues = 0;
+  for (const [observationIndex, rawValue] of Object.entries(
+    selectedSeries.observations || {},
+  )) {
+    const period = periods[Number(observationIndex)];
+    const year = Number(period?.id);
+    const value = finiteNumber(
+      Array.isArray(rawValue) ? rawValue[0] : rawValue,
+    );
+    if (
+      !Number.isInteger(year) ||
+      year < lowerYear ||
+      year > lastYear ||
+      value === null
+    )
+      continue;
+    if (
+      (indicator.valueType === "level" || indicator.rejectZero) &&
+      value <= 0
+    ) {
+      invalidValues += 1;
+      continue;
+    }
+    values.push([yearEnd(year), value]);
+  }
+  values.sort(([left], [right]) => left.localeCompare(right));
+  if (!values.length)
+    throw new Error(
+      `DGBAS ${indicator.id} has no valid completed observations`,
+    );
+  return {
+    values,
+    allValues: values,
+    invalidValues,
+    sourceDefinition: indicator.sourceDefinition,
+    preparedAt: parseDgbasPrepared(document.meta.prepared),
+    preparedRaw: asText(document.meta.prepared),
+    sourceHash: sourceHash(body),
+    metadataHash: sourceHash(JSON.stringify(structure)),
+    sourceDownloadUrl,
+  };
+}
+
+function makeDgbasSeries({ indicator, parsed, checkedAt }) {
+  const observations = parsed.values.filter(
+    ([date]) => Number(date.slice(0, 4)) >= DGBAS_START_YEAR,
+  );
+  if (!observations.length) return null;
+  return {
+    id: `DGBAS_TWN_${indicator.indicatorKey}`,
+    name: `${indicator.indicatorName} · ${DGBAS_ECONOMY.name}`,
+    indicatorKey: indicator.indicatorKey,
+    indicatorName: indicator.indicatorName,
+    sourceIndicator: indicator.sourceIndicator,
+    category: indicator.category,
+    frequency: "annual",
+    releaseFrequency: "annual",
+    unit: indicator.unit,
+    changeType: indicator.changeType,
+    country: DGBAS_ECONOMY.name,
+    countryCode: DGBAS_ECONOMY.countryCode,
+    sourceCountryCode: DGBAS_ECONOMY.countryCode,
+    geography: DGBAS_ECONOMY.name,
+    region: "East Asia & Pacific",
+    incomeLevel: null,
+    lon: 120.96,
+    lat: 23.7,
+    source: "Taiwan Directorate-General of Budget, Accounting and Statistics",
+    sourceFamily: "Taiwan DGBAS",
+    sourceUrl: dgbasSourceUrl(indicator),
+    sourceDownloadUrl: parsed.sourceDownloadUrl,
+    sourceColumn: `${indicator.dataset} / ${indicator.filter}`,
+    sourceFile: "DGBAS Macro Database API JSON",
+    sourceHash: parsed.sourceHash,
+    metadataHash: parsed.metadataHash,
+    checkedAt,
+    ...(parsed.preparedAt ? { providerUpdatedAt: parsed.preparedAt } : {}),
+    providerPrepared: parsed.preparedRaw,
+    sourceAsOf: observations.at(-1)[0],
+    sourceDefinition: indicator.sourceDefinition,
+    sourceOrganization:
+      "Directorate-General of Budget, Accounting and Statistics, Executive Yuan, Taiwan",
+    historyType: "published official Taiwan statistics",
+    rightsNote: `Retain DGBAS attribution and review the current public-data terms before redistribution. ${DGBAS_API_GUIDE_URL}`,
+    availabilityNote: `Annual published values are retained only for completed reference years ${DGBAS_START_YEAR} through the prior calendar year. Missing values are omitted; no interpolation or zero substitution is performed.`,
+    methodology:
+      "The DGBAS API's annual dimension is validated from the JSON structure and the requested period is capped at the prior calendar year. Native DGBAS units are preserved; level indicators reject non-positive values.",
+    observations,
+    sourceUnit: indicator.sourceUnit,
+    sourceFrequency: "A",
+    sourceMetadataNote: `DGBAS sender=dgbas; annual fldid selection validated; API metadata hash=${parsed.metadataHash}.`,
+  };
+}
+
+function makeDgbasInflationSeries({ cpiSeries, checkedAt }) {
+  const index = new Map(cpiSeries.observations);
+  const observations = [];
+  for (const [date] of cpiSeries.observations) {
+    const year = Number(date.slice(0, 4));
+    const current = index.get(yearEnd(year));
+    const prior = index.get(yearEnd(year - 1));
+    if (year < DGBAS_START_YEAR || prior === undefined || prior <= 0) continue;
+    if (current === undefined || current <= 0) continue;
+    observations.push([yearEnd(year), (current / prior - 1) * 100]);
+  }
+  if (!observations.length) return null;
+  return {
+    id: "DGBAS_TWN_INFLATION",
+    name: `Consumer price inflation · ${DGBAS_ECONOMY.name}`,
+    indicatorKey: "INFLATION",
+    indicatorName: "Consumer price inflation",
+    sourceIndicator: "A030101015/1:annual-change",
+    category: "Inflation",
+    frequency: "annual",
+    releaseFrequency: "annual",
+    unit: "%",
+    changeType: "basis-points",
+    country: DGBAS_ECONOMY.name,
+    countryCode: DGBAS_ECONOMY.countryCode,
+    sourceCountryCode: DGBAS_ECONOMY.countryCode,
+    geography: DGBAS_ECONOMY.name,
+    region: "East Asia & Pacific",
+    incomeLevel: null,
+    lon: 120.96,
+    lat: 23.7,
+    source: "Taiwan Directorate-General of Budget, Accounting and Statistics",
+    sourceFamily: "Taiwan DGBAS",
+    sourceUrl: cpiSeries.sourceUrl,
+    sourceDownloadUrl: cpiSeries.sourceDownloadUrl,
+    sourceColumn: "A030101015 / 1...A / annual change",
+    sourceFile: "DGBAS Macro Database API JSON",
+    sourceHash: cpiSeries.sourceHash,
+    metadataHash: cpiSeries.metadataHash,
+    checkedAt,
+    ...(cpiSeries.providerUpdatedAt
+      ? { providerUpdatedAt: cpiSeries.providerUpdatedAt }
+      : {}),
+    providerPrepared: cpiSeries.providerPrepared,
+    sourceAsOf: observations.at(-1)[0],
+    sourceDefinition:
+      "Derived annual CPI inflation from DGBAS total CPI index (2021=100)",
+    sourceOrganization:
+      "Directorate-General of Budget, Accounting and Statistics, Executive Yuan, Taiwan",
+    historyType: "derived from published official Taiwan statistics",
+    rightsNote: `Retain DGBAS attribution and review the current public-data terms before redistribution. ${DGBAS_API_GUIDE_URL}`,
+    availabilityNote: `Derived only where the current and immediately prior calendar-year CPI indexes are both published and positive; source CPI index is retained separately.`,
+    methodology:
+      "Annual CPI inflation is exactly (CPI_t / CPI_t-1 - 1) × 100 using adjacent published calendar-year total CPI index observations. No interpolation, annualization, forecast substitution, or zero baseline is permitted.",
+    observations,
+    sourceUnit: "% derived from index",
+    sourceFrequency: "A",
+    derivedFrom: "DGBAS_TWN_CPI_INDEX",
+    derivedMethod: "(CPI_t / CPI_t-1 - 1) * 100",
+    sourceCpiIndexUnit: "index (2021=100)",
+  };
+}
+
+async function fetchDgbasProvider({
+  fetchImpl,
+  checkedAt,
+  lastYear,
+  previousSeries,
+}) {
+  const audit = {
+    provider: "Taiwan DGBAS",
+    sourceFamily: "Taiwan DGBAS",
+    status: "ok",
+    requestedCountry: DGBAS_ECONOMY.countryCode,
+    requestedIndicators: DGBAS_INDICATORS.map(({ id }) => id),
+    checkedAt,
+    completedLastYear: lastYear,
+    startYear: DGBAS_START_YEAR,
+    annualReferenceOnly: true,
+    senderId: "dgbas",
+  };
+  const results = await mapWithConcurrency(
+    DGBAS_INDICATORS,
+    2,
+    async (indicator) => {
+      const previous = previousFor(previousSeries, "DGBAS_").filter(
+        ({ indicatorKey }) => indicatorKey === indicator.indicatorKey,
+      );
+      const startYear = indicator.cpi ? DGBAS_START_YEAR - 1 : DGBAS_START_YEAR;
+      const sourceDownloadUrl = dgbasApiUrl(indicator, startYear, lastYear);
+      try {
+        const result = await requestText(sourceDownloadUrl, fetchImpl, {
+          headers: { accept: "application/json" },
+        });
+        const parsed = parseDgbasResponse({
+          body: result.body,
+          indicator,
+          startYear,
+          lastYear,
+          sourceDownloadUrl,
+        });
+        const series = makeDgbasSeries({ indicator, parsed, checkedAt });
+        if (!series) throw new Error("DGBAS produced no reference-year series");
+        return {
+          indicator,
+          series,
+          status: "ok",
+          observations: series.observations.length,
+          invalidValues: parsed.invalidValues,
+          parsed,
+        };
+      } catch (error) {
+        if (previous.length)
+          return {
+            indicator,
+            series: cloneCached(previous[0]),
+            status: "upstream-unavailable",
+            error: error.message,
+            observations: previous[0].observations?.length || 0,
+            invalidValues: 0,
+          };
+        return {
+          indicator,
+          series: null,
+          status: "upstream-unavailable",
+          error: error.message,
+          observations: 0,
+          invalidValues: 0,
+        };
+      }
+    },
+  );
+  const cpiResult = results.find(({ indicator }) => indicator.cpi);
+  const growthResult = results.find(
+    ({ indicator }) => indicator.id === "GDPGROWTH",
+  );
+  const nominalResult = results.find(
+    ({ indicator }) => indicator.id === "GDP_NOMINAL",
+  );
+  if (growthResult?.series) {
+    const nominalYears = new Map(nominalResult?.series?.observations || []);
+    const originalCount = growthResult.series.observations.length;
+    const observations = growthResult.series.observations.filter(
+      ([date, value]) => value !== 0 || (nominalYears.get(date) || 0) > 0,
+    );
+    growthResult.series = observations.length
+      ? {
+          ...growthResult.series,
+          observations,
+          sourceAsOf: observations.at(-1)[0],
+        }
+      : null;
+    growthResult.observations = observations.length;
+    growthResult.invalidValues =
+      (growthResult.invalidValues || 0) + (growthResult.series ? 0 : 1);
+    growthResult.zeroRatesWithoutConfirmedGDP =
+      originalCount - observations.length;
+  }
+  const previousInflation = previousFor(previousSeries, "DGBAS_").find(
+    ({ indicatorKey }) => indicatorKey === "INFLATION",
+  );
+  let derivedInflation = null;
+  if (cpiResult?.status !== "ok" && previousInflation) {
+    derivedInflation = cloneCached(previousInflation);
+  } else if (cpiResult?.series) {
+    const cpiForDerivation = cpiResult.parsed?.values
+      ? { ...cpiResult.series, observations: cpiResult.parsed.values }
+      : cpiResult.series;
+    derivedInflation = makeDgbasInflationSeries({
+      cpiSeries: cpiForDerivation,
+      checkedAt: cpiResult.series.checkedAt || checkedAt,
+    });
+    if (derivedInflation && cpiResult.status !== "ok")
+      derivedInflation.refreshStatus = "upstream-unavailable";
+  }
+  if (!derivedInflation && previousInflation)
+    derivedInflation = cloneCached(previousInflation);
+  if (derivedInflation)
+    results.push({
+      indicator: {
+        id: "INFLATION",
+        indicatorKey: "INFLATION",
+        sourceIndicator: "A030101015/1:annual-change",
+      },
+      series: derivedInflation,
+      status: cpiResult?.status === "ok" ? "ok" : "upstream-unavailable",
+      observations: derivedInflation.observations?.length || 0,
+      invalidValues: 0,
+    });
+  const entries = results.flatMap(({ series }) => (series ? [series] : []));
+  audit.providerUpdatedAt = entries
+    .map(({ providerUpdatedAt }) => providerUpdatedAt)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+  audit.series = results.map(
+    ({ indicator, series, status, error, observations, invalidValues }) => ({
+      indicator: indicator.id,
+      sourceIndicator: indicator.sourceIndicator,
+      indicatorKey: indicator.indicatorKey,
+      seriesCount: series ? 1 : 0,
+      observations,
+      invalidValues,
+      status,
+      ...(error ? { error } : {}),
+    }),
+  );
+  audit.seriesCount = entries.length;
+  audit.countriesWithData = entries.length ? 1 : 0;
+  audit.status = results.some(({ status }) => status === "upstream-unavailable")
+    ? entries.length
+      ? "partial-upstream-unavailable"
+      : "upstream-unavailable"
+    : "ok";
+  if (!entries.length) {
+    const error = new Error("DGBAS returned no valid Taiwan series");
+    error.audit = audit;
+    throw error;
+  }
+  return {
+    series: entries,
+    audit,
+    failures: results
+      .filter(({ status }) => status === "upstream-unavailable")
+      .map(({ indicator }) => `DGBAS_TWN_${indicator.id}`),
+  };
 }
 
 export function observationsFromRows(
@@ -1204,6 +1698,17 @@ export async function fetchInternationalSupplement({
         id: "SPC_PDH",
         run: () =>
           fetchSpcProvider({ fetchImpl, checkedAt, lastYear, previousSeries }),
+      },
+      {
+        prefix: "DGBAS_",
+        id: "DGBAS_TWN",
+        run: () =>
+          fetchDgbasProvider({
+            fetchImpl,
+            checkedAt,
+            lastYear,
+            previousSeries,
+          }),
       },
       {
         prefix: "IMF_",

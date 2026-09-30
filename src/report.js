@@ -80,8 +80,18 @@ async function renderCountry(id) {
       .map((metric) => {
         const unit = String(metric.unit || "");
         const currency = /(USD|dollars|currency)/i.test(unit);
-        const value = currency ? compact(metric.value) : format(metric.value);
-        return `<div class="headline-metric"><span class="metric-label">${escape(metric.label)}</span><span class="metric-value${currency ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + unit)}">${value}<span class="metric-unit">${escape(unit)}</span></span><span class="metric-date">${metric.frequency === "annual" && metric.date ? metric.date.slice(0, 4) + " · annual" : dateLabel(metric.date)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(sourceLabel(metric.sourceFamily, metric.source, id === "USA" ? "FRED" : "Official annual source"))}</a>` : ""}</div>`;
+        const magnitude = currency
+          ? unit.match(/\b(thousand|million|billion)s?\b/i)?.[1]?.toLowerCase()
+          : null;
+        const scale =
+          { thousand: 1e3, million: 1e6, billion: 1e9 }[magnitude] || 1;
+        const value = currency
+          ? compact(Number.isFinite(metric.value) ? metric.value * scale : null)
+          : format(metric.value);
+        const displayUnit = magnitude
+          ? unit.replace(/\b(thousand|million|billion)s?\b/i, "").trim()
+          : unit;
+        return `<div class="headline-metric"><span class="metric-label">${escape(metric.label)}</span><span class="metric-value${currency ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + unit)}">${value}<span class="metric-unit">${escape(displayUnit)}</span></span><span class="metric-date">${metric.frequency === "annual" && metric.date ? metric.date.slice(0, 4) + " · annual" : dateLabel(metric.date)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(sourceLabel(metric.sourceFamily, metric.source, id === "USA" ? "FRED" : "Official annual source"))}</a>` : ""}</div>`;
       })
       .join("");
     countryMotion = host.animate(

@@ -306,8 +306,15 @@ if (pruneOnly) {
 }
 
 const countryMap = new Map(countries.map((country) => [country.id, country]));
-for (const country of supplementaryCountries)
-  if (!countryMap.has(country.id)) countryMap.set(country.id, country);
+for (const country of supplementaryCountries) {
+  const existing = countryMap.get(country.id);
+  if (
+    !existing ||
+    (existing.sourceFamily &&
+      !/World Bank|World Development/i.test(existing.sourceFamily))
+  )
+    countryMap.set(country.id, country);
+}
 countries = [...countryMap.values()]
   .map((country) => ({
     ...country,
@@ -343,7 +350,7 @@ const snapshot = {
     fredStart,
     missingValues: "Rows with missing or non-numeric observations are omitted.",
     scope:
-      "Macroeconomics only: published economic indicators, FX, policy and sovereign yields, actual commodity prices and commodity indexes, World Bank, UN and Pacific Community macro histories, and two explicitly retained Shiller actual housing histories. Stocks, securities, ETFs, factors, and reconstructed investment returns are excluded before fetch.",
+      "Macroeconomics only: published economic indicators, FX, policy and sovereign yields, actual commodity prices and commodity indexes, World Bank, UN, Pacific Community, Taiwan DGBAS and actual-only IMF macro histories, and two explicitly retained Shiller actual housing histories. Stocks, securities, ETFs, factors, and reconstructed investment returns are excluded before fetch.",
     transformations:
       "Source values are preserved. Panel views calculate native-frequency levels, calendar-year changes and prior-observation changes; rate changes are percentage points, signed index changes use native points, and prices or quantities use percent changes with strictly positive baselines.",
   },
