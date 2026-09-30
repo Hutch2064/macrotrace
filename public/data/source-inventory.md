@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-09-30T19:19:01.715Z. 6448 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-09-30T19:25:15.215Z. 6448 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
