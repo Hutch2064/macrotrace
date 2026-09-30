@@ -233,7 +233,7 @@ export const methodDefinitions = Object.freeze([
   {
     title: "Change and rate semantics",
     definition:
-      "Change = x[t] − x[t−1 native observation]. Rate and percentage-point series keep point differences; signed index or diffusion series keep index-point differences. Relative percentage changes and point changes are never plotted as one unit.",
+      "Previous-observation change = 100 × (x[t] / x[t−1 native observation] − 1) for positive prices and quantities. Rates use x[t] − x[t−1] in percentage points; signed index or diffusion series use native-point differences. Relative percentage changes and point changes are never plotted as one unit.",
   },
   {
     title: "Dynamic selection",

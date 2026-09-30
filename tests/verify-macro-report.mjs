@@ -142,7 +142,7 @@ assert.equal(report.methodDefinitions.length, methodDefinitions.length);
 for (const method of [
   "native",
   "YoY",
-  "percentage-point",
+  "percentage[ -]point",
   "median",
   "percentile",
   "source",
