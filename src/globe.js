@@ -1,4 +1,7 @@
 // Orthographic spherical geometry: no WebGL runtime or animation framework.
+import { geoOrthographic, geoPath } from "d3-geo";
+import { displayGeometry } from "./globe-geometry.js";
+
 export async function economicGlobe(
   canvas,
   onSelect,
@@ -50,9 +53,11 @@ export async function economicGlobe(
     destination,
     start,
     dragging = false,
-    pointer;
+    pointer,
+    tooltipPinned = false;
   let visible = true,
     destroyed = false;
+  let dirty = false;
   const listeners = [];
   const listen = (target, event, callback) => {
     target.addEventListener(event, callback);
@@ -83,13 +88,9 @@ export async function economicGlobe(
     };
   };
   const outlines = map.countries.map((country) => {
-    const paths = country.polygons.flatMap((polygon) =>
-      polygon.map((ring) => ring.map(sphere)),
-    );
     return {
       ...country,
-      paths,
-      projected: paths.map((ring) => ring.map(() => [0, 0, 0])),
+      geometry: { type: "MultiPolygon", coordinates: country.polygons },
       pickPolygons: country.polygons.map((polygon) => polygon.map(pickRing)),
     };
   });
@@ -129,27 +130,21 @@ export async function economicGlobe(
   const closeTooltip = () => {
     pointer = null;
     hover = null;
+    tooltipPinned = false;
     tooltip.setAttribute("aria-hidden", "true");
     canvas.removeAttribute("aria-describedby");
     tooltipSurface.dataset.state = "closed";
+    delete tooltipSurface.dataset.available;
     canvas.style.cursor = "grab";
   };
   listen(tooltipSurface, "animationend", () => {
     if (tooltipSurface.dataset.state === "closed") tooltip.hidden = true;
   });
-  const updateHover = () => {
-    if (!pointer) return;
-    const id = hit(pointer);
-    canvas.style.cursor = id ? "pointer" : "grab";
-    if (!id) {
-      hover = null;
-      tooltip.setAttribute("aria-hidden", "true");
-      canvas.removeAttribute("aria-describedby");
-      tooltipSurface.dataset.state = "closed";
-      return;
-    }
+  const showTooltip = (id) => {
+    if (!pointer || !id) return;
     hover = id;
     tooltipSurface.textContent = countryById.get(id)?.name || id;
+    tooltipSurface.dataset.available = String(available(id));
     tooltip.hidden = false;
     tooltip.setAttribute("aria-hidden", "false");
     canvas.setAttribute("aria-describedby", tooltip.id);
@@ -168,6 +163,20 @@ export async function economicGlobe(
     tooltip.style.left = `${x}px`;
     tooltip.style.top = `${top >= 12 ? top : pointer.clientY + 8}px`;
     tooltip.style.setProperty("--tooltip-anchor", `${pointer.clientX - x}px`);
+  };
+  const updateHover = () => {
+    if (!pointer || tooltipPinned) return;
+    const id = hit(pointer);
+    canvas.style.cursor = id ? "pointer" : "grab";
+    if (!id) {
+      hover = null;
+      tooltip.setAttribute("aria-hidden", "true");
+      canvas.removeAttribute("aria-describedby");
+      tooltipSurface.dataset.state = "closed";
+      delete tooltipSurface.dataset.available;
+      return;
+    }
+    showTooltip(id);
   };
   // Coordinates are resolved once, so rendering and hit testing do not scan
   // or repeatedly convert the full catalog roster on every animation frame.
@@ -194,11 +203,11 @@ export async function economicGlobe(
     output[2] = depth;
     return output;
   };
-  function stroke(points, color, lineWidth = 0.7, projected = false) {
+  function stroke(points, color, lineWidth = 0.7) {
     context.beginPath();
     let started = false;
     for (const point of points) {
-      const [x, y, z] = projected ? point : project(point);
+      const [x, y, z] = project(point);
       if (z < 0) {
         started = false;
         continue;
@@ -211,38 +220,12 @@ export async function economicGlobe(
     context.lineWidth = lineWidth;
     context.stroke();
   }
-  function fill(country, color) {
-    context.beginPath();
-    for (const points of country.projected) {
-      let previous = points.at(-1),
-        started = false;
-      const add = (x, y) => {
-        if (started) context.lineTo(x, y);
-        else {
-          context.moveTo(x, y);
-          started = true;
-        }
-      };
-      for (const point of points) {
-        if (point[2] >= 0 !== previous[2] >= 0) {
-          const t = previous[2] / (previous[2] - point[2]);
-          const x = previous[0] + t * (point[0] - previous[0]) - width / 2;
-          const y = previous[1] + t * (point[1] - previous[1]) - height / 2;
-          const length = Math.hypot(x, y);
-          if (length)
-            add(
-              width / 2 + (radius * x) / length,
-              height / 2 + (radius * y) / length,
-            );
-        }
-        if (point[2] >= 0) add(point[0], point[1]);
-        previous = point;
-      }
-      context.closePath();
-    }
-    context.fillStyle = color;
-    context.fill("evenodd");
-  }
+  // Spherical clipping reconnects rim crossings along the horizon, not chords.
+  // This also handles rings surrounding a pole and antimeridian crossings.
+  const projection = geoOrthographic().clipAngle(90).precision(0.4);
+  const landPath = geoPath(projection, context);
+  const projectedPoint = [0, 0, 0];
+  let glow, ocean;
   const grid = [];
   for (let lat = -60; lat <= 60; lat += 30)
     grid.push(Array.from({ length: 121 }, (_, i) => sphere([i * 3, lat])));
@@ -252,54 +235,51 @@ export async function economicGlobe(
     if (!width || destroyed) return;
     orient();
     context.clearRect(0, 0, width, height);
-    const glow = context.createRadialGradient(
-      width / 2,
-      height / 2,
-      radius * 0.6,
-      width / 2,
-      height / 2,
-      radius * 1.25,
-    );
-    glow.addColorStop(0, "rgba(207,185,125,.08)");
-    glow.addColorStop(1, "rgba(207,185,125,0)");
     context.fillStyle = glow;
     context.fillRect(0, 0, width, height);
-    const ocean = context.createRadialGradient(
-      width * 0.4,
-      height * 0.32,
-      0,
-      width / 2,
-      height / 2,
-      radius,
-    );
-    ocean.addColorStop(0, "#35352e");
-    ocean.addColorStop(0.72, "#2a2a26");
-    ocean.addColorStop(1, "#20201e");
     context.beginPath();
     context.arc(width / 2, height / 2, radius, 0, Math.PI * 2);
     context.fillStyle = ocean;
     context.fill();
     context.strokeStyle = "rgba(207,185,125,.3)";
     context.stroke();
+    context.save();
+    context.clip();
+    projection.rotate([-yaw / radians, -pitch / radians]);
     for (const points of grid) stroke(points, "rgba(207,185,125,.11)");
     for (const country of outlines) {
-      for (let ring = 0; ring < country.paths.length; ring++)
-        for (let point = 0; point < country.paths[ring].length; point++)
-          project(country.paths[ring][point], country.projected[ring][point]);
+      // A conservative spherical cap rejects wholly hidden land before the
+      // more expensive polygon stream; polar and wide caps remain unclipped here.
+      if (country.cap && project(country.cap.center)[2] < -country.cap.sine)
+        continue;
       const emphasized = country.id === selected || country.id === hover;
       const hasData = available(country.id);
-      fill(country, hasData ? "rgba(207,185,125,.3)" : "rgba(183,181,169,.09)");
-      for (const points of country.projected)
-        stroke(
-          points,
-          emphasized
-            ? "rgba(253,229,182,.95)"
-            : hasData
-              ? "rgba(207,185,125,.7)"
-              : "rgba(183,181,169,.28)",
-          emphasized ? 1.5 : 0.8,
-          true,
-        );
+      context.beginPath();
+      if (country.cap && project(country.cap.center)[2] > country.cap.sine) {
+        // Entirely front-facing caps need no spherical clipping. Use cached
+        // unit vectors; only silhouettes and polar crossings take the D3 path.
+        for (const ring of country.vectors) {
+          let first = true;
+          for (const vector of ring) {
+            const [x, y] = project(vector, projectedPoint);
+            if (first) context.moveTo(x, y);
+            else context.lineTo(x, y);
+            first = false;
+          }
+          context.closePath();
+        }
+      } else landPath(country.geometry);
+      context.fillStyle = hasData
+        ? "rgba(207,185,125,.3)"
+        : "rgba(183,181,169,.09)";
+      context.fill("evenodd");
+      context.strokeStyle = emphasized
+        ? "rgba(253,229,182,.95)"
+        : hasData
+          ? "rgba(207,185,125,.7)"
+          : "rgba(183,181,169,.28)";
+      context.lineWidth = emphasized ? 1.5 : 0.8;
+      context.stroke();
     }
     for (const country of pins) {
       const [x, y, z] = project(country.vector);
@@ -326,11 +306,13 @@ export async function economicGlobe(
         context.stroke();
       }
     }
+    context.restore();
   }
   function animate(time) {
     frame = undefined;
     if (destroyed || !visible || document.hidden) return;
-    if (time - last >= 33) {
+    if (dirty || time - last >= (destination ? 16 : 33)) {
+      dirty = false;
       if (destination) {
         const delta = Math.atan2(
           Math.sin(destination.yaw - yaw),
@@ -346,13 +328,19 @@ export async function economicGlobe(
       draw();
       last = time;
     }
-    if (!reduced.matches || destination) frame = requestAnimationFrame(animate);
+    if (!start && (!reduced.matches || destination))
+      frame = requestAnimationFrame(animate);
   }
   const restart = () => {
     cancelAnimationFrame(frame);
     last = performance.now();
-    draw();
+    if (visible && !document.hidden) draw();
     if (visible && !document.hidden && !reduced.matches && !start)
+      frame = requestAnimationFrame(animate);
+  };
+  const requestDraw = () => {
+    dirty = true;
+    if (!frame && visible && !document.hidden)
       frame = requestAnimationFrame(animate);
   };
   const release = () => {
@@ -435,11 +423,18 @@ export async function economicGlobe(
   listen(canvas, "pointerdown", (event) => {
     if (!event.isPrimary || event.button !== 0) return;
     closeTooltip();
-    start = { x: event.clientX, y: event.clientY, yaw, pitch };
+    start = {
+      x: event.clientX,
+      y: event.clientY,
+      yaw,
+      pitch,
+      pointerType: event.pointerType,
+    };
     dragging = false;
     destination = null;
     canvas.setPointerCapture(event.pointerId);
     cancelAnimationFrame(frame);
+    frame = undefined;
   });
   listen(canvas, "pointermove", (event) => {
     if (start) {
@@ -454,7 +449,7 @@ export async function economicGlobe(
           -Math.PI / 2,
           Math.min(Math.PI / 2, start.pitch + dy * 0.006),
         );
-        draw();
+        requestDraw();
       }
     } else {
       if (event.pointerType === "touch") return;
@@ -463,8 +458,9 @@ export async function economicGlobe(
         clientY: event.clientY,
         pointerType: event.pointerType,
       };
+      tooltipPinned = false;
       updateHover();
-      draw();
+      requestDraw();
     }
   });
   listen(canvas, "pointerup", (event) => {
@@ -473,10 +469,22 @@ export async function economicGlobe(
       !dragging &&
       Math.hypot(event.clientX - start.x, event.clientY - start.y) < 8
     ) {
-      const id = hit(event);
+      const id = hit({
+        clientX: event.clientX,
+        clientY: event.clientY,
+        pointerType: event.pointerType || start.pointerType,
+      });
       if (id) {
         select(id);
         onSelect(id, countryById.get(id));
+        pointer = {
+          clientX: event.clientX,
+          clientY: event.clientY,
+          pointerType: event.pointerType || start.pointerType,
+        };
+        tooltipPinned = true;
+        canvas.style.cursor = "pointer";
+        showTooltip(id);
       }
     }
     release();
@@ -490,9 +498,14 @@ export async function economicGlobe(
     closeTooltip();
     release();
   });
-  listen(canvas, "pointerleave", () => {
+  listen(canvas, "pointerleave", (event) => {
+    // Touch has no hover: its automatic pointerleave must not hide a tap label.
+    if (event.pointerType === "touch" && tooltipPinned) return;
     closeTooltip();
-    draw();
+    requestDraw();
+  });
+  listen(document, "pointerdown", (event) => {
+    if (event.target !== canvas) closeTooltip();
   });
   listen(canvas, "keydown", (event) => {
     closeTooltip();
@@ -531,6 +544,48 @@ export async function economicGlobe(
     canvas.width = Math.round(width * ratio);
     canvas.height = Math.round(height * ratio);
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    projection.scale(radius).translate([width / 2, height / 2]);
+    for (const country of outlines) {
+      country.geometry = displayGeometry(country.polygons, radius);
+      country.vectors = country.geometry.coordinates
+        .flat(1)
+        .map((ring) => ring.map(sphere));
+      const vectors = country.vectors.flat();
+      const sum = vectors.reduce(
+        (sum, p) => sum.map((v, i) => v + p[i]),
+        [0, 0, 0],
+      );
+      const length = Math.hypot(...sum);
+      const center = sum.map((v) => v / length);
+      const cosine = Math.min(
+        ...vectors.map((p) => p.reduce((dot, v, i) => dot + v * center[i], 0)),
+      );
+      country.cap =
+        length && cosine > 0
+          ? { center, sine: Math.sqrt(1 - cosine * cosine) }
+          : null;
+    }
+    glow = context.createRadialGradient(
+      width / 2,
+      height / 2,
+      radius * 0.6,
+      width / 2,
+      height / 2,
+      radius * 1.25,
+    );
+    glow.addColorStop(0, "rgba(207,185,125,.08)");
+    glow.addColorStop(1, "rgba(207,185,125,0)");
+    ocean = context.createRadialGradient(
+      width * 0.4,
+      height * 0.32,
+      0,
+      width / 2,
+      height / 2,
+      radius,
+    );
+    ocean.addColorStop(0, "#35352e");
+    ocean.addColorStop(0.72, "#2a2a26");
+    ocean.addColorStop(1, "#20201e");
     draw();
   });
   resize.observe(canvas);

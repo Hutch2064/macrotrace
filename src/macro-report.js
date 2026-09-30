@@ -29,7 +29,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "Headline CPI and core PCE are displayed as year-over-year changes in their seasonally adjusted indexes.",
+      "Headline CPI and core PCE are shown as year-over-year changes in seasonally adjusted price indexes.",
   },
   {
     id: "labor-unemployment",
@@ -40,7 +40,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "change",
     suffix: "%",
     description:
-      "The unemployment rate is shown at its native monthly percentage level; adjacent changes are percentage-point differences.",
+      "The unemployment rate is shown at its native monthly percentage level; movement is reported in percentage points.",
   },
   {
     id: "jobs",
@@ -51,7 +51,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "Nonfarm payrolls are shown as a year-over-year percentage change in the source employment level.",
+      "Nonfarm payrolls are shown as year-over-year growth in the source employment level.",
   },
   {
     id: "real-gdp",
@@ -73,7 +73,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "Industrial production is shown as a year-over-year percentage change in its source index.",
+      "Industrial production is shown as year-over-year growth in its source index.",
   },
   {
     id: "monetary-policy",
@@ -84,7 +84,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "change",
     suffix: "%",
     description:
-      "The monthly-average federal funds rate remains in its reported percentage level.",
+      "The federal funds rate is shown at its native monthly-average percentage level; movement is reported in percentage points.",
   },
   {
     id: "yield-curve",
@@ -95,7 +95,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "change",
     suffix: " pp",
     description:
-      "The Treasury curve is reported in its native percentage-point spread.",
+      "The Treasury curve is shown as the native 10-year minus 2-year percentage-point spread; movement is in points.",
   },
   {
     id: "housing",
@@ -106,7 +106,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "change",
     suffix: " thousand",
     description:
-      "Housing starts and building permits retain their source-reported thousands of units, seasonally adjusted annual-rate convention.",
+      "Housing starts and permits retain their native thousands-of-units, seasonally adjusted annual-rate levels; movement uses source units.",
   },
   {
     id: "credit-conditions",
@@ -117,7 +117,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "change",
     suffix: " pts",
     description:
-      "The National Financial Conditions Index remains in native index points; a change is a point difference.",
+      "The National Financial Conditions Index is shown in native index points; movement is a point difference.",
   },
   {
     id: "energy-prices",
@@ -128,7 +128,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "WTI and regular gasoline are compared in a common year-over-year percent-change unit, not in their unlike dollar levels.",
+      "WTI and regular gasoline retain their native dollar levels; the comparison is a year-over-year percent change.",
   },
   {
     id: "commodity-index",
@@ -139,7 +139,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "The IMF all-commodities index is shown as a year-over-year percentage change.",
+      "The IMF all-commodities index is shown as year-over-year growth in the source index.",
   },
   {
     id: "currency",
@@ -150,7 +150,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "The broad trade-weighted dollar index is shown as a year-over-year percentage change.",
+      "The broad trade-weighted dollar index is shown as year-over-year growth in the source index.",
   },
   {
     id: "trade",
@@ -161,7 +161,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "change",
     suffix: " pp",
     description:
-      "World trade is reported as the World Bank's percentage share of global GDP; changes are percentage points.",
+      "World trade is shown as its percentage share of global GDP; movement is in percentage points.",
   },
   {
     id: "productivity",
@@ -172,7 +172,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "Nonfarm business labor productivity is shown as a year-over-year percentage change in the source index.",
+      "Nonfarm business labor productivity is shown as year-over-year growth in the source index.",
   },
   {
     id: "global-growth",
@@ -183,7 +183,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "yoy",
     suffix: "%",
     description:
-      "World real GDP is shown as a year-over-year percentage change in the World Bank series.",
+      "World real GDP is shown as year-over-year growth in the World Bank series.",
   },
   {
     id: "fiscal-debt",
@@ -194,7 +194,7 @@ export const REPORT_CANDIDATES = Object.freeze([
     rankMeasure: "change",
     suffix: " pp",
     description:
-      "Federal debt as a share of GDP remains a native percentage level; changes are percentage points.",
+      "Federal debt as a share of GDP is shown at its native percentage level; movement is in percentage points.",
   },
 ]);
 
@@ -310,12 +310,6 @@ function numberText(value, decimals = 2) {
   });
 }
 
-function signedText(value, decimals = 2) {
-  if (!Number.isFinite(value)) return "unavailable";
-  if (value === 0) return "0";
-  return `${value > 0 ? "+" : "−"}${numberText(Math.abs(value), decimals)}`;
-}
-
 function median(values) {
   if (!values.length) return null;
   const ordered = [...values].sort((left, right) => left - right);
@@ -349,6 +343,162 @@ function unitSuffix(unit) {
   if (value.includes("thousand")) return " thousand";
   if (value.includes("million")) return " million";
   return ` ${unit || "reported units"}`;
+}
+
+function valueText(value, unit) {
+  if (!Number.isFinite(value)) return "unavailable";
+  const normalized = String(unit || "")
+    .trim()
+    .toLowerCase();
+  if (normalized === "$/barrel") return `$${numberText(value, 2)} per barrel`;
+  if (normalized === "$/gallon") return `$${numberText(value, 2)} per gallon`;
+  if (normalized === "index") return `${numberText(value, 2)} index points`;
+  return `${numberText(value, 2)}${unitSuffix(unit)}`;
+}
+
+function periodText(series, date) {
+  if (!validDate(date)) return "an unavailable period";
+  const year = date.slice(0, 4);
+  switch (String(series?.frequency || "").toLowerCase()) {
+    case "annual":
+      return `in ${year}`;
+    case "quarterly":
+      return `in Q${Math.ceil(Number(date.slice(5, 7)) / 3)} ${year}`;
+    case "monthly":
+      return `in ${new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC",
+      })}`;
+    default:
+      return `on ${formatDate(date)}`;
+  }
+}
+
+function changeText(value, unit, basis = "") {
+  if (!Number.isFinite(value)) return "change unavailable";
+  if (value === 0) return basis ? `unchanged ${basis}` : "unchanged";
+  const direction = value > 0 ? "up" : "down";
+  const suffix = unitSuffix(unit);
+  return `${direction} ${numberText(Math.abs(value), 2)}${suffix}${basis ? ` ${basis}` : ""}`;
+}
+
+function movementUnit(entry) {
+  const semanticUnit = String(
+    entry.source?.unit || entry.display.unit || "",
+  ).toLowerCase();
+  if (
+    semanticUnit.includes("%") ||
+    semanticUnit.includes("percent") ||
+    semanticUnit.includes("percentage")
+  )
+    return "percentage points";
+  if (semanticUnit.includes("index")) return "index points";
+  return entry.source?.unit || entry.display.unit || "reported units";
+}
+
+function isPercentageUnit(unit) {
+  const value = String(unit || "").toLowerCase();
+  return value.includes("%") || value.includes("percent");
+}
+
+function sourceLatest(entry) {
+  return latestPoint(sourceRows(entry.source));
+}
+
+function narrativeName(entry, candidate, index = 0) {
+  const labels = {
+    "inflation-core": ["Headline CPI inflation", "Core PCE inflation"],
+    jobs: ["Nonfarm payrolls"],
+    "real-gdp": ["Real GDP"],
+    "industrial-production": ["Industrial production"],
+    "monetary-policy": ["The federal funds rate"],
+    "yield-curve": ["The 10Y–2Y Treasury spread"],
+    housing: ["Housing starts", "Building permits"],
+    "credit-conditions": ["The financial conditions index"],
+    "energy-prices": ["WTI", "Regular gasoline"],
+    "commodity-index": ["The all-commodities index"],
+    currency: ["The trade-weighted U.S. dollar"],
+    trade: ["World trade"],
+    productivity: ["Nonfarm business productivity"],
+    "global-growth": ["World real GDP"],
+    "fiscal-debt": ["Federal debt relative to GDP"],
+  }[candidate?.id];
+  if (labels?.[index]) return labels[index];
+  return entry.source.name || entry.id;
+}
+
+function includesNativeLevel(candidate) {
+  return candidate?.id === "energy-prices";
+}
+
+function levelVerb(candidate) {
+  return candidate?.id === "housing" ? "were" : "was";
+}
+
+function yoyComparisonLabel(entry, candidate, index) {
+  const name = narrativeName(entry, candidate, index);
+  const labels = {
+    "inflation-core": name,
+    jobs: "Nonfarm payroll growth",
+    "real-gdp": "Real GDP growth",
+    "industrial-production": "Industrial production growth",
+    "commodity-index": "All-commodities price growth",
+    currency: "Trade-weighted U.S. dollar growth",
+    productivity: "Nonfarm business productivity growth",
+    "global-growth": "World real GDP growth",
+  };
+  return labels[candidate?.id] || `${name} YoY reading`;
+}
+
+function highlight(phrase) {
+  return phrase ? { phrase } : null;
+}
+
+/**
+ * Return safe text segments for a report renderer. This helper deliberately
+ * returns data, never HTML; callers must escape every segment before adding a
+ * highlight wrapper.
+ */
+export function highlightSegments(text, highlights = []) {
+  const source = String(text ?? "");
+  const matches = [];
+  for (const metadata of Array.isArray(highlights) ? highlights : []) {
+    const phrase = typeof metadata?.phrase === "string" ? metadata.phrase : "";
+    if (!phrase) continue;
+    let from = 0;
+    while (from < source.length) {
+      const start = source.indexOf(phrase, from);
+      if (start < 0) break;
+      matches.push({
+        start,
+        end: start + phrase.length,
+        phrase,
+      });
+      from = start + phrase.length;
+    }
+  }
+  matches.sort(
+    (left, right) => left.start - right.start || right.end - left.end,
+  );
+  const segments = [];
+  let cursor = 0;
+  for (const match of matches) {
+    if (match.start < cursor) continue;
+    if (match.start > cursor)
+      segments.push({
+        text: source.slice(cursor, match.start),
+        highlight: false,
+      });
+    segments.push({
+      text: source.slice(match.start, match.end),
+      highlight: true,
+    });
+    cursor = match.end;
+  }
+  if (cursor < source.length)
+    segments.push({ text: source.slice(cursor), highlight: false });
+  return segments.length ? segments : [{ text: source, highlight: false }];
 }
 
 function measureText(measure, unit) {
@@ -473,16 +623,30 @@ function pickCandidates(scored) {
   return { available, selected };
 }
 
-function valuePhrase(entry) {
-  const point = entry.display.latest;
-  if (!point) return `${entry.source.name || entry.id} is unavailable`;
-  return `${entry.source.name || entry.id} was ${numberText(point[1], 2)}${unitSuffix(entry.display.unit)} on ${formatDate(point[0])}`;
+function titleNativeValue(entry) {
+  const point = sourceLatest(entry);
+  if (!point) return "unavailable";
+  const unit = String(entry.source.unit || "")
+    .trim()
+    .toLowerCase();
+  if (unit === "$/barrel") return `$${numberText(point[1], 1)}/barrel`;
+  if (unit === "$/gallon") return `$${numberText(point[1], 1)}/gallon`;
+  return `${numberText(point[1], 1)}${unitSuffix(entry.source.unit)}`;
 }
 
-function titleValuePhrase(entry) {
-  const point = entry.display.latest;
-  if (!point) return "unavailable";
-  return `${numberText(point[1], 1)}${unitSuffix(entry.display.unit)}`;
+function titleChangePhrase(value) {
+  if (!Number.isFinite(value)) return "unavailable YoY";
+  if (value === 0) return "unchanged YoY";
+  return `${value > 0 ? "up" : "down"} ${numberText(Math.abs(value), 1)}% YoY`;
+}
+
+function titleValuePhrase(entry, candidate) {
+  if (candidate.measure === "yoy") {
+    const point = entry.display.latest;
+    if (!point) return "unavailable YoY";
+    return titleChangePhrase(point[1]);
+  }
+  return titleNativeValue(entry);
 }
 
 function titleLabels(candidate) {
@@ -513,36 +677,180 @@ function dynamicTitle(scored) {
   const values = scored.entries
     .map(
       (entry, index) =>
-        `${labels[index] ? `${labels[index]} ` : ""}${titleValuePhrase(entry)}`,
+        `${labels[index] ? `${labels[index]} ` : ""}${titleValuePhrase(entry, scored.candidate)}`,
     )
     .join(" · ");
   return `${scored.candidate.title}: ${values}`;
 }
 
-function displayComparison(entry) {
-  const points = entry.display.points;
+function relativeChangePhrase(value, candidate) {
+  if (!Number.isFinite(value)) return "year-over-year change is unavailable";
+  if (candidate?.id === "inflation-core") {
+    return `was ${valueText(value, "%")} year over year`;
+  }
+  if (value === 0) return "was unchanged year over year";
+  return `${value > 0 ? "rose" : "fell"} ${numberText(Math.abs(value), 2)}% year over year`;
+}
+
+function latestNarrative(entry, candidate) {
+  const raw = sourceLatest(entry);
+  const name = narrativeName(entry, candidate, candidate.ids.indexOf(entry.id));
+  if (!raw) return { text: `${name} is unavailable`, highlights: [] };
+  const [rawDate, rawValue] = raw;
+  const rawPeriod = periodText(entry.source, rawDate);
+  if (candidate.measure === "yoy") {
+    const comparison = entry.display.latest;
+    if (!comparison) {
+      const text = `${name} was ${valueText(rawValue, entry.source.unit)} ${rawPeriod}; year-over-year change is unavailable.`;
+      return {
+        text,
+        highlights: [highlight(valueText(rawValue, entry.source.unit))].filter(
+          Boolean,
+        ),
+      };
+    }
+    const change = changeText(comparison[1], "%", "year over year");
+    if (includesNativeLevel(candidate)) {
+      const level = `${name} was ${valueText(rawValue, entry.source.unit)} ${rawPeriod}`;
+      const text = `${level}, ${change}.`;
+      return {
+        text,
+        highlights: [highlight(change)].filter(Boolean),
+      };
+    }
+    const text = `${name} ${relativeChangePhrase(comparison[1], candidate)} ${rawPeriod}.`;
+    return {
+      text,
+      highlights: [
+        highlight(relativeChangePhrase(comparison[1], candidate)),
+      ].filter(Boolean),
+    };
+  }
+  if (candidate.measure === "change") {
+    const comparison = entry.display.latest;
+    if (!comparison) {
+      const text = `${name} has no comparable change for ${rawPeriod}.`;
+      return { text, highlights: [] };
+    }
+    const text = `${name} changed ${valueText(comparison[1], entry.display.unit)} ${rawPeriod}.`;
+    return {
+      text,
+      highlights: [
+        highlight(
+          `${name} changed ${valueText(comparison[1], entry.display.unit)}`,
+        ),
+      ].filter(Boolean),
+    };
+  }
+  if (candidate.id === "trade") {
+    if (!isPercentageUnit(entry.source.unit)) {
+      const reading = `${name} reading was ${valueText(rawValue, entry.source.unit)} ${rawPeriod}; source unit is unavailable`;
+      return {
+        text: `${reading}.`,
+        highlights: [highlight(valueText(rawValue, entry.source.unit))].filter(
+          Boolean,
+        ),
+      };
+    }
+    const reading = `${name} amounted to ${valueText(rawValue, entry.source.unit)} of global GDP ${rawPeriod}`;
+    const text = `${reading}.`;
+    return {
+      text,
+      highlights: [
+        highlight(`${valueText(rawValue, entry.source.unit)} of global GDP`),
+      ].filter(Boolean),
+    };
+  }
+  const reading = `${name} ${levelVerb(candidate)} ${valueText(rawValue, entry.source.unit)} ${rawPeriod}`;
+  const text = `${reading}.`;
+  return {
+    text,
+    highlights: [highlight(valueText(rawValue, entry.source.unit))].filter(
+      Boolean,
+    ),
+  };
+}
+
+function displayComparison(entry, candidate) {
+  const index = candidate.ids.indexOf(entry.id);
+  const name = narrativeName(entry, candidate, index);
+  if (candidate.measure === "yoy") {
+    const comparisonLabel = yoyComparisonLabel(entry, candidate, index);
+    const latest = entry.display.points.at(-1);
+    const prior = entry.display.points.at(-2);
+    if (!latest) return `${comparisonLabel} is unavailable.`;
+    const latestText = valueText(latest[1], entry.display.unit);
+    if (!prior)
+      return `${comparisonLabel} was ${latestText} ${periodText(entry.source, latest[0])}; no prior comparable reading is available.`;
+    const delta = latest[1] - prior[1];
+    const movement = changeText(delta, "percentage points");
+    return `${comparisonLabel} was ${latestText} ${periodText(entry.source, latest[0])}, ${movement} from ${valueText(prior[1], entry.display.unit)} ${periodText(entry.source, prior[0])}.`;
+  }
+  const rawPoints = sourceRows(entry.source);
+  const latest = rawPoints.at(-1);
+  const prior = rawPoints.at(-2);
+  if (!latest) return `${name} is unavailable.`;
+  const latestText = valueText(latest[1], entry.source.unit);
+  if (!prior)
+    return candidate.id === "trade"
+      ? isPercentageUnit(entry.source.unit)
+        ? `${name} amounted to ${latestText} of global GDP ${periodText(entry.source, latest[0])}; no prior native observation is available.`
+        : `${name} reading was ${latestText} ${periodText(entry.source, latest[0])}; source unit is unavailable and no prior native observation is available.`
+      : `${name} ${levelVerb(candidate)} ${latestText} ${periodText(entry.source, latest[0])}; no prior native observation is available.`;
+  const delta = latest[1] - prior[1];
+  const movement = changeText(delta, movementUnit(entry));
+  return candidate.id === "trade"
+    ? isPercentageUnit(entry.source.unit)
+      ? `${name} amounted to ${latestText} of global GDP ${periodText(entry.source, latest[0])}, ${movement} from ${valueText(prior[1], entry.source.unit)} ${periodText(entry.source, prior[0])}.`
+      : `${name} reading was ${latestText} ${periodText(entry.source, latest[0])}, ${movement} from ${valueText(prior[1], entry.source.unit)} ${periodText(entry.source, prior[0])}; source unit is unavailable.`
+    : `${name} ${levelVerb(candidate)} ${latestText} ${periodText(entry.source, latest[0])}, ${movement} from ${valueText(prior[1], entry.source.unit)} ${periodText(entry.source, prior[0])}.`;
+}
+
+function comparisonHighlight(entry, candidate) {
+  const points =
+    candidate.measure === "yoy"
+      ? entry.display.points
+      : sourceRows(entry.source);
   const latest = points.at(-1);
   const prior = points.at(-2);
-  if (!latest) return `${entry.source.name || entry.id} is unavailable`;
-  const latestText = `${numberText(latest[1], 2)}${unitSuffix(entry.display.unit)}`;
+  if (!latest) return null;
   if (!prior)
-    return `${entry.source.name || entry.id} is ${latestText} on ${formatDate(latest[0])}; no prior displayed observation is available.`;
-  const delta = latest[1] - prior[1];
-  const unit = String(entry.display.unit || "").toLowerCase();
-  const deltaSuffix =
-    unit.includes("percentage") || unit.includes("%")
-      ? " pp"
-      : unitSuffix(entry.display.unit);
-  return `${entry.source.name || entry.id} is ${latestText} on ${formatDate(latest[0])}, versus ${numberText(prior[1], 2)}${unitSuffix(entry.display.unit)} on ${formatDate(prior[0])} (change ${signedText(delta, 2)}${deltaSuffix}).`;
+    return highlight(
+      candidate.id === "trade" && isPercentageUnit(entry.source.unit)
+        ? `${valueText(latest[1], entry.source.unit)} of global GDP`
+        : valueText(latest[1], entry.display.unit || entry.source.unit),
+    );
+  if (candidate.id === "trade" && isPercentageUnit(entry.source.unit))
+    return highlight(
+      `${valueText(latest[1], entry.source.unit)} of global GDP`,
+    );
+  const movement = changeText(
+    latest[1] - prior[1],
+    candidate.measure === "yoy" ? "percentage points" : movementUnit(entry),
+  );
+  return highlight(movement);
 }
 
 function dynamicParagraphs(scored) {
-  const latestReadings = scored.entries.map(valuePhrase).join("; ");
-  const comparisons = scored.entries.map(displayComparison).join(" ");
-  return [
-    `${scored.candidate.description} Latest published readings: ${latestReadings}.`,
-    comparisons,
-  ];
+  const readings = scored.entries.map((entry) =>
+    latestNarrative(entry, scored.candidate),
+  );
+  const latestReadings = readings
+    .map(({ text }) => text.replace(/\.$/, ""))
+    .join("; ");
+  const first = `${scored.candidate.description} Latest readings: ${latestReadings}.`;
+  const comparisons = scored.entries.map((entry) =>
+    displayComparison(entry, scored.candidate),
+  );
+  const second = comparisons.join(" ");
+  const firstHighlights = readings.flatMap(({ highlights }) => highlights);
+  const secondHighlights = scored.entries
+    .map((entry) => comparisonHighlight(entry, scored.candidate))
+    .filter(Boolean);
+  return {
+    paragraphs: [first, second],
+    highlights: [firstHighlights, secondHighlights],
+  };
 }
 
 function dynamicNote(scored) {
@@ -604,8 +912,10 @@ function fullDatasetSummary(seriesRows, selected, scored) {
   const selectedTopics = [
     ...new Set(selected.map(({ candidate }) => candidate.topic)),
   ].join(", ");
+  const indicatorPhrase = `Explore ${seriesRows.length.toLocaleString("en-US")} economic indicators`;
   return {
-    text: `Explore ${seriesRows.length.toLocaleString("en-US")} economic indicators across ${topics.length} topics and ${geographies.length} geographies. The report follows ${selected.length} timely themes in ${selectedTopics}, selected from ${available} available themes by release freshness and movement within each indicator's own history. Figures, comparisons and theme selection update with the data; they describe the economy without attributing causes.`,
+    text: `${indicatorPhrase} across ${topics.length} topics and ${geographies.length} geographies. The report follows ${selected.length} timely themes in ${selectedTopics}, selected from ${available} available themes by release freshness and movement within each indicator's own history. Figures, comparisons and theme selection update with the data; they describe the economy without attributing causes.`,
+    summaryHighlights: [highlight(indicatorPhrase)].filter(Boolean),
     indicatorCount: seriesRows.length,
     topicCount: topics.length,
     topics,
@@ -638,31 +948,35 @@ export function buildMacroReport(snapshot) {
     candidateScore(candidate, byId, referenceDate),
   );
   const { available, selected } = pickCandidates(scored);
-  const findings = selected.map((entry) => ({
-    id: entry.candidate.id,
-    topic: entry.candidate.topic,
-    title: dynamicTitle(entry),
-    paragraphs: dynamicParagraphs(entry),
-    series: entry.entries.map(({ source, display }) => ({
-      id: source.id,
-      name: source.name || source.id,
-      frequency: source.frequency || "unknown",
-      unit: display.unit,
-    })),
-    points: entry.entries.map(({ display }) => display.points),
-    suffix: unitSuffix(entry.entries[0]?.display.unit),
-    note: dynamicNote(entry),
-    measure: entry.candidate.measure,
-    asOf: entry.entries.map(({ source, display }) => ({
-      id: source.id,
-      date: display.latest?.[0] || null,
-    })),
-    selectionScore: {
-      freshness: entry.freshnessScore,
-      ownHistoryMovement: entry.movementScore,
-      combined: entry.score,
-    },
-  }));
+  const findings = selected.map((entry) => {
+    const narrative = dynamicParagraphs(entry);
+    return {
+      id: entry.candidate.id,
+      topic: entry.candidate.topic,
+      title: dynamicTitle(entry),
+      paragraphs: narrative.paragraphs,
+      paragraphHighlights: narrative.highlights,
+      series: entry.entries.map(({ source, display }) => ({
+        id: source.id,
+        name: source.name || source.id,
+        frequency: source.frequency || "unknown",
+        unit: display.unit,
+      })),
+      points: entry.entries.map(({ display }) => display.points),
+      suffix: unitSuffix(entry.entries[0]?.display.unit),
+      note: dynamicNote(entry),
+      measure: entry.candidate.measure,
+      asOf: entry.entries.map(({ source, display }) => ({
+        id: source.id,
+        date: display.latest?.[0] || null,
+      })),
+      selectionScore: {
+        freshness: entry.freshnessScore,
+        ownHistoryMovement: entry.movementScore,
+        combined: entry.score,
+      },
+    };
+  });
   const headlineExistingUS = [
     headline("Headline CPI (SA index) YoY", "% YoY", "CPIAUCSL", "yoy", byId),
     headline("Core PCE (SA index) YoY", "% YoY", "PCEPILFE", "yoy", byId),
@@ -718,6 +1032,7 @@ export function buildMacroReport(snapshot) {
     headlineExistingUS,
     summary: dataset.text,
     dataset,
+    summaryHighlights: dataset.summaryHighlights,
     selection,
     findings,
     asOf,

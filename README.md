@@ -176,22 +176,22 @@ The focused commands remain available for data and delivery work:
 
 ### Pages and application
 
-| Path                                               | Purpose                                                                                  |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `index.html`                                       | Long-form report and source/methodology section.                                         |
-| `dashboard.html`                                   | Filterable macro panel, charts, comparisons, heat map, and observation table.            |
-| `src/common.js`                                    | Shared loading, formatting, page chrome, CSV export, and errors.                         |
-| `src/data-store.js`                                | Catalog/history loading, SHA-256 validation, request sharing, and IndexedDB persistence. |
-| `src/dashboard.js`                                 | Panel state, filters, transformations, charts, comparisons, and table.                   |
-| `src/macro-report.js`                              | Deterministic report findings, headlines, and method definitions.                        |
-| `src/panel.js`                                     | Macro-only filtering and native-frequency transformations.                               |
-| `src/report.js`                                    | Report rendering and lazy chart setup.                                                   |
-| `src/source-catalog.js`                            | Source metadata, coverage, and attribution rendering.                                    |
-| `src/time-chart.js`                                | uPlot charts, legends, crosshair inspection, and expansion.                              |
-| `src/lazy-chart.js`                                | Viewport-aware chart scheduling.                                                         |
-| `src/globe.js`, `src/countries.js`                 | Lightweight spherical map, country interaction, and source-bound headline calculations.  |
-| `src/select.js`, `src/disclosure.js`               | Accessible controls and source disclosures.                                              |
-| `src/styles.css`, `src/fonts.css`, `public/fonts/` | Visual system, self-hosted fonts, and licenses.                                          |
+| Path                                                        | Purpose                                                                                                                                   |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`                                                | Long-form report and source/methodology section.                                                                                          |
+| `dashboard.html`                                            | Filterable macro panel, charts, comparisons, heat map, and observation table.                                                             |
+| `src/common.js`                                             | Shared loading, formatting, page chrome, CSV export, and errors.                                                                          |
+| `src/data-store.js`                                         | Catalog/history loading, SHA-256 validation, request sharing, and IndexedDB persistence.                                                  |
+| `src/dashboard.js`                                          | Panel state, filters, transformations, charts, comparisons, and table.                                                                    |
+| `src/macro-report.js`                                       | Deterministic report findings, headlines, and method definitions.                                                                         |
+| `src/panel.js`                                              | Macro-only filtering and native-frequency transformations.                                                                                |
+| `src/report.js`                                             | Report rendering and lazy chart setup.                                                                                                    |
+| `src/source-catalog.js`                                     | Source metadata, coverage, and attribution rendering.                                                                                     |
+| `src/time-chart.js`                                         | uPlot charts, legends, crosshair inspection, and expansion.                                                                               |
+| `src/lazy-chart.js`                                         | Viewport-aware chart scheduling.                                                                                                          |
+| `src/globe.js`, `src/globe-geometry.js`, `src/countries.js` | Spherically clipped map, subpixel display geometry, full-resolution picking, country interaction, and source-bound headline calculations. |
+| `src/select.js`, `src/disclosure.js`                        | Accessible controls and source disclosures.                                                                                               |
+| `src/styles.css`, `src/fonts.css`, `public/fonts/`          | Visual system, self-hosted fonts, and licenses.                                                                                           |
 
 ### Data and automation
 
@@ -221,20 +221,22 @@ The focused commands remain available for data and delivery work:
 
 ### Tests
 
-| Path                                        | Purpose                                                                                                          |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `tests/run.mjs`                             | Single verification entrypoint used by `npm run check`.                                                          |
-| `tests/verify-data.mjs`                     | Snapshot scope, metadata, provenance, and date checks.                                                           |
-| `tests/verify-delivery.mjs`                 | Lossless chunks, hashes, persistence, deduplication, eviction, and fallback.                                     |
-| `tests/verify-panel.mjs`                    | Native-frequency panel transforms and grouping fixtures.                                                         |
-| `tests/verify-macro-report.mjs`             | Deterministic report calculations and source-boundary fixtures.                                                  |
-| `tests/verify-parity.mjs`                   | Report/dashboard point parity.                                                                                   |
-| `tests/verify-countries.mjs`                | Country geometry, all headline sources, and percent/point formatting.                                            |
-| `tests/verify-globe.mjs`                    | Geographic picking, tiny islands, date-line boundaries, tooltip lifecycle, touch and drag behavior, and cleanup. |
-| `tests/verify-world-development.mjs`        | Roster exclusions, pagination integrity, annual dates, missing values, and forecasts.                            |
-| `tests/verify-international-supplement.mjs` | Supplementary provider schemas, missing values, forecast exclusions, and units.                                  |
-| `tests/verify-territory-data.mjs`           | Territorial provider parsing, resource discovery, missing periods, units, and retained-cache behavior.           |
-| `tests/verify-site.mjs`                     | Exactly-two-page DOM/source contract.                                                                            |
+| Path                                                                    | Purpose                                                                                                           |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `tests/run.mjs`                                                         | Single verification entrypoint used by `npm run check`.                                                           |
+| `tests/verify-data.mjs`                                                 | Snapshot scope, metadata, provenance, and date checks.                                                            |
+| `tests/verify-delivery.mjs`                                             | Lossless chunks, hashes, persistence, deduplication, eviction, and fallback.                                      |
+| `tests/verify-panel.mjs`                                                | Native-frequency panel transforms and grouping fixtures.                                                          |
+| `tests/verify-macro-report.mjs`                                         | Deterministic report calculations and source-boundary fixtures.                                                   |
+| `tests/verify-parity.mjs`                                               | Report/dashboard point parity.                                                                                    |
+| `tests/verify-countries.mjs`                                            | Country geometry, all headline sources, and percent/point formatting.                                             |
+| `tests/verify-globe.mjs`                                                | Geographic picking, tiny islands, date-line boundaries, tooltip lifecycle, touch and drag behavior, and cleanup.  |
+| `tests/verify-globe-geometry.mjs`, `tests/verify-country-selection.mjs` | Polar clipping, land/ring preservation, no-data metric retention, refresh attribution, and async selection races. |
+| `tests/verify-geography-search.mjs`                                     | Geography query filtering, click/keyboard selection, query reset, and accessible no-results behavior.             |
+| `tests/verify-world-development.mjs`                                    | Roster exclusions, pagination integrity, annual dates, missing values, and forecasts.                             |
+| `tests/verify-international-supplement.mjs`                             | Supplementary provider schemas, missing values, forecast exclusions, and units.                                   |
+| `tests/verify-territory-data.mjs`                                       | Territorial provider parsing, resource discovery, missing periods, units, and retained-cache behavior.            |
+| `tests/verify-site.mjs`                                                 | Exactly-two-page DOM/source contract.                                                                             |
 
 ## Attribution and limitations
 

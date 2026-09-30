@@ -475,6 +475,7 @@ async function main() {
       const control = $("#" + key + "-filter");
       control.value = value;
       control._renderCustom?.();
+      control._resetCustomSearch?.();
     }
     $("#series-search").value = "";
     updateState();

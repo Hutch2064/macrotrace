@@ -17,6 +17,8 @@ export function labelFields(root = document) {
 globalThis.document?.addEventListener("click", (event) => {
   if (
     active &&
+    !event.composedPath?.().includes(active.wrapper) &&
+    !event.composedPath?.().includes(active.menu) &&
     !active.wrapper.contains(event.target) &&
     !active.menu.contains(event.target)
   )
@@ -26,7 +28,9 @@ export function enhanceSelect(select, onPreview) {
   const wrapper = document.createElement("div");
   wrapper.className = "custom-select";
   // The enclosing label must not forward this click to the hidden native select.
-  wrapper.addEventListener("click", (event) => event.preventDefault());
+  wrapper.addEventListener("click", (event) => {
+    if (!event.target.closest?.(".select-search-input")) event.preventDefault();
+  });
   const trigger = document.createElement("button");
   trigger.type = "button";
   trigger.className = "select-trigger";
@@ -55,26 +59,76 @@ export function enhanceSelect(select, onPreview) {
     if (event.target === dialog) close();
   });
   let motion, scaleMotion;
+  const searchable = select.dataset?.searchable === "true";
+  let query = "";
+  let searchInput;
+  let optionsHost = menu;
+  if (searchable) {
+    const searchWrap = document.createElement("div");
+    searchWrap.className = "select-search";
+    searchInput = document.createElement("input");
+    searchInput.type = "search";
+    searchInput.className = "select-search-input";
+    searchInput.placeholder =
+      select.dataset.searchPlaceholder || "Search options…";
+    searchInput.setAttribute("aria-label", searchInput.placeholder);
+    searchInput.setAttribute("autocomplete", "off");
+    searchInput.setAttribute("spellcheck", "false");
+    optionsHost = document.createElement("div");
+    optionsHost.className = "select-options";
+    searchWrap.append(searchInput);
+    menu.append(searchWrap, optionsHost);
+  }
   const render = () => {
     const label = document.createElement("span");
     label.textContent = select.selectedOptions[0]?.textContent || "Select";
     const arrow = document.createElement("i");
     arrow.setAttribute("aria-hidden", "true");
     trigger.replaceChildren(label, arrow);
-    menu.replaceChildren(
-      ...[...select.options]
-        .filter((option) => !option.disabled)
-        .map((option) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.setAttribute("role", "option");
-          button.setAttribute("aria-selected", String(option.selected));
-          button.dataset.value = option.value;
-          button.textContent = option.textContent;
-          return button;
-        }),
-    );
+    const options = [...select.options].filter((option) => !option.disabled);
+    const matches = searchable
+      ? options.filter(
+          (option) =>
+            option.value === "all" ||
+            !query ||
+            option.textContent.toLocaleLowerCase().includes(query),
+        )
+      : options;
+    const optionButtons = matches.map((option) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.setAttribute("role", "option");
+      button.setAttribute("aria-selected", String(option.selected));
+      button.dataset.value = option.value;
+      button.textContent = option.textContent;
+      return button;
+    });
+    optionsHost.replaceChildren(...optionButtons);
+    if (
+      searchable &&
+      query &&
+      !options.some(
+        (option) => option.value !== "all" && matches.includes(option),
+      )
+    ) {
+      const noResults = document.createElement("p");
+      noResults.className = "select-no-results";
+      noResults.setAttribute("role", "status");
+      noResults.setAttribute("aria-live", "polite");
+      noResults.textContent = `No geographies match “${query}”.`;
+      optionsHost.append(noResults);
+    }
   };
+  const resetSearch = () => {
+    query = "";
+    if (searchInput) searchInput.value = "";
+    render();
+  };
+  if (searchInput)
+    searchInput.addEventListener("input", () => {
+      query = searchInput.value.trim().toLocaleLowerCase();
+      render();
+    });
   const transition = (open) => {
     const wasHidden = menu.hidden;
     const opacity = wasHidden ? 0 : Number(getComputedStyle(menu).opacity);
@@ -116,15 +170,19 @@ export function enhanceSelect(select, onPreview) {
   };
   const close = () => {
     if (trigger.getAttribute("aria-expanded") === "true") transition(false);
+    resetSearch();
     if (active?.wrapper === wrapper) active = null;
   };
   const open = () => {
     if (active?.wrapper !== wrapper) active?.close();
+    resetSearch();
     active = { wrapper, menu, close };
     transition(true);
-    menu
-      .querySelector('[aria-selected="true"]')
-      ?.focus({ preventScroll: true });
+    if (searchInput) searchInput.focus({ preventScroll: true });
+    else
+      menu
+        .querySelector('[aria-selected="true"]')
+        ?.focus({ preventScroll: true });
   };
   trigger.addEventListener("click", () =>
     trigger.getAttribute("aria-expanded") === "true" ? close() : open(),
@@ -159,7 +217,10 @@ export function enhanceSelect(select, onPreview) {
     }
     if (event.key === "Tab") close();
     if (!menu.contains(event.target)) return;
-    const options = [...menu.querySelectorAll("[role=option]")];
+    if (event.target === searchInput && ["Home", "End"].includes(event.key))
+      return;
+    let options = [...menu.querySelectorAll("[role=option]")];
+    if (searchable && query && options.length > 1) options = options.slice(1);
     const index = options.indexOf(document.activeElement);
     if (["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) {
       event.preventDefault();
@@ -179,6 +240,7 @@ export function enhanceSelect(select, onPreview) {
   select.after(wrapper);
   wrapper.append(trigger, menu);
   select._renderCustom = render;
+  select._resetCustomSearch = resetSearch;
   render();
   return wrapper;
 }

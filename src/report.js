@@ -10,6 +10,7 @@ import {
 import {
   REPORT_IDS,
   buildMacroReport,
+  highlightSegments,
   methodDefinitions,
 } from "./macro-report.js";
 import { timeChart } from "./time-chart.js";
@@ -24,6 +25,15 @@ import {
 } from "./countries.js";
 import { loadHistories } from "./data-store.js";
 
+const reportText = (text, highlights) =>
+  highlightSegments(text, highlights)
+    .map((segment) =>
+      segment.highlight
+        ? `<span class="report-highlight">${escape(segment.text)}</span>`
+        : escape(segment.text),
+    )
+    .join("");
+
 const charts = [];
 let mounted = false;
 let snapshot,
@@ -32,6 +42,8 @@ let snapshot,
   countries = [],
   country = "USA",
   geographicCountry,
+  metricCountry,
+  metricLocation,
   countryRevision = 0,
   countryMotion,
   countryNameMotion;
@@ -52,27 +64,33 @@ function sourceLabel(
   return value || fallback;
 }
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-async function renderCountry(id, location) {
+async function renderCountry(id, location, refresh = false) {
   const token = ++countryRevision;
-  country = id;
-  if (location) geographicCountry = location;
-  globe?.select(id);
+  if (!refresh) {
+    country = id;
+    if (location) geographicCountry = location;
+    globe?.select(id);
+  }
   const selectedCountry =
-    geographicCountry?.id === id
-      ? geographicCountry
-      : countries.find((item) => item.id === id);
+    refresh && location
+      ? location
+      : geographicCountry?.id === id
+        ? geographicCountry
+        : countries.find((item) => item.id === id);
   if (!selectedCountry) return;
   const name = selectedCountry.name || selectedCountry.id;
   const countryName = document.querySelector("#globe-country-name");
-  countryName.textContent = name;
-  countryNameMotion?.cancel();
-  countryNameMotion = countryName.animate(
-    [
-      { opacity: 0, transform: "translateY(4px)" },
-      { opacity: 1, transform: "translateY(0)" },
-    ],
-    { duration: reduced() ? 0 : 420, easing: "cubic-bezier(.22,1,.36,1)" },
-  );
+  if (!refresh) {
+    countryName.textContent = name;
+    countryNameMotion?.cancel();
+    countryNameMotion = countryName.animate(
+      [
+        { opacity: 0, transform: "translateY(4px)" },
+        { opacity: 1, transform: "translateY(0)" },
+      ],
+      { duration: reduced() ? 0 : 420, easing: "cubic-bezier(.22,1,.36,1)" },
+    );
+  }
   const host = document.querySelector("#headline-metrics");
   const economicId = countries.some((item) => item.id === id)
     ? id
@@ -82,6 +100,11 @@ async function renderCountry(id, location) {
       ? countries.find((item) => item.id === economicId)?.name ||
         selectedCountry.economicName
       : null;
+  // Geographic selection is independent of the last available economic view.
+  if (!countries.some((item) => item.id === economicId)) {
+    host.setAttribute("aria-busy", "false");
+    return;
+  }
   host.setAttribute("aria-busy", "true");
   try {
     // The catalog's annual coverage fields are enough for non-U.S. cards.
@@ -89,15 +112,12 @@ async function renderCountry(id, location) {
     if (economicId === "USA")
       await loadHistories(snapshot, countryIds(economicId));
     if (token !== countryRevision) return;
-    const hasData = countries.some((item) => item.id === economicId);
-    const metrics = hasData
-      ? countryReadout(snapshot, economicId)
-      : [
-          ["Consumer price inflation", "% annual"],
-          ["Unemployment rate", "%"],
-          ["Real GDP growth", "% annual"],
-          ["Real GDP per capita", "USD · 2015 prices"],
-        ].map(([label, unit]) => ({ label, unit, value: null, date: null }));
+    const metrics = countryReadout(snapshot, economicId);
+    if (!metrics.some((metric) => Number.isFinite(metric.value))) return;
+    metricCountry = id;
+    metricLocation = selectedCountry;
+    host.dataset.country = economicId;
+    host.setAttribute("aria-label", `Economic metrics for ${name}`);
     countryMotion?.cancel();
     host.innerHTML = metrics
       .map((metric) => {
@@ -135,7 +155,7 @@ async function renderCountry(id, location) {
                     timeZone: "UTC",
                   }).format(new Date(metric.date + "T00:00:00Z")) + " · monthly"
                 : dateLabel(metric.date);
-        return `<div class="headline-metric"><span class="metric-label"${metric.fallbackFor ? ` title="${escape("Alternative indicator; " + metric.fallbackFor + " is unavailable.")}"` : ""}>${escape(metric.label)}</span><span class="metric-value${currency ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + unit)}">${value}<span class="metric-unit">${escape(displayUnit)}</span></span>${sharedArea && hasData ? `<span class="metric-date">${escape(sharedArea)} · shared aggregate</span>` : ""}<span class="metric-date">${escape(reference + status)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(sourceLabel(metric.sourceFamily, metric.source, id === "USA" ? "FRED" : "Official source"))}</a>` : ""}</div>`;
+        return `<div class="headline-metric"><span class="metric-label"${metric.fallbackFor ? ` title="${escape("Alternative indicator; " + metric.fallbackFor + " is unavailable.")}"` : ""}>${escape(metric.label)}</span><span class="metric-value${currency ? " metric-currency" : ""}" title="${escape(format(metric.value) + " " + unit)}">${value}<span class="metric-unit">${escape(displayUnit)}</span></span>${sharedArea ? `<span class="metric-date">${escape(sharedArea)} · shared aggregate</span>` : ""}<span class="metric-date">${escape(reference + status)}${metric.retained ? " · retained snapshot" : ""}</span>${metric.sourceUrl ? `<a class="metric-source" href="${escape(metric.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(sourceLabel(metric.sourceFamily, metric.source, id === "USA" ? "FRED" : "Official source"))}</a>` : ""}</div>`;
       })
       .join("");
     countryMotion = host.animate(
@@ -191,12 +211,19 @@ async function render(updated) {
   charts.splice(0).forEach((chart) => chart.destroy());
   document.querySelector("#as-of").textContent =
     "Data checked " + dateLabel(snapshot.generatedAt);
-  document.querySelector("#report-summary").textContent = report.summary;
-  await renderCountry(country);
+  document.querySelector("#report-summary").innerHTML = reportText(
+    report.summary,
+    report.summaryHighlights,
+  );
+  await renderCountry(
+    metricCountry || country,
+    metricLocation,
+    Boolean(metricCountry),
+  );
   document.querySelector("#report-sections").innerHTML = report.findings
     .map(
       (finding) =>
-        `<section class="report-section" id="${escape(finding.id)}"><div class="report-copy"><span class="report-topic">${escape(finding.topic || finding.series[0]?.category || "Economic signal")}</span><h2>${escape(finding.title)}</h2>${finding.paragraphs.map((paragraph) => `<p>${escape(paragraph)}</p>`).join("")}<a class="source-link" href="./dashboard.html?topic=${encodeURIComponent(finding.topic || finding.series[0]?.category || "")}">Explore this topic ↗</a></div><div class="report-chart-frame"><div class="report-chart" id="chart-${escape(finding.id)}"></div><p class="report-chart-note">${escape(finding.note)}</p></div></section>`,
+        `<section class="report-section" id="${escape(finding.id)}"><div class="report-copy"><span class="report-topic">${escape(finding.topic || finding.series[0]?.category || "Economic signal")}</span><h2>${escape(finding.title)}</h2>${finding.paragraphs.map((paragraph, index) => `<p>${reportText(paragraph, finding.paragraphHighlights?.[index])}</p>`).join("")}<a class="source-link" href="./dashboard.html?topic=${encodeURIComponent(finding.topic || finding.series[0]?.category || "")}">Explore this topic ↗</a></div><div class="report-chart-frame"><div class="report-chart" id="chart-${escape(finding.id)}"></div><p class="report-chart-note">${escape(finding.note)}</p></div></section>`,
     )
     .join("");
   for (const finding of report.findings) {

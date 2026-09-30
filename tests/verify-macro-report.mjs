@@ -4,6 +4,7 @@ import {
   REPORT_CANDIDATES,
   REPORT_IDS,
   buildMacroReport,
+  highlightSegments,
   methodDefinitions,
 } from "../src/macro-report.js";
 import { transformSeries } from "../src/panel.js";
@@ -244,6 +245,173 @@ assert.ok(
 assert.match(report.summary, /topics/);
 assert.match(report.summary, /geograph/i);
 assert.match(report.summary, /freshness|movement/i);
+assert.equal(
+  report.summaryHighlights[0].phrase,
+  `Explore ${snapshot.series.length.toLocaleString("en-US")} economic indicators`,
+  "dataset count highlight is generated from the snapshot",
+);
+for (const finding of report.findings) {
+  assert.equal(finding.paragraphHighlights.length, finding.paragraphs.length);
+  for (const paragraphHighlights of finding.paragraphHighlights)
+    for (const metadata of paragraphHighlights) {
+      assert.ok(metadata.phrase.length > 0);
+      assert.ok(!/<(?:span|script)\b/i.test(metadata.phrase));
+    }
+}
+
+const summaryRefresh = buildMacroReport({
+  ...snapshot,
+  series: [
+    ...snapshot.series,
+    {
+      id: "SYNTHETIC_REFRESH_INDICATOR",
+      category: "Synthetic",
+      geography: "Synthetic",
+      observations: [],
+    },
+  ],
+});
+assert.match(
+  summaryRefresh.summary,
+  new RegExp(
+    `^Explore ${summaryRefresh.dataset.indicatorCount.toLocaleString("en-US")} economic indicators`,
+  ),
+  "summary count refreshes with the dataset",
+);
+assert.notEqual(
+  summaryRefresh.summaryHighlights[0].phrase,
+  report.summaryHighlights[0].phrase,
+  "summary highlight is not hardcoded",
+);
+
+const downEnergy = buildMacroReport({
+  generatedAt: "2025-01-02T00:00:00.000Z",
+  series: [
+    {
+      id: "DCOILWTICO",
+      name: "WTI Crude Oil",
+      category: "Commodities",
+      geography: "US",
+      frequency: "daily",
+      unit: "$/barrel",
+      observations: [
+        ["2024-01-01", 100],
+        ["2025-01-01", 50],
+      ],
+    },
+    {
+      id: "GASREGW",
+      name: "Regular Gas Price",
+      category: "Commodities",
+      geography: "US",
+      frequency: "weekly",
+      unit: "$/gallon",
+      observations: [
+        ["2024-01-01", 2],
+        ["2025-01-01", 1],
+      ],
+    },
+  ],
+});
+assert.equal(
+  downEnergy.findings.length,
+  1,
+  "synthetic energy theme remains selectable",
+);
+assert.match(
+  downEnergy.findings[0].title,
+  /WTI down 50% YoY/,
+  "title shows oil's YoY direction without overloading the heading",
+);
+assert.match(
+  downEnergy.findings[0].paragraphs[0],
+  /WTI was \$50 per barrel on Jan 1, 2025, down 50% year over year/,
+  "negative YoY direction and price unit are accurate",
+);
+assert.match(
+  downEnergy.findings[0].paragraphs[1],
+  /no prior comparable reading is available/,
+  "missing prior transformed comparison remains explicit",
+);
+assert.ok(
+  downEnergy.findings[0].paragraphHighlights[0].every(
+    ({ phrase }) => !phrase.includes("WTI was"),
+  ),
+  "first paragraph uses compact metric highlights",
+);
+
+const flatEnergy = buildMacroReport({
+  generatedAt: "2025-01-02T00:00:00.000Z",
+  series: [
+    {
+      id: "DCOILWTICO",
+      name: "WTI Crude Oil",
+      category: "Commodities",
+      geography: "US",
+      frequency: "daily",
+      unit: "$/barrel",
+      observations: [
+        ["2024-01-01", 100],
+        ["2025-01-01", 100],
+      ],
+    },
+    {
+      id: "GASREGW",
+      name: "Regular Gas Price",
+      category: "Commodities",
+      geography: "US",
+      frequency: "weekly",
+      unit: "$/gallon",
+      observations: [
+        ["2024-01-01", 2],
+        ["2025-01-01", 2],
+      ],
+    },
+  ],
+});
+assert.match(
+  flatEnergy.findings[0].paragraphs[0],
+  /unchanged year over year/,
+  "zero YoY direction is reported as unchanged",
+);
+
+const missingUnit = buildMacroReport({
+  generatedAt: "2025-01-02T00:00:00.000Z",
+  series: [
+    {
+      id: "WDI_WLD_TRADE",
+      name: "Trade share of GDP · World",
+      category: "Growth",
+      geography: "Global",
+      frequency: "annual",
+      observations: [
+        ["2024-12-31", 60],
+        ["2025-12-31", 62],
+      ],
+    },
+  ],
+});
+assert.equal(
+  missingUnit.findings.length,
+  1,
+  "missing unit does not drop a valid theme",
+);
+assert.match(
+  missingUnit.findings[0].paragraphs[0],
+  /World trade reading was 62 reported units in 2025; source unit is unavailable/,
+  "missing units remain explicit rather than becoming a percent",
+);
+
+const highlighted = highlightSegments("<metric> rose 2%", [{ phrase: "2%" }]);
+assert.deepEqual(
+  highlighted,
+  [
+    { text: "<metric> rose ", highlight: false },
+    { text: "2%", highlight: true },
+  ],
+  "highlight helper returns structured text segments, not raw HTML",
+);
+assert.ok(!highlighted.some((segment) => /<span/i.test(segment.text)));
 
 // A source update changes the candidate score/order inputs without changing
 // the candidate contract; this guards against a silently fixed report list.

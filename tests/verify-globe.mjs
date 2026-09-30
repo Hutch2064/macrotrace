@@ -185,12 +185,13 @@ class MockCanvas extends MockElement {
     this.width = 0;
     this.height = 0;
     this.pointerCapture = new Set();
+    this.pathPoints = [];
     const gradient = () => ({ addColorStop() {} });
     const methods = {
       beginPath() {},
       closePath() {},
-      moveTo() {},
-      lineTo() {},
+      moveTo: (x, y) => this.pathPoints.push([x, y]),
+      lineTo: (x, y) => this.pathPoints.push([x, y]),
       stroke() {},
       fill() {},
       clearRect() {},
@@ -356,6 +357,7 @@ globalThis.ResizeObserver = class {
 globalThis.IntersectionObserver = class {
   constructor(callback) {
     this.callback = callback;
+    this.kind = "intersection";
     this.disconnected = false;
     observers.push(this);
   }
@@ -396,6 +398,98 @@ const api = await economicGlobe(
   countries,
 );
 
+// Rendering remains finite at both polar clamps, including after repeated
+// drags. The offscreen observer must also prevent draw/RAF work entirely.
+const polarCanvas = new MockCanvas();
+media.matches = true;
+frames.clear();
+const polarApi = await economicGlobe(
+  polarCanvas,
+  () => {},
+  readings,
+  countries,
+);
+const assertDiscPoints = (label) => {
+  assert.ok(polarCanvas.pathPoints.length, `${label} emits path points`);
+  for (const [x, y] of polarCanvas.pathPoints) {
+    assert.ok(Number.isFinite(x) && Number.isFinite(y), `${label} is finite`);
+    assert.ok(
+      Math.hypot(x - width / 2, y - height / 2) <= radius + 1,
+      `${label} stays within the globe disc`,
+    );
+  }
+};
+polarApi.select("CENTER");
+polarCanvas.pathPoints = [];
+polarCanvas.dispatchEvent({
+  type: "pointerdown",
+  isPrimary: true,
+  button: 0,
+  pointerId: 101,
+  clientX: width / 2,
+  clientY: height / 2,
+});
+polarCanvas.dispatchEvent({
+  type: "pointermove",
+  pointerId: 101,
+  clientX: width / 2,
+  clientY: height / 2 + 400,
+});
+assert.ok(runFrame(1000), "south-polar render frame is runnable");
+assertDiscPoints("south-polar render");
+polarCanvas.dispatchEvent({
+  type: "pointerup",
+  pointerId: 101,
+  clientX: width / 2,
+  clientY: height / 2 + 400,
+});
+polarCanvas.pathPoints = [];
+polarCanvas.dispatchEvent({
+  type: "pointerdown",
+  isPrimary: true,
+  button: 0,
+  pointerId: 102,
+  clientX: width / 2,
+  clientY: height / 2,
+});
+polarCanvas.dispatchEvent({
+  type: "pointermove",
+  pointerId: 102,
+  clientX: width / 2,
+  clientY: height / 2 - 400,
+});
+assert.ok(runFrame(1000), "north-polar render frame is runnable");
+assertDiscPoints("north-polar render");
+polarCanvas.dispatchEvent({
+  type: "pointerup",
+  pointerId: 102,
+  clientX: width / 2,
+  clientY: height / 2 - 400,
+});
+const polarIntersection = [...observers]
+  .reverse()
+  .find(
+    (observer) => observer.kind === "intersection" && !observer.disconnected,
+  );
+assert.ok(polarIntersection);
+polarIntersection.callback([{ isIntersecting: false }]);
+const offscreenFrame = nextFrame;
+assert.equal(frames.size, 0, "offscreen canvas has no pending RAF");
+polarCanvas.dispatchEvent({
+  type: "pointermove",
+  clientX: width / 2,
+  clientY: height / 2,
+});
+polarApi.select("CENTER");
+assert.equal(frames.size, 0, "offscreen updates do not schedule RAF");
+assert.equal(
+  nextFrame,
+  offscreenFrame,
+  "offscreen updates do not allocate frames",
+);
+polarApi.destroy();
+media.matches = false;
+
 const tooltip = document.querySelector("#globe-country-tooltip");
 assert.ok(tooltip, "globe tooltip is mounted in document.body");
 assert.equal(tooltip.className, "globe-tooltip");
@@ -418,6 +512,11 @@ assert.equal(tooltip.getAttribute("aria-hidden"), "false");
 assert.equal(tooltip.hidden, false);
 assert.equal(surface.dataset.state, "open");
 assert.equal(surface.innerText, "Beta");
+assert.equal(
+  surface.dataset.available,
+  "false",
+  "no-data hover uses the authoritative availability reading",
+);
 assert.equal(canvas.getAttribute("aria-describedby"), tooltip.id);
 
 // Leaving immediately closes an open tooltip and restores the hidden state.
@@ -462,6 +561,13 @@ assert.equal(selections[0][0], "BBB");
 assert.equal(selections[0][1].id, "BBB");
 assert.equal(selections[0][1].name, "Beta");
 assert.equal(selections[0][1].economicId, "ECON-BBB");
+assert.equal(
+  surface.dataset.state,
+  "open",
+  "a no-data click keeps its tooltip open",
+);
+assert.equal(surface.innerText, "Beta", "a click keeps the hit country's name");
+assert.equal(tooltip.getAttribute("aria-hidden"), "false");
 
 // A tiny no-data island remains reachable through its marker/geometry.
 canvas.dispatchEvent({
@@ -526,7 +632,15 @@ canvas.dispatchEvent({
 });
 assert.equal(selections.length, 3);
 assert.equal(selections[2][0], "DDD");
+const pinnedCountryName = surface.innerText;
 media.matches = false;
+api.select("DDD");
+assert.ok(runFrame(2000), "center animation frame is runnable after a click");
+assert.equal(
+  surface.innerText,
+  pinnedCountryName,
+  "center animation does not retarget a pinned tooltip",
+);
 
 // Touch gets a larger water fallback target (22px), while the mouse target is
 // narrower (10px). Both still keep a real polygon ahead of the fallback.
@@ -551,6 +665,24 @@ canvas.dispatchEvent({
 });
 assert.equal(selections.length, 4);
 assert.equal(selections[3][0], "BBB");
+assert.equal(surface.dataset.state, "open", "a touch tap reopens the tooltip");
+canvas.dispatchEvent({ type: "pointerleave", pointerType: "touch" });
+assert.equal(
+  surface.dataset.state,
+  "open",
+  "Automatic touch leave retains the tap label",
+);
+document.dispatchEvent({ type: "pointerdown", target: document.body });
+assert.equal(
+  surface.dataset.state,
+  "closed",
+  "A tap outside dismisses the label",
+);
+assert.equal(
+  surface.innerText,
+  "Beta",
+  "touch tap identifies the tapped country",
+);
 const selectionCountAfterTouch = selections.length;
 canvas.dispatchEvent({
   type: "pointerdown",
@@ -641,6 +773,11 @@ for (const [state, animation] of [
     `${state} tooltip uses the bounded scale animation`,
   );
 }
+assert.match(
+  styles,
+  /\.globe-tooltip-surface\[data-available="false"\][\s\S]*?border-color: var\(--negative\);/,
+  "no-data tooltip uses a red border",
+);
 
 // Audit every finite-coordinate unit in the real bundled map, including tiny
 // islands and gray/selectable territories that are absent from the economic
