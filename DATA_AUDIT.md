@@ -1,44 +1,108 @@
-# Public history audit — September 22, 2026
+# Macro-only data audit — September 29, 2026
 
-## Scope and acceptance rules
+MacroTrace now publishes only economic indicators: prices, labor, output,
+housing, monetary policy, credit, fiscal conditions, productivity, demography,
+exchange rates and commodity reference prices. Stocks, ETFs, equity indexes,
+investment-factor portfolios and simulated/spliced investment returns were
+removed from the snapshot, application, refresh path and deployable histories.
+No private Simfolio infrastructure or credentials are used.
 
-This is a systematic audit of major public macroeconomic and market-history source families, not a claim that the entire internet or every published series has been exhausted. The goal is longer, useful, attributable histories that fit a fast, no-account, no-cost public dashboard. The machine-generated [complete inventory](public/data/source-inventory.md) records every included non-Yahoo series and its actual stored date bounds; [CSV](public/data/source-inventory.csv) also records units, classification, years of coverage, and methodology. Source entries in the website disclose provenance and transformations.
+## Retained coverage
 
-Accepted inputs require a retrievable primary source, interpretable units/frequency, a reproducible transformation, missing-value handling, and attribution. An API request date is not an observation date. Archived data retain their actual end dates. Public availability is not a blanket open-data license: provider conditions remain applicable and this project does not grant rights it does not own.
+The reviewed snapshot contains **294 series and 615,455 observations**.
+Its daily provider check is dated **2026-09-29T16:54:50.951Z**; observation
+coverage runs from **1209-01-01 through 2026-09-28**. This does not imply all
+series are current: archived NBER and Bank of England histories retain their
+actual end dates and archive explanations.
 
-## Source-family review
+| Topic        | Series |
+| ------------ | -----: |
+| Commodities  |     99 |
+| Credit       |     20 |
+| Currencies   |     20 |
+| Demography   |      8 |
+| Fiscal       |      5 |
+| Growth       |     41 |
+| Housing      |     16 |
+| Inflation    |     23 |
+| Labor        |     38 |
+| Productivity |      4 |
+| Rates        |     20 |
 
-| Family                                                                              | Decision and scope                                                                                                                                                                                                                   | Primary reference                                                                                                                        |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| FRED, including original BLS/BEA/Federal Reserve/Census/OECD/IMF/World Bank sources | Retain existing catalog and add selected long-run activity, income, credit, demographics, and historical series; preserve native definitions. FRED is an aggregator, not the original author of all data.                            | [FRED](https://fred.stlouisfed.org/)                                                                                                     |
-| NBER Macrohistory                                                                   | Selected archived histories provide prewar context. Do not relabel them current or splice them into modern macro series with different definitions.                                                                                  | [NBER database and format documentation](https://www.nber.org/research/data/nber-macrohistory-database)                                  |
-| Bank of England Millennium                                                          | Selected archived data via FRED where accessible. The official workbook version describes coverage through 2016, not a live millennium-long feed.                                                                                    | [Bank of England research datasets](https://www.bankofengland.co.uk/statistics/research-datasets)                                        |
-| Kenneth R. French Data Library                                                      | Retain market/style/industry histories and add missing factor and emerging-market coverage. Source-defined portfolios and long-short factors remain research indexes, not investable ETFs.                                           | [French library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)                                              |
-| Aswath Damodaran historical returns                                                 | Retain annual stock, bond, bill, real-estate, and gold histories. No annual-to-daily interpolation. Gold is a price-return series, not an income-producing investment.                                                               | [NYU historical returns](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html)                                    |
-| Robert J. Shiller                                                                   | Add monthly equity, dividends, earnings, CPI, yield, CAPE, total-return CAPE, and excess-CAPE-yield histories; annualized-frequency housing observations preserve coverage from 1890.                                                | [Author-maintained data and methodology](https://shillerdata.com/)                                                                       |
-| World Bank Pink Sheet                                                               | Add monthly commodity spot/reference-price histories and broad/subsector indexes. Source monthly averages are not month-end prices or futures total returns.                                                                         | [Commodity markets](https://www.worldbank.org/en/research/commodity-markets)                                                             |
-| World Development Indicators                                                        | Add long-run world activity and country real-GDP-per-capita comparisons. Published World Bank aggregation is retained; constant dollars are not PPP measures.                                                                        | [WDI](https://datatopics.worldbank.org/world-development-indicators/) and [reuse terms](https://data.worldbank.org/summary-terms-of-use) |
-| BIS                                                                                 | Review long-run property, credit and exchange-rate alternatives. Existing/source-specific coverage is preferred over redundant mirror copies; selected FRED mirrors can be used with BIS attribution and no additional user charge.  | [BIS permitted use](https://data.bis.org/help/legal)                                                                                     |
-| OECD                                                                                | Existing harmonized unemployment and related series retained; retired FRED mirrors are not assumed current. Direct SDMX series require their own tested definition/freshness contract before replacement.                            | [OECD terms](https://www.oecd.org/en/about/terms-conditions.html)                                                                        |
-| Jordà–Schularick–Taylor Macrohistory                                                | Deferred: the 18-country, 1870-onward database has CC BY-NC-SA conditions and explicitly restricts commercial data-provider integration. No blanket permission inferred for a public redistributable app.                            | [Dataset and license](https://www.macrohistory.net/database/)                                                                            |
-| Nareit / FTSE Nareit                                                                | Deferred: valuable REIT histories exist, but Nareit's terms require prior written approval for redistribution outside granted rights. No unauthorized VNQ backfill.                                                                  | [Terms](https://www.reit.com/reit/terms-and-conditions-use)                                                                              |
-| Licensed market archives and third-party mirrors                                    | No paid subscriptions, unauthorized licensed-index redistribution, unverified scraped histories, or anonymous GitHub/CSV mirrors were added. A longer file is not proof of adjustment quality, survivorship handling, or permission. | Source-specific clearance required                                                                                                       |
+Source families are FRED (185), World Bank Pink Sheet (87), World Development
+Indicators (20), and Robert J. Shiller's housing indexes (2). FRED is the
+distributor, not necessarily the original author; series-level provider links
+and definitions remain visible. The [generated inventory](public/data/source-inventory.md)
+and [CSV](public/data/source-inventory.csv) list every series, its units,
+frequency, actual coverage and attribution. These inventories update with each
+successful scheduled refresh; the counts in this audit are a dated checkpoint.
 
-## Transparent proxy extensions
+## Definitions and boundaries
 
-All extensions use separate `_SIM` identifiers. Original Yahoo daily histories remain unchanged. These are **research proxy histories**, not literal reconstructions of what a nonexistent ETF would have returned.
+- Each row is one indicator, geography, actual source date and reported value.
+  Native daily, weekly, monthly, quarterly and annual grain is preserved.
+- Levels retain original units. Percentage-valued rates use percentage-point
+  differences. Signed/diffusion indexes use point differences; signed dollar
+  quantities and non-percent rates keep their native difference units.
+- Positive prices/counts use `100 × (current / baseline − 1)`; a missing or
+  nonpositive baseline is unavailable, never a fabricated return.
+- YoY matches the same calendar period a year earlier. Daily/weekly comparisons
+  use the last observation on or before that boundary, at most seven days old;
+  unmatched leap-day boundaries remain unavailable. Previous-observation change
+  uses the preceding actual release, not an assumed daily/monthly interval.
+- Monthly heat-map cells are the last actual observation in each month, using
+  the selected measure. Annual histories have cells only in their source month.
+  Missing comparisons remain blank; no forward filling or interpolation occurs.
+- Latest-reading percentiles use midranks within each series' filtered history.
+  Direction counts are above/below/equal-to-zero counts, not an economic health
+  score. Unlike units are never pooled into a growth rate or level average.
+- Pink Sheet prices are nominal monthly averages and price indexes, not futures
+  returns. Shiller home prices are author-defined annual housing research indexes
+  from 1890, not tradable securities; complete post-1953 years use monthly means.
 
-1. Preserve public-proxy changes at its actual monthly or annual frequency.
-2. Resample the ETF's adjusted closes to the last available trading close of each completed calendar period. Exclude the current incomplete month/year.
-3. Find the first common period-end anchor. Retain public-proxy returns through that date.
-4. Thereafter use `index(t) = index(anchor) × adjustedClose(t) / adjustedClose(anchor)`.
-5. Preserve each segment's changes without smoothing, blending, forward filling, levered transformations, or fabricated daily paths.
-6. Record sources, join date, source hash, methodology mismatch, paired-overlap count, overlap return correlation, and annualized tracking-difference volatility. These diagnostics describe similarity, not equivalence or predictive accuracy.
+## Refresh, verification and delivery
 
-The initial Shiller/SPY monthly candidate was rejected after overlap testing found a correlation of about 0.655 and annualized tracking-difference volatility of 11.56%: monthly averages and month-end ETF closes are different timing conventions. Shiller remains a separate 1871-onward research history; SPY instead uses annual Damodaran S&P 500 total returns from 1928 before the observed ETF segment. French style and industry definitions differ from Russell/GICS indexes. The VTI and EEM proxies differ in universe, index rules, taxes and implementation. Gold uses annual price returns before GLD and adjusted-close returns afterward; no hypothetical pre-inception fund fees are deducted. These limitations are intentional and visible, not hidden corrections. Individual-company prices are never manufactured before a company's existence; Treasury yields are never spliced into TLT total returns, and spot commodities are never presented as DBC futures returns.
+The scheduled 11:17 UTC workflow checks accepted providers daily, validates
+the result and republishes the same site to Vercel and the course GitHub Pages
+mirror. Release frequency remains source-defined. Retrieval failures preserve
+the last successful observations with explicit status and original check time.
+Provider check time is never substituted for an economic observation date.
 
-## Validation and publishing
+`npm run check` verifies macro eligibility, provenance, finite/order/date
+contracts, every lossless history hash, browser persistence/fallback/version
+behavior, numeric fixtures, all report/dashboard point parity, the two-page
+contract and the production build. Obsolete generated history files are removed
+before publishing so excluded securities cannot survive in the runtime corpus.
+The report's eight findings and four headlines are calculated from source rows,
+not hardcoded economic values.
 
-`npm run check` verifies ordering, finite values, metadata, native-frequency calculations, archive classifications, every pre- and post-splice return, the source inventory, presets, APIs, and the production build. Online provider-specific checks validate downloaded source headers, missing sentinels and source-boundary reconstruction. The ingestion-only workbook dependency is not included in browser bundles.
+This is an explicit product scope and validation audit, not a claim to have
+exhausted every public dataset on the internet. Public accessibility does not
+waive provider attribution or third-party reuse conditions. No additional paid
+storage, worker, database or capacity setting was introduced.
 
-The existing daily 11:17 UTC GitHub Action refreshes all accepted sources, regenerates the coverage inventory, checks the result, and republishes both hosts. Source release cadence remains monthly/quarterly/annual where applicable; refreshing daily does not imply new daily observations. A failed provider retains its last successful dataset with an explicit status; newly unavailable sources cannot silently bootstrap from fabricated data. Derived histories inherit unsuccessful upstream refresh status. Frequency-specific freshness checks still apply to active series; only explicitly documented historical archives are exempt.
+## Redesign verification checkpoint
+
+Local production-build checks used Chromium at 1440/1920-pixel desktop and
+360/390-pixel mobile viewports. These are browser-emulated viewports, not a
+physical-phone certification. The report rendered all eight plots, four
+headlines and 294 catalog entries with Outfit and the current SIMFOL.io base
+palette. Topic, period, measure and group selectors were exercised through
+the visible UI; geographic/frequency/custom-date combinations were also
+checked diagnostically. No horizontal page overflow or browser errors were
+observed in those checks.
+
+The full-history reported-level view exposed all 615,455 actual source rows;
+the observation table remained paginated at 40 rows. A Labor CSV contained
+exactly the selected 2,326 rows, not only the displayed table page. Empty-search
+and reset states were checked. Expanded-chart period selection, log eligibility,
+keyboard legend inspection, legend toggling/reset and nested mobile selectors
+worked. Reduced-motion emulation stopped the decorative orbit at rest while
+keyboard rotation remained available. Independent formula fixtures passed,
+and all 18,899 report points matched the dashboard transforms.
+
+The final label review corrected [initial claims](https://fred.stlouisfed.org/series/ICSA)
+to a count of claims, not thousands, and [PPOILUSDM](https://fred.stlouisfed.org/series/PPOILUSDM)
+to palm oil in USD per metric ton, not crude oil per barrel. VIX was removed as
+an equity-options-derived market indicator. Global IMF commodity references,
+world aggregates and euro-area GDP are not attributed to the United States.

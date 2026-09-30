@@ -1,126 +1,94 @@
 # Delivery and performance
 
-## Architecture decision
+## Scope
 
-MacroTrace is a static application with a small optional search/history API. The
-daily ingestion job downloads and validates providers once, not once per visitor.
-Production stays on the existing Vercel project; GitHub Pages remains the course
-submission mirror. These are two deployments of MacroTrace, not Simfolio.
+MacroTrace is a static two-page site. The report and dashboard use the same
+reviewed macro snapshot, a compact metadata catalog, and lossless,
+content-addressed history files. There are no runtime API functions, database,
+Fly worker, R2 bucket, paid compute tier, or Simfolio infrastructure changes.
 
-Do not add a database, Fly server, or R2 bucket to serve this small daily corpus.
-The application already has a CDN origin. Adding object storage alone would not
-remove browser parsing, chart computation, or CDN request costs. No paid service,
-capacity tier, team billing setting, or Simfolio infrastructure was changed.
+This document describes delivery mechanisms and bounded work. It does not make
+an unmeasured claim about end-to-end load time, CDN hit rate, hosting cost, or
+production click-to-visible performance. Those require a separately recorded
+browser/deployment measurement with its environment, cache state, network,
+viewport, and snapshot identity.
 
-## What a visitor downloads
+## Delivery path
 
-1. A compact catalog: complete provenance, coverage bounds, and precomputed banner
-   changes for all twelve horizons, without observation arrays.
-2. Only selected histories: SHA-256-named JSON files, validated before use.
-   Histories are identical to the committed snapshot, without rounding,
-   downsampling, clipping, or shortened coverage.
-3. Browser IndexedDB retains verified histories across page navigation and visits.
-   Unchanged observations reuse the same URL/hash after a daily refresh. Storage
-   is bounded to 64 MiB of logical JSON bytes with oldest-use eviction; actual
-   IndexedDB implementation overhead can be larger. Private-mode/storage failures
-   fall back to network delivery without disabling charts.
+1. The scheduled refresh validates providers and writes the public snapshot,
+   version manifest, and source inventory.
+2. `scripts/build-data.mjs` writes a catalog with complete metadata and
+   coverage, then writes each complete observation array to a SHA-256-named
+   history file. No rounding, downsampling, clipping, or representative
+   sample is used.
+3. Vite builds exactly `index.html` and `dashboard.html`. The Vercel deployment
+   allowlist includes their source modules, data scripts, static data, fonts,
+   package manifests, and configuration, but no API directory.
+4. The browser loads the catalog first. Report findings and the panel request
+   only the selected histories; each response is verified against the catalog
+   hash and expected observation count before use.
 
-Requests for the same history are coalesced. A collection loads at most four
-histories concurrently. Collection prefetch is debounced and follows hover/focus
-intent; it is disabled when the browser advertises Save-Data. The full library is
-not silently prefetched. Data Sources initially requests no histories; CSV export
-fetches the chosen complete history on demand.
+## Cache and persistence contract
 
-Vercel history URLs use a one-year immutable cache policy. The mutable catalog has
-a five-minute policy. The small version manifest is checked hourly and when the
-tab becomes visible; changed catalogs refresh active data, report findings, source
-coverage, and the banner. A missing old-deployment chunk requests a catalog refresh
-and presents an explicit retry instead of mixing data versions. Source publication
-frequency, daily ingestion cadence, and outage disclosures are unchanged.
+History chunks and self-hosted fonts are served with immutable CDN cache
+headers. Mutable catalog/version data uses a short revalidation policy so a
+daily publication can become visible without replacing an old history URL.
+The legacy `sources.html` path redirects to the report's `#sources` section.
 
-## Measured payload budget
+Verified histories are retained in a bounded IndexedDB cache keyed by their
+content hash. Concurrent requests for the same history share one promise.
+Oldest-use records are evicted when the logical cache budget is exceeded. If
+IndexedDB or private-mode storage is unavailable, the browser continues with
+network delivery; persistence is an optimization, not a correctness
+requirement. A missing old-deployment chunk triggers a version refresh instead
+of combining histories from different snapshots.
 
-Snapshot vintage: `2026-09-22T06:14:26.015Z`. These are Node gzip byte counts for
-data only, not whole-page transfer sizes or end-to-end load-time claims.
+## Rendering scheduling
 
-| Data                         |           Before |         After |
-| ---------------------------- | ---------------: | ------------: |
-| Default Macro view, cold     |  6,265,078 bytes | 247,469 bytes |
-| Data Sources, cold           |  6,265,078 bytes | 102,836 bytes |
-| Parsed catalog               | 25,390,423 bytes | 724,381 bytes |
-| Complete histories available |              425 |           425 |
+The application keeps calculations local and preserves native observation
+grain. Report plots and indicator plots are created lazily as they approach the
+viewport; charts outside that window do not consume plot setup work until the
+reader is likely to see them. Returning to an existing view reuses the loaded
+snapshot/history state where possible. This is a scheduling design, not a
+measured rendering-speed claim.
 
-Default cold data is about **96% smaller**. The tradeoff is thirteen data requests
-(catalog plus twelve histories) instead of one giant snapshot request. Browser
-persistence eliminates those history fetches on a normal repeat visit. A viewport
-sample of the default desktop dashboard went from 4,225 DOM elements to 921 after
-the bounded banner; element counts vary with charts, expansion, and selections.
+uPlot is the only chart runtime. The dashboard uses separate source-unit
+readings and labels; it does not pool incompatible units into one aggregate.
+Period changes, heat-map cells, percentile comparisons, and CSV exports operate
+on the complete selected histories and leave unavailable comparisons explicit.
 
-The normal animated banner keeps two groups of twelve links and rotates through
-all 425 entries. Reduced-motion users get a static, manually scrollable complete
-list. Hidden tabs and hover/focus pause animation. Closed source categories defer
-their series markup. Report plots and dashboard time-series plots are initialized
-near the viewport. Chart.js is no longer included in report/source entry bundles.
-Fonts are self-hosted; normal page rendering needs no Google Fonts connection.
-Repeated immutable-series calculations reuse cached results rather than rebuilding
-identical calendar windows and returns.
-
-## Optional API and abuse limits
-
-The prebundled application does not invoke provider APIs while browsing, filtering,
-or changing chart horizons. Arbitrary ticker/FRED lookup is separate. Existing
-CDN policies remain: market history five minutes, FRED history one hour, search
-fifteen minutes, with their existing stale-while-revalidate windows.
-
-Each warm function instance also has bounded response caching and same-key
-in-flight sharing. Market/FRED local successful responses live sixty seconds;
-search lives five minutes. Provider failures live three seconds. Search reads
-the 724 KB metadata catalog rather than parsing the 25 MB snapshot. Each endpoint
-allows at most 32 distinct pending loads in one instance, then returns HTTP 429
-with Retry-After. This is **not a global distributed rate limit**: many unique
-requests spread across instances can still consume provider and hosting capacity.
-No claim of unlimited free API traffic or guaranteed cold-provider latency is made.
-
-## Cost and growth boundaries
-
-Evaluate both transferred bytes and request count. One million fully cold default
-Macro visits would represent approximately 247 GB of compressed data and 13
-million data requests, **before** HTML, JavaScript, fonts, other pages, additional
-selections, downloads, and arbitrary API traffic. This is an arithmetic workload
-illustration, not a usage forecast or bill. Returning users usually need less.
-
-The existing account is Pro, but enabling Flat Rate CDN was not verified. Its
-documented included capacity is 1M CDN requests and 1 TB; optional paid tiers and
-eligibility rules apply. Shared-team billing changes are deliberately out of scope.
-See [Vercel CDN pricing](https://vercel.com/docs/pricing/flat-rate-cdn).
-
-For sustained traffic beyond the existing allowance, compare a project-only static
-migration to [Cloudflare Pages](https://developers.cloudflare.com/pages/functions/pricing/),
-whose static requests and bandwidth are documented as free and unlimited, subject
-to platform limits/terms. The generated library is ordinary static files and can
-move without redesigning charts or data calculations. Arbitrary provider API
-traffic still needs a separately costed service. Such a migration was not performed
-or benchmarked here, and no global latency superiority is claimed.
-
-[R2](https://developers.cloudflare.com/r2/pricing/) becomes more useful if the corpus
-grows beyond static-deployment limits or data publication must be independent of
-site deployment. R2 has storage/operation allowances and no direct egress charge;
-it is not automatically cheaper than the static origin already included with the
-site. A production CDN/custom-domain setup would still be necessary. Pricing was
-reviewed September 22, 2026 and can change.
-
-## Reproduce and verify
+## Verification
 
 ```bash
 npm ci
 npm run check
-npm run performance:measure
 ```
 
-`delivery:verify` checks every observation and provenance field, all twelve banner
-horizons, transfer budgets, persistent reuse, request deduplication, cache eviction,
-disabled storage, corrupted responses, and expired-deployment behavior. API tests
-use mocked providers, including failures and concurrency. The performance command
-measures pure analytics only, not browser/network speed. Validate production
-separately: exact deployed commit, CDN headers, cold/repeat browser requests,
-mobile overflow, expanded charts, source disclosures/exports, and runtime errors.
+The check pipeline verifies:
+
+- snapshot/version metadata, date ordering, provenance, native frequencies,
+  and macro scope;
+- every generated history byte-for-byte against the reviewed snapshot and its
+  SHA-256 digest;
+- the ten default macro IDs (`UNRATE`, `CPIAUCSL`, `PCEPILFE`, `FEDFUNDS`,
+  `GDPC1`, `PAYEMS`, `HOUST`, `PERMIT`, `INDPRO`, `DCOILWTICO`);
+- request coalescing, bounded parallel history loading, IndexedDB reuse and
+  eviction, storage-disabled fallback, integrity failure, and snapshot
+  rollover;
+- deterministic panel/report numerical fixtures and the exactly-two-page DOM
+  and source contract; and
+- the production Vite build.
+
+The delivery script's gzip sizes are transfer diagnostics for the current
+snapshot only. They are not browser timing, traffic forecasts, CDN billing, or
+cost guarantees. Any future performance comparison must identify both snapshot
+versions, the exact default selection, cold/warm cache state, device/browser,
+network, and the full output contract being compared.
+
+## Cost boundary
+
+The public site remains on the existing static hosting arrangement. No paid
+service or capacity setting is enabled by this project. If traffic or corpus
+size changes materially, evaluate request count, transferred bytes, cache
+behavior, and provider refresh costs together before changing the architecture;
+do not infer a saving from payload size alone.

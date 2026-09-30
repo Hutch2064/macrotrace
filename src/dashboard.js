@@ -1,1504 +1,560 @@
+import { loadSnapshot, loadHistories } from "./data-store.js";
 import {
-  changePercentile as computeChangePercentile,
-  changeSuffix,
-  changeType,
-  chartOptions,
-  colorReadings,
-  format,
-  loadSnapshot,
-  maxDrawdown,
   mountChrome,
-  palette,
-  rollingChanges,
-  semanticChange,
-  seriesKind,
+  format,
   signed,
-  sliceHorizon,
-  transform,
-  volatility,
+  changeClass,
+  dateLabel,
+  escapeHtml as escape,
+  expandIcon,
+  downloadCsv,
+  showError,
 } from "./common.js";
-import { Chart } from "./chart-theme.js";
-import { presetById, presets } from "./presets.js";
+import { filterSeries, transformSeries } from "./panel.js";
+import { enhanceSelect } from "./select.js";
 import { timeChart } from "./time-chart.js";
-import { enhanceSelect as sharedSelect } from "./select.js";
-import { fillHorizons, horizons, horizonLabel } from "./horizons.js";
-import { cumulativeView, latestChange } from "./series-view.js";
 import { lazyChart } from "./lazy-chart.js";
-import {
-  rollingAnnualReturn,
-  rollingVolatilityPath,
-  changeDistribution,
-  breadthAcceleration,
-} from "./diagnostics.js";
-import { requestSeries } from "./series-cache.js";
-import { loadHistory } from "./data-store.js";
-import {
-  median,
-  percentileRank,
-  rollingHorizonChanges,
-  periodChanges,
-  correlationDetails,
-  sliceWindow,
-  drawdownPath,
-  annualizedCagr,
-} from "./analytics.js";
 
-const MAX_SELECTED = 24;
-const expandIcon =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg>';
-const closeIcon =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
-const chartLabel = (series) => {
-  const international = {
-    "International Inflation": series.unit === "%" ? "Inflation" : "CPI",
-    "International Growth": "GDP",
-    "International Labor": "Unemp.",
-  }[series.category];
-  const name = international
-    ? `${series.name.split(" · ").at(-1)} ${international}`
-    : series.name.split(" · ")[0];
-  return name.length > 22 ? `${name.slice(0, 21)}…` : name;
+const $ = (selector) => document.querySelector(selector);
+const PAGE_SIZE = 6,
+  TABLE_SIZE = 40;
+const priority = [
+  "CPIAUCSL",
+  "CPILFESL",
+  "PCEPI",
+  "PCEPILFE",
+  "T5YIE",
+  "T10YIE",
+  "UNRATE",
+  "PAYEMS",
+  "GDPC1",
+  "FEDFUNDS",
+  "HOUST",
+  "INDPRO",
+];
+const state = {
+  category: "Inflation",
+  geography: "all",
+  frequency: "all",
+  search: "",
+  period: "5",
+  measure: "yoy",
+  group: "category",
+  start: "",
+  end: "",
 };
-const apiOrigin = import.meta.env.VITE_MARKET_API_ORIGIN || "";
-const escapeHtml = (value) =>
-  String(value ?? "").replace(
-    /[&<>'"]/g,
-    (character) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[
-        character
-      ],
-  );
-const signalCache = new WeakMap();
-const nativeSignalCache = new WeakMap();
-const rankCache = new WeakMap();
-const cycleCache = new WeakMap();
-const marketPercentileCache = new WeakMap();
-function changePercentile(series) {
-  if (!marketPercentileCache.has(series))
-    marketPercentileCache.set(series, computeChangePercentile(series));
-  return marketPercentileCache.get(series);
-}
-function nativeSignal(series) {
-  if (!nativeSignalCache.has(series))
-    nativeSignalCache.set(series, rollingChanges(series));
-  return nativeSignalCache.get(series);
-}
-function macroSignal(series) {
-  if (!signalCache.has(series))
-    signalCache.set(
-      series,
-      changeType(series) === "percent"
-        ? rollingHorizonChanges(series, "1y")
-        : series.observations,
-    );
-  return signalCache.get(series);
-}
-function cyclePercentile(series) {
-  if (cycleCache.has(series)) return cycleCache.get(series);
-  const points = macroSignal(series);
-  const result = percentileRank(
-    points.at(-1)?.[1],
-    points.map(([, value]) => value),
-  );
-  cycleCache.set(series, result);
-  return result;
-}
-const mean = (values) =>
-  values.reduce((sum, value) => sum + value, 0) / values.length;
-const matchesSearch = (series, query) => {
-  const text = `${series.id} ${series.name} ${series.category}`
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ");
-  return query
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter(Boolean)
-    .every((token) => text.includes(token));
+let snapshot,
+  matched = [],
+  transformed = new Map(),
+  rows = [],
+  page = 0,
+  tablePage = 0,
+  revision = 0;
+let plots = [],
+  expanded,
+  expandedSeries;
+const transformCache = new WeakMap();
+const measureLabels = {
+  level: "Reported level",
+  yoy: "Year-over-year change",
+  change: "Previous-observation change",
 };
-
-async function main() {
-  let snapshot = await loadSnapshot();
-  mountChrome(snapshot, "dashboard");
-  const state = {
-    series: snapshot.series,
-    selected: [],
-    horizon: "365",
-    mode: "macro",
-    activePreset: "macro",
-    logarithmic: false,
-  };
-  let charts = {};
-  const modeViews = new Map();
-  let analysisView = document.querySelector("#analysis-view");
-  for (const [id, title] of [
-    ["annual", "Rolling annual change"],
-    ["variability", "Rolling variability"],
-    ["distribution", "Change distribution"],
-    ["breadth", "Breadth through time"],
-  ]) {
-    const card = document.createElement("article");
-    card.className = "chart-card";
-    card.dataset.chartCard = "";
-    card.innerHTML = `<div class="chart-heading"><h2 id="${id}-title">${title}</h2><button class="chart-expand" type="button" aria-label="Expand ${title}">${expandIcon}</button></div><div class="chart-subhead" id="${id}-note"></div><div class="chart-wrap" id="${id}-chart"></div>`;
-    analysisView.querySelector(".dashboard-grid").append(card);
-  }
-  const viewTemplate = analysisView.cloneNode(true);
-  const loaded = new Map(
-    state.series
-      .filter((series) => series.observations)
-      .map((series) => [series.id, series]),
+function latestDate() {
+  return snapshot.series.reduce((latest, series) => {
+    const date =
+      series.coverage?.latest?.[0] || series.observations?.at(-1)?.[0];
+    return date > latest ? date : latest;
+  }, "1000-01-01");
+}
+function range(period = state.period) {
+  const end =
+    period === "custom" || period === "current" ? state.end : latestDate();
+  if (period === "custom" || period === "current")
+    return { start: state.start, end };
+  if (period === "max") return { start: "1000-01-01", end };
+  const start = new Date(end + "T00:00:00Z");
+  start.setUTCFullYear(start.getUTCFullYear() - Number(period));
+  return { start: start.toISOString().slice(0, 10), end };
+}
+function readings(series, scope = range()) {
+  let cache = transformCache.get(series);
+  if (!cache) transformCache.set(series, (cache = new Map()));
+  const key = [state.measure, scope.start, scope.end].join("/");
+  if (!cache.has(key))
+    cache.set(
+      key,
+      transformSeries(series, { ...scope, measure: state.measure }),
+    );
+  // Bound browser calculations as the reader explores many custom windows.
+  if (cache.size > 12) cache.delete(cache.keys().next().value);
+  return cache.get(key);
+}
+const visibleSeries = () =>
+  matched.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+const finite = (points) =>
+  points.filter((point) => Number.isFinite(point.value));
+function prepareOptions(select, values, allLabel) {
+  select.replaceChildren(
+    ...[["all", allLabel], ...values.map((value) => [value, value])].map(
+      ([value, label]) => new Option(label, value),
+    ),
   );
-  let selectionRequest = 0;
-  const horizon = document.querySelector("#horizon-filter");
-  fillHorizons(horizon, state.horizon);
-  const search = document.querySelector("#series-search");
-  const results = document.querySelector("#search-results");
-  const status = document.querySelector("#ticker-status");
-  const presetStatus = document.querySelector("#preset-status");
-  let searchResults = [];
-  let activeSearchIndex = 0;
-  let searchTimer;
-  let searchRequest;
-  const queryCache = new Map();
-  let pendingSnapshot;
-  document.addEventListener("snapshot-updated", (event) => {
-    pendingSnapshot = event.detail;
-    if (!document.querySelector(".chart-expanded")) applyFreshSnapshot();
-  });
-  function applyFreshSnapshot() {
-    if (!pendingSnapshot) return;
-    snapshot = pendingSnapshot;
-    pendingSnapshot = null;
-    for (const view of modeViews.values())
-      if (view.charts !== charts)
-        Object.values(view.charts).forEach((chart) => chart.destroy());
-    modeViews.clear();
-    for (const series of snapshot.series)
-      if (series.observations) loaded.set(series.id, series);
-    state.series = [
-      ...snapshot.series,
-      ...[...loaded.values()].filter(
-        (series) => !snapshot.series.some(({ id }) => id === series.id),
-      ),
-    ];
-    document.querySelector("#freshness").textContent =
-      `Daily snapshot · ${new Date(snapshot.generatedAt).toLocaleString()}`;
-    render();
-  }
-
-  document.querySelector("#freshness").textContent =
-    `Daily snapshot · ${new Date(snapshot.generatedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}`;
-  horizon.addEventListener("change", () => {
-    state.horizon = horizon.value;
-    render();
-  });
-  document.querySelector("#log-scale").addEventListener("change", (event) => {
-    state.logarithmic = event.target.checked;
-    renderTrend(selectedSeries());
-    renderIndividual(selectedSeries());
-  });
-  document.querySelector("#reset-filters").addEventListener("click", () => {
-    state.horizon = "365";
-    horizon.value = "365";
-    horizon._renderCustom?.();
-    state.logarithmic = false;
-    document.querySelector("#log-scale").checked = false;
-    search.value = "";
-    setSearchOpen(false);
-    status.textContent = "";
-    applyPreset(state.mode === "macro" ? "macro" : "markets");
-  });
-  document
-    .querySelectorAll("[data-mode]")
-    .forEach((button) =>
-      button.addEventListener("click", () => setMode(button.dataset.mode)),
-    );
-
-  let prefetchTimer;
-  function enhanceSelect(select) {
-    return sharedSelect(select, (id) => {
-      if (select.id !== "view-filter") return;
-      clearTimeout(prefetchTimer);
-      const preset = presetById(id);
-      if (preset && !navigator.connection?.saveData)
-        prefetchTimer = setTimeout(() => {
-          void fetchCollection([
-            ...(preset.series ?? []),
-            ...(preset.symbols ?? []),
-          ]);
-        }, 150);
-    });
-  }
-  enhanceSelect(horizon);
-  document.querySelectorAll(".chart-expand").forEach((button) => {
-    button.innerHTML = expandIcon;
-  });
-  // Keep the unrendered template consistent when opening the other mode first.
-  viewTemplate.querySelectorAll(".chart-expand").forEach((button) => {
-    button.innerHTML = expandIcon;
-  });
-
-  document.addEventListener("click", (event) => {
-    const button = event.target.closest(".chart-expand");
-    if (!button) return;
-    const card = button.closest("[data-chart-card]");
-    const expanded = card.classList.toggle("chart-expanded");
-    document.body.classList.toggle("chart-modal-open", expanded);
-    card.setAttribute("role", expanded ? "dialog" : "article");
-    document
-      .querySelectorAll(
-        "main > *, #analysis-view > *, .dashboard-grid > *, #site-header, #site-footer",
-      )
-      .forEach((element) => {
-        if (element !== card && !element.contains(card))
-          element.inert = expanded;
-      });
-    if (expanded) {
-      card.setAttribute("aria-modal", "true");
-      card.setAttribute("aria-label", card.querySelector("h2").textContent);
-      let chart = Object.values(charts).find(
-        (item) =>
-          (item.host || item.canvas)?.closest("[data-chart-card]") === card,
-      );
-      const toolbar = document.createElement("div");
-      toolbar.className = "chart-explorer-tools";
-      if (card.dataset.seriesId) {
-        const picker = document.createElement("select");
-        picker.setAttribute("aria-label", "Chart horizon");
-        fillHorizons(picker, state.horizon);
-        toolbar.append(picker);
-        picker.addEventListener("change", () => {
-          drawIndividual(loaded.get(card.dataset.seriesId), card, picker.value);
-          chart = charts[card.querySelector(".chart-wrap").id];
-        });
-        enhanceSelect(picker);
-      }
-      const reset = document.createElement("button");
-      reset.className = "secondary-button";
-      reset.textContent = "Reset chart";
-      reset.addEventListener("click", () => {
-        if (chart?.reset && chart.host) chart.reset();
-        else if (chart?.data) {
-          chart.data.datasets.forEach((_, index) =>
-            chart.setDatasetVisibility(index, true),
-          );
-          chart.update("none");
-        }
-      });
-      const help = document.createElement("span");
-      help.setAttribute("role", "status");
-      help.textContent =
-        chart?.hint ||
-        (chart?.host
-          ? "Drag to zoom · arrow keys inspect dates · click a legend to hide a series"
-          : chart
-            ? "Hover to inspect values · click a legend to isolate datasets"
-            : "Select any cell to inspect its exact change and period");
-      if (chart) toolbar.append(reset);
-      if (chart?.data) {
-        const legend = document.createElement("button");
-        legend.className = "secondary-button";
-        legend.textContent = "Toggle legend";
-        legend.addEventListener("click", () => {
-          chart.options.plugins.legend.display =
-            !chart.options.plugins.legend.display;
-          chart.update("none");
-        });
-        toolbar.append(legend);
-      }
-      toolbar.append(help);
-      card.querySelector(".chart-subhead").after(toolbar);
-      button.focus();
-    } else {
-      card.removeAttribute("aria-modal");
-      card.removeAttribute("aria-label");
-      card.querySelector(".chart-explorer-tools")?.remove();
-      if (card.dataset.seriesId)
-        drawIndividual(loaded.get(card.dataset.seriesId), card, state.horizon);
-      applyFreshSnapshot();
-    }
-    button.innerHTML = expanded ? closeIcon : expandIcon;
-    button.setAttribute(
-      "aria-label",
-      expanded ? "Close expanded chart" : "Expand chart",
-    );
-    requestAnimationFrame(() =>
-      Object.values(charts).forEach((chart) => chart.resize()),
-    );
-  });
-  document.addEventListener("keydown", (event) => {
-    const dialog = document.querySelector(".chart-expanded");
-    if (!dialog) return;
-    if (event.key === "Escape") dialog.querySelector(".chart-expand")?.click();
-    if (event.key === "Tab") {
-      const focusable = [
-        ...dialog.querySelectorAll('button, a, input, [tabindex="0"]'),
-      ];
-      const first = focusable[0],
-        last = focusable.at(-1);
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last?.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first?.focus();
-      }
-    }
-  });
-  const inspectCell = (event) => {
-    const cell = event.target.closest(".heatmap-cell");
-    const help = cell
-      ?.closest(".chart-expanded")
-      ?.querySelector(".chart-explorer-tools [role=status]");
-    if (help) help.textContent = cell.getAttribute("aria-label");
-  };
-  document.addEventListener("focusin", inspectCell);
-  document.addEventListener("click", inspectCell);
-
-  function selectedSeries() {
-    return state.selected.map((id) => loaded.get(id)).filter(Boolean);
-  }
-  function setSearchOpen(open) {
-    results.hidden = !open;
-    search.setAttribute("aria-expanded", String(open));
-    if (!open) search.removeAttribute("aria-activedescendant");
-  }
-  function destroyChart(name) {
-    charts[name]?.destroy();
-  }
-  function setMode(mode, initialize = true) {
-    if (mode === state.mode) return;
-    selectionRequest++;
-    const started = performance.now();
-    modeViews.set(state.mode, {
-      element: analysisView,
-      charts,
-      selected: [...state.selected],
-      activePreset: state.activePreset,
-      logarithmic: state.logarithmic,
-      horizon: state.horizon,
-      status: presetStatus.textContent,
-    });
-    const cached = modeViews.get(mode);
-    const next = cached?.element || viewTemplate.cloneNode(true);
-    analysisView.replaceWith(next);
-    analysisView = next;
-    charts = cached?.charts || {};
-    state.mode = mode;
-    state.logarithmic = cached?.logarithmic || false;
-    document.querySelector("#log-scale").checked = state.logarithmic;
-    if (cached) {
-      state.selected = [...cached.selected];
-      state.activePreset = cached.activePreset;
-      presetStatus.textContent = cached.status;
-      renderControls(selectedSeries());
-      if (cached.horizon !== state.horizon) render();
-      else Object.values(charts).forEach((chart) => chart.resize());
-    } else if (initialize)
-      void applyPreset(mode === "macro" ? "macro" : "markets");
-    if (import.meta.env.DEV)
-      document.body.dataset.switchMs = (performance.now() - started).toFixed(1);
-  }
-  function renderPresetButtons() {
-    const container = document.querySelector("#preset-list");
-    if (container.dataset.mode !== state.mode) {
-      container.dataset.mode = state.mode;
-      container.innerHTML = `<label class="view-select">Explore a collection<select id="view-filter"><option value="custom" disabled>Custom selection</option>${presets
-        .filter((preset) => preset.mode === state.mode)
-        .map(
-          (preset) =>
-            `<option value="${preset.id}">${escapeHtml(preset.label)} — ${escapeHtml(preset.description)}</option>`,
-        )
-        .join("")}</select></label>`;
-      const select = container.querySelector("select");
-      select.value = state.activePreset || "custom";
-      enhanceSelect(select);
-      select.addEventListener("change", () => applyPreset(select.value));
-    }
-    const select = container.querySelector("select");
-    select.value = state.activePreset || "custom";
-    select._renderCustom?.();
-  }
-  async function fetchSeries(item) {
-    const existing = loaded.get(item.id);
-    if (existing) return existing;
-    const version = snapshot;
-    let series = version.series.some(({ id }) => id === item.id)
-      ? await loadHistory(version, item.id)
-      : await requestSeries(item, apiOrigin);
-    if (
-      version !== snapshot &&
-      snapshot.series.some(({ id }) => id === item.id)
-    )
-      series = await loadHistory(snapshot, item.id);
-    loaded.set(series.id, series);
-    state.series = [
-      ...state.series.filter(({ id }) => id !== series.id),
-      series,
-    ];
-    return series;
-  }
-  async function addResult(item) {
-    if (!item) return;
-    setSearchOpen(false);
-    search.value = "";
-    status.textContent = `Adding ${item.id}…`;
-    try {
-      const series = await fetchSeries(item);
-      const nextMode =
-        item.kind === "market" || seriesKind(series) === "market"
-          ? "markets"
-          : "macro";
-      if (nextMode !== state.mode) {
-        setMode(nextMode, false);
-        state.selected = [];
-      }
-      selectionRequest++;
-      if (!state.selected.includes(series.id))
-        state.selected = [
-          ...state.selected.slice(-(MAX_SELECTED - 1)),
-          series.id,
-        ];
-      state.activePreset = null;
-      status.textContent = `${series.name} added · ${series.observations.at(-1)[0]}`;
-      presetStatus.textContent = `Custom view · ${state.selected.length} series`;
-      render();
-    } catch (error) {
-      status.textContent = error.message;
-    }
-  }
-  function renderSearch(items, pending = false) {
-    searchResults = items;
-    activeSearchIndex = 0;
-    results.innerHTML = items.length
-      ? items
-          .map(
-            (item, index) =>
-              `<button class="search-result${index ? "" : " active"}" id="search-option-${index}" data-search-index="${index}" role="option" aria-selected="${!index}" type="button"><span><strong>${escapeHtml(item.id)}</strong> · ${escapeHtml(item.name)}</span><small><b>${escapeHtml(item.source)}</b>${item.meta ? ` · ${escapeHtml(item.meta)}` : ""}</small></button>`,
-          )
-          .join("")
-      : `<div class="search-result"><span>${pending ? "Searching Yahoo Finance and FRED…" : "No matching series. Try a ticker, FRED ID, or a shorter name."}</span></div>`;
-    setSearchOpen(true);
-    if (items.length)
-      search.setAttribute("aria-activedescendant", "search-option-0");
-  }
-  search.addEventListener("input", () => {
-    clearTimeout(searchTimer);
-    searchRequest?.abort();
-    const query = search.value.trim();
-    if (!query) return setSearchOpen(false);
-    const local = state.series
-      .filter((series) => matchesSearch(series, query))
-      .slice(0, 8)
-      .map((series) => ({
-        id: series.id,
-        name: series.name,
-        kind: seriesKind(series),
-        source: series.source,
-        meta: `${series.category} · ${series.frequency}`,
-      }));
-    renderSearch(local, true);
-    const merge = (remote) => {
-      const seen = new Set();
-      renderSearch(
-        [...local, ...remote]
-          .filter((item) => !seen.has(item.id) && seen.add(item.id))
-          .slice(0, 14),
-      );
-    };
-    if (queryCache.has(query.toLowerCase()))
-      return merge(queryCache.get(query.toLowerCase()));
-    searchTimer = window.setTimeout(async () => {
-      searchRequest = new AbortController();
-      try {
-        const response = await fetch(
-          `${apiOrigin}/api/search?q=${encodeURIComponent(query)}`,
-          { signal: searchRequest.signal },
-        );
-        if (response.ok && search.value.trim() === query) {
-          const remote = (await response.json()).results ?? [];
-          if (queryCache.size >= 80)
-            queryCache.delete(queryCache.keys().next().value);
-          queryCache.set(query.toLowerCase(), remote);
-          merge(remote);
-        } else if (search.value.trim() === query) {
-          renderSearch(local);
-          status.textContent =
-            "Live search is temporarily unavailable; cached series remain searchable.";
-        }
-      } catch (error) {
-        if (error.name !== "AbortError" && search.value.trim() === query) {
-          renderSearch(local);
-          status.textContent =
-            "Live search is temporarily unavailable; cached series remain searchable.";
-        }
-      }
-    }, 250);
-  });
-  search.addEventListener("keydown", (event) => {
-    if (results.hidden || !searchResults.length) return;
-    if (["ArrowDown", "ArrowUp"].includes(event.key)) {
-      event.preventDefault();
-      activeSearchIndex =
-        (activeSearchIndex +
-          (event.key === "ArrowDown" ? 1 : -1) +
-          searchResults.length) %
-        searchResults.length;
-      results.querySelectorAll("[role=option]").forEach((row, index) => {
-        row.classList.toggle("active", index === activeSearchIndex);
-        row.setAttribute("aria-selected", String(index === activeSearchIndex));
-      });
-      search.setAttribute(
-        "aria-activedescendant",
-        `search-option-${activeSearchIndex}`,
-      );
-      results.querySelector(".active")?.scrollIntoView({ block: "nearest" });
-    } else if (event.key === "Enter") {
-      event.preventDefault();
-      void addResult(searchResults[activeSearchIndex]);
-    } else if (event.key === "Escape") setSearchOpen(false);
-  });
-  results.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-search-index]");
-    if (button)
-      void addResult(searchResults[Number(button.dataset.searchIndex)]);
-  });
-  document.addEventListener("click", (event) => {
-    if (!event.target.closest(".search-control")) setSearchOpen(false);
-  });
-
-  async function fetchCollection(ids) {
-    const queue = [...new Set(ids)];
-    const outcomes = [];
-    await Promise.all(
-      Array.from({ length: Math.min(4, queue.length) }, async () => {
-        while (queue.length) {
-          const id = queue.shift();
-          try {
-            outcomes.push(await fetchSeries({ id, kind: "market" }));
-          } catch {
-            /* The collection status reports unavailable histories. */
-          }
-        }
-      }),
-    );
-    return outcomes;
-  }
-  async function applyPreset(id) {
-    const preset = presetById(id);
-    if (!preset) return;
-    const request = ++selectionRequest;
-    const ids = [...(preset.series ?? []), ...(preset.symbols ?? [])];
-    state.activePreset = id;
-    state.mode = preset.mode;
-    if (ids.some((key) => !loaded.has(key))) {
-      presetStatus.textContent = `Loading ${preset.label}…`;
-      await fetchCollection(ids);
-    }
-    if (request !== selectionRequest) return;
-    state.selected = ids.filter((key) => loaded.has(key));
-    if (preset.horizon === "max" && preset.mode === "markets") {
-      state.logarithmic = true;
-      document.querySelector("#log-scale").checked = true;
-    }
-    if (preset.horizon) {
-      state.horizon = preset.horizon;
-      horizon.value = preset.horizon;
-      horizon._renderCustom?.();
-    }
-    presetStatus.textContent = `${preset.label} · ${state.selected.length}/${ids.length} ${preset.id === "extended-etfs" ? "explicit SIM proxies" : preset.horizon === "max" ? "historical series" : "series"}${state.selected.length < ids.length ? " · Some histories unavailable; select again to retry" : ""}`;
-    render();
-  }
-  function toggleSeries(id) {
-    selectionRequest++;
-    state.selected = state.selected.filter((selected) => selected !== id);
-    state.activePreset = null;
-    presetStatus.textContent = `Custom view · ${state.selected.length} series`;
-    render();
-  }
-  function horizontalBarOptions({
-    percent = false,
-    min,
-    max,
-    suffix = "",
-  } = {}) {
-    return {
-      ...chartOptions({ percent, legend: false }),
-      indexAxis: "y",
-      scales: {
-        x: {
-          type: "linear",
-          min,
-          max,
-          grid: { color: "rgba(255,255,255,.07)" },
-          ticks: { callback: (value) => `${value}${percent ? "%" : suffix}` },
-        },
-        y: { type: "category", grid: { display: false } },
-      },
-    };
-  }
-  function setText(id, text) {
-    const element = document.querySelector(`#${id}`);
-    if (element) element.textContent = text;
-  }
-  function render() {
-    const renderStarted = performance.now();
-    const seriesList = selectedSeries();
-    renderControls(seriesList);
-    renderMetrics(seriesList);
-    renderTrend(seriesList);
-    renderHorizonChanges(seriesList);
-    renderPosition(seriesList);
-    renderFourth(seriesList);
-    renderFifth(seriesList);
-    renderRelationships(seriesList);
-    renderHeatmap(seriesList);
-    renderProfile(seriesList);
-    renderIndividual(seriesList);
-    colorReadings(analysisView);
-    renderDiagnostics(seriesList);
-    if (import.meta.env.DEV)
-      document.body.dataset.renderMs = (
-        performance.now() - renderStarted
-      ).toFixed(1);
-  }
-  function renderControls(seriesList) {
-    document
-      .querySelectorAll("[data-mode]")
-      .forEach(
-        (button) => (
-          button.classList.toggle("active", button.dataset.mode === state.mode),
-          button.setAttribute(
-            "aria-pressed",
-            String(button.dataset.mode === state.mode),
-          )
-        ),
-      );
-    document.body.dataset.analysisMode = state.mode;
-    setText(
-      "workspace-description",
-      state.mode === "macro"
-        ? "Read economic releases in comparable levels, changes, and cycle positions."
-        : "Evaluate securities with return, drawdown, volatility, and correlation diagnostics.",
-    );
-    document.querySelector(".scale-toggle").hidden = false;
-    setText("selection-count", seriesList.length);
-    document.querySelector("#selected-series").innerHTML = seriesList
-      .map(
-        (series, index) =>
-          `<button class="series-chip" data-remove="${escapeHtml(series.id)}" title="Remove ${escapeHtml(series.name)}"><i style="background:${palette[index % palette.length]}"></i>${escapeHtml(series.name)} ×</button>`,
-      )
-      .join("");
-    document
-      .querySelectorAll("[data-remove]")
-      .forEach((button) =>
-        button.addEventListener("click", () =>
-          toggleSeries(button.dataset.remove),
-        ),
-      );
-    renderPresetButtons();
-  }
-  function annualizedView() {
+}
+function metric(label, value, note) {
+  return `<div class="headline-metric"><span class="metric-label">${escape(label)}</span><span class="metric-value">${escape(value)}</span><span class="metric-date">${escape(note)}</span></div>`;
+}
+async function render() {
+  const token = ++revision;
+  const selected = filterSeries(snapshot.series, state).sort((a, b) => {
+    const first = priority.indexOf(a.id),
+      second = priority.indexOf(b.id);
     return (
-      state.horizon === "max" ||
-      state.horizon === "12m" ||
-      Number(state.horizon) >= 365
+      (first < 0 ? 999 : first) - (second < 0 ? 999 : second) ||
+      a.name.localeCompare(b.name)
     );
+  });
+  const scope = range();
+  $("#date-range").hidden = state.period !== "custom";
+  if (scope.start > scope.end) {
+    $("#panel-status").textContent =
+      "The start date must be on or before the end date.";
+    return;
   }
-  function renderMetrics(seriesList) {
-    const returns = seriesList
-      .map((series) =>
-        annualizedView()
-          ? annualizedCagr(series, state.horizon)
-          : semanticChange(series, state.horizon),
-      )
-      .filter(Number.isFinite);
-    const moves = seriesList
-      .map((series) => semanticChange(series, state.horizon))
-      .filter(Number.isFinite)
-      .sort((a, b) => a - b);
-    const percentiles = seriesList
-      .map(state.mode === "macro" ? cyclePercentile : changePercentile)
-      .filter(Number.isFinite);
-    const latestDates = seriesList
-      .map((series) => new Date(series.observations.at(-1)[0]))
-      .filter((date) => Number.isFinite(date.getTime()));
-    const drawdowns = seriesList
-      .map((series) => maxDrawdown(series, state.horizon))
-      .filter(Number.isFinite);
-    const research = seriesList.some(({ historyType }) => Boolean(historyType));
-    const metrics =
-      state.mode === "macro"
-        ? [
-            [String(seriesList.length), "Indicators in current view"],
-            [
-              percentiles.length ? format(mean(percentiles), "%") : "—",
-              "Average cycle percentile",
-            ],
-            [
-              moves.length
-                ? format(
-                    (moves.filter((value) => value > 0).length / moves.length) *
-                      100,
-                    "%",
-                  )
-                : "—",
-              `Moving higher · ${moves.length} measured`,
-            ],
-            [
-              latestDates.length
-                ? `${Math.max(0, Math.round((Date.now() - Math.max(...latestDates)) / 86400000))}d`
-                : "—",
-              "Since newest observation",
-            ],
-          ]
-        : [
-            [
-              String(seriesList.length),
-              research
-                ? "Market / research series in view"
-                : "Securities in current view",
-            ],
-            [
-              returns.length ? `${signed(median(returns))}%` : "—",
-              annualizedView()
-                ? "Median annualized return"
-                : "Median window return",
-            ],
-            [
-              moves.length
-                ? format(
-                    (moves.filter((value) => value > 0).length / moves.length) *
-                      100,
-                    "%",
-                  )
-                : "—",
-              `Positive returns · ${moves.length} measured`,
-            ],
-            [
-              drawdowns.length ? format(Math.min(...drawdowns), "%") : "—",
-              "Deepest observed drawdown",
-            ],
-          ];
-    document.querySelector("#dashboard-metrics").innerHTML = metrics
-      .map(
-        ([value, label]) =>
-          `<div class="dashboard-metric"><span class="metric-value">${value}</span><span class="metric-label">${label}</span></div>`,
-      )
-      .join("");
-  }
-  function renderTrend(seriesList) {
-    destroyChart("trend");
-    const macro = state.mode === "macro";
-    const pointLists = seriesList.map((series) => {
-      return macro
-        ? sliceHorizon(rankedPath(macroSignal(series)), state.horizon)
-        : Number.isFinite(semanticChange(series, state.horizon))
-          ? transform(sliceWindow(series, state.horizon).points, "indexed")
-          : [];
-    });
-    const research = seriesList.some(({ historyType }) => Boolean(historyType));
-    setText(
-      "trend-title",
-      macro ? "Economic cycle percentiles" : "Cumulative return path",
+  $("#panel-status").textContent = selected.some(
+    (series) => !series.observations,
+  )
+    ? "Retrieving the selected cached histories…"
+    : "";
+  $("#main").setAttribute("aria-busy", "true");
+  try {
+    await loadHistories(
+      snapshot,
+      selected.map(({ id }) => id),
     );
-    setText(
-      "trend-note",
-      macro
-        ? "Growth rates for quantities; levels for rates/signed indexes. Full-history percentile ranks keep extremes visible on a common 0–100 scale."
-        : research
-          ? "Research histories and SIM proxies are labeled individually; source definitions and splice dates are in Data Sources."
-          : "Cumulative change from the horizon boundary; adjusted close where available",
+    if (token !== revision) return;
+    matched = selected;
+    transformed = new Map(
+      matched.map((series) => [series.id, readings(series, scope)]),
     );
-    charts.trend = timeChart("#trend-chart", seriesList, pointLists, {
-      logarithmic: !macro && state.logarithmic,
-      suffix: "%",
-      valueTransform: macro ? (value) => value : (value) => value - 100,
-      valueLabel: macro ? "Historical percentile" : "Cumulative return",
-    });
-  }
-  function renderIndividual(seriesList) {
-    Object.keys(charts)
-      .filter((key) => key.startsWith("individual-"))
-      .forEach((key) => {
-        destroyChart(key);
-        delete charts[key];
-      });
-    const container = document.querySelector("#series-charts");
-    container.innerHTML = seriesList
-      .map(
-        (series, index) =>
-          `<article class="chart-card" data-chart-card data-series-id="${escapeHtml(series.id)}"><div class="chart-heading"><div><h2>${escapeHtml(series.name)}</h2></div><button class="chart-expand" type="button" aria-label="Expand ${escapeHtml(series.name)}">${expandIcon}</button></div><div class="chart-subhead"></div><div class="chart-wrap" id="individual-${index}"></div></article>`,
-      )
-      .join("");
-    seriesList.forEach((series, index) => {
-      drawIndividual(series, container.children[index], state.horizon);
-    });
-  }
-  function drawIndividual(series, card, horizonValue) {
-    const host = card.querySelector(".chart-wrap");
-    destroyChart(host.id);
-    const move = latestChange(series);
-    const view = cumulativeView(series, horizonValue, state.logarithmic);
-    const updated = new Date(
-      series.checkedAt || snapshot.generatedAt,
-    ).toLocaleString("en-US", {
-      month: "short",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      timeZoneName: "short",
-    });
-    card.querySelector(".chart-subhead").innerHTML =
-      `<span class="series-daily ${move.value > 0 ? "positive" : move.value < 0 ? "negative" : ""}">${signed(move.value)}${move.suffix} <small>${move.label}</small></span><span>${move.date} · Updated ${escapeHtml(updated)}</span><span class="series-window">${horizonLabel(horizonValue)} · ${view.label}${view.logarithmic ? " · log scale" : ""}</span>`;
-    if (series.splice || series.historyStatus === "archived")
-      card
-        .querySelector(".chart-subhead")
-        .insertAdjacentHTML(
-          "beforeend",
-          `<a class="series-window" href="./sources.html#source-${encodeURIComponent(series.id)}">${series.splice ? `SIM proxy → ${escapeHtml(series.splice.securityId)} · join ${series.splice.anchorDate}` : `Historical archive · ends ${move.date}`}</a>`,
-        );
-    charts[host.id] = lazyChart(host, () =>
-      timeChart(host, [series], [view.points], {
-        ...view,
-        valueLabel: view.label,
-      }),
+    rows = matched.flatMap((series) =>
+      transformed.get(series.id).map((point) => ({ series, ...point })),
     );
-  }
-  const diagnosticCache = new WeakMap();
-  function diagnosticsFor(series) {
-    if (!diagnosticCache.has(series))
-      diagnosticCache.set(series, {
-        annual: rollingAnnualReturn(series).rows.map(({ date, value }) => [
-          date,
-          value,
-        ]),
-        variability: rollingVolatilityPath(series).rows.map(
-          ({ date, value }) => [date, value],
-        ),
-      });
-    return diagnosticCache.get(series);
-  }
-  function rankedPath(points) {
-    if (rankCache.has(points)) return rankCache.get(points);
-    const sorted = points.map(([, value]) => value).sort((a, b) => a - b);
-    const bound = (value, upper) => {
-      let low = 0,
-        high = sorted.length;
-      while (low < high) {
-        const mid = (low + high) >>> 1;
-        if (sorted[mid] < value || (upper && sorted[mid] === value))
-          low = mid + 1;
-        else high = mid;
-      }
-      return low;
-    };
-    const ranked = points.map(([date, value]) => [
-      date,
-      ((bound(value, false) + bound(value, true)) / (2 * sorted.length)) * 100,
-    ]);
-    rankCache.set(points, ranked);
-    return ranked;
-  }
-  function renderDiagnostics(seriesList) {
-    const macro = state.mode === "macro",
-      horizonValue = state.horizon;
-    for (const id of ["annual", "variability", "distribution", "breadth"])
-      destroyChart(id);
-    setText(
-      "annual-title",
-      macro ? "Annual change percentile" : "Rolling annual return",
+    rows.sort(
+      (a, b) =>
+        b.date.localeCompare(a.date) ||
+        a.series.name.localeCompare(b.series.name),
     );
-    setText(
-      "annual-note",
-      macro
-        ? "Annual changes ranked against each series’ full history; 50 is the median. No clipping."
-        : "Trailing 12-month total change at each date; the selected horizon sets the display window.",
+    page = Math.min(
+      page,
+      Math.max(0, Math.ceil(matched.length / PAGE_SIZE) - 1),
     );
-    setText(
-      "variability-title",
-      macro ? "Variability percentile" : "Rolling annualized volatility",
-    );
-    setText(
-      "variability-note",
-      macro
-        ? "Trailing-year variability ranked within each series’ history; compatible ranks, not mixed units."
-        : "Trailing-year log-return sample deviation × √periods per year; full-year coverage required.",
-    );
-    for (const id of ["annual", "variability"]) {
-      const host = document.querySelector(`#${id}-chart`);
-      charts[id] = lazyChart(host, () => {
-        const points = seriesList.map((series) => {
-          const path = diagnosticsFor(series)[id];
-          return sliceHorizon(macro ? rankedPath(path) : path, horizonValue);
-        });
-        return timeChart(host, seriesList, points, {
-          suffix: "%",
-          valueLabel: macro
-            ? "Historical percentile"
-            : id === "annual"
-              ? "Annual return"
-              : "Annualized volatility",
-        });
-      });
-    }
-    const first = seriesList[0];
-    setText("distribution-title", "Period-change distribution");
-    setText(
-      "distribution-note",
-      first
-        ? `${first.name} · Native ${first.frequency} changes; full range, no outliers discarded.`
-        : "Select a series to inspect its distribution.",
-    );
-    const distributionHost = document.querySelector("#distribution-chart");
-    charts.distribution = lazyChart(distributionHost, () => {
-      const result = first
-        ? changeDistribution(first, { horizon: horizonValue })
-        : { rows: [], n: 0 };
-      const canvas = document.createElement("canvas");
-      distributionHost.replaceChildren(canvas);
-      const chart = new Chart(canvas, {
-        type: "bar",
-        data: {
-          labels: result.rows.map(
-            (row) =>
-              `${format(row.lower)} to ${format(row.upper)}${changeSuffix(first)}`,
-          ),
-          datasets: [
-            {
-              label: `Share of ${result.n} changes (%)`,
-              data: result.rows.map((row) => row.share),
-              backgroundColor: result.rows.map((row) =>
-                row.midpoint < 0 ? "#f1978d" : "#7dd3a7",
-              ),
-              borderRadius: 3,
-            },
-          ],
-        },
-        options: chartOptions({ percent: true, legend: false }),
-      });
-      return {
-        resize: () => chart.resize(),
-        reset: () => chart.reset(),
-        destroy: () => chart.destroy(),
-      };
-    });
-    charts.distribution.hint =
-      "Hover or tap a bin to inspect its frequency and change interval";
-    setText(
-      "breadth-note",
-      "Share rising and accelerating in each complete common calendar period. Direction is not economic desirability; membership may vary.",
-    );
-    const breadthHost = document.querySelector("#breadth-chart");
-    charts.breadth = lazyChart(breadthHost, () => {
-      const result = breadthAcceleration(seriesList, { horizon: horizonValue });
-      const names = [
-        {
-          name: "Rising",
-          frequency:
-            result.period === "year"
-              ? "annual"
-              : result.period === "quarter"
-                ? "quarterly"
-                : "monthly",
-        },
-        {
-          name: "Accelerating",
-          frequency:
-            result.period === "year"
-              ? "annual"
-              : result.period === "quarter"
-                ? "quarterly"
-                : "monthly",
-        },
-      ];
-      return timeChart(
-        breadthHost,
-        names,
-        [
-          result.rows.map((row) => [row.date, row.positiveSharePct]),
-          result.rows
-            .filter((row) => Number.isFinite(row.accelerationPositiveSharePct))
-            .map((row) => [row.date, row.accelerationPositiveSharePct]),
-        ],
-        { suffix: "%", valueLabel: "Share of measured series" },
+    tablePage = 0;
+    const comparable = rows.filter((row) => Number.isFinite(row.value)).length;
+    const geographies = new Set(rows.map((row) => row.series.geography));
+    $("#dashboard-metrics").innerHTML =
+      metric(
+        "Indicators",
+        format(new Set(rows.map((row) => row.series.id)).size),
+        `${matched.length} match the metadata filters`,
+      ) +
+      metric(
+        "Observations",
+        format(rows.length),
+        "Actual source rows in this period",
+      ) +
+      metric(
+        "Geographies",
+        format(geographies.size),
+        "Distinct source geographies",
+      ) +
+      metric(
+        "Comparable readings",
+        format(comparable),
+        measureLabels[state.measure],
       );
-    });
-  }
-  const scoreCache = new WeakMap();
-  function changeScore(series, days) {
-    let cache = scoreCache.get(series);
-    if (!cache) {
-      cache = new Map();
-      scoreCache.set(series, cache);
-    }
-    if (cache.has(days)) return cache.get(days);
-    const samples = rollingHorizonChanges(series, days).map(
-      ([, value]) => value,
-    );
-    const average = mean(samples);
-    const deviation = Math.sqrt(
-      samples.reduce((sum, value) => sum + (value - average) ** 2, 0) /
-        (samples.length - 1),
-    );
-    const value =
-      samples.length >= 3 && deviation
-        ? (samples.at(-1) - average) / deviation
-        : NaN;
-    cache.set(days, value);
-    return value;
-  }
-  function renderHorizonChanges(seriesList) {
-    destroyChart("ranking");
-    const macro = state.mode === "macro";
-    const longHistory = seriesList.some(
-      ({ category }) => category === "Long-History Asset Classes",
-    );
-    const horizons = longHistory
-      ? [
-          ["1Y", 365],
-          ["5Y", 1825],
-          ["10Y", 3650],
-        ]
-      : [
-          ["1M", 30],
-          ["3M", 90],
-          ["1Y", 365],
-        ];
-    setText(
-      "ranking-title",
-      macro ? "Change momentum score" : "Returns across horizons",
-    );
-    setText(
-      "ranking-note",
-      macro
-        ? "Each change versus its own historical norm; 0 is typical"
-        : longHistory
-          ? "Long-horizon compounded return; percent"
-          : "Provider-adjusted price/research-index return; percent",
-    );
-    charts.ranking = new Chart(document.querySelector("#ranking-chart"), {
-      type: "bar",
-      data: {
-        labels: seriesList.map(chartLabel),
-        datasets: horizons.map(([label, days], index) => ({
-          label,
-          data: seriesList.map((series) =>
-            macro ? changeScore(series, days) : semanticChange(series, days),
-          ),
-          backgroundColor: palette[index],
-          borderRadius: 3,
-        })),
-      },
-      options: chartOptions(),
-    });
-  }
-  function renderPosition(seriesList) {
-    destroyChart("correlation");
-    const rows = seriesList
-      .map((series) => ({
-        label: chartLabel(series),
-        value:
-          state.mode === "macro"
-            ? cyclePercentile(series)
-            : changePercentile(series),
-      }))
-      .filter(({ value }) => Number.isFinite(value));
-    setText(
-      "position-title",
-      state.mode === "macro"
-        ? "Economic cycle percentile"
-        : "Return momentum percentile",
-    );
-    setText(
-      "position-note",
-      state.mode === "macro"
-        ? "Growth percentile for quantities; level percentile for rates and signed indexes. Full-history midpoint ranks."
-        : "Latest native-period return ranked against its own history",
-    );
-    charts.correlation = new Chart(
-      document.querySelector("#correlation-chart"),
-      {
-        type: "bar",
-        data: {
-          labels: rows.map(({ label }) => label),
-          datasets: [
-            {
-              label: "Percentile",
-              data: rows.map(({ value }) => value),
-              backgroundColor: "rgba(245,218,150,.75)",
-              borderRadius: 4,
-            },
-          ],
-        },
-        options: horizontalBarOptions({ min: 0, max: 100, suffix: "th" }),
-      },
-    );
-  }
-  function renderFourth(seriesList) {
-    destroyChart("drawdown");
-    if (state.mode === "markets") {
-      setText("metric-four-title", "Underwater history");
-      setText(
-        "metric-four-note",
-        "Native-frequency decline from the window’s running peak. Moves between observations are not captured.",
-      );
-      charts.drawdown = timeChart(
-        "#drawdown-chart",
-        seriesList,
-        seriesList.map((series) => drawdownPath(series, state.horizon)),
-        { suffix: "%" },
-      );
-      return;
-    }
-    setText("metric-four-title", "Observation momentum");
-    setText(
-      "metric-four-note",
-      "Native period changes ranked within each series’ full history; 50 is the median. Extremes remain visible without distorting the scale.",
-    );
-    const pointLists = seriesList.map((series) => {
-      return sliceHorizon(rankedPath(nativeSignal(series)), state.horizon);
-    });
-    charts.drawdown = timeChart("#drawdown-chart", seriesList, pointLists, {
-      suffix: "%",
-      valueLabel: "Momentum percentile",
-    });
-  }
-  function renderFifth(seriesList) {
-    destroyChart("volatility");
-    if (state.mode === "markets") {
-      setText("metric-five-title", "Annualized volatility");
-      setText(
-        "metric-five-note",
-        "Standard deviation of native-frequency log returns, annualized",
-      );
-      const rows = seriesList
-        .map((series) => ({
-          label: chartLabel(series),
-          value: volatility(series, state.horizon),
-        }))
-        .filter(({ value }) => Number.isFinite(value));
-      charts.volatility = new Chart(
-        document.querySelector("#volatility-chart"),
-        {
-          type: "bar",
-          data: {
-            labels: rows.map(({ label }) => label),
-            datasets: [
-              {
-                label: "Annualized volatility",
-                data: rows.map(({ value }) => value),
-                backgroundColor: "rgba(96,165,250,.72)",
-                borderRadius: 4,
-              },
-            ],
-          },
-          options: horizontalBarOptions({ percent: true, min: 0 }),
-        },
-      );
-      return;
-    }
-    setText("metric-five-title", "Observation age");
-    setText(
-      "metric-five-note",
-      "Days since observation date—not publication date. Monthly/quarterly periods naturally look older.",
-    );
-    const rows = seriesList.map((series) => ({
-      label: chartLabel(series),
-      value: Math.max(
-        0,
-        Math.round(
-          (Date.now() - new Date(series.observations.at(-1)[0])) / 86400000,
-        ),
-      ),
-    }));
-    charts.volatility = new Chart(document.querySelector("#volatility-chart"), {
-      type: "bar",
-      data: {
-        labels: rows.map(({ label }) => label),
-        datasets: [
-          {
-            label: "Days",
-            data: rows.map(({ value }) => value),
-            backgroundColor: "rgba(96,165,250,.72)",
-            borderRadius: 4,
-          },
-        ],
-      },
-      options: horizontalBarOptions({ min: 0, suffix: "d" }),
-    });
-  }
-  function comparisonPeriod(seriesList) {
-    return seriesList.some(({ frequency }) => frequency === "annual")
-      ? "year"
-      : seriesList.some(({ frequency }) => frequency === "quarterly")
-        ? "quarter"
-        : "month";
-  }
-  function renderRelationships(seriesList) {
-    destroyChart("risk");
-    const anchor = seriesList[0];
-    const period = comparisonPeriod(seriesList);
-    setText(
-      "relationship-note",
-      anchor
-        ? `Against ${anchor.name}. Complete ${period} changes; n = paired observations. No causality implied.`
-        : "Add at least two series.",
-    );
-    const rows = anchor
-      ? seriesList
-          .slice(1)
-          .map((series) => ({
-            label: chartLabel(series),
-            ...correlationDetails(anchor, series, {
-              horizon: state.horizon,
-              period,
-            }),
-          }))
-          .filter(({ value }) => Number.isFinite(value))
-      : [];
-    charts.risk = new Chart(document.querySelector("#risk-chart"), {
-      type: "bar",
-      data: {
-        labels: rows.map(({ label, n }) => `${label} (n=${n})`),
-        datasets: [
-          {
-            label: anchor ? `Correlation to ${anchor.name}` : "Correlation",
-            data: rows.map(({ value }) => value),
-            backgroundColor: rows.map(({ value }) =>
-              value >= 0 ? "rgba(125,211,167,.72)" : "rgba(241,151,141,.72)",
-            ),
-            borderRadius: 4,
-          },
-        ],
-      },
-      options: horizontalBarOptions({ min: -1, max: 1 }),
-    });
-  }
-  function renderHeatmap(seriesList) {
-    const period = comparisonPeriod(seriesList);
-    const annual = period === "year";
-    const quarterly = period === "quarter";
-    const monthly = seriesList.map((series) => ({
-      series,
-      values: periodChanges(series, period, state.horizon).map(
-        ({ period: month, value: change }) => ({ month, change }),
-      ),
-    }));
-    const months = [
-      ...new Set(
-        monthly.flatMap((row) => row.values.map(({ month }) => month)),
-      ),
-    ]
-      .sort()
-      .slice(-12);
-    const cells = [
-      `<div class="heatmap-corner">Series</div>`,
-      ...months.map(
-        (month) =>
-          `<div class="heatmap-month">${annual || quarterly ? month : new Date(`${month}-01T00:00:00Z`).toLocaleDateString("en-US", { month: "short", year: "2-digit", timeZone: "UTC" })}</div>`,
-      ),
-    ];
-    for (const row of monthly) {
-      const byMonth = new Map(
-        row.values.map((value) => [value.month, value.change]),
-      );
-      const magnitudes = row.values
-        .map(({ change }) => Math.abs(change))
-        .filter(Number.isFinite)
-        .sort((a, b) => a - b);
-      const scale = magnitudes[Math.floor(magnitudes.length * 0.9)] || 1;
-      cells.push(
-        `<div class="heatmap-label" title="${escapeHtml(row.series.name)}">${escapeHtml(row.series.name)}<small>${escapeHtml(changeSuffix(row.series))}</small></div>`,
-      );
-      for (const month of months) {
-        const value = byMonth.get(month);
-        const intensity = Number.isFinite(value)
-          ? Math.min(0.86, 0.14 + (Math.abs(value) / scale) * 0.62)
-          : 0;
-        const background = !Number.isFinite(value)
-          ? "transparent"
-          : value >= 0
-            ? `rgba(34,197,94,${intensity})`
-            : `rgba(244,63,94,${intensity})`;
-        const label = Number.isFinite(value)
-          ? `${row.series.name}, ${month}: ${signed(value)}${changeSuffix(row.series)}`
-          : `${row.series.name}, ${month}: no observation`;
-        cells.push(
-          `<div class="heatmap-cell" tabindex="0" style="background:${background}" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}">${Number.isFinite(value) ? format(value) : "—"}</div>`,
-        );
-      }
-    }
-    const heatmap = document.querySelector("#monthly-heatmap");
-    heatmap.style.setProperty("--heatmap-months", months.length || 1);
-    heatmap.innerHTML = cells.join("");
-    if (!months.length)
-      heatmap.innerHTML =
-        '<p class="chart-empty">No complete calendar periods in this window. Choose a longer horizon.</p>';
-    setText(
-      "heatmap-title",
-      annual
-        ? "Annual change heat map"
-        : quarterly
-          ? "Quarter-over-quarter change"
-          : state.mode === "macro"
-            ? "Month-over-month change"
-            : "Monthly return heat map",
-    );
-    setText(
-      "heatmap-note",
-      `Complete ${period}s within the selected window (latest 12). Row units shown; green is higher, not necessarily better.`,
-    );
-  }
-  function renderProfile(seriesList) {
-    destroyChart("profile");
-    if (state.mode === "markets") {
-      setText("profile-title", "Return versus risk");
-      setText(
-        "profile-note",
-        `${annualizedView() ? "Annualized" : "Window"} return vs native-frequency risk. Different sample periods/frequencies are not directly comparable; inspect source details.`,
-      );
-      charts.profile = new Chart(document.querySelector("#profile-chart"), {
-        type: "scatter",
-        data: {
-          datasets: seriesList.map((series, index) => ({
-            label: chartLabel(series),
-            data: [
-              {
-                x: volatility(series, state.horizon),
-                y: annualizedView()
-                  ? annualizedCagr(series, state.horizon)
-                  : semanticChange(series, state.horizon),
-              },
-            ],
-            pointRadius: 6,
-            pointHoverRadius: 8,
-            backgroundColor: palette[index % palette.length],
-          })),
-        },
-        options: {
-          ...chartOptions(),
-          scales: {
-            x: {
-              title: { display: true, text: "Annualized volatility (%)" },
-              grid: { color: "rgba(255,255,255,.07)" },
-            },
-            y: {
-              title: {
-                display: true,
-                text: annualizedView()
-                  ? "Annualized return (%)"
-                  : "Window return (%)",
-              },
-              grid: { color: "rgba(255,255,255,.07)" },
-            },
-          },
-        },
-      });
-      return;
-    }
-    setText("profile-title", "Category breadth");
-    setText(
-      "profile-note",
-      "Share of selected indicators with a positive window change; direction, not economic desirability",
-    );
-    const groups = new Map();
-    for (const series of seriesList) {
-      const value = semanticChange(series, state.horizon);
-      if (Number.isFinite(value))
-        groups.set(series.category, [
-          ...(groups.get(series.category) ?? []),
-          value,
-        ]);
-    }
-    const rows = [...groups].map(([label, values]) => ({
-      label,
-      value: (values.filter((value) => value > 0).length / values.length) * 100,
-    }));
-    charts.profile = new Chart(document.querySelector("#profile-chart"), {
-      type: "bar",
-      data: {
-        labels: rows.map(({ label }) => label),
-        datasets: [
-          {
-            label: "Moving higher",
-            data: rows.map(({ value }) => value),
-            backgroundColor: "rgba(245,218,150,.72)",
-            borderRadius: 4,
-          },
-        ],
-      },
-      options: horizontalBarOptions({ min: 0, max: 100, percent: true }),
-    });
-  }
-  const params = new URLSearchParams(location.search);
-  const requestedId = params.get("series");
-  const requested = snapshot.series.some(({ id }) => id === requestedId)
-    ? await fetchSeries({ id: requestedId })
-    : null;
-  if (requested) {
-    state.mode = seriesKind(requested) === "market" ? "markets" : "macro";
-    state.selected = [requested.id];
-    state.activePreset = null;
-    const requestedHorizon = params.get("horizon");
-    if (horizons.some(([id]) => id === requestedHorizon))
-      state.horizon = requestedHorizon;
-    horizon.value = state.horizon;
-    horizon._renderCustom();
-    render();
-    document.querySelector("#series-charts .chart-expand")?.click();
-  } else await applyPreset("macro");
-  const warmMarkets = async () => {
-    const symbols = [...(presetById("markets")?.symbols ?? [])];
-    await Promise.all(
-      Array.from({ length: 3 }, async () => {
-        while (symbols.length) {
-          const id = symbols.shift();
-          try {
-            await fetchSeries({ id, kind: "market" });
-          } catch {
-            /* Optional providers do not block bundled data. */
-          }
-        }
-      }),
-    );
-    // Prime immutable statistics one series per idle turn, never blocking
-    // initial paint or constructing hidden mode charts.
-    const queue = (presetById("markets")?.symbols ?? [])
-      .map((id) => loaded.get(id))
-      .filter(Boolean);
-    const warmNext = () => {
-      const series = queue.shift();
-      if (!series) return;
-      changePercentile(series);
-      periodChanges(series, "month");
-      if (queue.length) {
-        if ("requestIdleCallback" in window) requestIdleCallback(warmNext);
-        else setTimeout(warmNext, 16);
-      }
-    };
-    warmNext();
-  };
-  // Prefetch on intent, not for every visitor who only reads macro data.
-  if (!navigator.connection?.saveData) {
-    let warming = false;
-    const warm = () => {
-      if (warming) return;
-      warming = true;
-      void warmMarkets();
-    };
-    const marketButton = document.querySelector('[data-mode="markets"]');
-    marketButton.addEventListener("pointerenter", warm, { once: true });
-    marketButton.addEventListener("focus", warm, { once: true });
-    marketButton.addEventListener("touchstart", warm, {
-      once: true,
-      passive: true,
-    });
+    $("#measure-note").textContent =
+      state.measure === "level"
+        ? "Original source units. Separate axes keep unlike indicators separate."
+        : state.measure === "yoy"
+          ? "Calendar-year change: percentage points for rates; percent for positive prices and quantities; native points for signed indexes."
+          : "Change from the previous actual observation—not necessarily one day or month. Rate changes are percentage points.";
+    const retained = matched.filter((series) => series.refreshStatus).length;
+    $("#panel-status").textContent =
+      `${dateLabel(scope.start)} – ${dateLabel(scope.end)} · ${matched.length} indicators${retained ? ` · ${retained} histories retained after upstream retrieval failures` : ""}${!rows.length ? " · No observations match this view." : ""}`;
+    renderSeries();
+    renderBreadth();
+    renderTable();
+  } catch (error) {
+    if (token === revision)
+      $("#panel-status").textContent =
+        "A selected history is temporarily unavailable. Change a filter or reset to retry; the previous complete view remains visible.";
+    console.error(error);
+  } finally {
+    if (token === revision) $("#main").setAttribute("aria-busy", "false");
   }
 }
-
-main().catch((error) => {
-  console.error(error);
-  document.querySelector("main").innerHTML =
-    `<p class="empty-state">${escapeHtml(error.message)}</p>`;
-});
+function renderSeries() {
+  plots.splice(0).forEach((plot) => plot.destroy());
+  const current = visibleSeries();
+  $("#series-page").textContent = matched.length
+    ? `${page * PAGE_SIZE + 1}–${Math.min((page + 1) * PAGE_SIZE, matched.length)} of ${matched.length}`
+    : "0 indicators";
+  $("#series-previous").disabled = page === 0;
+  $("#series-next").disabled = (page + 1) * PAGE_SIZE >= matched.length;
+  $("#series-charts").innerHTML =
+    current
+      .map((series) => {
+        const points = transformed.get(series.id);
+        const latest = finite(points).at(-1);
+        return `<article class="chart-card indicator-card"><div class="chart-heading"><h3>${escape(series.name)}</h3><button class="chart-expand" type="button" data-series="${escape(series.id)}" aria-label="Expand ${escape(series.name)}">${expandIcon}</button></div><div class="indicator-meta"><span>${escape(series.frequency)} · ${escape(latest?.unit || series.unit)}</span><b class="${state.measure !== "level" ? changeClass(latest?.value) : ""}">${state.measure === "level" ? format(latest?.value) : signed(latest?.value)}</b></div><div class="indicator-plot" data-plot="${escape(series.id)}"></div><p class="chart-subhead">${dateLabel(points.at(-1)?.date)}${series.refreshStatus ? " · Retained snapshot" : ""}</p></article>`;
+      })
+      .join("") ||
+    '<p class="empty-panel">No indicators match these filters. Try another topic, geography or frequency, or reset the view.</p>';
+  for (const host of $("#series-charts").querySelectorAll("[data-plot]")) {
+    const series = current.find((series) => series.id === host.dataset.plot);
+    const points = finite(transformed.get(series.id));
+    plots.push(
+      lazyChart(host, () =>
+        timeChart(
+          host,
+          [series],
+          [points.map(({ date, value }) => [date, value])],
+          {
+            suffix: points[0]?.unit ? " " + points[0].unit : "",
+            signedValues: state.measure !== "level",
+          },
+        ),
+      ),
+    );
+  }
+  renderPosition(current);
+  renderHeatmap(current);
+}
+function renderPosition(current) {
+  $("#position-chart").innerHTML =
+    current
+      .map((series) => {
+        const points = finite(transformed.get(series.id));
+        const latest = points.at(-1);
+        // Midrank prevents every tied or constant observation from ranking at 100.
+        const lower = points.filter(
+          (point) => point.value < latest?.value,
+        ).length;
+        const equal = points.filter(
+          (point) => point.value === latest?.value,
+        ).length;
+        const rank =
+          points.length > 1
+            ? (100 * (lower + (equal - 1) / 2)) / (points.length - 1)
+            : null;
+        return `<div class="position-row" title="${escape(series.name)} · ${format(latest?.value)} ${escape(latest?.unit)} · ${points.length} readings"><span class="position-label">${escape(series.name)}</span><div class="position-track">${rank !== null ? `<i class="position-marker" style="left:${rank}%"></i>` : ""}</div><span class="position-reading">${format(rank)}${rank === null ? "" : "%"}</span></div>`;
+      })
+      .join("") ||
+    '<p class="chart-empty">No eligible history in this view.</p>';
+}
+function renderBreadth() {
+  const groups = new Map();
+  for (const series of matched) {
+    const latest = finite(transformed.get(series.id)).at(-1);
+    if (!latest) continue;
+    const name = series[state.group] || "Unspecified";
+    if (!groups.has(name))
+      groups.set(name, { positive: 0, negative: 0, zero: 0 });
+    groups.get(name)[
+      latest.value > 0 ? "positive" : latest.value < 0 ? "negative" : "zero"
+    ]++;
+  }
+  $("#breadth-note").textContent =
+    state.measure === "level"
+      ? "Share of latest reported levels above, below or equal to zero. Original units are not averaged."
+      : "Share of latest eligible changes above, below or equal to zero. Higher does not necessarily mean better.";
+  $("#breadth-chart").innerHTML =
+    [...groups]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([name, counts]) => {
+        const total = counts.positive + counts.negative + counts.zero;
+        return `<div class="breadth-row" title="${escape(name)}: ${counts.positive} above zero, ${counts.negative} below zero, ${counts.zero} unchanged"><span>${escape(name)}</span><div class="breadth-track" role="img" aria-label="${escape(name)}: ${counts.positive} above zero; ${counts.negative} below zero; ${counts.zero} equal to zero">${[
+          ["positive", counts.positive],
+          ["negative", counts.negative],
+          ["neutral", counts.zero],
+        ]
+          .map(
+            ([color, count]) =>
+              `<span class="${color}-bg" style="width:${(count / total) * 100}%"></span>`,
+          )
+          .join(
+            "",
+          )}</div><span class="breadth-reading">n=${total}</span></div>`;
+      })
+      .join("") ||
+    '<p class="chart-empty">No comparable readings in this view.</p>';
+}
+function renderHeatmap(current) {
+  const end = range().end;
+  const date = new Date(end + "T00:00:00Z");
+  date.setUTCDate(1);
+  const months = Array.from({ length: 12 }, (_, i) => {
+    const month = new Date(date);
+    month.setUTCMonth(month.getUTCMonth() - 11 + i);
+    return month.toISOString().slice(0, 7);
+  }).filter((month) => month >= range().start.slice(0, 7));
+  $("#heatmap-unit").textContent = measureLabels[state.measure];
+  $("#panel-heatmap").innerHTML = current.length
+    ? `<table class="heatmap-table"><thead><tr><th>Indicator / unit</th>${months.map((month) => `<th>${new Date(month + "-01T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "2-digit", timeZone: "UTC" })}</th>`).join("")}</tr></thead><tbody>${current
+        .map((series) => {
+          const points = transformed.get(series.id),
+            byMonth = new Map(
+              points.map((point) => [point.date.slice(0, 7), point]),
+            );
+          const scale =
+            Math.max(
+              ...finite(points).map((point) => Math.abs(point.value)),
+              0,
+            ) || 1;
+          return `<tr><td class="row-label">${escape(series.name)}<small> · ${escape(points.find((point) => point.unit)?.unit || series.unit)}</small></td>${months
+            .map((month) => {
+              const point = byMonth.get(month),
+                value = point?.value;
+              const alpha = Number.isFinite(value)
+                ? 0.08 + Math.min(0.6, (Math.abs(value) / scale) * 0.6)
+                : 0.025;
+              const background = Number.isFinite(value)
+                ? value < 0
+                  ? `rgba(241,151,141,${alpha})`
+                  : `rgba(125,211,167,${alpha})`
+                : "rgba(255,255,255,.025)";
+              const label = `${series.name} · ${point?.date || month} · ${format(value)} ${point?.unit || ""}`;
+              return `<td><button class="heatmap-cell" style="background:${background}" data-reading="${escape(label)}" aria-label="${escape(label)}">${format(value)}</button></td>`;
+            })
+            .join("")}</tr>`;
+        })
+        .join("")}</tbody></table>`
+    : '<p class="chart-empty">No monthly observations in this view.</p>';
+}
+function renderTable() {
+  const pages = Math.max(1, Math.ceil(rows.length / TABLE_SIZE));
+  tablePage = Math.min(tablePage, pages - 1);
+  $("#table-count").textContent =
+    `${format(rows.length)} source observations · ${measureLabels[state.measure]} · missing comparisons remain unavailable`;
+  $("#table-page").textContent = `Page ${tablePage + 1} of ${format(pages)}`;
+  $("#table-previous").disabled = tablePage === 0;
+  $("#table-next").disabled = tablePage >= pages - 1;
+  $("#observations-table").innerHTML =
+    rows
+      .slice(tablePage * TABLE_SIZE, (tablePage + 1) * TABLE_SIZE)
+      .map(
+        (row) =>
+          `<tr><td>${escape(row.series.name)}<small>${escape(row.series.id)} · ${escape(row.series.frequency)}</small></td><td>${escape(row.series.category)}<small>${escape(row.series.geography)}</small></td><td>${escape(row.date)}</td><td>${format(row.raw)} <small>${escape(row.series.unit)}</small></td><td class="${state.measure !== "level" ? changeClass(row.value) : ""}">${state.measure === "level" ? format(row.value) : signed(row.value)} <small>${escape(row.unit || "")}</small></td><td><a href="${escape(row.series.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(row.series.provider || row.series.source)} ↗</a></td></tr>`,
+      )
+      .join("") ||
+    '<tr><td colspan="6">No observations match these filters.</td></tr>';
+}
+function renderExpanded() {
+  if (!expandedSeries) return;
+  expanded?.destroy();
+  const scope =
+    $("#dialog-period").value === "current"
+      ? range()
+      : range($("#dialog-period").value);
+  const points = finite(readings(expandedSeries, scope));
+  const logarithmic = $("#dialog-log").checked;
+  const eligible = points.length > 1 && points.every(({ value }) => value > 0);
+  $("#dialog-log").disabled = !eligible;
+  if (!eligible) $("#dialog-log").checked = false;
+  $("#dialog-title").textContent = expandedSeries.name;
+  $("#dialog-source").textContent =
+    `${expandedSeries.geography} · ${expandedSeries.frequency} · ${expandedSeries.provider || expandedSeries.source}`;
+  $("#dialog-note").textContent =
+    `${measureLabels[state.measure]} · ${dateLabel(scope.start)} – ${dateLabel(scope.end)}. Drag horizontally to zoom; double-click to reset. Click a legend to toggle it. Arrow keys inspect dates.${eligible ? "" : " Log scale requires every plotted value to be strictly positive."}`;
+  expanded = timeChart(
+    $("#expanded-chart"),
+    [expandedSeries],
+    [points.map(({ date, value }) => [date, value])],
+    {
+      logarithmic: logarithmic && eligible,
+      suffix: points[0]?.unit ? " " + points[0].unit : "",
+      signedValues: state.measure !== "level",
+    },
+  );
+}
+function updateState() {
+  for (const key of [
+    "category",
+    "geography",
+    "frequency",
+    "period",
+    "measure",
+    "group",
+    "start",
+    "end",
+  ])
+    state[key] = $("#" + key + "-filter").value;
+  state.search = $("#series-search").value.trim();
+  page = 0;
+  tablePage = 0;
+  if (state.period !== "custom") {
+    const scope = range();
+    state.start = scope.start;
+    state.end = scope.end;
+    $("#start-filter").value = scope.start;
+    $("#end-filter").value = scope.end;
+  }
+  if ($("#chart-dialog").open) $("#chart-dialog").close();
+  void render();
+}
+async function main() {
+  snapshot = await loadSnapshot();
+  mountChrome(snapshot, "dashboard");
+  prepareOptions(
+    $("#category-filter"),
+    [...new Set(snapshot.series.map((series) => series.category))].sort(),
+    "All topics",
+  );
+  prepareOptions(
+    $("#geography-filter"),
+    [...new Set(snapshot.series.map((series) => series.geography))]
+      .filter(Boolean)
+      .sort(),
+    "All geographies",
+  );
+  prepareOptions(
+    $("#frequency-filter"),
+    ["daily", "weekly", "monthly", "quarterly", "annual"].filter((frequency) =>
+      snapshot.series.some((series) => series.frequency === frequency),
+    ),
+    "All frequencies",
+  );
+  const topic = new URLSearchParams(location.search).get("topic");
+  if (snapshot.series.some((series) => series.category === topic))
+    state.category = topic;
+  $("#category-filter").value = state.category;
+  const scope = range();
+  state.start = scope.start;
+  state.end = scope.end;
+  $("#start-filter").value = scope.start;
+  $("#end-filter").value = scope.end;
+  for (const select of document.querySelectorAll("select"))
+    enhanceSelect(select);
+  for (const key of [
+    "category",
+    "geography",
+    "frequency",
+    "period",
+    "measure",
+    "group",
+    "start",
+    "end",
+  ])
+    $("#" + key + "-filter").addEventListener("change", updateState);
+  let searchTimer;
+  $("#series-search").addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(updateState, 150);
+  });
+  $("#reset-filters").addEventListener("click", () => {
+    clearTimeout(searchTimer);
+    for (const [key, value] of Object.entries({
+      category: "Inflation",
+      geography: "all",
+      frequency: "all",
+      period: "5",
+      measure: "yoy",
+      group: "category",
+    })) {
+      const control = $("#" + key + "-filter");
+      control.value = value;
+      control._renderCustom?.();
+    }
+    $("#series-search").value = "";
+    updateState();
+  });
+  $("#series-previous").addEventListener("click", () => {
+    page--;
+    renderSeries();
+  });
+  $("#series-next").addEventListener("click", () => {
+    page++;
+    renderSeries();
+  });
+  $("#table-previous").addEventListener("click", () => {
+    tablePage--;
+    renderTable();
+  });
+  $("#table-next").addEventListener("click", () => {
+    tablePage++;
+    renderTable();
+  });
+  $("#series-charts").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-series]");
+    if (!button) return;
+    expandedSeries = matched.find(
+      (series) => series.id === button.dataset.series,
+    );
+    $("#dialog-period").value = "current";
+    $("#dialog-period")._renderCustom?.();
+    $("#dialog-log").checked = false;
+    $("#chart-dialog").showModal();
+    renderExpanded();
+  });
+  $("#chart-dialog").addEventListener("close", () => {
+    expanded?.destroy();
+    expanded = undefined;
+    expandedSeries = undefined;
+  });
+  $("#dialog-close").addEventListener("click", () =>
+    $("#chart-dialog").close(),
+  );
+  $("#dialog-period").addEventListener("change", renderExpanded);
+  $("#dialog-log").addEventListener("change", renderExpanded);
+  $("#dialog-reset").addEventListener("click", () => expanded?.reset());
+  for (const event of ["pointerover", "focusin"])
+    $("#panel-heatmap").addEventListener(event, (event) => {
+      const cell = event.target.closest("[data-reading]");
+      if (cell) $("#heatmap-reading").textContent = cell.dataset.reading;
+    });
+  $("#download-data").addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    const exportScope = rows,
+      exportMeasure = state.measure;
+    function* exportRows() {
+      for (const row of exportScope)
+        yield {
+          indicator: row.series.id,
+          name: row.series.name,
+          topic: row.series.category,
+          geography: row.series.geography,
+          frequency: row.series.frequency,
+          date: row.date,
+          reported_value: row.raw,
+          reported_unit: row.series.unit,
+          measure: exportMeasure,
+          measure_value: row.value,
+          measure_unit: row.unit,
+          source: row.series.source,
+          source_url: row.series.sourceUrl,
+          checked_at: row.series.checkedAt,
+          refresh_status: row.series.refreshStatus || "successful",
+        };
+    }
+    button.disabled = true;
+    button.textContent = "Preparing CSV…";
+    try {
+      await downloadCsv(exportRows(), "macrotrace-panel.csv");
+    } finally {
+      button.disabled = false;
+      button.textContent = "Download filtered CSV ↓";
+    }
+  });
+  const freshness = () => {
+    $("#freshness").textContent =
+      `Snapshot ${dateLabel(snapshot.generatedAt)} · daily source checks · observation dates vary`;
+  };
+  freshness();
+  document.addEventListener("snapshot-updated", (event) => {
+    snapshot = event.detail;
+    freshness();
+    void render();
+  });
+  await render();
+}
+main().catch((error) => showError($("#panel-status"), error));

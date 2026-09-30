@@ -12,8 +12,9 @@ September 2026):
 
 ## What was downloaded and parsed
 
-`node scripts/verify-commodity-history.mjs` downloads both XLSX files and
-re-parses them on every run. The current result is 172 series:
+The original research downloaded and parsed both XLSX files. That dated
+research result was 172 series; MacroTrace's current daily refresh deliberately
+uses the 87 monthly series, not duplicate annual versions:
 
 - 87 monthly series through `2026-08-01`: 71 nominal benchmark price columns
   plus 16 nominal commodity indices, with source rows beginning in `1960M01`
@@ -43,7 +44,7 @@ forward-filled. Every file hash is retained in both `sourceHash` and
 `discoverPinkSheetUrls()` first reads the official landing page and extracts
 the current monthly/annual XLSX links. If the page is unavailable or does not
 expose the links, the module falls back to the last tested direct URLs above;
-the verification script therefore makes a stale-link problem visible.
+the daily refresh exposes a failed retrieval rather than fabricating a new vintage.
 
 ## Frequency and economic semantics
 

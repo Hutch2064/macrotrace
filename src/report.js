@@ -1,185 +1,101 @@
 import {
-  format,
-  colorReadings,
   loadSnapshot,
   mountChrome,
-  periodChange,
-  signed,
-  sliceHorizon,
-  yoyChange,
+  escapeHtml as escape,
+  format,
+  dateLabel,
+  showError,
 } from "./common.js";
+import {
+  REPORT_IDS,
+  buildMacroReport,
+  methodDefinitions,
+} from "./macro-report.js";
 import { timeChart } from "./time-chart.js";
-import { reportTitles } from "./report-readings.js";
-import { rollingHorizonChanges } from "./analytics.js";
 import { lazyChart } from "./lazy-chart.js";
+import { renderSourceCatalog } from "./source-catalog.js";
+import { economicOrbit } from "./orbit.js";
 
-const reportSeries = [
-  "UNRATE",
-  "CPIAUCSL",
-  "DGS10",
-  "PAYEMS",
-  "JTSJOL",
-  "PCEPILFE",
-  "GDPC1",
-  "INDPRO",
-  "FEDFUNDS",
-  "DGS2",
-  "HOUST",
-  "PERMIT",
-  "DCOILWTICO",
-  "GASREGW",
-  "NFCI",
-  "STLFSI4",
-  "USEHS",
-  "USCONS",
-  "USINFO",
-];
-
-const reportCharts = [];
-let chromeMounted = false;
-async function main(updatedSnapshot) {
-  const snapshot = updatedSnapshot || (await loadSnapshot(reportSeries));
-  if (!chromeMounted) {
+const charts = [];
+let mounted = false;
+const orbit = economicOrbit(document.querySelector("#economic-orbit"));
+window.addEventListener("pagehide", () => orbit.destroy(), { once: true });
+async function render(updated) {
+  const snapshot = updated || (await loadSnapshot(REPORT_IDS));
+  const report = buildMacroReport(snapshot);
+  if (!mounted) {
     mountChrome(snapshot, "report");
-    chromeMounted = true;
+    mounted = true;
   }
-  reportCharts.splice(0).forEach((chart) => chart.destroy());
-  const byId = Object.fromEntries(
-    snapshot.series.map((series) => [series.id, series]),
-  );
+  charts.splice(0).forEach((chart) => chart.destroy());
   document.querySelector("#as-of").textContent =
-    `Snapshot ${new Date(snapshot.generatedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`;
-
-  const headlines = [
-    ["UNRATE", "Unemployment rate", "%", "Latest reading"],
-    [
-      "CPIAUCSL",
-      "Consumer inflation",
-      "% YoY",
-      "12-month change",
-      (series) => yoyChange(series.observations),
-    ],
-    ["DGS10", "10-year Treasury", "%", "Latest yield"],
-    [
-      "PAYEMS",
-      "Nonfarm payrolls",
-      "% YoY",
-      "12-month growth",
-      (series) => yoyChange(series.observations),
-    ],
-  ];
-  document.querySelector("#headline-metrics").innerHTML = headlines
-    .map(([id, label, unit, note, calculate]) => {
-      const series = byId[id];
-      const value = calculate
-        ? calculate(series)
-        : series.observations[series.observations.length - 1][1];
-      return `<div class="headline-metric"><span class="metric-value">${format(value, unit.startsWith("%") ? "%" : "")}</span><span class="metric-label">${label}</span><span class="metric-delta">${note}</span></div>`;
-    })
+    "Snapshot " + dateLabel(snapshot.generatedAt);
+  document.querySelector("#report-summary").textContent = report.summary;
+  document.querySelector("#headline-metrics").innerHTML = report.headlines
+    .map(
+      (metric) =>
+        `<div class="headline-metric"><span class="metric-label">${escape(metric.label)}</span><span class="metric-value">${format(metric.value)}<span class="metric-unit">${escape(metric.unit)}</span></span><span class="metric-date">${dateLabel(metric.date)}</span></div>`,
+    )
     .join("");
-
-  const stories = [
-    {
-      ids: ["UNRATE", "JTSJOL"],
-      horizon: 1825,
-      copy: ([unrate, openings]) =>
-        `Unemployment is <span class="story-stat">${format(unrate.observations[unrate.observations.length - 1][1], "%")}</span>, while job openings have changed <span class="story-stat">${signed(periodChange(openings.observations, 1095))}%</span> over three years. These measure different things: unemployment is a share of the labor force, while openings count unfilled positions. Indexed lines compare their relative paths, not their units or economic desirability.`,
-      measure: "indexed",
-    },
-    {
-      ids: ["CPIAUCSL", "PCEPILFE"],
-      horizon: 1825,
-      copy: ([cpi, corePce]) =>
-        `Headline CPI is running at <span class="story-stat">${format(yoyChange(cpi.observations), "%")}</span> year over year; core PCE is <span class="story-stat">${format(yoyChange(corePce.observations), "%")}</span>. CPI covers consumer prices; core PCE excludes food and energy within a different consumption basket. Neither is a price-level reduction when its growth rate stays positive.`,
-      measure: "yoy",
-    },
-    {
-      ids: ["GDPC1", "INDPRO"],
-      horizon: 3650,
-      copy: ([gdp, production]) =>
-        `Real GDP changed <span class="story-stat">${signed(periodChange(gdp.observations, 1825))}%</span> over five years, while industrial production changed <span class="story-stat">${signed(periodChange(production.observations, 1825))}%</span>. The comparison separates economy-wide growth from the factory cycle.`,
-      measure: "indexed",
-    },
-    {
-      ids: ["FEDFUNDS", "DGS10", "DGS2"],
-      horizon: 1825,
-      copy: ([fed, ten, two]) => {
-        const twoByDate = new Map(two.observations);
-        const common = ten.observations
-          .filter(([date]) => twoByDate.has(date))
-          .at(-1);
-        const tenValue = common[1];
-        const twoValue = twoByDate.get(common[0]);
-        return `The monthly-average effective federal funds rate is <span class="story-stat">${format(fed.observations.at(-1)[1], "%")}</span>, versus <span class="story-stat">${format(twoValue, "%")}</span> at two years and <span class="story-stat">${format(tenValue, "%")}</span> at ten years. The 10Y–2Y slope is <span class="story-stat">${signed((tenValue - twoValue) * 100)} bp</span>, computed from the latest common Treasury observation date; the monthly federal funds average is a separate frequency.`;
-      },
-      measure: "level",
-    },
-    {
-      ids: ["HOUST", "PERMIT"],
-      horizon: 3650,
-      copy: ([starts, permits]) =>
-        `Housing starts changed <span class="story-stat">${signed(periodChange(starts.observations, 365))}%</span> over one year, while building permits moved <span class="story-stat">${signed(periodChange(permits.observations, 365))}%</span>. Both are seasonally adjusted annual rates in the source, not counts of homes completed in that month.`,
-      measure: "indexed",
-    },
-    {
-      ids: ["DCOILWTICO", "GASREGW"],
-      horizon: 1095,
-      copy: ([oil, gas]) =>
-        `WTI crude changed <span class="story-stat">${signed(periodChange(oil.observations, 365))}%</span> over the last year; regular gasoline changed <span class="story-stat">${signed(periodChange(gas.observations, 365))}%</span>. Crude is quoted per barrel and gasoline per gallon. Rebasing highlights relative movements without equating these physical units or claiming causation.`,
-      measure: "indexed",
-    },
-    {
-      ids: ["NFCI", "STLFSI4"],
-      horizon: 1825,
-      copy: ([conditions, stress]) =>
-        `The National Financial Conditions Index is <span class="story-stat">${format(conditions.observations[conditions.observations.length - 1][1])}</span>, while the St. Louis Fed stress index is <span class="story-stat">${format(stress.observations[stress.observations.length - 1][1])}</span>. Values below zero indicate conditions or stress below their historical averages.`,
-      measure: "level",
-    },
-    {
-      ids: ["USEHS", "USCONS", "USINFO"],
-      horizon: 1825,
-      copy: ([health, construction, information]) =>
-        `Over one year, education and health payrolls changed <span class="story-stat">${signed(periodChange(health.observations, 365))}%</span>, construction changed <span class="story-stat">${signed(periodChange(construction.observations, 365))}%</span>, and information changed <span class="story-stat">${signed(periodChange(information.observations, 365))}%</span>. These are payroll counts by industry, not sector equity returns. Different growth rates reveal where employment is expanding or contracting.`,
-      measure: "indexed",
-    },
-  ];
-
-  const findingTitles = reportTitles(snapshot);
-  const container = document.querySelector("#report-sections");
-  container.replaceChildren();
-  for (const [index, story] of stories.entries()) {
-    const seriesList = story.ids.map((id) => byId[id]);
-    const article = document.createElement("article");
-    article.className = "report-story";
-    const dates = seriesList.map((series) => series.observations.at(-1)[0]);
-
-    const caption = `${seriesList.map((series) => series.id).join(" · ")} · ${story.measure === "indexed" ? "first visible observation = 100" : story.measure === "yoy" ? "year-over-year percent change" : "reported level"} · latest observations ${dates.join(" / ")} · FRED`;
-    article.innerHTML = `<div class="story-copy"><h2>${findingTitles[index]}</h2><p>${story.copy(seriesList)}</p></div><figure class="story-chart"><div class="chart-wrap"></div><figcaption>${caption}</figcaption></figure>`;
-    container.append(article);
-    const points = seriesList.map((series) => {
-      const visible = sliceHorizon(series.observations, story.horizon);
-      if (story.measure === "level") return visible;
-      if (story.measure === "yoy")
-        return sliceHorizon(rollingHorizonChanges(series, "1y"), story.horizon);
-      const base = visible[0][1];
-      return visible.map(([date, value]) => [date, (value / base) * 100]);
-    });
-    reportCharts.push(
-      lazyChart(article.querySelector(".chart-wrap"), () =>
-        timeChart(article.querySelector(".chart-wrap"), seriesList, points, {
-          suffix: story.measure === "yoy" ? "%" : "",
+  document.querySelector("#report-sections").innerHTML = report.findings
+    .map(
+      (finding) =>
+        `<section class="report-section" id="${escape(finding.id)}"><div class="report-copy"><span class="report-topic">${escape(finding.topic || finding.series[0]?.category || "Economic signal")}</span><h2>${escape(finding.title)}</h2>${finding.paragraphs.map((paragraph) => `<p>${escape(paragraph)}</p>`).join("")}<a class="source-link" href="./dashboard.html?topic=${encodeURIComponent(finding.topic || finding.series[0]?.category || "")}">Explore this topic ↗</a></div><div class="report-chart-frame"><div class="report-chart" id="chart-${escape(finding.id)}"></div><p class="report-chart-note">${escape(finding.note)}</p></div></section>`,
+    )
+    .join("");
+  for (const finding of report.findings) {
+    const host = document.getElementById("chart-" + finding.id);
+    const latest = finding.points
+      .flatMap((points) => points.at(-1)?.[0] || [])
+      .sort()
+      .at(-1);
+    const cutoff = latest ? new Date(latest + "T00:00:00Z") : null;
+    cutoff?.setUTCFullYear(cutoff.getUTCFullYear() - 5);
+    const start = cutoff?.toISOString().slice(0, 10);
+    const visiblePoints = finding.points.map((points) =>
+      points.filter(([date]) => !start || date >= start),
+    );
+    host.nextElementSibling.textContent =
+      "Last five years of available observations. " + finding.note;
+    charts.push(
+      lazyChart(host, () =>
+        timeChart(host, finding.series, visiblePoints, {
+          suffix: finding.suffix || "",
+          signedValues: finding.signedValues || false,
         }),
       ),
     );
   }
-  colorReadings();
+  document.querySelector("#method-definitions").innerHTML = methodDefinitions
+    .concat([
+      {
+        title: "Currency and housing normalization",
+        definition:
+          "Bilateral currencies are shown as USD per unit of foreign currency. FRED quotes in the opposite direction use 1 / source value; nonpositive inverse inputs are omitted. Trade-weighted dollar indexes keep their original index units. Shiller's housing indexes retain annual source rows before 1953 and average the twelve monthly rows of each complete year thereafter; incomplete years are omitted. Pink Sheet commodities keep published monthly averages and index definitions, not investment returns.",
+      },
+      {
+        title: "Historical position",
+        definition:
+          "For the selected measure and period, percentile = 100 × (readings below the latest + (readings equal to the latest − 1) / 2) / (number of readings − 1). Ties receive their midrank; fewer than two comparable readings are unavailable.",
+      },
+      {
+        title: "Direction and monthly panels",
+        definition:
+          "Direction groups count eligible latest values above, below or equal to zero, divided by the eligible indicator count in that group. This is not a weighted economic index. The heat map keeps the last actual reading in each month; it does not interpolate or create monthly observations.",
+      },
+    ])
+    .map(
+      (method) =>
+        `<div class="method-definition"><h3>${escape(method.title)}</h3><p>${escape(method.definition)}</p></div>`,
+    )
+    .join("");
+  renderSourceCatalog(snapshot);
 }
-
 document.addEventListener("snapshot-updated", (event) => {
-  void main(event.detail);
+  void render(event.detail).catch((error) =>
+    showError(document.querySelector("#report-summary"), error),
+  );
 });
-main().catch((error) => {
-  console.error(error);
-  document.querySelector("#report-sections").innerHTML =
-    `<p class="empty-state">${error.message}</p>`;
-});
+render().catch((error) =>
+  showError(document.querySelector("#report-summary"), error),
+);

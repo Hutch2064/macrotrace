@@ -5,72 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="MacroTrace connects public macroeconomic releases with market history in one reproducible, visual report."
+      content="Eight source-backed findings about the economy. Explore inflation, employment, output, policy, housing and commodities."
     />
-    <title>MacroTrace — The economy, connected</title>
-    <link rel="stylesheet" href="/src/fonts.css" />
+    <title>MacroTrace — Read the economy</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/fonts.css" />
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body data-page="report">
+    <a class="skip-link" href="#main">Skip to content</a>
     <div id="site-header"></div>
-    <main>
-      <section class="report-hero shell">
-        <div class="eyebrow">Public data · Updated daily</div>
-        <h1>The economy leaves <span>traces.</span></h1>
-        <p class="hero-deck">
-          MacroTrace connects public economic releases, market prices, and
-          long-history research portfolios. Explore curated collections, compare
-          meaningful changes, and inspect the observations behind every
-          chart—without an account. The eight findings below demonstrate why
-          jobs, inflation, output, and policy need distinct units and time
-          horizons.
-        </p>
-        <div class="byline">
-          <span>A report by Aidan Hutchison</span
-          ><span id="as-of">Loading latest snapshot…</span>
+    <main id="main">
+      <section class="hero shell">
+        <div class="hero-copy">
+          <p class="eyebrow">The economy, in perspective</p>
+          <h1>
+            Follow the signals.<br /><span class="gold-text"
+              >Find the context.</span
+            >
+          </h1>
+          <p class="hero-deck">
+            Inflation. Employment. Growth. A clearer view of the forces shaping
+            the economy, grounded in public data.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="./dashboard.html"
+              >Explore the dashboard ↗</a
+            ><a class="text-link" href="#readout">Read the report ↓</a>
+          </div>
+          <div class="byline">
+            <span>A report by Aidan Hutchison</span
+            ><span id="as-of">Checking the latest snapshot…</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <canvas
+            id="economic-orbit"
+            tabindex="0"
+            role="img"
+            aria-label="Decorative interactive three-dimensional economic orbit. Drag or use arrow keys to rotate; this illustration is not a data chart."
+          ></canvas>
+          <div class="orbit-caption">
+            <span class="orbit-dot"></span>An interconnected economy
+            <small>Drag to explore</small>
+          </div>
         </div>
       </section>
-
       <section
         class="headline-strip shell"
         id="headline-metrics"
-        aria-label="Headline economic metrics"
+        aria-label="Four headline economic readings"
       ></section>
-
-      <section class="report-intro shell reading-width">
-        <div class="section-index">The readout</div>
-        <h2>Eight findings, each tied to the underlying observations.</h2>
-        <p>
-          This report is the narrative half of MacroTrace. It uses eight
-          reproducible comparisons to describe the current U.S. macro backdrop;
-          the dashboard is the exploratory half, with separate Macro and Markets
-          modes so economic levels are never confused with security returns.
-        </p>
-      </section>
-
-      <div id="report-sections" class="report-sections shell"></div>
-
-      <section class="methodology shell" id="methodology">
+      <section class="report-intro shell" id="readout">
         <div>
-          <div class="section-index">Data Sources</div>
-          <h2>Trace each observation to its source.</h2>
+          <p class="eyebrow">The economic readout</p>
+          <h2>
+            Eight signals.<br /><span class="muted">One bigger picture.</span>
+          </h2>
+        </div>
+        <div>
+          <p id="report-summary">Preparing the source-backed report…</p>
+          <p class="subtle">
+            Figures update with the daily snapshot. Dates identify the
+            observation period—not a live quote.
+          </p>
+        </div>
+      </section>
+      <div id="report-sections" class="report-sections shell"></div>
+      <section class="methods shell" id="sources">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Data & methods</p>
+            <h2>Every signal has a source.</h2>
+          </div>
+          <a class="text-link" href="./dashboard.html"
+            >Inspect the observations ↗</a
+          >
         </div>
         <p>
-          One row is one observed value for one series and date. Missing and
-          nonnumeric observations are excluded; native daily, monthly,
-          quarterly, and annual frequencies are preserved. Report figures are
-          calculated from the daily published snapshot, not manually maintained.
+          One panel row is one observed value for one indicator, geography and
+          date. We retain each source’s daily, weekly, monthly, quarterly or
+          annual frequency. Missing and nonnumeric rows are omitted; duplicate
+          dates are not allowed. We do not invent daily readings between
+          economic releases, splice investment histories, or include stock
+          prices.
         </p>
-        <a class="secondary-button" href="./sources.html"
-          >Browse the categorized source catalog</a
+        <div id="method-definitions" class="method-grid"></div>
+        <div id="source-catalog" class="source-catalog"></div>
+        <p class="subtle" id="source-freshness"></p>
+      </section>
+      <section class="closing shell">
+        <p class="eyebrow">From reading to exploring</p>
+        <h2>The data. Your questions.</h2>
+        <p>
+          Choose a topic, compare its history, and inspect every observation
+          behind the view.
+        </p>
+        <a class="primary-button" href="./dashboard.html"
+          >Open the macro dashboard ↗</a
         >
-        <p class="source-note">
-          The catalog includes exact series references, downloadable
-          observations, coverage, and calculation definitions. A daily refresh
-          checks for newly published data; source release schedules and outages
-          can leave observations unchanged.
-        </p>
       </section>
     </main>
     <div id="site-footer"></div>

@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 
@@ -6,12 +7,13 @@ import { createHash } from "node:crypto";
 const paths = execFileSync("git", ["ls-files", "-z"], { encoding: "utf8" })
   .split("\0")
   .filter((path) =>
-    /^(?:api\/[\w-]+\.js|src\/[\w-]+\.(?:js|css)|scripts\/build-data\.mjs|public\/(?:favicon\.svg|fonts\/[\w-]+\.(?:woff2|txt|md)|data\/(?:snapshot|version)\.json|data\/source-inventory\.(?:csv|md))|(?:index|dashboard|sources)\.html|package(?:-lock)?\.json|vite\.config\.js|vercel\.json)$/.test(
+    /^(?:src\/[\w-]+\.(?:js|css)|scripts\/[\w-]+\.mjs|public\/(?:favicon\.svg|fonts\/[\w-]+\.(?:woff2|txt|md)|data\/.+)|(?:index|dashboard)\.html|package(?:-lock)?\.json|vite\.config\.js|vercel\.json)$/.test(
       path,
     ),
   );
+const existingPaths = paths.filter((path) => existsSync(path));
 const files = await Promise.all(
-  paths.map(async (file) => ({ file, data: await readFile(file) })),
+  existingPaths.map(async (file) => ({ file, data: await readFile(file) })),
 );
 const commitSha = execFileSync("git", ["rev-parse", "HEAD"], {
   encoding: "utf8",
@@ -19,7 +21,7 @@ const commitSha = execFileSync("git", ["rev-parse", "HEAD"], {
 if (process.argv.includes("--dry-run")) {
   console.log(
     JSON.stringify({
-      files: paths,
+      files: files.map(({ file }) => file),
       commitSha,
       bytes: files.reduce((total, { data }) => total + data.length, 0),
     }),

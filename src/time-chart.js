@@ -12,6 +12,7 @@ export function timeChart(
     suffix = "",
     valueTransform = (value) => value,
     valueLabel = "",
+    signedValues = false,
   } = {},
 ) {
   const host =
@@ -52,6 +53,14 @@ export function timeChart(
       return [[gapDate, null], point];
     });
   });
+  // Long units belong in the shared legend, not clipped inside a narrow axis.
+  const axisSuffix = suffix.includes("percentage points")
+    ? " pp"
+    : suffix.includes("index points")
+      ? " pts"
+      : suffix.trim().length > 5
+        ? ""
+        : suffix;
   const dates = [
     ...new Set(plotted.flatMap((points) => points.map(([date]) => date))),
   ].sort();
@@ -90,7 +99,7 @@ export function timeChart(
       const latest = pointLists[i].at(-1);
       const raw = index == null ? latest?.[1] : data[i + 1][index];
       const reading = Number.isFinite(raw) ? valueTransform(raw) : NaN;
-      value.textContent = `${reading > 0 ? "+" : ""}${format(reading, suffix)}`;
+      value.textContent = `${signedValues && reading > 0 ? "+" : ""}${format(reading, suffix)}`;
       value.className =
         reading > 0 ? "positive" : reading < 0 ? "negative" : "";
       button.title = `${series[i].name} · ${index == null ? (latest?.[0] ?? "no observations") : dates[index]}`;
@@ -121,22 +130,24 @@ export function timeChart(
       },
       axes: [
         {
-          stroke: "rgba(255,255,255,.62)",
+          stroke: "#b7b5a9",
           grid: { show: false },
           ticks: { show: false },
-          font: "11px Inter",
+          font: "11px Outfit",
           size: 34,
           space: 75,
         },
         {
-          stroke: "rgba(255,255,255,.62)",
-          grid: { stroke: "rgba(255,255,255,.07)", width: 1 },
+          stroke: "#b7b5a9",
+          grid: { stroke: "#3e3e38", width: 1 },
           ticks: { show: false },
-          font: "11px Inter",
+          font: "11px Outfit",
           size: 52,
           values: (_, values) =>
             values.map((value) =>
-              value == null ? "" : `${compact(valueTransform(value))}${suffix}`,
+              value == null
+                ? ""
+                : `${compact(valueTransform(value))}${axisSuffix}`,
             ),
         },
       ],

@@ -1,7 +1,5 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile, readdir, unlink } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { change, changeSuffix } from "../src/analytics.js";
-import { horizons } from "../src/horizons.js";
 
 // Deployment artifacts only; the reviewed snapshot remains the source of truth.
 export async function buildData(directory = "public/data/runtime") {
@@ -11,7 +9,6 @@ export async function buildData(directory = "public/data/runtime") {
   await mkdir(`${directory}/series`, { recursive: true });
   const series = [];
   for (const { observations, ...metadata } of snapshot.series) {
-    const original = { ...metadata, observations };
     const body = JSON.stringify(observations);
     const hash = createHash("sha256").update(body).digest("hex");
     const file = `series/${hash}.json`;
@@ -24,14 +21,19 @@ export async function buildData(directory = "public/data/runtime") {
         latest: observations.at(-1),
       },
       history: { file, hash, bytes: Buffer.byteLength(body) },
-      bannerSuffix: changeSuffix(original),
-      bannerChanges: Object.fromEntries(
-        horizons.map(([horizon]) => [horizon, change(original, horizon)]),
-      ),
     });
   }
   const catalog = { ...snapshot, schemaVersion: 1, series };
   await writeFile(`${directory}/catalog.json`, JSON.stringify(catalog));
+  const retained = new Set(
+    series.map((entry) => entry.history.file.split("/").at(-1)),
+  );
+  // This directory contains generated artifacts only. Removed securities must
+  // not remain downloadable as orphaned chunks in a new macro-only deployment.
+  for (const file of await readdir(`${directory}/series`)) {
+    if (/^[a-f0-9]{64}\.json$/.test(file) && !retained.has(file))
+      await unlink(`${directory}/series/${file}`);
+  }
   console.log(
     `Packed ${series.length} lossless, content-addressed histories; catalog ${Buffer.byteLength(JSON.stringify(catalog))} bytes.`,
   );

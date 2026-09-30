@@ -2,7 +2,9 @@
 
 Research and endpoint validation date: **2026-09-22**. This note covers the
 extension catalog in `scripts/extended-macro-catalog.mjs`, now integrated into
-the daily snapshot, source inventory, and dashboard presets.
+the daily snapshot, source inventory, and topic/geography/frequency filters.
+The coverage below is a dated research record; the generated source inventory
+and published catalog give current stored coverage.
 
 ## Validation contract
 
@@ -131,13 +133,13 @@ BEA, Treasury, and NBER terms before any commercial redistribution.
   `SPPOP65UPTOZUSA`, `CLVMNACSCAB1GQEURO`, and several guessed NBER IDs returned
   HTTP 404 and were excluded rather than substituted silently.
 
-## Integration recommendation
+## Current integration
 
-Import `extendedFredSeries` only after deciding whether the dashboard should
-show all 38 rows or use category presets. Preserve the tuple metadata, append
-the array to the live FRED fetch list, and add a duplicate-ID assertion. The
-refresh verifier should exempt only rows carrying both
+The macro refresh imports `extendedFredSeries`, preserves tuple metadata,
+and checks duplicate IDs. The panel groups international indicators by topic
+and geography rather than mixing countries into an unlabeled aggregate.
+The refresh verifier exempts only rows carrying both
 `historyStatus === "archived"` and `archiveReason` (the six explicitly marked
-rows here); all other rows should obey the normal frequency-specific freshness
+rows here); all other rows obey the normal frequency-specific freshness
 policy. Do not merge annual, quarterly, or archival definitions into existing
 series merely to make a longer chart.

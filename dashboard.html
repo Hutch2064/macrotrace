@@ -5,351 +5,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Explore, compare, and correlate public macroeconomic and market time series in MacroTrace."
+      content="Filter the macroeconomic panel by topic, geography, frequency and period. Inspect and download every observation."
     />
-    <title>Dashboard — MacroTrace</title>
-    <link rel="stylesheet" href="/src/fonts.css" />
+    <title>Macro dashboard — MacroTrace</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/fonts.css" />
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body data-page="dashboard">
+    <a class="skip-link" href="#main">Skip to content</a>
     <div id="site-header"></div>
-    <main class="dashboard shell">
+    <main id="main" class="dashboard shell">
       <section class="dashboard-heading">
         <div>
-          <div class="eyebrow">Interactive workspace</div>
-          <h1>Trace the signal.</h1>
-          <p id="workspace-description">
-            Read macro releases in comparable economic units.
-          </p>
+          <p class="eyebrow">The macroeconomic panel</p>
+          <h1>Explore the economy.</h1>
         </div>
-        <div class="freshness" id="freshness">Loading snapshot…</div>
+        <p class="freshness" id="freshness">Checking snapshot…</p>
       </section>
-
-      <div class="collection-toolbar">
-        <section class="mode-switch" aria-label="Analysis mode">
-          <button type="button" data-mode="macro" class="active">
-            <span>Macro</span><small>Economy and policy</small>
-          </button>
-          <button type="button" data-mode="markets">
-            <span>Markets</span><small>Securities and prices</small>
-          </button>
-        </section>
-
-        <section class="preset-section" aria-label="Preset views">
-          <div class="preset-heading">
-            <span class="selection-label">Preset views</span
-            ><span
-              id="preset-status"
-              class="ticker-status"
-              aria-live="polite"
-            ></span>
-          </div>
-          <div id="preset-list" class="preset-list"></div>
-        </section>
-      </div>
-
-      <section class="control-panel" aria-label="Dashboard filters">
-        <div class="search-control">
-          <label for="series-search">Add Yahoo Finance or FRED series</label>
-          <input
-            id="series-search"
-            type="search"
-            role="combobox"
-            aria-autocomplete="list"
-            aria-controls="search-results"
-            aria-expanded="false"
-            placeholder="Search Apple, EUR/USD, CPI, unemployment…"
-            autocomplete="off"
-          />
-          <div
-            id="search-results"
-            class="search-results"
-            role="listbox"
-            hidden
-          ></div>
-          <div
-            id="ticker-status"
-            class="ticker-status"
-            aria-live="polite"
-          ></div>
-        </div>
+      <section class="filter-bar" aria-label="Panel filters">
         <label
-          >Horizon<select id="horizon-filter">
-            <option value="7">1 week</option>
-            <option value="30">1 month</option>
-            <option value="90">3 months</option>
-            <option value="182">6 months</option>
-            <option value="365" selected>1 year</option>
-            <option value="ytd">Year to date</option>
-            <option value="1095">3 years</option>
-            <option value="1825">5 years</option>
-            <option value="3650">10 years</option>
-            <option value="max">Maximum</option>
+          >Topic<select id="category-filter" aria-label="Topic"></select></label
+        ><label
+          >Geography<select
+            id="geography-filter"
+            aria-label="Geography"
+          ></select></label
+        ><label
+          >Frequency<select
+            id="frequency-filter"
+            aria-label="Frequency"
+          ></select
+        ></label>
+        <label
+          >Period<select id="period-filter" aria-label="Period">
+            <option value="1">1 year</option>
+            <option value="3">3 years</option>
+            <option value="5" selected>5 years</option>
+            <option value="10">10 years</option>
+            <option value="max">Full history</option>
+            <option value="custom">Custom dates</option>
           </select></label
         >
-        <label
-          class="scale-toggle"
-          title="Equal percentage moves use equal distances. Applies to positive native levels and market paths, not standardized scores or series containing zero or negative values."
-          ><span>Logarithmic scale</span
-          ><input id="log-scale" type="checkbox" role="switch"
-        /></label>
-        <button id="reset-filters" class="secondary-button" type="button">
-          Reset view
+        <label class="search-filter"
+          >Find an indicator<input
+            id="series-search"
+            type="search"
+            placeholder="Inflation, unemployment, gold…" /></label
+        ><button id="reset-filters" class="quiet-button" type="button">
+          Reset
         </button>
       </section>
-
-      <section class="selection-rail" aria-label="Selected series">
-        <div class="selection-label">
-          Comparing <span id="selection-count">0</span>/24
-        </div>
-        <div id="selected-series" class="selected-series"></div>
-      </section>
-
-      <div id="analysis-view">
-        <section
-          class="dashboard-metrics"
-          id="dashboard-metrics"
-          aria-label="Summary statistics"
-        ></section>
-
-        <section class="dashboard-grid">
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2 id="trend-title">Standardized history</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand path chart"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="trend-note"></div>
-            <div class="chart-wrap" id="trend-chart"></div>
-          </article>
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2 id="ranking-title">Change across horizons</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand momentum chart"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="ranking-note">
-              Per-series units: percent, basis points, or index points
-            </div>
-            <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
-          </article>
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2 id="position-title">Current historical percentile</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand percentile chart"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="position-note">
-              Latest reported level within each series’ full history
-            </div>
-            <div class="chart-wrap">
-              <canvas id="correlation-chart"></canvas>
-            </div>
-          </article>
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2 id="metric-four-title">Change trend</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand fourth chart"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="metric-four-note">
-              Native release-to-release movement
-            </div>
-            <div class="chart-wrap" id="drawdown-chart"></div>
-          </article>
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2 id="metric-five-title">Days since latest release</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand fifth chart"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="metric-five-note">
-              Native release calendars; fewer days is fresher
-            </div>
-            <div class="chart-wrap">
-              <canvas id="volatility-chart"></canvas>
-            </div>
-          </article>
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2>Change correlation to anchor</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand relationship chart"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="relationship-note">
-              Aligned period changes, never raw levels
-            </div>
-            <div class="chart-wrap"><canvas id="risk-chart"></canvas></div>
-          </article>
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2 id="heatmap-title">Month-over-month change</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand monthly heat map"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="heatmap-note">
-              Latest 12 months in each series’ economically meaningful unit
-            </div>
-            <div
-              id="monthly-heatmap"
-              class="heatmap-wrap"
-              role="img"
-              aria-label="Month-over-month change heat map"
-            ></div>
-          </article>
-          <article class="chart-card" data-chart-card>
-            <div class="chart-heading">
-              <div>
-                <h2 id="profile-title">Category breadth</h2>
-              </div>
-              <button
-                class="chart-expand"
-                type="button"
-                aria-label="Expand overview chart"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
-                </svg>
-              </button>
-            </div>
-            <div class="chart-subhead" id="profile-note">
-              Share of selected indicators moving higher
-            </div>
-            <div class="chart-wrap"><canvas id="profile-chart"></canvas></div>
-          </article>
-        </section>
-
-        <section class="series-detail" aria-label="Individual series histories">
-          <div class="table-heading">
-            <div>
-              <div class="section-index">
-                Cumulative changes · individual histories
-              </div>
-              <h2>Every series, in context.</h2>
-            </div>
-            <p>Hover to inspect. Drag to zoom. Expand for a closer view.</p>
-          </div>
-          <div id="series-charts" class="dashboard-grid"></div>
-        </section>
+      <div class="date-range" id="date-range" hidden>
+        <label>From<input id="start-filter" type="date" /></label
+        ><label>Through<input id="end-filter" type="date" /></label
+        ><span>Dates refer to the source observation period.</span>
       </div>
-      <p class="source-link">
-        <a href="./sources.html"
-          >Browse data sources and download observations →</a
+      <div class="view-bar">
+        <label
+          >Measure<select id="measure-filter" aria-label="Measure">
+            <option value="yoy" selected>Year-over-year change</option>
+            <option value="level">Reported level</option>
+            <option value="change">Previous-observation change</option>
+          </select></label
+        ><label
+          >Group by<select id="group-filter" aria-label="Group by">
+            <option value="category">Topic</option>
+            <option value="geography">Geography</option>
+            <option value="frequency">Frequency</option>
+          </select></label
         >
+        <p id="measure-note">
+          Percent for prices and quantities; percentage points for rates.
+        </p>
+      </div>
+      <div
+        id="panel-status"
+        class="panel-status"
+        role="status"
+        aria-live="polite"
+      ></div>
+      <section
+        id="dashboard-metrics"
+        class="headline-strip"
+        aria-label="Filtered panel summary"
+      ></section>
+      <section class="panel-section">
+        <div class="section-heading">
+          <div>
+            <h2>Indicators over time</h2>
+            <p class="subtle">
+              Native units, shared dates. Hover or touch for the reading; expand
+              to zoom.
+            </p>
+          </div>
+          <div class="pagination">
+            <button
+              id="series-previous"
+              aria-label="Previous indicators"
+              type="button"
+            >
+              ←</button
+            ><span id="series-page"></span
+            ><button
+              id="series-next"
+              aria-label="Next indicators"
+              type="button"
+            >
+              →
+            </button>
+          </div>
+        </div>
+        <div id="series-charts" class="indicator-grid"></div>
+      </section>
+      <section class="analysis-grid" aria-label="Panel comparisons">
+        <article class="chart-card">
+          <div class="chart-heading">
+            <h2>Within its own history</h2>
+            <span class="chart-unit">Percentile · 0–100</span>
+          </div>
+          <p class="chart-subhead">
+            Latest selected measure within the filtered period. Not a forecast.
+          </p>
+          <div id="position-chart" class="comparison-plot"></div>
+          <div class="chart-rail">
+            Median = 50th percentile · same indicators as the time-series panel
+          </div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-heading">
+            <h2>Direction by group</h2>
+            <span class="chart-unit">Share of indicators</span>
+          </div>
+          <p class="chart-subhead" id="breadth-note">
+            Positive, negative or unchanged—not a score of economic health.
+          </p>
+          <div id="breadth-chart" class="comparison-plot"></div>
+          <div class="chart-rail">
+            <span><i class="legend-dot positive-bg"></i>Above zero</span
+            ><span><i class="legend-dot negative-bg"></i>Below zero</span
+            ><span><i class="legend-dot neutral-bg"></i>Zero</span>
+          </div>
+        </article>
+        <article class="chart-card heatmap-card">
+          <div class="chart-heading">
+            <h2>A monthly view of the signal</h2>
+            <span id="heatmap-unit" class="chart-unit">Selected measure</span>
+          </div>
+          <p class="chart-subhead">
+            Same indicators as the time-series panel; last actual reading in
+            each month, without interpolation. Each row uses its own units and
+            color scale. Annual series appear only in their observation month.
+          </p>
+          <div id="panel-heatmap" class="heatmap-wrap"></div>
+          <div class="chart-rail">
+            <span class="negative">− Lower</span
+            ><span class="positive">+ Higher</span><span>— Unavailable</span
+            ><span id="heatmap-reading"
+              >Focus a cell to inspect its value.</span
+            >
+          </div>
+        </article>
+      </section>
+      <section class="records-section">
+        <div class="section-heading">
+          <div>
+            <h2>The observations behind the view</h2>
+            <p class="subtle" id="table-count"></p>
+          </div>
+          <button id="download-data" class="secondary-button" type="button">
+            Download filtered CSV ↓
+          </button>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">
+              Filtered panel observations, original values, measures and sources
+            </caption>
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Topic / geography</th>
+                <th>Period</th>
+                <th>Reported level</th>
+                <th>Selected measure</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody id="observations-table"></tbody>
+          </table>
+        </div>
+        <div class="pagination table-pagination">
+          <button id="table-previous" type="button">← Previous</button
+          ><span id="table-page"></span
+          ><button id="table-next" type="button">Next →</button>
+        </div>
+      </section>
+      <p class="dashboard-source-note">
+        Economic releases can be revised. No missing-value filling or averages
+        across incompatible units.
+        <a href="./index.html#sources">Sources and calculation definitions ↗</a>
       </p>
     </main>
+    <dialog id="chart-dialog">
+      <div class="dialog-heading">
+        <div>
+          <h2 id="dialog-title"></h2>
+          <p id="dialog-source" class="subtle"></p>
+        </div>
+        <button
+          id="dialog-close"
+          class="icon-button"
+          aria-label="Close expanded chart"
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+      <div class="dialog-controls">
+        <label
+          >Period<select id="dialog-period" aria-label="Expanded chart period">
+            <option value="1">1 year</option>
+            <option value="3">3 years</option>
+            <option value="5">5 years</option>
+            <option value="10">10 years</option>
+            <option value="max">Full history</option>
+            <option value="current">Dashboard period</option>
+          </select></label
+        ><label class="check-label"
+          ><input id="dialog-log" type="checkbox" />Log scale</label
+        ><button id="dialog-reset" class="quiet-button" type="button">
+          Reset zoom & legend
+        </button>
+      </div>
+      <p id="dialog-note" class="subtle"></p>
+      <div id="expanded-chart" class="expanded-chart"></div>
+    </dialog>
     <div id="site-footer"></div>
     <script type="module" src="/src/dashboard.js"></script>
   </body>

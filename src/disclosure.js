@@ -1,4 +1,4 @@
-const DISCLOSURE_DURATION = 300;
+const DISCLOSURE_DURATION = 360;
 
 const transitionStates = new WeakMap();
 const internallyToggled = new WeakMap();

@@ -20,7 +20,6 @@ export default defineConfig({
       input: {
         report: resolve(import.meta.dirname, "index.html"),
         dashboard: resolve(import.meta.dirname, "dashboard.html"),
-        sources: resolve(import.meta.dirname, "sources.html"),
       },
     },
   },

@@ -1,7 +1,12 @@
 // Shared accessible listbox: animate both directions, including interrupted motion.
 let active;
 globalThis.document?.addEventListener("click", (event) => {
-  if (active && !active.wrapper.contains(event.target)) active.close();
+  if (
+    active &&
+    !active.wrapper.contains(event.target) &&
+    !active.menu.contains(event.target)
+  )
+    active.close();
 });
 export function enhanceSelect(select, onPreview) {
   const wrapper = document.createElement("div");
@@ -20,7 +25,19 @@ export function enhanceSelect(select, onPreview) {
   menu.className = "select-menu";
   menu.setAttribute("role", "listbox");
   menu.hidden = true;
-  let motion;
+  const dialog = document.createElement("dialog");
+  dialog.className = "select-dialog";
+  dialog.setAttribute("aria-label", trigger.getAttribute("aria-label"));
+  document.body.append(dialog);
+  dialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    close();
+    trigger.focus();
+  });
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) close();
+  });
+  let motion, scaleMotion;
   const render = () => {
     const label = document.createElement("span");
     label.textContent = select.selectedOptions[0]?.textContent || "Select";
@@ -42,27 +59,42 @@ export function enhanceSelect(select, onPreview) {
     );
   };
   const transition = (open) => {
-    const from = menu.hidden ? 0 : menu.getBoundingClientRect().height;
+    const wasHidden = menu.hidden;
+    const opacity = wasHidden ? 0 : Number(getComputedStyle(menu).opacity);
+    const transform = wasHidden ? "scale(0)" : getComputedStyle(menu).transform;
     motion?.cancel();
+    scaleMotion?.cancel();
     menu.hidden = false;
     menu.inert = !open;
     trigger.setAttribute("aria-expanded", String(open));
     wrapper.classList.toggle("open", open);
-    const height = Math.min(menu.scrollHeight, 320, innerHeight / 2);
-    motion = menu.animate(
-      [
-        { height: `${from}px`, opacity: open ? 0 : 1 },
-        { height: `${open ? height : 0}px`, opacity: open ? 1 : 0 },
-      ],
-      {
-        duration: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? 0
-          : 300,
-        easing: "ease-out",
-      },
-    );
+    const mobile = matchMedia("(max-width: 700px)").matches;
+    if (open && mobile && !dialog.open) {
+      dialog.append(menu);
+      dialog.showModal();
+    }
+    if (open && !mobile && menu.parentNode !== wrapper) wrapper.append(menu);
+    const duration = matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? 0
+      : 300;
+    if (mobile)
+      scaleMotion = menu.animate(
+        [{ transform }, { transform: open ? "scale(1)" : "scale(0)" }],
+        { duration, easing: "cubic-bezier(0.215, 0.61, 0.355, 1)" },
+      );
+    motion = menu.animate([{ opacity }, { opacity: open ? 1 : 0 }], {
+      duration,
+      easing: mobile
+        ? "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        : "cubic-bezier(0, 0, 0.58, 1)",
+    });
     motion.onfinish = () => {
       menu.hidden = !open;
+      if (!open && dialog.open) {
+        dialog.close();
+        wrapper.append(menu);
+        trigger.focus({ preventScroll: true });
+      }
     };
   };
   const close = () => {
@@ -71,7 +103,7 @@ export function enhanceSelect(select, onPreview) {
   };
   const open = () => {
     if (active?.wrapper !== wrapper) active?.close();
-    active = { wrapper, close };
+    active = { wrapper, menu, close };
     transition(true);
     menu
       .querySelector('[aria-selected="true"]')
@@ -98,7 +130,7 @@ export function enhanceSelect(select, onPreview) {
   menu.addEventListener("pointerover", (event) =>
     onPreview?.(event.target.closest("[data-value]")?.dataset.value),
   );
-  wrapper.addEventListener("keydown", (event) => {
+  const keydown = (event) => {
     if (
       event.key === "Escape" &&
       trigger.getAttribute("aria-expanded") === "true"
@@ -123,7 +155,9 @@ export function enhanceSelect(select, onPreview) {
               options.length
       ]?.focus();
     }
-  });
+  };
+  wrapper.addEventListener("keydown", keydown);
+  dialog.addEventListener("keydown", keydown);
   select.hidden = true;
   select.after(wrapper);
   wrapper.append(trigger, menu);

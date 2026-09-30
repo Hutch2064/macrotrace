@@ -22,7 +22,7 @@ export const fredSeries = [
     {
       provider: "Board of Governors of the Federal Reserve System",
       methodology:
-        "Delinquent credit card loans at all commercial banks, seasonally adjusted. Source rate; changes displayed in basis points.",
+        "Delinquent credit card loans at all commercial banks, seasonally adjusted. Source rate in percent; changes displayed in percentage points.",
     },
   ],
   [
@@ -40,7 +40,7 @@ export const fredSeries = [
   ],
   ["UNRATE", "Unemployment Rate", "Labor", "%", "monthly"],
   ["PAYEMS", "Nonfarm Payrolls", "Labor", "thousands", "monthly"],
-  ["ICSA", "Initial Jobless Claims", "Labor", "thousands", "weekly"],
+  ["ICSA", "Initial Jobless Claims", "Labor", "claims", "weekly"],
   ["JTSJOL", "Job Openings", "Labor", "thousands", "monthly"],
   ["U6RATE", "Underemployment Rate", "Labor", "%", "monthly"],
   ["CIVPART", "Labor Force Participation Rate", "Labor", "%", "monthly"],
@@ -89,7 +89,6 @@ export const fredSeries = [
     "index",
     "weekly",
   ],
-  ["VIXCLS", "CBOE Volatility Index", "Credit", "index", "daily"],
   ["BOGMBASE", "Monetary Base", "Credit", "billions", "monthly"],
   ["WALCL", "Federal Reserve Total Assets", "Credit", "millions", "weekly"],
   ["HOUST", "Housing Starts", "Housing", "thousands", "monthly"],
@@ -1051,9 +1050,9 @@ export const fredSeries = [
   ],
   [
     "PPOILUSDM",
-    "IMF Primary Commodity Price · Crude Oil",
+    "IMF Primary Commodity Price · Palm Oil",
     "Commodities",
-    "$/barrel",
+    "$/metric ton",
     "monthly",
     "identity",
     {

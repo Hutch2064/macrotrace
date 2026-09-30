@@ -3,9 +3,6 @@ import { readFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
 import { indexedDB, IDBFactory } from "fake-indexeddb";
-import { tickerReadings } from "../src/ticker.js";
-import { horizons } from "../src/horizons.js";
-import { presetById } from "../src/presets.js";
 
 const snapshot = JSON.parse(
   await readFile("public/data/snapshot.json", "utf8"),
@@ -23,6 +20,8 @@ for (const file of await readdir("public/fonts")) {
   assert.ok(fontCss.includes(file), `${file}: font face is wired`);
 }
 assert.equal(catalog.series.length, snapshot.series.length);
+const expectedChunks = new Set(catalog.series.map((entry) => entry.history.file.split("/").at(-1)));
+assert.deepEqual(new Set((await readdir("public/data/runtime/series")).filter((file) => file.endsWith(".json"))), expectedChunks, "No removed securities remain as orphaned generated histories");
 const chunks = new Map();
 for (const entry of catalog.series) {
   assert.equal(
@@ -49,7 +48,7 @@ for (const entry of catalog.series) {
     first: original.observations[0],
     latest: original.observations.at(-1),
   });
-  const { coverage, history, bannerChanges, bannerSuffix, ...metadata } = entry;
+  const { coverage, history, ...metadata } = entry;
   const { observations, ...sourceMetadata } = original;
   assert.deepEqual(
     metadata,
@@ -58,14 +57,23 @@ for (const entry of catalog.series) {
   );
   chunks.set(`./data/runtime/${entry.history.file}`, body);
 }
-for (const [horizon] of horizons)
-  assert.deepEqual(
-    tickerReadings(catalog, horizon),
-    tickerReadings(snapshot, horizon),
-    `All banner entries at ${horizon}`,
+const ids = [
+  "UNRATE",
+  "CPIAUCSL",
+  "PCEPILFE",
+  "FEDFUNDS",
+  "GDPC1",
+  "PAYEMS",
+  "HOUST",
+  "PERMIT",
+  "INDPRO",
+  "DCOILWTICO",
+];
+for (const id of ids)
+  assert.ok(
+    catalog.series.some((series) => series.id === id),
+    `${id}: default macro history is packed`,
   );
-
-const ids = presetById("macro").series;
 const compressed =
   gzipSync(catalogText).length +
   ids.reduce((sum, id) => {
@@ -187,5 +195,5 @@ assert.equal(
 );
 await assert.rejects(noStorage.loadHistory(corrupt, "NOT_BUNDLED"), /Unknown/);
 console.log(
-  `Verified ${catalog.series.length} lossless chunks, complete provenance and 12-horizon banner parity; persistence/deduplication/eviction/private-mode/integrity/rollover. Default data: ${compressed} gzip bytes versus ${gzipSync(await readFile("public/data/snapshot.json")).length} previously.`,
+  `Verified ${catalog.series.length} lossless chunks, complete provenance, ten default macro histories, persistence/deduplication/eviction/private-mode/integrity/rollover. Default data: ${compressed} gzip bytes versus ${gzipSync(await readFile("public/data/snapshot.json")).length} previously.`,
 );
