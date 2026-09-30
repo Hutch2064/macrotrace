@@ -69,7 +69,7 @@ assert.deepEqual(
   (await readFile("SUBMISSION.txt", "utf8")).trimEnd().split("\n"),
   [
     "Aiden Hutchison",
-    "Student ID: 01-09-63-71-4",
+    "Student ID: 010963714",
     "https://github.com/Hutch2064/macrotrace",
     "https://hutch2064.github.io/macrotrace/",
   ],
