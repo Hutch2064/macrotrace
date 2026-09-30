@@ -165,6 +165,8 @@ async function renderCountry(id, location, refresh = false) {
       ],
       { duration: reduced() ? 0 : 650, easing: "cubic-bezier(.22,1,.36,1)" },
     );
+  } catch (error) {
+    if (token === countryRevision) throw error;
   } finally {
     if (token === countryRevision) host.setAttribute("aria-busy", "false");
   }

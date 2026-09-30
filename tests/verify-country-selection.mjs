@@ -103,6 +103,19 @@ assert.equal(
 );
 assert.equal(host.attributes["aria-busy"], "false");
 assert.equal(host.attributes["aria-label"], "Economic metrics for France");
+let reject;
+pending = new Promise((_, fail) => {
+  reject = fail;
+});
+const failedRequest = context.choose("USA");
+await context.choose("ATA", { id: "ATA", name: "Antarctica" });
+reject(new Error("Delayed network failure"));
+await failedRequest;
+assert.equal(
+  host.innerHTML,
+  france,
+  "A stale failure cannot replace retained metrics with an error",
+);
 console.log(
   "Verified no-data metric retention, refresh attribution and late-request safety.",
 );
