@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-09-30T18:23:53.866Z. 6437 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-09-30T18:35:15.369Z. 6437 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
@@ -11,7 +11,7 @@ Snapshot: 2026-09-30T18:23:53.866Z. 6437 retained macroeconomic series. Coverage
 | [DRSFRMACBS](https://fred.stlouisfed.org/series/DRSFRMACBS) | Residential Mortgage Delinquency Rate | US | quarterly | % | 1991-01-01 | 2026-04-01 | 142 |
 | [M2SL](https://fred.stlouisfed.org/series/M2SL) | M2 Money Stock | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
 | [NFCI](https://fred.stlouisfed.org/series/NFCI) | National Financial Conditions Index | US | weekly | index | 1971-01-08 | 2026-09-25 | 2908 |
-| [STLFSI4](https://fred.stlouisfed.org/series/STLFSI4) | St. Louis Fed Financial Stress Index | US | weekly | index | 1993-12-31 | 2026-09-18 | 1708 |
+| [STLFSI4](https://fred.stlouisfed.org/series/STLFSI4) | St. Louis Fed Financial Stress Index | US | weekly | index | 1993-12-31 | 2026-09-25 | 1709 |
 | [BOGMBASE](https://fred.stlouisfed.org/series/BOGMBASE) | Monetary Base | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
 | [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | US | weekly | millions | 2002-12-18 | 2026-09-23 | 1241 |
 | [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | US | daily | percentage points | 1986-01-02 | 2026-09-28 | 10185 |
@@ -5251,7 +5251,7 @@ Snapshot: 2026-09-30T18:23:53.866Z. 6437 retained macroeconomic series. Coverage
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [DCOILWTICO](https://fred.stlouisfed.org/series/DCOILWTICO) | WTI Crude Oil | US | daily | $/barrel | 1986-01-02 | 2026-09-22 | 9507 |
+| [DCOILWTICO](https://fred.stlouisfed.org/series/DCOILWTICO) | WTI Crude Oil | US | daily | $/barrel | 1986-01-02 | 2026-09-29 | 9512 |
 | [GASREGW](https://fred.stlouisfed.org/series/GASREGW) | Regular Gas Price | US | weekly | $/gallon | 1990-08-20 | 2026-09-28 | 1879 |
 | [PALLFNFINDEXM](https://fred.stlouisfed.org/series/PALLFNFINDEXM) | IMF Primary Commodity Price Index · All Commodities | Global | monthly | index | 1992-01-01 | 2026-07-01 | 415 |
 | [PPOILUSDM](https://fred.stlouisfed.org/series/PPOILUSDM) | IMF Primary Commodity Price · Palm Oil | Global | monthly | $/metric ton | 1992-01-01 | 2026-07-01 | 415 |
