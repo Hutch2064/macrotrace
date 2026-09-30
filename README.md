@@ -10,10 +10,16 @@ The project has exactly two pages:
 - `index.html` is the source-backed long-form report. Its findings, charts,
   headlines, and methods section are calculated from the published snapshot.
   Its interactive globe selects four source-dated headline readings for 16
-  economies. Country selection does not change the scrolling report.
+  economies and rotates in both directions on mouse or touch drag. Red/green
+  country shading shows the change in World Bank annual real GDP growth against
+  the exact preceding year, in percentage points—not daily market returns or an
+  economic-health score. Unavailable comparisons remain neutral. Country
+  selection does not change the scrolling report.
 - `dashboard.html` is the exploration panel. It filters by topic, geography,
   native frequency, period, measure, and text search; it exposes plots,
   comparisons, a monthly view, and the complete filtered observation table.
+  Indicator charts are paginated in groups of eight; only the final page can
+  contain fewer charts.
 
 There are no accounts, API endpoints, stock prices, securities, investment
 factors, proxy-spliced investment histories, database, worker, or paid runtime.
@@ -145,7 +151,7 @@ The focused commands remain available for data and delivery work:
 | `.github/workflows/refresh-data.yml`                                  | Daily/manual refresh, guarded commit, and Pages dispatch.                                |
 | `package.json`, `package-lock.json`                                   | Reproducible commands and dependencies.                                                  |
 | `vite.config.js`, `.gitignore`                                        | Relative-path two-page build and local/generated-file exclusions.                        |
-| `README.md`, `SUBMISSION.md`                                          | Project documentation and four-line course submission.                                   |
+| `README.md`, `SUBMISSION.txt`                                         | Project documentation and four-line course submission.                                   |
 
 ### Tests
 

@@ -1,12 +1,25 @@
 import assert from "node:assert/strict";
 import snapshot from "../public/data/snapshot.json" with { type: "json" };
 import world from "../public/world.json" with { type: "json" };
-import { countries, countryIds, countryReadout } from "../src/countries.js";
+import {
+  countries,
+  countryIds,
+  countryReadout,
+  countryMomentum,
+} from "../src/countries.js";
 import { valueText, unitLabel } from "../src/common.js";
 
 assert.equal(countries.length, 16);
 const byId = new Map(snapshot.series.map((series) => [series.id, series]));
+const momentum = countryMomentum(snapshot);
 for (const country of countries) {
+  const growth = byId.get(`WDI_${country.id}_GDPGROWTH`).observations;
+  const [date, value] = growth.at(-1);
+  const prior = new Map(growth).get(
+    `${Number(date.slice(0, 4)) - 1}${date.slice(4)}`,
+  );
+  assert.equal(momentum.get(country.id).value, value);
+  assert.equal(momentum.get(country.id).change, value - prior);
   assert.ok(
     world.countries.some(({ id }) => id === country.id),
     `${country.id}: actual map geometry`,
@@ -28,6 +41,21 @@ for (const country of countries) {
   }
 }
 const missing = countryReadout({ series: [] }, "CAN");
+assert.equal(countryMomentum({ series: [] }).get("CAN").change, null);
+assert.equal(
+  countryMomentum({
+    series: [
+      {
+        id: "WDI_CAN_GDPGROWTH",
+        observations: [
+          ["2022-12-31", 3],
+          ["2024-12-31", 2],
+        ],
+      },
+    ],
+  }).get("CAN").change,
+  null,
+);
 assert.ok(missing.every(({ value, date }) => value === null && date === null));
 assert.equal(
   countryReadout(

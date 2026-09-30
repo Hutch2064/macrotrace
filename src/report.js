@@ -4,6 +4,7 @@ import {
   escapeHtml as escape,
   format,
   compact,
+  signed,
   dateLabel,
   showError,
 } from "./common.js";
@@ -16,7 +17,13 @@ import { timeChart } from "./time-chart.js";
 import { lazyChart } from "./lazy-chart.js";
 import { renderSourceCatalog } from "./source-catalog.js";
 import { economicGlobe } from "./globe.js";
-import { countries, countryIds, countryReadout } from "./countries.js";
+import {
+  countries,
+  countryIds,
+  countryReadout,
+  globeIds,
+  countryMomentum,
+} from "./countries.js";
 import { loadHistories } from "./data-store.js";
 import { enhanceSelect } from "./select.js";
 
@@ -24,6 +31,7 @@ const charts = [];
 let mounted = false;
 let snapshot,
   globe,
+  globeReadings = new Map(),
   country = "USA",
   countryRevision = 0,
   countryMotion;
@@ -33,6 +41,18 @@ select.replaceChildren(
 );
 enhanceSelect(select);
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+function renderMapNote() {
+  const reading = globeReadings.get(country);
+  const cadence =
+    country === "USA"
+      ? "U.S. releases · monthly and quarterly observations"
+      : "World Bank annual indicators · published years vary";
+  document.querySelector("#country-note").textContent =
+    cadence +
+    (Number.isFinite(reading?.change)
+      ? ` · Map: real GDP growth ${format(reading.value)}% (${reading.year}), ${signed(reading.change)} pp vs ${Number(reading.year) - 1} · World Bank`
+      : "");
+}
 async function renderCountry(id) {
   const token = ++countryRevision;
   country = id;
@@ -61,10 +81,7 @@ async function renderCountry(id) {
       ],
       { duration: reduced() ? 0 : 650, easing: "cubic-bezier(.22,1,.36,1)" },
     );
-    document.querySelector("#country-note").textContent =
-      id === "USA"
-        ? "U.S. releases · monthly and quarterly observations"
-        : "Comparable World Bank annual indicators · latest published years vary";
+    renderMapNote();
     document.querySelector("#country-description").textContent =
       id === "USA"
         ? "United States: consumer and core PCE inflation are changes in seasonally adjusted price indexes over twelve months. Unemployment is the published rate; real GDP growth compares four quarters. Each date identifies the actual reference period."
@@ -171,6 +188,9 @@ async function render(updated) {
     )
     .join("");
   renderSourceCatalog(snapshot);
+  await loadHistories(snapshot, globeIds);
+  globeReadings = countryMomentum(snapshot);
+  renderMapNote();
   if (!globe) {
     try {
       globe = await economicGlobe(
@@ -179,6 +199,7 @@ async function render(updated) {
           void renderCountry(id).catch((error) =>
             showError(document.querySelector("#headline-metrics"), error),
           ),
+        globeReadings,
       );
       globe.select(country);
     } catch (error) {
@@ -187,6 +208,7 @@ async function render(updated) {
       console.error(error);
     }
   }
+  globe?.setReadings(globeReadings);
 }
 document.addEventListener("snapshot-updated", (event) => {
   void render(event.detail).catch((error) =>

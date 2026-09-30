@@ -19,6 +19,34 @@ export const countries = [
   { id: "IDN", name: "Indonesia", lon: 118, lat: -3 },
 ];
 
+export const globeIds = countries.map(({ id }) => `WDI_${id}_GDPGROWTH`);
+export function countryMomentum(snapshot) {
+  const byId = new Map(snapshot.series.map((series) => [series.id, series]));
+  return new Map(
+    countries.map(({ id }) => {
+      const series = byId.get(`WDI_${id}_GDPGROWTH`);
+      const rows = (series?.observations || []).filter(([, value]) =>
+        Number.isFinite(value),
+      );
+      const latest = rows.at(-1);
+      const prior =
+        latest &&
+        new Map(rows).get(
+          `${Number(latest[0].slice(0, 4)) - 1}${latest[0].slice(4)}`,
+        );
+      return [
+        id,
+        {
+          value: latest?.[1] ?? null,
+          year: latest?.[0].slice(0, 4) ?? null,
+          change: latest && Number.isFinite(prior) ? latest[1] - prior : null,
+          retained: series?.refreshStatus === "upstream-unavailable",
+        },
+      ];
+    }),
+  );
+}
+
 const national = [
   ["Headline CPI", "CPIAUCSL", "yoy", "% YoY"],
   ["Core PCE", "PCEPILFE", "yoy", "% YoY"],

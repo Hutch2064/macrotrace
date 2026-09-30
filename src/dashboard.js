@@ -19,7 +19,7 @@ import { timeChart } from "./time-chart.js";
 import { lazyChart } from "./lazy-chart.js";
 
 const $ = (selector) => document.querySelector(selector);
-const PAGE_SIZE = 6,
+const PAGE_SIZE = 8,
   TABLE_SIZE = 40;
 const priority = [
   "CPIAUCSL",

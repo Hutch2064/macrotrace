@@ -64,6 +64,16 @@ assert.match(refresh, /gh workflow run pages.yml/);
 assert.match(report, /id="economic-globe"/);
 assert.match(report, /id="country-select"/);
 assert.doesNotMatch(report, /Eight signals/);
+assert.match(await readFile("src/dashboard.js", "utf8"), /const PAGE_SIZE = 8/);
+assert.deepEqual(
+  (await readFile("SUBMISSION.txt", "utf8")).trimEnd().split("\n"),
+  [
+    "Aiden Hutchison",
+    "Student ID: 01-09-63-71-4",
+    "https://github.com/Hutch2064/macrotrace",
+    "https://hutch2064.github.io/macrotrace/",
+  ],
+);
 
 console.log(
   "Verified two pages, country globe, report/dashboard DOM contracts, and Pages-only daily publication.",

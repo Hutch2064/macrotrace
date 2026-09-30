@@ -365,7 +365,7 @@ small {
   width: min(100%, 680px);
   height: auto;
   aspect-ratio: 1;
-  touch-action: pan-y;
+  touch-action: none;
   cursor: grab;
 }
 #economic-globe:active {
@@ -382,7 +382,8 @@ small {
 }
 .globe-caption {
   position: absolute;
-  bottom: 3%;
+  bottom: 0;
+  width: 100%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -399,6 +400,21 @@ small {
   margin: 0;
   color: var(--faint);
   font-size: 12px;
+}
+.globe-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  font-size: 11px;
+}
+.globe-legend i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: 4px;
 }
 .country-context {
   position: relative;
@@ -879,7 +895,7 @@ input[type="radio"] {
 }
 .indicator-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 22px;
 }
 .chart-card {

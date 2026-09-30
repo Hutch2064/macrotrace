@@ -1,9 +1,10 @@
 import { countries } from "./countries.js";
+import { format, signed } from "./common.js";
 
 // Orthographic spherical geometry: no WebGL runtime or animation framework.
-export async function economicGlobe(canvas, onSelect) {
+export async function economicGlobe(canvas, onSelect, readings = new Map()) {
   const context = canvas.getContext("2d");
-  if (!context) return { select() {}, destroy() {} };
+  if (!context) return { select() {}, setReadings() {}, destroy() {} };
   const response = await fetch("./world.json");
   if (!response.ok) throw new Error("The world map could not be loaded.");
   const map = await response.json();
@@ -63,6 +64,47 @@ export async function economicGlobe(canvas, onSelect) {
     context.lineWidth = lineWidth;
     context.stroke();
   }
+  function fill(country, color) {
+    context.beginPath();
+    for (const ring of country.paths) {
+      const points = ring.map(project);
+      let previous = points.at(-1),
+        started = false;
+      const add = (x, y) => {
+        if (started) context.lineTo(x, y);
+        else {
+          context.moveTo(x, y);
+          started = true;
+        }
+      };
+      for (const point of points) {
+        if (point[2] >= 0 !== previous[2] >= 0) {
+          const t = previous[2] / (previous[2] - point[2]);
+          const x = previous[0] + t * (point[0] - previous[0]) - width / 2;
+          const y = previous[1] + t * (point[1] - previous[1]) - height / 2;
+          const length = Math.hypot(x, y);
+          if (length)
+            add(
+              width / 2 + (radius * x) / length,
+              height / 2 + (radius * y) / length,
+            );
+        }
+        if (point[2] >= 0) add(point[0], point[1]);
+        previous = point;
+      }
+      context.closePath();
+    }
+    context.fillStyle = color;
+    context.fill("evenodd");
+  }
+  const tone = (id) => {
+    const change = readings.get(id)?.change;
+    return Number.isFinite(change) && change !== 0
+      ? change > 0
+        ? "125,211,167"
+        : "241,151,141"
+      : "183,181,169";
+  };
   const grid = [];
   for (let lat = -60; lat <= 60; lat += 30)
     grid.push(Array.from({ length: 121 }, (_, i) => sphere([i * 3, lat])));
@@ -103,10 +145,14 @@ export async function economicGlobe(canvas, onSelect) {
     for (const points of grid) stroke(points, "rgba(207,185,125,.11)");
     for (const country of outlines) {
       const emphasized = country.id === selected || country.id === hover;
+      const available = Number.isFinite(readings.get(country.id)?.change);
+      if (available) fill(country, `rgba(${tone(country.id)},0.3)`);
       for (const points of country.paths)
         stroke(
           points,
-          emphasized ? "rgba(253,229,182,.95)" : "rgba(207,185,125,.5)",
+          emphasized
+            ? "rgba(253,229,182,.95)"
+            : `rgba(${tone(country.id)},${available ? 0.7 : 0.28})`,
           emphasized ? 1.5 : 0.8,
         );
     }
@@ -116,7 +162,7 @@ export async function economicGlobe(canvas, onSelect) {
       const emphasized = country.id === selected || country.id === hover;
       context.beginPath();
       context.arc(x, y, emphasized ? 5 : 3, 0, Math.PI * 2);
-      context.fillStyle = emphasized ? "#fde5b6" : "#cfb97d";
+      context.fillStyle = emphasized ? "#fde5b6" : `rgb(${tone(country.id)})`;
       context.fill();
       context.beginPath();
       context.arc(x, y, emphasized ? 11 : 7, 0, Math.PI * 2);
@@ -209,7 +255,8 @@ export async function economicGlobe(canvas, onSelect) {
     )?.id;
   }
   listen(canvas, "pointerdown", (event) => {
-    start = { x: event.clientX, y: event.clientY, yaw };
+    if (!event.isPrimary || event.button !== 0) return;
+    start = { x: event.clientX, y: event.clientY, yaw, pitch };
     dragging = false;
     destination = null;
   });
@@ -217,20 +264,28 @@ export async function economicGlobe(canvas, onSelect) {
     if (start) {
       const dx = event.clientX - start.x,
         dy = event.clientY - start.y;
-      if (!dragging && Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
+      if (!dragging && Math.hypot(dx, dy) > 6) {
         dragging = true;
         canvas.setPointerCapture(event.pointerId);
       }
       if (dragging) {
         yaw = start.yaw - dx * 0.006;
+        pitch = Math.max(
+          -Math.PI / 2,
+          Math.min(Math.PI / 2, start.pitch + dy * 0.006),
+        );
         draw();
       }
     } else {
       hover = hit(event);
       canvas.style.cursor = hover ? "pointer" : "grab";
-      canvas.title =
-        countries.find(({ id }) => id === hover)?.name ||
-        "Drag to rotate · choose a highlighted country";
+      canvas.title = hover
+        ? (() => {
+            const name = countries.find(({ id }) => id === hover).name;
+            const reading = readings.get(hover);
+            return `${name} · ${reading?.year || "No annual reading"}${Number.isFinite(reading?.value) ? ` · Real GDP growth ${format(reading.value)}%` : ""}${Number.isFinite(reading?.change) ? ` · ${signed(reading.change)} pp vs ${Number(reading.year) - 1}` : " · Annual comparison unavailable"}${reading?.retained ? " · Retained snapshot" : ""}`;
+          })()
+        : "Drag in any direction · choose a highlighted country";
       draw();
     }
   });
@@ -259,6 +314,16 @@ export async function economicGlobe(canvas, onSelect) {
     draw();
   });
   listen(canvas, "keydown", (event) => {
+    if (["ArrowUp", "ArrowDown"].includes(event.key)) {
+      event.preventDefault();
+      destination = null;
+      pitch = Math.max(
+        -Math.PI / 2,
+        Math.min(Math.PI / 2, pitch + (event.key === "ArrowUp" ? -0.2 : 0.2)),
+      );
+      restart();
+      return;
+    }
     if (!["ArrowLeft", "ArrowRight", "Home"].includes(event.key)) return;
     event.preventDefault();
     const index = countries.findIndex(({ id }) => id === selected);
@@ -292,6 +357,10 @@ export async function economicGlobe(canvas, onSelect) {
   listen(reduced, "change", restart);
   return {
     select,
+    setReadings(updated) {
+      readings = updated;
+      draw();
+    },
     destroy() {
       destroyed = true;
       cancelAnimationFrame(frame);
