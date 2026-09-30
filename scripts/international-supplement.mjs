@@ -647,7 +647,7 @@ function makeDgbasSeries({ indicator, parsed, checkedAt }) {
     sourceHash: parsed.sourceHash,
     metadataHash: parsed.metadataHash,
     checkedAt,
-    ...(parsed.preparedAt ? { providerUpdatedAt: parsed.preparedAt } : {}),
+    ...(parsed.preparedAt ? { responsePreparedAt: parsed.preparedAt } : {}),
     providerPrepared: parsed.preparedRaw,
     sourceAsOf: observations.at(-1)[0],
     sourceDefinition: indicator.sourceDefinition,
@@ -705,8 +705,8 @@ function makeDgbasInflationSeries({ cpiSeries, checkedAt }) {
     sourceHash: cpiSeries.sourceHash,
     metadataHash: cpiSeries.metadataHash,
     checkedAt,
-    ...(cpiSeries.providerUpdatedAt
-      ? { providerUpdatedAt: cpiSeries.providerUpdatedAt }
+    ...(cpiSeries.responsePreparedAt
+      ? { responsePreparedAt: cpiSeries.responsePreparedAt }
       : {}),
     providerPrepared: cpiSeries.providerPrepared,
     sourceAsOf: observations.at(-1)[0],
@@ -855,8 +855,8 @@ async function fetchDgbasProvider({
       invalidValues: 0,
     });
   const entries = results.flatMap(({ series }) => (series ? [series] : []));
-  audit.providerUpdatedAt = entries
-    .map(({ providerUpdatedAt }) => providerUpdatedAt)
+  audit.responsePreparedAt = entries
+    .map(({ responsePreparedAt }) => responsePreparedAt)
     .filter(Boolean)
     .sort()
     .at(-1);

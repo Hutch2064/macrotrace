@@ -371,6 +371,8 @@ const dgbasGdp = refreshed.series.find(
   ({ id }) => id === "DGBAS_TWN_GDP_NOMINAL",
 );
 assert.equal(dgbasGdp.unit, "million USD");
+assert.equal(dgbasGdp.providerUpdatedAt, undefined);
+assert.equal(dgbasGdp.responsePreparedAt, "2026-08-31T16:00:00.000Z");
 assert.deepEqual(
   dgbasGdp.observations.at(-2),
   ["2024-12-31", 801529],
