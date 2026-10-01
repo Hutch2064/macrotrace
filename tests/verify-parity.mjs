@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import snapshot from "../public/data/snapshot.json" with { type: "json" };
+import { readSnapshot } from "../scripts/snapshot.mjs";
+const snapshot = readSnapshot();
 import { buildMacroReport } from "../src/macro-report.js";
 import { transformSeries } from "../src/panel.js";
 

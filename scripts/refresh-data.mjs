@@ -1,23 +1,33 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { fredSeries } from "./catalog.mjs";
 import { extendedFredSeries } from "./extended-macro-catalog.mjs";
+import { additionalFredSeries } from "./us-macro-expansion.mjs";
+import { additionalInternationalFredSeries } from "./international-macro-expansion.mjs";
+import { fetchBisMacro } from "./bis-macro.mjs";
+import { fetchEurostatMacro } from "./eurostat-macro.mjs";
+import { fetchResearchMacro } from "./research-macro.mjs";
+import { fetchImfMacro } from "./imf-macro.mjs";
 import { fetchCommodityHistorySeries } from "./commodity-history.mjs";
 import { fetchWorldDevelopmentSeries } from "./world-development.mjs";
 import { fetchInternationalSupplement } from "./international-supplement.mjs";
 import { fetchTerritoryData } from "./territory-data.mjs";
 import { fetchShillerHousing } from "./shiller-history.mjs";
 import { isMacroSeries, normalizeMacroSeries } from "./macro-scope.mjs";
+import { readSnapshot, compactSnapshot } from "./snapshot.mjs";
 
 const fredStart = "1000-01-01";
 const pruneOnly = process.argv.includes("--prune-only");
 const countriesOnly = process.argv.includes("--countries-only");
 const supplementsOnly = process.argv.includes("--supplements-only");
 const territoriesOnly = process.argv.includes("--territories-only");
-const previous = JSON.parse(
-  await readFile("public/data/snapshot.json", "utf8").catch(
-    () => '{"series":[]}',
-  ),
-);
+const expansionOnly = process.argv.includes("--expansion-only");
+const allFredSeries = [
+  ...fredSeries,
+  ...extendedFredSeries,
+  ...additionalFredSeries,
+  ...additionalInternationalFredSeries,
+];
+const previous = readSnapshot();
 const previousById = new Map(
   (previous.series || []).map((series) => [series.id, series]),
 );
@@ -60,7 +70,12 @@ async function fetchFred([
   metadata = {},
 ]) {
   const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}&cosd=${fredStart}`;
-  const response = await fetch(url, { signal: AbortSignal.timeout(45000) });
+  const response = await fetch(url, {
+    headers: {
+      "User-Agent": "MacroTrace/1.0 (+https://hutch2064.github.io/macrotrace/)",
+    },
+    signal: AbortSignal.timeout(45000),
+  });
   if (!response.ok) throw new Error(`FRED ${id}: ${response.status}`);
   return {
     id,
@@ -145,7 +160,13 @@ async function fetchDataset(dataset, fetcher) {
           .map(({ id }) => id),
       );
     }
-    return (Array.isArray(result) ? result : result.series)
+    const entries = Array.isArray(result) ? result : result.series;
+    failures.push(
+      ...entries
+        .filter((entry) => entry.refreshStatus)
+        .map((entry) => entry.id),
+    );
+    return entries
       .map((series) => ({ ...series, dataset }))
       .filter(isMacroSeries);
   } catch (error) {
@@ -166,12 +187,14 @@ async function fetchDataset(dataset, fetcher) {
 }
 
 function normalizeAll(series) {
-  const specs = new Map(
-    [...fredSeries, ...extendedFredSeries].map((spec) => [spec[0], spec]),
-  );
+  const specs = new Map(allFredSeries.map((spec) => [spec[0], spec]));
   return series
     .map((entry) => {
       const spec = specs.get(entry.id);
+      const country = countries.find(
+        (country) =>
+          country.id === (spec?.[6]?.countryCode || entry.countryCode),
+      );
       return normalizeMacroSeries(
         spec
           ? {
@@ -181,8 +204,20 @@ function normalizeAll(series) {
               unit: spec[3],
               frequency: spec[4],
               ...spec[6],
+              ...(country
+                ? {
+                    country: country.name,
+                    geography: country.id === "USA" ? "US" : country.name,
+                  }
+                : {}),
             }
-          : entry,
+          : country
+            ? {
+                ...entry,
+                country: country.name,
+                geography: country.id === "USA" ? "US" : country.name,
+              }
+            : entry,
       );
     })
     .filter(Boolean);
@@ -265,10 +300,83 @@ const territoryFetcher = () =>
     previousSeries: previous.series,
     previousCountries: previous.countries,
   });
+const expansionDatasets = [
+  "bis-macro",
+  "eurostat-macro",
+  "research-macro",
+  "imf-macro",
+];
+async function fetchExpansion() {
+  const parts = await Promise.all([
+    fetchDataset("bis-macro", () =>
+      fetchBisMacro({ previousSeries: previous.series, countries }),
+    ),
+    fetchDataset("eurostat-macro", () =>
+      fetchEurostatMacro({ previousSeries: previous.series, countries }),
+    ),
+    fetchDataset("research-macro", () =>
+      fetchResearchMacro({ previousSeries: previous.series }),
+    ),
+    fetchDataset("imf-macro", () =>
+      fetchImfMacro({ previousSeries: previous.series, countries }),
+    ),
+  ]);
+  return parts.flat();
+}
 if (pruneOnly) {
   // Offline scope migration: preserve every retained observation byte-for-byte
   // and retain the prior generation timestamp; no source is fetched.
   sourceSeries = normalizeAll((previous.series || []).filter(isMacroSeries));
+} else if (process.argv.includes("--imf-only")) {
+  const imf = await fetchDataset("imf-macro", () =>
+    fetchImfMacro({ previousSeries: previous.series, countries }),
+  );
+  sourceSeries = dedupe(
+    normalizeAll([
+      ...previous.series.filter((entry) => entry.dataset !== "imf-macro"),
+      ...imf,
+    ]),
+  );
+  failures.push(
+    ...(previous.refreshFailures || []).filter(
+      (id) => !id.startsWith("IMF_WEO_"),
+    ),
+  );
+} else if (expansionOnly) {
+  const development = await fetchDataset(
+    "worldbank-development",
+    developmentFetcher,
+  );
+  const additions = [
+    ...additionalFredSeries,
+    ...additionalInternationalFredSeries,
+  ].filter(isMacroSeries);
+  const [macro, expanded] = await Promise.all([
+    mapWithConcurrency(additions, fetchFred),
+    fetchExpansion(),
+  ]);
+  const replaced = new Set(macro.map((entry) => entry.id));
+  sourceSeries = dedupe(
+    normalizeAll([
+      ...previous.series.filter(
+        (entry) =>
+          entry.dataset !== "worldbank-development" &&
+          !expansionDatasets.includes(entry.dataset) &&
+          !replaced.has(entry.id),
+      ),
+      ...development,
+      ...macro,
+      ...expanded,
+    ]),
+  );
+  failures.push(
+    ...(previous.refreshFailures || []).filter(
+      (id) =>
+        !replaced.has(id) &&
+        !id.startsWith("WDI_") &&
+        !expansionDatasets.includes(previousById.get(id)?.dataset),
+    ),
+  );
 } else if (territoriesOnly) {
   const territories = await fetchDataset(
     "regional-territories",
@@ -324,9 +432,7 @@ if (pruneOnly) {
 } else {
   // The allowlist is applied before any network call. Removed Yahoo, factor,
   // Damodaran, and proxy histories therefore cannot be retried or refetched.
-  const fredCatalog = [...fredSeries, ...extendedFredSeries].filter(
-    isMacroSeries,
-  );
+  const fredCatalog = allFredSeries.filter(isMacroSeries);
   const [
     macro,
     commodities,
@@ -350,6 +456,7 @@ if (pruneOnly) {
       ...development,
       ...supplement,
       ...territories,
+      ...(await fetchExpansion()),
     ]),
   );
 }
@@ -408,7 +515,10 @@ const snapshot = {
 };
 
 await mkdir("public/data", { recursive: true });
-await writeFile("public/data/snapshot.json", `${JSON.stringify(snapshot)}\n`);
+await writeFile(
+  "public/data/snapshot.json",
+  `${JSON.stringify(compactSnapshot(snapshot))}\n`,
+);
 await writeFile(
   "public/data/version.json",
   `${JSON.stringify({ generatedAt: snapshot.generatedAt })}\n`,

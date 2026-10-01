@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readSnapshot } from "../scripts/snapshot.mjs";
 import {
   REPORT_CANDIDATES,
   REPORT_IDS,
@@ -9,9 +9,7 @@ import {
 } from "../src/macro-report.js";
 import { transformSeries } from "../src/panel.js";
 
-const snapshot = JSON.parse(
-  await readFile(new URL("../public/data/snapshot.json", import.meta.url)),
-);
+const snapshot = readSnapshot();
 
 const byId = new Map(snapshot.series.map((series) => [series.id, series]));
 const source = (id) => byId.get(id);

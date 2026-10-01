@@ -1,6 +1,9 @@
 import { readFile } from "node:fs/promises";
+import { readSnapshot } from "../scripts/snapshot.mjs";
 import { fredSeries } from "../scripts/catalog.mjs";
 import { extendedFredSeries } from "../scripts/extended-macro-catalog.mjs";
+import { additionalFredSeries } from "../scripts/us-macro-expansion.mjs";
+import { additionalInternationalFredSeries } from "../scripts/international-macro-expansion.mjs";
 import {
   canonicalMacroCategory,
   isMacroSeries,
@@ -9,9 +12,7 @@ import {
   macroFrequencies,
 } from "../scripts/macro-scope.mjs";
 
-const snapshot = JSON.parse(
-  await readFile("public/data/snapshot.json", "utf8"),
-);
+const snapshot = readSnapshot();
 const version = JSON.parse(await readFile("public/data/version.json", "utf8"));
 if (!snapshot.generatedAt || version.generatedAt !== snapshot.generatedAt)
   throw new Error("Version manifest does not match the data snapshot.");
@@ -71,8 +72,46 @@ for (const series of snapshot.series) {
   const isWdi = series.id.startsWith("WDI_");
   const isCountrySource =
     isWdi ||
+    series.dataset === "imf-macro" ||
     series.dataset === "international-supplement" ||
     series.dataset === "regional-territories";
+  if (
+    ["bis-macro", "eurostat-macro", "research-macro", "imf-macro"].includes(
+      series.dataset,
+    )
+  ) {
+    if (
+      !(series.sourceHash || series.sourceRequest) ||
+      !series.sourceDefinition ||
+      !series.sourceOrganization ||
+      !series.methodology ||
+      !series.checkedAt
+    )
+      throw new Error(`Incomplete expanded source provenance: ${series.id}.`);
+  }
+  if (
+    series.dataset === "imf-macro" &&
+    (!Number.isInteger(series.actualCutoff) ||
+      series.observations.some(
+        ([date]) => Number(date.slice(0, 4)) > series.actualCutoff,
+      ))
+  )
+    throw new Error(`IMF actual cutoff not enforced: ${series.id}.`);
+  if (
+    series.id.startsWith("EUROSTAT_EA20_") &&
+    series.geography !== "Euro Area"
+  )
+    throw new Error(`Euro area aggregate assigned to a country: ${series.id}.`);
+  if (series.id === "NYFED_GSCPI" && series.geography !== "Global")
+    throw new Error("The global supply-chain index is not a U.S.-only series.");
+  if (
+    series.dataset === "imf-macro" &&
+    ["BCA", "GGXCNL", "GGXONLB"].includes(series.sourceIndicator) &&
+    (series.changeType !== "points" || series.signed !== true)
+  )
+    throw new Error(
+      `Signed IMF balance requires native-unit differences: ${series.id}.`,
+    );
   if (series.dataset === "regional-territories") {
     const country = countriesById.get(series.countryCode);
     if (
@@ -152,7 +191,9 @@ for (const series of snapshot.series) {
     !series.sourceUrl ||
     !series.unit ||
     !macroFrequencies.includes(series.frequency) ||
-    (!isCountrySource && !macroGeographies.includes(series.geography)) ||
+    (!isCountrySource &&
+      !macroGeographies.includes(series.geography) &&
+      !wdiGeographies.has(series.geography)) ||
     (isCountrySource && !wdiGeographies.has(series.geography))
   )
     throw new Error(`Incomplete normalized macro metadata for ${series.id}.`);
@@ -230,9 +271,12 @@ if (wdiCount < 1 || existingCount < 24)
     `Expected at least one WDI history and 24 existing macro histories; received ${wdiCount} and ${existingCount}.`,
   );
 
-const fredCatalog = [...fredSeries, ...extendedFredSeries].filter(
-  isMacroSeries,
-);
+const fredCatalog = [
+  ...fredSeries,
+  ...extendedFredSeries,
+  ...additionalFredSeries,
+  ...additionalInternationalFredSeries,
+].filter(isMacroSeries);
 for (const [id, geography] of [
   ["SPPOP65UPTOZSWLD", "Global"],
   ["NYGDPMKTPCDWLD", "Global"],

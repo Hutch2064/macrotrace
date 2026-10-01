@@ -32,10 +32,12 @@ const countryCode = (series) =>
 const isWdiSeries = (series) =>
   Boolean(
     text(series?.id).startsWith("WDI_") ||
-    (series?.sourceIndicator && countryCode(series)) ||
     (series?.sourceFamily === "World Development Indicators" &&
       countryCode(series)),
   );
+
+const isGroupedIndicator = (series) =>
+  isWdiSeries(series) || Boolean(countryCode(series) && series?.indicatorName);
 
 const pointDate = (point) => {
   if (Array.isArray(point)) return text(point[0]);
@@ -96,7 +98,7 @@ const sourceAnchor = (series, label, className = "") => {
 };
 
 const familyKeyFor = (series) =>
-  `${text(series?.category, "Other economic indicators")}\u0000${text(series?.sourceFamily || series?.source || series?.provider)}\u0000${indicatorCode(series)}`;
+  `${text(series?.category, "Other economic indicators")}\u0000${text(series?.sourceFamily || series?.source || series?.provider)}\u0000${indicatorCode(series)}\u0000${text(series?.indicatorName)}\u0000${text(series?.unit)}\u0000${text(series?.frequency)}`;
 
 function countryNameFor(series, countriesById) {
   const code = countryCode(series);
@@ -246,7 +248,7 @@ function renderLegacyRows(entries) {
 }
 
 function familyCount(entries) {
-  return new Set(entries.filter(isWdiSeries).map(familyKeyFor)).size;
+  return new Set(entries.filter(isGroupedIndicator).map(familyKeyFor)).size;
 }
 
 function formatCount(value) {
@@ -355,7 +357,7 @@ export function renderSourceCatalog(snapshot) {
       const families = new Map();
       const legacy = [];
       for (const entry of entries) {
-        if (!isWdiSeries(entry)) {
+        if (!isGroupedIndicator(entry)) {
           legacy.push(entry);
           continue;
         }

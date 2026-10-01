@@ -44,7 +44,9 @@ and missing periods are not filled or interpolated.
 The current macro scope combines public FRED economic indicators, World Bank
 Pink Sheet commodity reference prices, World Development Indicators,
 UN Statistics Division and Pacific Community national accounts, Taiwan DGBAS,
-official territorial statistics, IMF WEO actuals, and the
+official territorial statistics, IMF WEO actuals, BIS, Eurostat, OECD releases
+distributed through FRED, the NY Fed supply-chain index, the Jordà–Schularick–Taylor
+Macrohistory Database, and the
 two retained Shiller annual housing indexes. FRED distributes many series but
 is not necessarily the original author; each row keeps the relevant provider
 and attribution. Pink Sheet values are nominal monthly averages or source
@@ -52,12 +54,34 @@ indexes, not futures returns. World Bank and Shiller annual histories retain
 their source-year semantics. Archived or lagged provider tails remain labeled
 and are not silently made current.
 
-World Development Indicators supplies 32 annual indicator families for the
+World Development Indicators supplies 92 annual indicator families for the
 World Bank's complete non-aggregate roster of 217 economies: output and income,
 inflation, employment, population, sector composition, trade, investment,
 credit, money, reserves, remittances, external debt, and public finances.
 Availability varies by indicator. UN and Pacific Community sources supplement
 territories missing from that roster and provide additional national accounts.
+The additional families cover expenditure accounts, fiscal balances and debt
+service, external balances, exchange rates, banking conditions, labor composition,
+demographics, education, research, energy, and emissions.
+
+BIS bulk releases add policy rates, consumer prices, credit and credit gaps,
+debt-service ratios, residential and commercial property prices, effective
+exchange rates, central-bank assets, and global liquidity. Source dimensions,
+base years, borrower sectors, currency scales, and compilation notes remain attached
+to each series. Eurostat adds monthly production, retail sales and unemployment,
+quarterly GDP components and growth contributions, government accounts, and external
+accounts. Additional FRED releases cover U.S. expenditure contributions, income,
+savings, wages, capacity utilization, lending surveys, energy quantities, and regional
+business surveys; international releases include harmonized inflation, activity,
+confidence, and leading indicators.
+
+The NY Fed Global Supply Chain Pressure Index is checked for new monthly releases.
+The JST R6 macro histories are an explicitly historical research archive: 18 advanced
+economies, with annual observations from 1870 through 2020 where available. Its
+29 selected variables exclude stock returns and investment portfolios. Population is
+reported in thousands; monetary series retain the published national-currency scales.
+The JST archive is licensed CC BY-NC-SA 4.0 and attributed in the inventory; this
+free academic project does not convert it into commercial or live data.
 Taiwan's primary readings come directly from its Directorate-General of Budget,
 Accounting and Statistics (DGBAS). Annual CPI inflation is derived only from
 adjacent published positive CPI indexes; the source index is retained separately.
@@ -137,8 +161,12 @@ the bot does not rely on another workflow triggering automatically.
 
 `scripts/build-data.mjs` writes a metadata catalog and complete,
 SHA-256-addressed history chunks. Country histories share one lossless bundle
-per WDI indicator, so comparing many economies does not require one request per
-economy. Shared source metadata is stored once per indicator. The browser loads static files only and
+per WDI indicator; non-daily BIS and Eurostat histories share topic/frequency
+bundles, and IMF/JST histories share indicator/unit/frequency bundles,
+so comparing many economies does not require one request per
+economy. Identical source metadata is stored once per template, and the reviewed
+snapshot also stores shared WDI definitions once. Both formats reconstruct every
+original metadata field and observation without rounding. The browser loads static files only and
 requests the histories needed by the report or current panel view. Verified
 histories are retained in bounded 64 MiB memory and IndexedDB caches; concurrent requests for
 the same history are shared. Storage failure falls back to static network
@@ -174,6 +202,11 @@ The focused commands remain available for data and delivery work:
 
 ## Repository map
 
+`tests/run.mjs` runs every focused `tests/verify-*.mjs` file: provider parsers
+and outage fixtures, source eligibility and provenance, lossless delivery and
+cache integrity, panel/report calculations and parity, country coverage,
+globe interactions and rendering, geography search, and the two-page site contract.
+
 ### Pages and application
 
 | Path                                                        | Purpose                                                                                                                                   |
@@ -195,29 +228,35 @@ The focused commands remain available for data and delivery work:
 
 ### Data and automation
 
-| Path                                                                  | Purpose                                                                                                                |
-| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `public/data/snapshot.json`                                           | Reviewed macro snapshot source of truth.                                                                               |
-| `public/data/version.json`                                            | Snapshot freshness manifest.                                                                                           |
-| `public/data/source-inventory.csv`, `public/data/source-inventory.md` | Generated current source inventory.                                                                                    |
-| `public/data/country-coverage.json`                                   | Machine-readable economy, indicator, coverage, and freshness audit.                                                    |
-| `public/data/geographic-coverage.json`                                | Geographic coverage against ISO and UN M49, independent of statistics availability.                                    |
-| `scripts/build-data.mjs`                                              | Packs complete histories into hashed runtime files.                                                                    |
-| `scripts/refresh-data.mjs`                                            | Fetches, validates, normalizes, and writes public data.                                                                |
-| `scripts/macro-scope.mjs`                                             | Shared macro eligibility and metadata normalization.                                                                   |
-| `scripts/catalog.mjs`, `scripts/extended-macro-catalog.mjs`           | FRED catalogues and source metadata.                                                                                   |
-| `scripts/commodity-history.mjs`                                       | World Bank Pink Sheet parser and provenance.                                                                           |
-| `scripts/shiller-history.mjs`                                         | Retained Shiller housing parser and provenance.                                                                        |
-| `scripts/world-development.mjs`                                       | Dynamic World Bank roster, paginated annual observations, source metadata, and per-indicator fallback.                 |
-| `scripts/international-supplement.mjs`                                | UN, Pacific Community, Taiwan DGBAS, and actual-only IMF histories with native units and cache fallback.               |
-| `scripts/territory-data.mjs`                                          | Official territorial releases, latest-resource discovery, native-period parsing, and provider-isolated cache fallback. |
-| `scripts/build-map.mjs`, `public/world.json`                          | Rebuild script and bundled Natural Earth country outlines; independent of economic data.                               |
-| `public/favicon.svg`                                                  | MacroTrace mark.                                                                                                       |
-| `.github/workflows/pages.yml`                                         | GitHub Pages build and deployment.                                                                                     |
-| `.github/workflows/refresh-data.yml`                                  | Daily/manual refresh, guarded commit, and Pages dispatch.                                                              |
-| `package.json`, `package-lock.json`                                   | Reproducible commands and dependencies.                                                                                |
-| `vite.config.js`, `.gitignore`                                        | Relative-path two-page build and local/generated-file exclusions.                                                      |
-| `README.md`, `SUBMISSION.txt`                                         | Project documentation and four-line course submission.                                                                 |
+| Path                                                                          | Purpose                                                                                                                |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `public/data/snapshot.json`                                                   | Reviewed macro snapshot source of truth.                                                                               |
+| `public/data/version.json`                                                    | Snapshot freshness manifest.                                                                                           |
+| `public/data/source-inventory.csv`, `public/data/source-inventory.md`         | Generated current source inventory.                                                                                    |
+| `public/data/country-coverage.json`                                           | Machine-readable economy, indicator, coverage, and freshness audit.                                                    |
+| `public/data/geographic-coverage.json`                                        | Geographic coverage against ISO and UN M49, independent of statistics availability.                                    |
+| `scripts/build-data.mjs`                                                      | Packs complete histories into hashed runtime files.                                                                    |
+| `scripts/snapshot.mjs`                                                        | Lossless reviewed-snapshot metadata packing and reconstruction.                                                        |
+| `scripts/refresh-data.mjs`                                                    | Fetches, validates, normalizes, and writes public data.                                                                |
+| `scripts/macro-scope.mjs`                                                     | Shared macro eligibility and metadata normalization.                                                                   |
+| `scripts/catalog.mjs`, `scripts/extended-macro-catalog.mjs`                   | FRED catalogues and source metadata.                                                                                   |
+| `scripts/us-macro-expansion.mjs`, `scripts/international-macro-expansion.mjs` | Additional verified U.S., Eurostat and OECD FRED catalogues.                                                           |
+| `scripts/bis-macro.mjs`                                                       | Official BIS bulk ZIP/CSV parsing, dimensions, native frequencies, and topic-isolated retained cache.                  |
+| `scripts/eurostat-macro.mjs`                                                  | Eurostat JSON-stat parsing, fixed dimension selections, and native-period refresh.                                     |
+| `scripts/imf-macro.mjs`                                                       | Full-roster WEO release discovery, native units, and row-specific actual-only cutoffs.                                 |
+| `scripts/research-macro.mjs`                                                  | JST R6 historical macro archive and monthly NY Fed supply-chain pressure index.                                        |
+| `scripts/commodity-history.mjs`                                               | World Bank Pink Sheet parser and provenance.                                                                           |
+| `scripts/shiller-history.mjs`                                                 | Retained Shiller housing parser and provenance.                                                                        |
+| `scripts/world-development.mjs`                                               | Dynamic World Bank roster, paginated annual observations, source metadata, and per-indicator fallback.                 |
+| `scripts/international-supplement.mjs`                                        | UN, Pacific Community, Taiwan DGBAS, and actual-only IMF histories with native units and cache fallback.               |
+| `scripts/territory-data.mjs`                                                  | Official territorial releases, latest-resource discovery, native-period parsing, and provider-isolated cache fallback. |
+| `scripts/build-map.mjs`, `public/world.json`                                  | Rebuild script and bundled Natural Earth country outlines; independent of economic data.                               |
+| `public/favicon.svg`                                                          | MacroTrace mark.                                                                                                       |
+| `.github/workflows/pages.yml`                                                 | GitHub Pages build and deployment.                                                                                     |
+| `.github/workflows/refresh-data.yml`                                          | Daily/manual refresh, guarded commit, and Pages dispatch.                                                              |
+| `package.json`, `package-lock.json`                                           | Reproducible commands and dependencies.                                                                                |
+| `vite.config.js`, `.gitignore`                                                | Relative-path two-page build and local/generated-file exclusions.                                                      |
+| `README.md`, `SUBMISSION.txt`                                                 | Project documentation and four-line course submission.                                                                 |
 
 ### Tests
 

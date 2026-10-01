@@ -2,8 +2,66 @@ import assert from "node:assert/strict";
 import {
   countryRoster,
   fetchPages,
+  indicators,
   observationsFor,
 } from "../scripts/world-development.mjs";
+import { transformSeries } from "../src/panel.js";
+
+assert.equal(
+  indicators.length,
+  92,
+  "the WDI catalog includes 60 verified expansions",
+);
+assert.equal(
+  new Set(indicators.map(([key]) => key)).size,
+  indicators.length,
+  "WDI indicator keys remain stable and unique",
+);
+assert.equal(
+  new Set(indicators.map(([, indicator]) => indicator)).size,
+  indicators.length,
+  "WDI source indicator IDs remain unique",
+);
+for (const [, indicator, label, unit, changeType, category] of indicators) {
+  assert.ok(indicator && label && unit && changeType && category);
+  assert.match(indicator, /^[A-Z0-9_.]+$/);
+  assert.ok(
+    [
+      "Credit",
+      "Currencies",
+      "Commodities",
+      "Demography",
+      "Fiscal",
+      "Growth",
+      "Housing",
+      "Inflation",
+      "Labor",
+      "Productivity",
+      "Rates",
+    ].includes(category),
+    `unsupported WDI category: ${category}`,
+  );
+}
+const expectedExpansion = new Map(
+  indicators.slice(32).map(([key, indicator]) => [key, indicator]),
+);
+for (const [key, indicator] of [
+  ["GOV_NET_LENDING", "GC.NLD.TOTL.GD.ZS"],
+  ["GOV_INTEREST_REVENUE", "GC.XPN.INTP.RV.ZS"],
+  ["DEBT_SERVICE_EXPORTS", "DT.TDS.DECT.EX.ZS"],
+  ["RESERVES_IMPORTS", "FI.RES.TOTL.MO"],
+  ["FX_REER", "PX.REX.REER"],
+  ["LFPR_FEMALE", "SL.TLF.CACT.FE.ZS"],
+  ["POP_WORKING_AGE", "SP.POP.1564.TO.ZS"],
+  ["RD_SPENDING", "GB.XPD.RSDV.GD.ZS"],
+  ["CARBON_INTENSITY", "EN.GHG.CO2.RT.GDP.KD"],
+])
+  assert.equal(expectedExpansion.get(key), indicator);
+for (const key of ["CURRENT_ACCOUNT_USD", "NET_TRADE_USD"]) {
+  const definition = indicators.find(([candidate]) => candidate === key);
+  assert.equal(definition[4], "points");
+  assert.deepEqual(definition[6], { semantic: "point", signed: true });
+}
 
 // Country metadata is source-derived.  Aggregation rows are deliberately not
 // economies, while zero is a valid coordinate (and must not become null).
@@ -11,6 +69,7 @@ const roster = countryRoster([
   {
     id: "AAA",
     name: "Alpha",
+    iso2Code: "AA",
     region: { id: "SSF", value: " Sub-Saharan Africa " },
     incomeLevel: { value: "Lower middle income" },
     longitude: "0",
@@ -19,6 +78,7 @@ const roster = countryRoster([
   {
     id: "BBB",
     name: "Beta",
+    iso2Code: "BB",
     region: { id: "ECS", value: " Europe & Central Asia " },
     incomeLevel: { value: "High income" },
     longitude: "",
@@ -27,6 +87,7 @@ const roster = countryRoster([
   {
     id: "CCC",
     name: "Gamma",
+    iso2Code: "CC",
     region: { id: "LAC", value: " Latin America & Caribbean " },
     incomeLevel: { value: "Upper middle income" },
     longitude: "not-a-coordinate",
@@ -35,6 +96,7 @@ const roster = countryRoster([
   {
     id: "AGG",
     name: "An aggregate",
+    iso2Code: "AG",
     region: { id: "NA", value: "Aggregates" },
     incomeLevel: { value: "Aggregates" },
     longitude: "10",
@@ -52,6 +114,7 @@ assert.deepEqual(
     id: "AAA",
     name: "Alpha",
     sourceName: "Alpha",
+    iso2Code: "AA",
     region: "Sub-Saharan Africa",
     incomeLevel: "Lower middle income",
     lon: 0,
@@ -63,6 +126,8 @@ assert.equal(roster.find(({ id }) => id === "BBB").lon, null);
 assert.equal(roster.find(({ id }) => id === "BBB").lat, null);
 assert.equal(roster.find(({ id }) => id === "CCC").lon, null);
 assert.equal(roster.find(({ id }) => id === "CCC").lat, null);
+assert.equal(roster.find(({ id }) => id === "BBB").iso2Code, "BB");
+assert.equal(roster.find(({ id }) => id === "CCC").iso2Code, "CC");
 
 const inflationIndicator = "FP.CPI.TOTL.ZG";
 const rows = [
@@ -139,6 +204,64 @@ assert.deepEqual(
     ["2022-12-31", 500],
   ],
   "only finite, completed, non-forecast rows are retained and sorted",
+);
+
+const signedTradeIndicator = "BN.GSR.GNFS.CD";
+assert.deepEqual(
+  observationsFor(
+    [
+      {
+        countryiso3code: "AAA",
+        indicator: { id: signedTradeIndicator },
+        date: "2021",
+        value: 0,
+      },
+      {
+        countryiso3code: "AAA",
+        indicator: { id: signedTradeIndicator },
+        date: "2022",
+        value: -100,
+      },
+      {
+        countryiso3code: "AAA",
+        indicator: { id: signedTradeIndicator },
+        date: "2023",
+        value: null,
+      },
+    ],
+    "AAA",
+    signedTradeIndicator,
+    2025,
+  ),
+  [
+    ["2021-12-31", 0],
+    ["2022-12-31", -100],
+  ],
+  "signed external-flow observations retain zero and negative values",
+);
+assert.deepEqual(
+  transformSeries(
+    {
+      id: "WDI_AAA_NET_TRADE_USD",
+      name: "Net trade in goods and services · Alpha",
+      category: "Growth",
+      frequency: "annual",
+      unit: "current USD",
+      changeType: "points",
+      semantic: "point",
+      signed: true,
+      observations: [
+        ["2021-12-31", 0],
+        ["2022-12-31", -100],
+      ],
+    },
+    { measure: "yoy" },
+  ),
+  [
+    { date: "2021-12-31", raw: 0, value: null, unit: "current USD" },
+    { date: "2022-12-31", raw: -100, value: -100, unit: "current USD" },
+  ],
+  "signed monetary flows use native point differences across a zero baseline",
 );
 
 assert.throws(

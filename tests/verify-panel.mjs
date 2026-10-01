@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import snapshot from "../public/data/snapshot.json" with { type: "json" };
+import { readSnapshot } from "../scripts/snapshot.mjs";
+const snapshot = readSnapshot();
 import { filterSeries, transformSeries } from "../src/panel.js";
 
 const close = (actual, expected, tolerance = 1e-10) =>

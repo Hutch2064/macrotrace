@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import snapshot from "../public/data/snapshot.json" with { type: "json" };
+import { readSnapshot, expandSnapshot } from "../scripts/snapshot.mjs";
+const snapshot = readSnapshot();
 import world from "../public/world.json" with { type: "json" };
 import {
   countriesFor,
@@ -9,9 +10,11 @@ import {
   countryMomentum,
 } from "../src/countries.js";
 
-const runtime = JSON.parse(
-  await readFile(
-    new URL("../public/data/runtime/catalog.json", import.meta.url),
+const runtime = expandSnapshot(
+  JSON.parse(
+    await readFile(
+      new URL("../public/data/runtime/catalog.json", import.meta.url),
+    ),
   ),
 );
 const countries = countriesFor(snapshot);

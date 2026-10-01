@@ -220,7 +220,11 @@ function geographyFor(series) {
   const id = text(series.id);
   const category = text(series.category);
   const dataset = text(series.dataset);
+  if (id.startsWith("EUROSTAT_EA20_")) return "Euro Area";
+  if (id === "NYFED_GSCPI") return "Global";
   if (series.countryCode && series.geography) return series.geography;
+  if (["Global", "Euro Area"].includes(series.geography))
+    return series.geography;
   if (FX_IDS.has(id) || category === "Currencies") return "FX";
   if (id === "CLVMNACSCAB1GQEA19") return "Euro Area";
   if (

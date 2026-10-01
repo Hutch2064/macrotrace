@@ -43,9 +43,8 @@ const renderCard = new Function(
   "state",
   `return ${cardTemplate}`,
 );
-const snapshot = JSON.parse(
-  await readFile("public/data/snapshot.json", "utf8"),
-);
+const { readSnapshot } = await import("../scripts/snapshot.mjs");
+const snapshot = readSnapshot();
 for (const id of [
   "WDI_LBN_GOV_REVENUE",
   "WDI_MNG_GOV_DEBT",

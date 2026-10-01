@@ -3,9 +3,17 @@ import { readFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
 import { indexedDB, IDBFactory } from "fake-indexeddb";
+import {
+  readSnapshot,
+  compactSnapshot,
+  expandSnapshot,
+} from "../scripts/snapshot.mjs";
 
-const snapshot = JSON.parse(
-  await readFile("public/data/snapshot.json", "utf8"),
+const snapshot = readSnapshot();
+assert.deepEqual(
+  expandSnapshot(compactSnapshot(snapshot)),
+  snapshot,
+  "Source snapshot metadata packing is lossless",
 );
 const catalogText = await readFile("public/data/runtime/catalog.json", "utf8");
 const catalog = JSON.parse(catalogText);
@@ -37,25 +45,28 @@ assert.deepEqual(
   "No removed securities remain as orphaned generated histories",
 );
 const chunks = new Map();
+const decodedChunks = new Map();
+const originals = new Map(snapshot.series.map((entry) => [entry.id, entry]));
 for (const entry of catalog.series) {
   assert.equal(
     entry.observations,
     undefined,
     "Catalog cannot conceal a full-history download",
   );
-  const original = snapshot.series.find(({ id }) => id === entry.id);
-  const body = await readFile(
-    `public/data/runtime/${entry.history.file}`,
-    "utf8",
-  );
+  const original = originals.get(entry.id);
+  const path = `./data/runtime/${entry.history.file}`;
+  const body =
+    chunks.get(path) ||
+    (await readFile(`public/data/runtime/${entry.history.file}`, "utf8"));
+  if (!decodedChunks.has(path)) decodedChunks.set(path, JSON.parse(body));
   assert.equal(
     createHash("sha256").update(body).digest("hex"),
     entry.history.hash,
   );
   assert.deepEqual(
     entry.history.member
-      ? JSON.parse(body)[entry.history.member]
-      : JSON.parse(body),
+      ? decodedChunks.get(path)[entry.history.member]
+      : decodedChunks.get(path),
     original.observations,
     `${entry.id}: every observation is preserved`,
   );
@@ -80,7 +91,7 @@ for (const entry of catalog.series) {
     sourceMetadata,
     `${entry.id}: full provenance preserved`,
   );
-  chunks.set(`./data/runtime/${entry.history.file}`, body);
+  chunks.set(path, body);
 }
 const ids = [
   "UNRATE",
@@ -108,11 +119,11 @@ const compressed =
     );
   }, 0);
 assert.ok(
-  compressed < 650000,
+  compressed < 3000000,
   `Default data transfer budget exceeded: ${compressed}`,
 );
 assert.ok(
-  gzipSync(catalogText).length < 500000,
+  gzipSync(catalogText).length < 2850000,
   "Source-only catalog budget for all economy metadata",
 );
 

@@ -1,18 +1,62 @@
-import { mkdir, readFile, writeFile, readdir, unlink } from "node:fs/promises";
+import { mkdir, writeFile, readdir, unlink } from "node:fs/promises";
 import { createHash } from "node:crypto";
+import { readSnapshot } from "./snapshot.mjs";
 
 // Deployment artifacts only; the reviewed snapshot remains the source of truth.
 export async function buildData(directory = "public/data/runtime") {
-  const snapshot = JSON.parse(
-    await readFile("public/data/snapshot.json", "utf8"),
-  );
+  const snapshot = readSnapshot();
   await mkdir(`${directory}/series`, { recursive: true });
   const series = [];
   const metadataTemplates = {};
+  const templateKeys = new Map();
+  const sharedFields = new Set([
+    "category",
+    "frequency",
+    "unit",
+    "changeType",
+    "source",
+    "provider",
+    "sourceFamily",
+    "sourceUrl",
+    "sourceDownloadUrl",
+    "exactDownloadUrl",
+    "sourceFile",
+    "sourceHash",
+    "providerSnapshotHash",
+    "sourceDefinition",
+    "sourceOrganization",
+    "historyType",
+    "rightsNote",
+    "license",
+    "availabilityNote",
+    "methodology",
+    "checkedAt",
+    "indicatorKey",
+    "indicatorName",
+    "sourceFrequency",
+    "dataset",
+    "originalCategory",
+    "semanticType",
+    "signed",
+    "releaseFrequency",
+  ]);
   const bundles = new Map();
+  const bundleFor = (entry) =>
+    entry.id.startsWith("WDI_")
+      ? entry.sourceIndicator || entry.id.slice(8)
+      : entry.dataset === "bis-macro" && entry.frequency !== "daily"
+        ? `${entry.id
+            .split("_")
+            .slice(0, entry.id.startsWith("BIS_CREDIT_GAP_") ? 3 : 2)
+            .join("_")}_${entry.frequency}`
+        : entry.dataset === "eurostat-macro"
+          ? `EUROSTAT_${entry.sourceDataset || entry.sourceIndicator || entry.category}_${entry.frequency}`
+          : ["imf-macro", "research-macro"].includes(entry.dataset)
+            ? `${entry.dataset}_${entry.indicatorKey}_${entry.unit}_${entry.frequency}`
+            : null;
   for (const entry of snapshot.series) {
-    if (!entry.id.startsWith("WDI_")) continue;
-    const key = entry.sourceIndicator || entry.id.slice(8);
+    const key = bundleFor(entry);
+    if (!key) continue;
     if (!bundles.has(key)) bundles.set(key, {});
     bundles.get(key)[entry.id] = entry.observations;
   }
@@ -28,16 +72,16 @@ export async function buildData(directory = "public/data/runtime") {
     return history;
   };
   for (const { observations, ...metadata } of snapshot.series) {
-    const bundle = metadata.id.startsWith("WDI_")
-      ? metadata.sourceIndicator || metadata.id.slice(8)
-      : null;
+    const bundle = bundleFor(metadata);
     const history = await writeHistory(
       bundle || metadata.id,
       bundle ? bundles.get(bundle) : observations,
     );
     const latest = observations.at(-1);
     const previousYear =
-      metadata.frequency === "annual"
+      metadata.frequency === "annual" &&
+      (metadata.indicatorKey === "GDPGROWTH" ||
+        metadata.id.endsWith("_GDPGROWTH"))
         ? observations.find(
             ([date]) =>
               date ===
@@ -45,35 +89,21 @@ export async function buildData(directory = "public/data/runtime") {
           )
         : null;
     let entryMetadata = metadata;
-    if (bundle) {
-      const {
-        id,
-        name,
-        country,
-        countryCode,
-        geography,
-        region,
-        incomeLevel,
-        sourceAsOf,
-        sourceColumn,
-        refreshStatus,
-        ...shared
-      } = metadata;
-      metadataTemplates[bundle] ??= shared;
-      entryMetadata = {
-        id,
-        name,
-        country,
-        countryCode,
-        geography,
-        region,
-        incomeLevel,
-        sourceAsOf,
-        sourceColumn,
-        ...(refreshStatus ? { refreshStatus } : {}),
-        metadataKey: bundle,
-      };
+    const shared = Object.fromEntries(
+      Object.entries(metadata).filter(([field]) => sharedFields.has(field)),
+    );
+    const template = JSON.stringify(shared);
+    if (!templateKeys.has(template)) {
+      const key = String(templateKeys.size);
+      templateKeys.set(template, key);
+      metadataTemplates[key] = shared;
     }
+    entryMetadata = {
+      ...Object.fromEntries(
+        Object.entries(metadata).filter(([field]) => !sharedFields.has(field)),
+      ),
+      metadataKey: templateKeys.get(template),
+    };
     series.push({
       ...entryMetadata,
       coverage: {
@@ -86,7 +116,8 @@ export async function buildData(directory = "public/data/runtime") {
     });
   }
   const catalog = { ...snapshot, schemaVersion: 1, metadataTemplates, series };
-  await writeFile(`${directory}/catalog.json`, JSON.stringify(catalog));
+  const packedCatalog = JSON.stringify(catalog);
+  await writeFile(`${directory}/catalog.json`, packedCatalog);
   const retained = new Set(
     series.map((entry) => entry.history.file.split("/").at(-1)),
   );
@@ -97,7 +128,7 @@ export async function buildData(directory = "public/data/runtime") {
       await unlink(`${directory}/series/${file}`);
   }
   console.log(
-    `Packed ${series.length} lossless, content-addressed histories; catalog ${Buffer.byteLength(JSON.stringify(catalog))} bytes.`,
+    `Packed ${series.length} lossless, content-addressed histories; catalog ${Buffer.byteLength(packedCatalog)} bytes.`,
   );
   return catalog;
 }
