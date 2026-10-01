@@ -94,7 +94,7 @@ const sourceUrlFor = (series) => {
 const sourceAnchor = (series, label, className = "") => {
   const url = sourceUrlFor(series);
   if (!url) return escape(label);
-  return `<a${className ? ` class="${className}"` : ""} href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(label)} ↗</a>`;
+  return `<a${className ? ` class="${className}"` : ""} href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(label)}</a>`;
 };
 
 const familyKeyFor = (series) =>
@@ -293,7 +293,7 @@ function freshnessMarkup(snapshot, allSeries, countries) {
     (series) => series.source === "Yahoo Finance",
   ).length;
   const links =
-    '<a href="./data/country-coverage.json">Country coverage JSON ↗</a> · <a href="./data/source-inventory.csv">Full source inventory CSV ↗</a> · <a href="./data/source-inventory.md">Markdown inventory ↗</a>';
+    '<a href="./data/country-coverage.json">Country coverage JSON</a> · <a href="./data/source-inventory.csv">Full source inventory CSV</a> · <a href="./data/source-inventory.md">Markdown inventory</a>';
   const coverage =
     rosterCount !== null && countriesWithData !== null
       ? ` The catalog retains ${formatCount(countriesWithData)} of ${formatCount(rosterCount)} World Bank roster economies with at least one available history.${supplementaryCount ? ` It also lists ${formatCount(supplementaryCount)} supplementary provider economies separately.` : ""}`

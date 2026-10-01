@@ -27,6 +27,18 @@ for (const marker of [
 
 assert.match(dashboard, /<body[^>]+data-page="dashboard"/);
 const dashboardScript = await readFile("src/dashboard.js", "utf8");
+for (const file of [
+  "index.html",
+  "dashboard.html",
+  "src/dashboard.js",
+  "src/report.js",
+  "src/source-catalog.js",
+])
+  assert.doesNotMatch(
+    await readFile(file, "utf8"),
+    /↗/u,
+    `${file}: outbound-arrow icons stay removed`,
+  );
 let metadataUpdates = 0;
 const stableCard = {
   querySelector() {

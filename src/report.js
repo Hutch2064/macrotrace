@@ -225,7 +225,7 @@ async function render(updated) {
   document.querySelector("#report-sections").innerHTML = report.findings
     .map(
       (finding) =>
-        `<section class="report-section" id="${escape(finding.id)}"><div class="report-copy"><span class="report-topic">${escape(finding.topic || finding.series[0]?.category || "Economic signal")}</span><h2>${escape(finding.title)}</h2>${finding.paragraphs.map((paragraph, index) => `<p>${reportText(paragraph, finding.paragraphHighlights?.[index])}</p>`).join("")}<a class="source-link" href="./dashboard.html?topic=${encodeURIComponent(finding.topic || finding.series[0]?.category || "")}">Explore this topic ↗</a></div><div class="report-chart-frame"><div class="report-chart" id="chart-${escape(finding.id)}"></div><p class="report-chart-note">${escape(finding.note)}</p></div></section>`,
+        `<section class="report-section" id="${escape(finding.id)}"><div class="report-copy"><span class="report-topic">${escape(finding.topic || finding.series[0]?.category || "Economic signal")}</span><h2>${escape(finding.title)}</h2>${finding.paragraphs.map((paragraph, index) => `<p>${reportText(paragraph, finding.paragraphHighlights?.[index])}</p>`).join("")}<a class="source-link" href="./dashboard.html?topic=${encodeURIComponent(finding.topic || finding.series[0]?.category || "")}">Explore this topic</a></div><div class="report-chart-frame"><div class="report-chart" id="chart-${escape(finding.id)}"></div><p class="report-chart-note">${escape(finding.note)}</p></div></section>`,
     )
     .join("");
   for (const finding of report.findings) {

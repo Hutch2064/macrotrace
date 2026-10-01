@@ -362,7 +362,7 @@ function renderTable() {
       .slice(tablePage * TABLE_SIZE, (tablePage + 1) * TABLE_SIZE)
       .map(
         (row) =>
-          `<tr><td>${escape(row.series.name)}<small>${escape(row.series.id)} · ${escape(row.series.frequency)}</small></td><td>${escape(row.series.category)}<small>${escape(row.series.geography)}</small></td><td>${escape(row.date)}</td><td><span class="numeric-value">${escape(valueText(row.raw, row.series.unit))}</span></td><td><span class="numeric-value ${state.measure !== "level" ? changeClass(row.value) : ""}">${escape(valueText(row.value, row.unit, state.measure !== "level"))}</span></td><td><a href="${escape(row.series.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(row.series.provider || row.series.source)} ↗</a></td></tr>`,
+          `<tr><td>${escape(row.series.name)}<small>${escape(row.series.id)} · ${escape(row.series.frequency)}</small></td><td>${escape(row.series.category)}<small>${escape(row.series.geography)}</small></td><td>${escape(row.date)}</td><td><span class="numeric-value">${escape(valueText(row.raw, row.series.unit))}</span></td><td><span class="numeric-value ${state.measure !== "level" ? changeClass(row.value) : ""}">${escape(valueText(row.value, row.unit, state.measure !== "level"))}</span></td><td><a href="${escape(row.series.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(row.series.provider || row.series.source)}</a></td></tr>`,
       )
       .join("") ||
     '<tr><td colspan="6">No observations match these filters.</td></tr>';
