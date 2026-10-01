@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
+import { transformSeries } from "../src/panel.js";
 
 const htmlFiles = (await readdir(".")).filter((file) => file.endsWith(".html"));
 assert.deepEqual(
@@ -26,6 +27,55 @@ for (const marker of [
 
 assert.match(dashboard, /<body[^>]+data-page="dashboard"/);
 const dashboardScript = await readFile("src/dashboard.js", "utf8");
+const cardTemplate = dashboardScript.match(
+  /return (`<article class="chart-card indicator-card"[^\n]+`);/,
+)[1];
+const renderCard = new Function(
+  "series",
+  "points",
+  "latest",
+  "escape",
+  "unitLabel",
+  "valueText",
+  "changeClass",
+  "dateLabel",
+  "expandIcon",
+  "state",
+  `return ${cardTemplate}`,
+);
+const snapshot = JSON.parse(
+  await readFile("public/data/snapshot.json", "utf8"),
+);
+for (const id of [
+  "WDI_LBN_GOV_REVENUE",
+  "WDI_MNG_GOV_DEBT",
+  "WDI_NPL_GOV_REVENUE",
+  "WDI_SOM_GOV_DEBT",
+]) {
+  const series = snapshot.series.find((series) => series.id === id);
+  const points = transformSeries(series, {
+    measure: "yoy",
+    start: "2021-09-30",
+  });
+  const latest = points.filter((point) => Number.isFinite(point.value)).at(-1);
+  const card = renderCard(
+    series,
+    points,
+    latest,
+    String,
+    String,
+    String,
+    () => "",
+    String,
+    "",
+    { measure: "yoy" },
+  );
+  if (latest && latest.date !== points.at(-1).date)
+    assert.ok(
+      !card.includes(points.at(-1).date),
+      `${id}: never attribute an older comparison to a newer raw observation date`,
+    );
+}
 for (const copy of [
   "Calendar-year change:",
   "Native units, shared dates.",
