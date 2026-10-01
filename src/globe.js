@@ -58,10 +58,15 @@ export async function economicGlobe(
   let visible = true,
     destroyed = false;
   let dirty = false;
+  let zoom = 1,
+    surfaceDirty = false,
+    geometryRadius = 0,
+    pinch;
+  const touches = new Map();
   const listeners = [];
-  const listen = (target, event, callback) => {
-    target.addEventListener(event, callback);
-    listeners.push(() => target.removeEventListener(event, callback));
+  const listen = (target, event, callback, options) => {
+    target.addEventListener(event, callback, options);
+    listeners.push(() => target.removeEventListener(event, callback, options));
   };
   const sphere = ([lon, lat]) => {
     const a = lon * radians,
@@ -233,6 +238,7 @@ export async function economicGlobe(
     grid.push(Array.from({ length: 61 }, (_, i) => sphere([lon, -90 + i * 3])));
   function draw() {
     if (!width || destroyed) return;
+    if (surfaceDirty) updateSurface();
     orient();
     context.clearRect(0, 0, width, height);
     context.fillStyle = glow;
@@ -323,7 +329,7 @@ export async function economicGlobe(
         pitch += latitude * 0.065;
         if (Math.abs(delta) + Math.abs(latitude) < 0.002) destination = null;
       } else if (!start && !reduced.matches)
-        yaw += Math.min(time - last, 100) * 0.000035;
+        yaw += (Math.min(time - last, 100) * 0.000035) / zoom;
       updateHover();
       draw();
       last = time;
@@ -369,6 +375,7 @@ export async function economicGlobe(
     restart();
   }
   function hit(event) {
+    if (surfaceDirty) updateSurface();
     orient();
     const bounds = canvas.getBoundingClientRect();
     const x = event.clientX - bounds.left,
@@ -421,6 +428,17 @@ export async function economicGlobe(
     );
   }
   listen(canvas, "pointerdown", (event) => {
+    if (event.pointerType === "touch") {
+      touches.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      canvas.setPointerCapture(event.pointerId);
+      if (touches.size === 2) {
+        const [a, b] = [...touches.values()];
+        pinch = { distance: Math.hypot(a.x - b.x, a.y - b.y), zoom };
+        dragging = true;
+        closeTooltip();
+        return;
+      }
+    }
     if (!event.isPrimary || event.button !== 0) return;
     closeTooltip();
     start = {
@@ -437,6 +455,16 @@ export async function economicGlobe(
     frame = undefined;
   });
   listen(canvas, "pointermove", (event) => {
+    if (touches.has(event.pointerId))
+      touches.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (pinch) {
+      const [a, b] = [...touches.values()];
+      if (a && b && pinch.distance)
+        setZoom(
+          (pinch.zoom * Math.hypot(a.x - b.x, a.y - b.y)) / pinch.distance,
+        );
+      return;
+    }
     if (start) {
       const dx = event.clientX - start.x,
         dy = event.clientY - start.y;
@@ -444,10 +472,10 @@ export async function economicGlobe(
         dragging = true;
       }
       if (dragging) {
-        yaw = start.yaw - dx * 0.006;
+        yaw = start.yaw - (dx * 0.006) / zoom;
         pitch = Math.max(
           -Math.PI / 2,
-          Math.min(Math.PI / 2, start.pitch + dy * 0.006),
+          Math.min(Math.PI / 2, start.pitch + (dy * 0.006) / zoom),
         );
         requestDraw();
       }
@@ -464,6 +492,14 @@ export async function economicGlobe(
     }
   });
   listen(canvas, "pointerup", (event) => {
+    touches.delete(event.pointerId);
+    if (pinch) {
+      if (!touches.size) {
+        pinch = null;
+        release();
+      }
+      return;
+    }
     if (
       start &&
       !dragging &&
@@ -490,11 +526,21 @@ export async function economicGlobe(
     release();
   });
   listen(canvas, "pointercancel", () => {
+    touches.clear();
+    pinch = null;
     closeTooltip();
     release();
   });
-  listen(canvas, "lostpointercapture", release);
+  listen(canvas, "lostpointercapture", (event) => {
+    touches.delete(event.pointerId);
+    if (!touches.size) {
+      pinch = null;
+      release();
+    }
+  });
   listen(window, "blur", () => {
+    touches.clear();
+    pinch = null;
     closeTooltip();
     release();
   });
@@ -509,6 +555,13 @@ export async function economicGlobe(
   });
   listen(canvas, "keydown", (event) => {
     closeTooltip();
+    if (["+", "=", "-", "0"].includes(event.key)) {
+      event.preventDefault();
+      setZoom(
+        event.key === "0" ? 1 : zoom * (event.key === "-" ? 1 / 1.25 : 1.25),
+      );
+      return;
+    }
     if (["ArrowUp", "ArrowDown"].includes(event.key)) {
       event.preventDefault();
       destination = null;
@@ -536,35 +589,59 @@ export async function economicGlobe(
       onSelect(next.id, countryById.get(next.id));
     }
   });
-  const resize = new ResizeObserver(() => {
-    width = canvas.clientWidth;
-    height = canvas.clientHeight;
-    radius = Math.min(width, height) * 0.43;
-    const ratio = Math.min(devicePixelRatio || 1, 1.75);
-    canvas.width = Math.round(width * ratio);
-    canvas.height = Math.round(height * ratio);
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  function setZoom(value) {
+    const next = Math.max(1, Math.min(6, value));
+    if (next === zoom) return;
+    zoom = next;
+    canvas.dataset.zoom = zoom.toFixed(2);
+    surfaceDirty = true;
+    closeTooltip();
+    requestDraw();
+  }
+  listen(
+    canvas,
+    "wheel",
+    (event) => {
+      const delta =
+        event.deltaY *
+        (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? height : 1);
+      if (!delta) return;
+      event.preventDefault();
+      setZoom(zoom * Math.exp(-Math.max(-150, Math.min(150, delta)) * 0.002));
+    },
+    { passive: false },
+  );
+  function updateSurface() {
+    surfaceDirty = false;
+    radius = Math.min(width, height) * 0.43 * zoom;
     projection.scale(radius).translate([width / 2, height / 2]);
-    for (const country of outlines) {
-      country.geometry = displayGeometry(country.polygons, radius);
-      country.vectors = country.geometry.coordinates
-        .flat(1)
-        .map((ring) => ring.map(sphere));
-      const vectors = country.vectors.flat();
-      const sum = vectors.reduce(
-        (sum, p) => sum.map((v, i) => v + p[i]),
-        [0, 0, 0],
-      );
-      const length = Math.hypot(...sum);
-      const center = sum.map((v) => v / length);
-      const cosine = Math.min(
-        ...vectors.map((p) => p.reduce((dot, v, i) => dot + v * center[i], 0)),
-      );
-      country.cap =
-        length && cosine > 0
-          ? { center, sine: Math.sqrt(1 - cosine * cosine) }
-          : null;
-    }
+    // Rebuild only at resolution boundaries, not on each wheel/pinch frame.
+    const resolution =
+      Math.min(width, height) * 0.43 * 2 ** Math.ceil(Math.log2(zoom));
+    if (geometryRadius !== resolution)
+      for (const country of outlines) {
+        country.geometry = displayGeometry(country.polygons, resolution);
+        country.vectors = country.geometry.coordinates
+          .flat(1)
+          .map((ring) => ring.map(sphere));
+        const vectors = country.vectors.flat();
+        const sum = vectors.reduce(
+          (sum, p) => sum.map((v, i) => v + p[i]),
+          [0, 0, 0],
+        );
+        const length = Math.hypot(...sum);
+        const center = sum.map((v) => v / length);
+        const cosine = Math.min(
+          ...vectors.map((p) =>
+            p.reduce((dot, v, i) => dot + v * center[i], 0),
+          ),
+        );
+        country.cap =
+          length && cosine > 0
+            ? { center, sine: Math.sqrt(1 - cosine * cosine) }
+            : null;
+      }
+    geometryRadius = resolution;
     glow = context.createRadialGradient(
       width / 2,
       height / 2,
@@ -586,6 +663,15 @@ export async function economicGlobe(
     ocean.addColorStop(0, "#35352e");
     ocean.addColorStop(0.72, "#2a2a26");
     ocean.addColorStop(1, "#20201e");
+  }
+  const resize = new ResizeObserver(() => {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    const ratio = Math.min(devicePixelRatio || 1, 1.75);
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    updateSurface();
     draw();
   });
   resize.observe(canvas);

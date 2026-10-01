@@ -200,7 +200,7 @@ function renderSeries() {
     : "0 indicators";
   $("#series-previous").disabled = page === 0;
   $("#series-next").disabled = (page + 1) * PAGE_SIZE >= matched.length;
-  $("#series-charts").innerHTML =
+  const markup =
     current
       .map((series) => {
         const points = transformed.get(series.id);
@@ -209,6 +209,25 @@ function renderSeries() {
       })
       .join("") ||
     '<p class="empty-panel">No indicators match these filters. Try another topic, geography or frequency, or reset the view.</p>';
+  const host = $("#series-charts");
+  const existing = [...host.querySelectorAll("[data-plot]")];
+  if (
+    current.length &&
+    existing.length === current.length &&
+    existing.every((plot, index) => plot.dataset.plot === current[index].id)
+  ) {
+    // A measure change must not replace the button between pointerdown and click.
+    const template = document.createElement("template");
+    template.innerHTML = markup;
+    const updated = [...template.content.querySelectorAll(".indicator-card")];
+    existing.forEach((plot, index) => {
+      const card = plot.closest(".indicator-card");
+      for (const selector of [".indicator-meta", ".chart-subhead"])
+        card
+          .querySelector(selector)
+          .replaceWith(updated[index].querySelector(selector));
+    });
+  } else host.innerHTML = markup;
   for (const host of $("#series-charts").querySelectorAll("[data-plot]")) {
     const series = current.find((series) => series.id === host.dataset.plot);
     const points = finite(transformed.get(series.id));
@@ -485,12 +504,40 @@ async function main() {
     tablePage++;
     renderTable();
   });
+  let chartPointer,
+    chartDragged = false;
+  $("#series-charts").addEventListener("pointerdown", (event) => {
+    chartPointer = { x: event.clientX, y: event.clientY };
+    chartDragged = false;
+  });
+  $("#series-charts").addEventListener("pointermove", (event) => {
+    if (
+      chartPointer &&
+      Math.hypot(
+        event.clientX - chartPointer.x,
+        event.clientY - chartPointer.y,
+      ) > 6
+    )
+      chartDragged = true;
+  });
+  $("#series-charts").addEventListener("pointercancel", () => {
+    chartPointer = undefined;
+    chartDragged = true;
+  });
   $("#series-charts").addEventListener("click", (event) => {
     const button = event.target.closest("[data-series]");
-    if (!button) return;
+    const card = event.target.closest(".indicator-card");
+    const plot = card?.querySelector("[data-plot]");
+    const chartClick =
+      !chartDragged &&
+      !event.target.closest("button") &&
+      event.target.closest(".chart-heading, .u-over, .chart-empty");
+    chartPointer = undefined;
+    if (!button && !chartClick) return;
     expandedSeries = matched.find(
-      (series) => series.id === button.dataset.series,
+      (series) => series.id === (button?.dataset.series || plot?.dataset.plot),
     );
+    if (!expandedSeries) return;
     $("#dialog-period").value = "current";
     $("#dialog-period")._renderCustom?.();
     $("#dialog-log").checked = false;
@@ -498,6 +545,8 @@ async function main() {
     renderExpanded();
   });
   $("#chart-dialog").addEventListener("close", () => {
+    // Native close events are queued: a previous close must not clear a reopen.
+    if ($("#chart-dialog").open) return;
     expanded?.destroy();
     expanded = undefined;
     expandedSeries = undefined;

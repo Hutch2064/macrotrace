@@ -140,6 +140,16 @@ export function enhanceSelect(select, onPreview) {
     trigger.setAttribute("aria-expanded", String(open));
     wrapper.classList.toggle("open", open);
     const mobile = matchMedia("(max-width: 700px)").matches;
+    if (open && dialog.dataset.closing) {
+      dialog.close();
+      delete dialog.dataset.closing;
+    }
+    if (!open && dialog.open) {
+      // Keep the exit animation visible without leaving the page inert.
+      dialog.close();
+      dialog.dataset.closing = "true";
+      dialog.show();
+    }
     if (open && mobile && !dialog.open) {
       dialog.append(menu);
       dialog.showModal();
@@ -163,8 +173,8 @@ export function enhanceSelect(select, onPreview) {
       menu.hidden = !open;
       if (!open && dialog.open) {
         dialog.close();
+        delete dialog.dataset.closing;
         wrapper.append(menu);
-        trigger.focus({ preventScroll: true });
       }
     };
   };

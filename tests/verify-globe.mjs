@@ -844,6 +844,70 @@ assert.equal(realSelections.length, 1, "real map click emits one selection");
 assert.equal(realSelections[0][0], clickCountry.id);
 assert.equal(realSelections[0][1].id, clickCountry.id);
 assert.equal(realSelections[0][1].name, clickCountry.name);
+let wheelPrevented = false;
+realCanvas.dispatchEvent({
+  type: "wheel",
+  deltaY: -150,
+  deltaMode: 0,
+  preventDefault() {
+    wheelPrevented = true;
+  },
+});
+runFrame();
+assert.ok(wheelPrevented, "wheel zoom does not scroll the landing page away");
+assert.ok(Number(realCanvas.dataset.zoom) > 1, "wheel enlarges the globe");
+for (let i = 0; i < 20; i++)
+  realCanvas.dispatchEvent({ type: "keydown", key: "+", preventDefault() {} });
+runFrame();
+assert.equal(realCanvas.dataset.zoom, "6.00", "zoom is bounded");
+for (const country of realCountries) {
+  realApi.select(country.id);
+  realCanvas.dispatchEvent({ type: "pointermove", clientX: 200, clientY: 200 });
+  assert.equal(
+    realSurface.innerText,
+    country.name,
+    `${country.id}: zoomed picking retains identity`,
+  );
+}
+realCanvas.dispatchEvent({ type: "keydown", key: "0", preventDefault() {} });
+runFrame();
+assert.equal(realCanvas.dataset.zoom, "1.00", "keyboard resets zoom");
+const beforePinch = realSelections.length;
+for (const [pointerId, clientX] of [
+  [11, 150],
+  [12, 250],
+])
+  realCanvas.dispatchEvent({
+    type: "pointerdown",
+    pointerType: "touch",
+    isPrimary: pointerId === 11,
+    button: 0,
+    pointerId,
+    clientX,
+    clientY: 200,
+  });
+realCanvas.dispatchEvent({
+  type: "pointermove",
+  pointerType: "touch",
+  pointerId: 12,
+  clientX: 350,
+  clientY: 200,
+});
+runFrame();
+assert.equal(realCanvas.dataset.zoom, "2.00", "two-finger pinch zooms");
+for (const pointerId of [11, 12])
+  realCanvas.dispatchEvent({
+    type: "pointerup",
+    pointerType: "touch",
+    pointerId,
+    clientX: 200,
+    clientY: 200,
+  });
+assert.equal(
+  realSelections.length,
+  beforePinch,
+  "pinching does not select a country",
+);
 realApi.destroy();
 assert.equal(document.querySelector("#globe-country-tooltip"), null);
 assert.equal(realCanvas.listenerCount(), 0);

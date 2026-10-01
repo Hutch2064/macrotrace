@@ -27,6 +27,130 @@ for (const marker of [
 
 assert.match(dashboard, /<body[^>]+data-page="dashboard"/);
 const dashboardScript = await readFile("src/dashboard.js", "utf8");
+let metadataUpdates = 0;
+const stableCard = {
+  querySelector() {
+    return {
+      replaceWith() {
+        metadataUpdates++;
+      },
+    };
+  },
+};
+const stablePlot = {
+  dataset: { plot: "test" },
+  closest() {
+    return stableCard;
+  },
+};
+const stableHost = {
+  querySelectorAll() {
+    return [stablePlot];
+  },
+  set innerHTML(_) {
+    throw new Error("A measure update replaced the clickable card");
+  },
+};
+const reconcile = dashboardScript.slice(
+  dashboardScript.indexOf('  const host = $("#series-charts");'),
+  dashboardScript.indexOf(
+    '  for (const host of $("#series-charts").querySelectorAll',
+  ),
+);
+new Function("$", "current", "markup", "document", reconcile)(
+  () => stableHost,
+  [{ id: "test" }],
+  "",
+  {
+    createElement() {
+      return {
+        content: {
+          querySelectorAll() {
+            return [
+              {
+                querySelector() {
+                  return {};
+                },
+              },
+            ];
+          },
+        },
+      };
+    },
+  },
+);
+assert.equal(
+  metadataUpdates,
+  2,
+  "measure updates preserve the clickable card and refresh its metadata",
+);
+const handlers = new Map();
+const dialog = {
+  open: false,
+  showModal() {
+    this.open = true;
+  },
+  close() {
+    this.open = false;
+  },
+};
+const nodes = new Map();
+const node = (selector) => {
+  if (!nodes.has(selector))
+    nodes.set(selector, {
+      ...(selector === "#chart-dialog" ? dialog : {}),
+      addEventListener(type, handler) {
+        handlers.set(`${selector}:${type}`, handler);
+      },
+    });
+  return nodes.get(selector);
+};
+let renders = 0;
+const interaction = dashboardScript.slice(
+  dashboardScript.indexOf("  let chartPointer"),
+  dashboardScript.indexOf('  $("#dialog-period").addEventListener("change"'),
+);
+const selectedChart = new Function(
+  "$",
+  "matched",
+  "renderExpanded",
+  `let expandedSeries, expanded; ${interaction}; return () => expandedSeries;`,
+)(node, [{ id: "test" }], () => renders++);
+const emit = (type, event) => handlers.get(`#series-charts:${type}`)(event);
+const card = {
+  querySelector() {
+    return { dataset: { plot: "test" } };
+  },
+};
+const chartTarget = {
+  closest(selector) {
+    if (selector === ".indicator-card") return card;
+    if (selector === ".chart-heading, .u-over, .chart-empty") return this;
+    return null;
+  },
+};
+emit("pointerdown", { clientX: 0, clientY: 0 });
+emit("click", { target: chartTarget });
+assert.equal(renders, 1, "a chart tap opens its full-screen view");
+emit("pointerdown", { clientX: 0, clientY: 0 });
+emit("pointermove", { clientX: 50, clientY: 0 });
+emit("click", { target: chartTarget });
+assert.equal(renders, 1, "a chart zoom drag never opens a dialog");
+const buttonTarget = {
+  closest(selector) {
+    return selector === "[data-series]"
+      ? { dataset: { series: "test" } }
+      : null;
+  },
+};
+emit("click", { target: buttonTarget });
+assert.equal(renders, 2, "the expand button works after a drag");
+handlers.get("#chart-dialog:close")();
+assert.equal(
+  selectedChart()?.id,
+  "test",
+  "a queued close does not clear a reopened dialog",
+);
 const cardTemplate = dashboardScript.match(
   /return (`<article class="chart-card indicator-card"[^\n]+`);/,
 )[1];

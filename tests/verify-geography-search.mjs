@@ -143,7 +143,22 @@ class MockElement extends MockEventTarget {
   }
 
   animate() {
-    return { cancel() {}, onfinish: null };
+    return (this.motion = { cancel() {}, onfinish: null });
+  }
+
+  showModal() {
+    this.open = true;
+    this.modal = true;
+  }
+
+  show() {
+    this.open = true;
+    this.modal = false;
+  }
+
+  close() {
+    this.open = false;
+    this.modal = false;
   }
 }
 
@@ -295,6 +310,36 @@ assert.equal(
   ordinaryWrapper.querySelector(".select-search-input"),
   null,
   "Only the Geography select gets a search input",
+);
+globalThis.matchMedia = (query) => ({ matches: query.includes("max-width") });
+const ordinaryTrigger = ordinaryWrapper.children[0];
+ordinaryTrigger.dispatchEvent({ type: "click", target: ordinaryTrigger });
+const mobileDialog = document.body.children
+  .filter((node) => node.tagName === "DIALOG")
+  .at(-1);
+const mobileMenu = mobileDialog.children[0];
+assert.equal(mobileDialog.modal, true, "open mobile selector is modal");
+mobileMenu.dispatchEvent({
+  type: "click",
+  target: mobileMenu.querySelector('[data-value="rates"]'),
+});
+assert.equal(
+  mobileDialog.modal,
+  false,
+  "selecting immediately releases page interaction during exit animation",
+);
+assert.equal(mobileDialog.dataset.closing, "true");
+document.activeElement = ordinary;
+mobileMenu.motion.onfinish();
+assert.equal(
+  mobileDialog.open,
+  false,
+  "exit animation cleans up the nonmodal layer",
+);
+assert.equal(
+  document.activeElement,
+  ordinary,
+  "finishing exit cannot steal focus from a newly opened chart",
 );
 
 console.log(
