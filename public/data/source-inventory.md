@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-10-02T22:08:45.655Z. 23538 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
@@ -13,11 +13,11 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [NFCI](https://fred.stlouisfed.org/series/NFCI) | National Financial Conditions Index | US | weekly | index | 1971-01-08 | 2026-09-25 | 2908 |
 | [STLFSI4](https://fred.stlouisfed.org/series/STLFSI4) | St. Louis Fed Financial Stress Index | US | weekly | index | 1993-12-31 | 2026-09-25 | 1709 |
 | [BOGMBASE](https://fred.stlouisfed.org/series/BOGMBASE) | Monetary Base | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
-| [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | US | weekly | millions | 2002-12-18 | 2026-09-23 | 1241 |
-| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | US | daily | percentage points | 1986-01-02 | 2026-09-29 | 10186 |
-| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | US | daily | percentage points | 1983-01-03 | 2026-09-29 | 10933 |
-| [BAA](https://fred.stlouisfed.org/series/BAA) | Moody's Seasoned Baa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-08-01 | 1292 |
-| [AAA](https://fred.stlouisfed.org/series/AAA) | Moody's Seasoned Aaa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-08-01 | 1292 |
+| [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | US | weekly | millions | 2002-12-18 | 2026-09-30 | 1242 |
+| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | US | daily | percentage points | 1986-01-02 | 2026-10-01 | 10188 |
+| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | US | daily | percentage points | 1983-01-03 | 2026-10-01 | 10935 |
+| [BAA](https://fred.stlouisfed.org/series/BAA) | Moody's Seasoned Baa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-09-01 | 1293 |
+| [AAA](https://fred.stlouisfed.org/series/AAA) | Moody's Seasoned Aaa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-09-01 | 1293 |
 | [M1SL](https://fred.stlouisfed.org/series/M1SL) | M1 Money Stock | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
 | [TOTRESNS](https://fred.stlouisfed.org/series/TOTRESNS) | Total Reserves of Depository Institutions | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
 | [H8B1001NCBCMG](https://fred.stlouisfed.org/series/H8B1001NCBCMG) | Commercial Bank Credit Growth | US | monthly | % | 1947-02-01 | 2026-08-01 | 955 |
@@ -26,6 +26,20 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [HCCSDODNS](https://fred.stlouisfed.org/series/HCCSDODNS) | Household Consumer Credit Liabilities | US | quarterly | millions | 1945-10-01 | 2026-04-01 | 305 |
 | [HHMSDODNS](https://fred.stlouisfed.org/series/HHMSDODNS) | Household Residential Mortgage Liabilities | US | quarterly | millions | 1945-10-01 | 2026-04-01 | 305 |
 | [NCBDBIQ027S](https://fred.stlouisfed.org/series/NCBDBIQ027S) | Nonfinancial Corporate Debt Securities | US | quarterly | millions | 1945-10-01 | 2026-04-01 | 305 |
+| [DRTSCILM](https://fred.stlouisfed.org/series/DRTSCILM) | SLOOS: Banks Tightening C&I Standards, Large and Middle-Market Firms | US | quarterly | % | 1990-04-01 | 2026-07-01 | 146 |
+| [DRTSCIS](https://fred.stlouisfed.org/series/DRTSCIS) | SLOOS: Banks Tightening C&I Standards, Small Firms | US | quarterly | % | 1990-04-01 | 2026-07-01 | 146 |
+| [DRSDCILM](https://fred.stlouisfed.org/series/DRSDCILM) | SLOOS: Stronger C&I Loan Demand, Large and Middle-Market Firms | US | quarterly | % | 1991-10-01 | 2026-07-01 | 140 |
+| [DRSDCIS](https://fred.stlouisfed.org/series/DRSDCIS) | SLOOS: Stronger C&I Loan Demand, Small Firms | US | quarterly | % | 1991-10-01 | 2026-07-01 | 140 |
+| [DRTSCLCC](https://fred.stlouisfed.org/series/DRTSCLCC) | SLOOS: Banks Tightening Credit Card Standards | US | quarterly | % | 1996-01-01 | 2026-07-01 | 123 |
+| [STDSAUTO](https://fred.stlouisfed.org/series/STDSAUTO) | SLOOS: Banks Tightening Auto-Loan Standards | US | quarterly | % | 2011-04-01 | 2026-07-01 | 62 |
+| [STDSOTHCONS](https://fred.stlouisfed.org/series/STDSOTHCONS) | SLOOS: Banks Tightening Other Consumer-Loan Standards | US | quarterly | % | 2011-04-01 | 2026-07-01 | 62 |
+| [DEMOTHCONS](https://fred.stlouisfed.org/series/DEMOTHCONS) | SLOOS: Stronger Demand for Other Consumer Loans | US | quarterly | % | 2011-04-01 | 2026-07-01 | 62 |
+| [SUBLPDRCSN](https://fred.stlouisfed.org/series/SUBLPDRCSN) | SLOOS: Tightening CRE Standards, Nonfarm Nonresidential | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
+| [SUBLPDRCSM](https://fred.stlouisfed.org/series/SUBLPDRCSM) | SLOOS: Tightening CRE Standards, Multifamily | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
+| [SUBLPDRCSC](https://fred.stlouisfed.org/series/SUBLPDRCSC) | SLOOS: Tightening CRE Standards, Construction and Land Development | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
+| [SUBLPDRCDN](https://fred.stlouisfed.org/series/SUBLPDRCDN) | SLOOS: Stronger CRE Demand, Nonfarm Nonresidential | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
+| [SUBLPDRCDM](https://fred.stlouisfed.org/series/SUBLPDRCDM) | SLOOS: Stronger CRE Demand, Multifamily | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
+| [SUBLPDRCDC](https://fred.stlouisfed.org/series/SUBLPDRCDC) | SLOOS: Stronger CRE Demand, Construction and Land Development | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
 | [WDI_ABW_BROAD_MONEY_GROWTH](https://data.worldbank.org/indicator/FM.LBL.BMNY.ZG) | Broad money growth · Aruba | Aruba | annual | % | 1986-12-31 | 2023-12-31 | 38 |
 | [WDI_ABW_CENTRAL_GOV_CLAIMS](https://data.worldbank.org/indicator/FS.AST.CGOV.GD.ZS) | Claims on central government share of GDP · Aruba | Aruba | annual | % | 1986-12-31 | 2023-12-31 | 38 |
 | [WDI_ABW_CREDIT_PRIVATE](https://data.worldbank.org/indicator/FS.AST.PRVT.GD.ZS) | Domestic credit to private sector share of GDP · Aruba | Aruba | annual | % | 1986-12-31 | 2023-12-31 | 38 |
@@ -2028,20 +2042,6 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [WDI_ZWE_RESERVES_EXTERNAL_DEBT](https://data.worldbank.org/indicator/FI.RES.TOTL.DT.ZS) | Total reserves share of external debt · Zimbabwe | Zimbabwe | annual | % | 1971-12-31 | 2024-12-31 | 54 |
 | [WDI_ZWE_RESERVES_IMPORTS](https://data.worldbank.org/indicator/FI.RES.TOTL.MO) | Total reserves in months of imports · Zimbabwe | Zimbabwe | annual | months of imports | 1977-12-31 | 2024-12-31 | 34 |
 | [WDI_ZWE_SHORT_DEBT_RESERVES](https://data.worldbank.org/indicator/DT.DOD.DSTC.IR.ZS) | Short-term debt share of total reserves · Zimbabwe | Zimbabwe | annual | % | 1970-12-31 | 2024-12-31 | 55 |
-| [DRTSCILM](https://fred.stlouisfed.org/series/DRTSCILM) | SLOOS: Banks Tightening C&I Standards, Large and Middle-Market Firms | US | quarterly | % | 1990-04-01 | 2026-07-01 | 146 |
-| [DRTSCIS](https://fred.stlouisfed.org/series/DRTSCIS) | SLOOS: Banks Tightening C&I Standards, Small Firms | US | quarterly | % | 1990-04-01 | 2026-07-01 | 146 |
-| [DRSDCILM](https://fred.stlouisfed.org/series/DRSDCILM) | SLOOS: Stronger C&I Loan Demand, Large and Middle-Market Firms | US | quarterly | % | 1991-10-01 | 2026-07-01 | 140 |
-| [DRSDCIS](https://fred.stlouisfed.org/series/DRSDCIS) | SLOOS: Stronger C&I Loan Demand, Small Firms | US | quarterly | % | 1991-10-01 | 2026-07-01 | 140 |
-| [DRTSCLCC](https://fred.stlouisfed.org/series/DRTSCLCC) | SLOOS: Banks Tightening Credit Card Standards | US | quarterly | % | 1996-01-01 | 2026-07-01 | 123 |
-| [STDSAUTO](https://fred.stlouisfed.org/series/STDSAUTO) | SLOOS: Banks Tightening Auto-Loan Standards | US | quarterly | % | 2011-04-01 | 2026-07-01 | 62 |
-| [STDSOTHCONS](https://fred.stlouisfed.org/series/STDSOTHCONS) | SLOOS: Banks Tightening Other Consumer-Loan Standards | US | quarterly | % | 2011-04-01 | 2026-07-01 | 62 |
-| [DEMOTHCONS](https://fred.stlouisfed.org/series/DEMOTHCONS) | SLOOS: Stronger Demand for Other Consumer Loans | US | quarterly | % | 2011-04-01 | 2026-07-01 | 62 |
-| [SUBLPDRCSN](https://fred.stlouisfed.org/series/SUBLPDRCSN) | SLOOS: Tightening CRE Standards, Nonfarm Nonresidential | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
-| [SUBLPDRCSM](https://fred.stlouisfed.org/series/SUBLPDRCSM) | SLOOS: Tightening CRE Standards, Multifamily | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
-| [SUBLPDRCSC](https://fred.stlouisfed.org/series/SUBLPDRCSC) | SLOOS: Tightening CRE Standards, Construction and Land Development | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
-| [SUBLPDRCDN](https://fred.stlouisfed.org/series/SUBLPDRCDN) | SLOOS: Stronger CRE Demand, Nonfarm Nonresidential | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
-| [SUBLPDRCDM](https://fred.stlouisfed.org/series/SUBLPDRCDM) | SLOOS: Stronger CRE Demand, Multifamily | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
-| [SUBLPDRCDC](https://fred.stlouisfed.org/series/SUBLPDRCDC) | SLOOS: Stronger CRE Demand, Construction and Land Development | US | quarterly | % | 2013-10-01 | 2026-07-01 | 52 |
 | [BIS_CREDIT_GAP_Q_AR_P_A_C](https://data.bis.org/topics/CREDIT_GAPS) | Private credit-to-GDP gap · Argentina | Argentina | quarterly | percentage points | 1994-10-01 | 2026-01-01 | 126 |
 | [BIS_CREDIT_GAP_Q_AT_P_A_C](https://data.bis.org/topics/CREDIT_GAPS) | Private credit-to-GDP gap · Austria | Austria | quarterly | percentage points | 1970-10-01 | 2026-01-01 | 222 |
 | [BIS_CREDIT_GAP_Q_AU_P_A_C](https://data.bis.org/topics/CREDIT_GAPS) | Private credit-to-GDP gap · Australia | Australia | quarterly | percentage points | 1970-04-01 | 2026-01-01 | 224 |
@@ -2729,25 +2729,25 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [UNRATE](https://fred.stlouisfed.org/series/UNRATE) | Unemployment Rate | US | monthly | % | 1948-01-01 | 2026-08-01 | 943 |
-| [PAYEMS](https://fred.stlouisfed.org/series/PAYEMS) | Nonfarm Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [ICSA](https://fred.stlouisfed.org/series/ICSA) | Initial Jobless Claims | US | weekly | claims | 1967-01-07 | 2026-09-19 | 3116 |
+| [UNRATE](https://fred.stlouisfed.org/series/UNRATE) | Unemployment Rate | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
+| [PAYEMS](https://fred.stlouisfed.org/series/PAYEMS) | Nonfarm Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [ICSA](https://fred.stlouisfed.org/series/ICSA) | Initial Jobless Claims | US | weekly | claims | 1967-01-07 | 2026-09-26 | 3117 |
 | [JTSJOL](https://fred.stlouisfed.org/series/JTSJOL) | Job Openings | US | monthly | thousands | 2000-12-01 | 2026-08-01 | 309 |
-| [U6RATE](https://fred.stlouisfed.org/series/U6RATE) | Underemployment Rate | US | monthly | % | 1994-01-01 | 2026-08-01 | 391 |
-| [CIVPART](https://fred.stlouisfed.org/series/CIVPART) | Labor Force Participation Rate | US | monthly | % | 1948-01-01 | 2026-08-01 | 943 |
-| [EMRATIO](https://fred.stlouisfed.org/series/EMRATIO) | Employment-Population Ratio | US | monthly | % | 1948-01-01 | 2026-08-01 | 943 |
-| [CES0500000003](https://fred.stlouisfed.org/series/CES0500000003) | Average Hourly Earnings | US | monthly | $/hour | 2006-03-01 | 2026-08-01 | 246 |
-| [AWHAETP](https://fred.stlouisfed.org/series/AWHAETP) | Average Weekly Hours | US | monthly | hours | 2006-03-01 | 2026-08-01 | 246 |
-| [USMINE](https://fred.stlouisfed.org/series/USMINE) | Mining and Logging Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USCONS](https://fred.stlouisfed.org/series/USCONS) | Construction Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [MANEMP](https://fred.stlouisfed.org/series/MANEMP) | Manufacturing Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USINFO](https://fred.stlouisfed.org/series/USINFO) | Information Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USFIRE](https://fred.stlouisfed.org/series/USFIRE) | Financial Activities Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USPBS](https://fred.stlouisfed.org/series/USPBS) | Professional Services Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USEHS](https://fred.stlouisfed.org/series/USEHS) | Education and Health Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USLAH](https://fred.stlouisfed.org/series/USLAH) | Leisure and Hospitality Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USGOVT](https://fred.stlouisfed.org/series/USGOVT) | Government Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
-| [USTRADE](https://fred.stlouisfed.org/series/USTRADE) | Trade and Transportation Payrolls | US | monthly | thousands | 1939-01-01 | 2026-08-01 | 1052 |
+| [U6RATE](https://fred.stlouisfed.org/series/U6RATE) | Underemployment Rate | US | monthly | % | 1994-01-01 | 2026-09-01 | 392 |
+| [CIVPART](https://fred.stlouisfed.org/series/CIVPART) | Labor Force Participation Rate | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
+| [EMRATIO](https://fred.stlouisfed.org/series/EMRATIO) | Employment-Population Ratio | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
+| [CES0500000003](https://fred.stlouisfed.org/series/CES0500000003) | Average Hourly Earnings | US | monthly | $/hour | 2006-03-01 | 2026-09-01 | 247 |
+| [AWHAETP](https://fred.stlouisfed.org/series/AWHAETP) | Average Weekly Hours | US | monthly | hours | 2006-03-01 | 2026-09-01 | 247 |
+| [USMINE](https://fred.stlouisfed.org/series/USMINE) | Mining and Logging Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USCONS](https://fred.stlouisfed.org/series/USCONS) | Construction Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [MANEMP](https://fred.stlouisfed.org/series/MANEMP) | Manufacturing Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USINFO](https://fred.stlouisfed.org/series/USINFO) | Information Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USFIRE](https://fred.stlouisfed.org/series/USFIRE) | Financial Activities Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USPBS](https://fred.stlouisfed.org/series/USPBS) | Professional Services Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USEHS](https://fred.stlouisfed.org/series/USEHS) | Education and Health Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USLAH](https://fred.stlouisfed.org/series/USLAH) | Leisure and Hospitality Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USGOVT](https://fred.stlouisfed.org/series/USGOVT) | Government Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [USTRADE](https://fred.stlouisfed.org/series/USTRADE) | Trade and Transportation Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
 | [LRHUTTTTCAM156S](https://fred.stlouisfed.org/series/LRHUTTTTCAM156S) | Harmonized Unemployment Rate · Canada | Canada | monthly | % | 1955-01-01 | 2026-08-01 | 860 |
 | [LRHUTTTTDEM156S](https://fred.stlouisfed.org/series/LRHUTTTTDEM156S) | Harmonized Unemployment Rate · Germany | Germany | monthly | % | 1991-01-01 | 2026-07-01 | 427 |
 | [LRHUTTTTFRM156S](https://fred.stlouisfed.org/series/LRHUTTTTFRM156S) | Harmonized Unemployment Rate · France | France | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
@@ -2758,17 +2758,67 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [LRHUTTTTKRM156S](https://fred.stlouisfed.org/series/LRHUTTTTKRM156S) | Harmonized Unemployment Rate · South Korea | South Korea | monthly | % | 1990-01-01 | 2026-07-01 | 439 |
 | [LRHUTTTTESM156S](https://fred.stlouisfed.org/series/LRHUTTTTESM156S) | Harmonized Unemployment Rate · Spain | Spain | monthly | % | 1986-04-01 | 2026-07-01 | 484 |
 | [LRHUTTTTGBM156S](https://fred.stlouisfed.org/series/LRHUTTTTGBM156S) | Harmonized Unemployment Rate · United Kingdom | United Kingdom | monthly | % | 1983-01-01 | 2026-05-01 | 521 |
-| [CLF16OV](https://fred.stlouisfed.org/series/CLF16OV) | Civilian Labor Force Level | US | monthly | thousands | 1948-01-01 | 2026-08-01 | 943 |
-| [CE16OV](https://fred.stlouisfed.org/series/CE16OV) | Employment Level | US | monthly | thousands | 1948-01-01 | 2026-08-01 | 943 |
-| [AHETPI](https://fred.stlouisfed.org/series/AHETPI) | Average Hourly Earnings · Production and Nonsupervisory | US | monthly | $/hour | 1964-01-01 | 2026-08-01 | 752 |
+| [CLF16OV](https://fred.stlouisfed.org/series/CLF16OV) | Civilian Labor Force Level | US | monthly | thousands | 1948-01-01 | 2026-09-01 | 944 |
+| [CE16OV](https://fred.stlouisfed.org/series/CE16OV) | Employment Level | US | monthly | thousands | 1948-01-01 | 2026-09-01 | 944 |
+| [AHETPI](https://fred.stlouisfed.org/series/AHETPI) | Average Hourly Earnings · Production and Nonsupervisory | US | monthly | $/hour | 1964-01-01 | 2026-09-01 | 753 |
 | [LES1252881600Q](https://fred.stlouisfed.org/series/LES1252881600Q) | Median Usual Weekly Real Earnings | US | quarterly | 1982–84 CPI dollars/week | 1979-01-01 | 2026-04-01 | 189 |
 | [JTSQUR](https://fred.stlouisfed.org/series/JTSQUR) | Quits Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
 | [JTSHIR](https://fred.stlouisfed.org/series/JTSHIR) | Hires Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
 | [JTSLDL](https://fred.stlouisfed.org/series/JTSLDL) | Layoffs and Discharges · Total Nonfarm | US | monthly | thousands | 2000-12-01 | 2026-08-01 | 309 |
 | [JTSTSR](https://fred.stlouisfed.org/series/JTSTSR) | Total Separations Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
 | [M0892AUSM156SNBR](https://fred.stlouisfed.org/series/M0892AUSM156SNBR) | U.S. Unemployment Rate · NBER Historical Archive | US | monthly | % | 1929-04-01 | 1942-06-01 | 159 |
-| [DGBAS_TWN_UNEMPLOYMENT](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A040108010&sys=210) | Unemployment rate · Taiwan | Taiwan | annual | % | 1978-12-31 | 2025-12-31 | 48 |
-| [IMF_TWN_UNEMPLOYMENT](https://data.imf.org/en/Datasets/WEO) | Unemployment rate · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
+| [ECIWAG](https://fred.stlouisfed.org/series/ECIWAG) | Employment Cost Index: Private Wages and Salaries | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECIALLCIV](https://fred.stlouisfed.org/series/ECIALLCIV) | Employment Cost Index: Total Compensation, All Civilian | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECICONWAG](https://fred.stlouisfed.org/series/ECICONWAG) | Employment Cost Index: Private Wages, Construction | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECIMANWAG](https://fred.stlouisfed.org/series/ECIMANWAG) | Employment Cost Index: Private Wages, Manufacturing | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECIBEN](https://fred.stlouisfed.org/series/ECIBEN) | Employment Cost Index: Private Benefits | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECIGVTWAG](https://fred.stlouisfed.org/series/ECIGVTWAG) | Employment Cost Index: State and Local Government Wages | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECICOM](https://fred.stlouisfed.org/series/ECICOM) | Employment Cost Index: Private Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECICONCOM](https://fred.stlouisfed.org/series/ECICONCOM) | Employment Cost Index: Private Compensation, Construction | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [ECIGVTCOM](https://fred.stlouisfed.org/series/ECIGVTCOM) | Employment Cost Index: State and Local Government Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [CIU1010000000000I](https://fred.stlouisfed.org/series/CIU1010000000000I) | Employment Cost Index: Total Compensation, All Civilian Workers | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [CIU2010000000000I](https://fred.stlouisfed.org/series/CIU2010000000000I) | Employment Cost Index: Private Total Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [CIU2020000000000I](https://fred.stlouisfed.org/series/CIU2020000000000I) | Employment Cost Index: Private Wages and Salaries | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [CIU2030000000000I](https://fred.stlouisfed.org/series/CIU2030000000000I) | Employment Cost Index: Private Benefits | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [CIU2023000000000I](https://fred.stlouisfed.org/series/CIU2023000000000I) | Employment Cost Index: Private Manufacturing Wages | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [CIU2012300000000I](https://fred.stlouisfed.org/series/CIU2012300000000I) | Employment Cost Index: Private Construction Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [CIU201520A000000I](https://fred.stlouisfed.org/series/CIU201520A000000I) | Employment Cost Index: Private Financial Activities Total Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
+| [U2RATE](https://fred.stlouisfed.org/series/U2RATE) | Unemployment Rate: Job Losers (U-2) | US | monthly | % | 1967-01-01 | 2026-09-01 | 716 |
+| [U4RATE](https://fred.stlouisfed.org/series/U4RATE) | Unemployment Rate: U-4 Including Discouraged Workers | US | monthly | % | 1994-01-01 | 2026-09-01 | 392 |
+| [U5RATE](https://fred.stlouisfed.org/series/U5RATE) | Unemployment Rate: U-5 Including Marginally Attached Workers | US | monthly | % | 1994-01-01 | 2026-09-01 | 392 |
+| [UEMPMED](https://fred.stlouisfed.org/series/UEMPMED) | Median Weeks Unemployed | US | monthly | weeks | 1967-07-01 | 2026-09-01 | 710 |
+| [UEMPMEAN](https://fred.stlouisfed.org/series/UEMPMEAN) | Average Weeks Unemployed | US | monthly | weeks | 1948-01-01 | 2026-09-01 | 944 |
+| [UEMP27OV](https://fred.stlouisfed.org/series/UEMP27OV) | Unemployed 27 Weeks and Over | US | monthly | thousands | 1948-01-01 | 2026-09-01 | 944 |
+| [LNS13025703](https://fred.stlouisfed.org/series/LNS13025703) | Share of Unemployed 27 Weeks and Over | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
+| [LNS12032194](https://fred.stlouisfed.org/series/LNS12032194) | Part-Time Employment for Economic Reasons | US | monthly | thousands | 1955-05-01 | 2026-09-01 | 856 |
+| [LNS12032195](https://fred.stlouisfed.org/series/LNS12032195) | Part-Time for Economic Reasons: Slack Work or Business Conditions | US | monthly | thousands | 1955-05-01 | 2026-09-01 | 856 |
+| [LNS12032196](https://fred.stlouisfed.org/series/LNS12032196) | Part-Time for Economic Reasons: Could Only Find Part-Time Work | US | monthly | thousands | 1955-05-01 | 2026-09-01 | 856 |
+| [LNS12300060](https://fred.stlouisfed.org/series/LNS12300060) | Employment-Population Ratio: Prime Age 25-54 | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
+| [TEMPHELPS](https://fred.stlouisfed.org/series/TEMPHELPS) | Temporary Help Services Employment | US | monthly | thousands | 1990-01-01 | 2026-09-01 | 441 |
+| [JTSJOR](https://fred.stlouisfed.org/series/JTSJOR) | Job Openings Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
+| [JTSLDR](https://fred.stlouisfed.org/series/JTSLDR) | Layoffs and Discharges Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
+| [JTSOSR](https://fred.stlouisfed.org/series/JTSOSR) | Other Separations Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
+| [FRBKCLMCILA](https://fred.stlouisfed.org/series/FRBKCLMCILA) | Kansas City Fed Labor Market Conditions: Level of Activity | US | monthly | index | 1992-01-01 | 2026-08-01 | 416 |
+| [LRHUTTTTATM156S](https://fred.stlouisfed.org/series/LRHUTTTTATM156S) | Harmonized Unemployment Rate · Austria | Austria | monthly | % | 1993-01-01 | 2026-07-01 | 403 |
+| [LRHUTTTTBEM156S](https://fred.stlouisfed.org/series/LRHUTTTTBEM156S) | Harmonized Unemployment Rate · Belgium | Belgium | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
+| [LRHUTTTTCZM156S](https://fred.stlouisfed.org/series/LRHUTTTTCZM156S) | Harmonized Unemployment Rate · Czech Republic | Czechia | monthly | % | 1993-01-01 | 2026-07-01 | 403 |
+| [LRHUTTTTDKM156S](https://fred.stlouisfed.org/series/LRHUTTTTDKM156S) | Harmonized Unemployment Rate · Denmark | Denmark | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
+| [LRHUTTTTEEM156S](https://fred.stlouisfed.org/series/LRHUTTTTEEM156S) | Harmonized Unemployment Rate · Estonia | Estonia | monthly | % | 1997-01-01 | 2026-07-01 | 355 |
+| [LRHUTTTTFIM156S](https://fred.stlouisfed.org/series/LRHUTTTTFIM156S) | Harmonized Unemployment Rate · Finland | Finland | monthly | % | 1988-01-01 | 2026-07-01 | 463 |
+| [LRHUTTTTGRM156S](https://fred.stlouisfed.org/series/LRHUTTTTGRM156S) | Harmonized Unemployment Rate · Greece | Greece | monthly | % | 1998-04-01 | 2026-07-01 | 340 |
+| [LRHUTTTTHUM156S](https://fred.stlouisfed.org/series/LRHUTTTTHUM156S) | Harmonized Unemployment Rate · Hungary | Hungary | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
+| [LRHUTTTTIEM156S](https://fred.stlouisfed.org/series/LRHUTTTTIEM156S) | Harmonized Unemployment Rate · Ireland | Ireland | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
+| [LRHUTTTTILM156S](https://fred.stlouisfed.org/series/LRHUTTTTILM156S) | Harmonized Unemployment Rate · Israel | Israel | monthly | % | 2012-01-01 | 2026-07-01 | 175 |
+| [LRHUTTTTISM156S](https://fred.stlouisfed.org/series/LRHUTTTTISM156S) | Harmonized Unemployment Rate · Iceland | Iceland | monthly | % | 2003-01-01 | 2026-07-01 | 283 |
+| [LRHUTTTTLUM156S](https://fred.stlouisfed.org/series/LRHUTTTTLUM156S) | Harmonized Unemployment Rate · Luxembourg | Luxembourg | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
+| [LRHUTTTTNLM156S](https://fred.stlouisfed.org/series/LRHUTTTTNLM156S) | Harmonized Unemployment Rate · Netherlands | Netherlands | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
+| [LRHUTTTTNOM156S](https://fred.stlouisfed.org/series/LRHUTTTTNOM156S) | Harmonized Unemployment Rate · Norway | Norway | monthly | % | 1989-01-01 | 2026-07-01 | 451 |
+| [LRHUTTTTPLM156S](https://fred.stlouisfed.org/series/LRHUTTTTPLM156S) | Harmonized Unemployment Rate · Poland | Poland | monthly | % | 1997-01-01 | 2026-07-01 | 355 |
+| [LRHUTTTTPTM156S](https://fred.stlouisfed.org/series/LRHUTTTTPTM156S) | Harmonized Unemployment Rate · Portugal | Portugal | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
+| [LRHUTTTTSEM156S](https://fred.stlouisfed.org/series/LRHUTTTTSEM156S) | Harmonized Unemployment Rate · Sweden | Sweden | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
+| [LRHUTTTTSIM156S](https://fred.stlouisfed.org/series/LRHUTTTTSIM156S) | Harmonized Unemployment Rate · Slovenia | Slovenia | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
+| [LRHUTTTTSKM156S](https://fred.stlouisfed.org/series/LRHUTTTTSKM156S) | Harmonized Unemployment Rate · Slovakia | Slovak Republic | monthly | % | 1998-01-01 | 2026-07-01 | 343 |
+| [LRHUTTTTTRM156S](https://fred.stlouisfed.org/series/LRHUTTTTTRM156S) | Harmonized Unemployment Rate · Turkey | Türkiye | monthly | % | 2005-01-01 | 2026-07-01 | 259 |
 | [WDI_AFG_EMPLOYMENT_FEMALE](https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.FE.ZS) | Female employment-to-population ratio · Afghanistan | Afghanistan | annual | % | 1991-12-31 | 2025-12-31 | 35 |
 | [WDI_AFG_EMPLOYMENT_MALE](https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.MA.ZS) | Male employment-to-population ratio · Afghanistan | Afghanistan | annual | % | 1991-12-31 | 2025-12-31 | 35 |
 | [WDI_AFG_EMPLOYMENT_POP](https://data.worldbank.org/indicator/SL.EMP.TOTL.SP.ZS) | Employment-to-population ratio · modeled ILO estimate · Afghanistan | Afghanistan | annual | % | 1991-12-31 | 2025-12-31 | 35 |
@@ -5025,83 +5075,33 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [WDI_ZWE_UNEMPLOYMENT_MALE](https://data.worldbank.org/indicator/SL.UEM.TOTL.MA.ZS) | Male unemployment rate · Zimbabwe | Zimbabwe | annual | % | 1991-12-31 | 2025-12-31 | 35 |
 | [WDI_ZWE_VULNERABLE_EMPLOYMENT](https://data.worldbank.org/indicator/SL.EMP.VULN.ZS) | Vulnerable employment share · Zimbabwe | Zimbabwe | annual | % | 1991-12-31 | 2025-12-31 | 35 |
 | [WDI_ZWE_YOUTH_UNEMPLOYMENT](https://data.worldbank.org/indicator/SL.UEM.1524.ZS) | Youth unemployment · modeled ILO estimate · Zimbabwe | Zimbabwe | annual | % | 1991-12-31 | 2025-12-31 | 35 |
-| [ECIWAG](https://fred.stlouisfed.org/series/ECIWAG) | Employment Cost Index: Private Wages and Salaries | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECIALLCIV](https://fred.stlouisfed.org/series/ECIALLCIV) | Employment Cost Index: Total Compensation, All Civilian | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECICONWAG](https://fred.stlouisfed.org/series/ECICONWAG) | Employment Cost Index: Private Wages, Construction | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECIMANWAG](https://fred.stlouisfed.org/series/ECIMANWAG) | Employment Cost Index: Private Wages, Manufacturing | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECIBEN](https://fred.stlouisfed.org/series/ECIBEN) | Employment Cost Index: Private Benefits | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECIGVTWAG](https://fred.stlouisfed.org/series/ECIGVTWAG) | Employment Cost Index: State and Local Government Wages | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECICOM](https://fred.stlouisfed.org/series/ECICOM) | Employment Cost Index: Private Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECICONCOM](https://fred.stlouisfed.org/series/ECICONCOM) | Employment Cost Index: Private Compensation, Construction | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [ECIGVTCOM](https://fred.stlouisfed.org/series/ECIGVTCOM) | Employment Cost Index: State and Local Government Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [CIU1010000000000I](https://fred.stlouisfed.org/series/CIU1010000000000I) | Employment Cost Index: Total Compensation, All Civilian Workers | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [CIU2010000000000I](https://fred.stlouisfed.org/series/CIU2010000000000I) | Employment Cost Index: Private Total Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [CIU2020000000000I](https://fred.stlouisfed.org/series/CIU2020000000000I) | Employment Cost Index: Private Wages and Salaries | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [CIU2030000000000I](https://fred.stlouisfed.org/series/CIU2030000000000I) | Employment Cost Index: Private Benefits | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [CIU2023000000000I](https://fred.stlouisfed.org/series/CIU2023000000000I) | Employment Cost Index: Private Manufacturing Wages | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [CIU2012300000000I](https://fred.stlouisfed.org/series/CIU2012300000000I) | Employment Cost Index: Private Construction Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [CIU201520A000000I](https://fred.stlouisfed.org/series/CIU201520A000000I) | Employment Cost Index: Private Financial Activities Total Compensation | US | quarterly | index | 2001-01-01 | 2026-04-01 | 102 |
-| [U2RATE](https://fred.stlouisfed.org/series/U2RATE) | Unemployment Rate: Job Losers (U-2) | US | monthly | % | 1967-01-01 | 2026-08-01 | 715 |
-| [U4RATE](https://fred.stlouisfed.org/series/U4RATE) | Unemployment Rate: U-4 Including Discouraged Workers | US | monthly | % | 1994-01-01 | 2026-08-01 | 391 |
-| [U5RATE](https://fred.stlouisfed.org/series/U5RATE) | Unemployment Rate: U-5 Including Marginally Attached Workers | US | monthly | % | 1994-01-01 | 2026-08-01 | 391 |
-| [UEMPMED](https://fred.stlouisfed.org/series/UEMPMED) | Median Weeks Unemployed | US | monthly | weeks | 1967-07-01 | 2026-08-01 | 709 |
-| [UEMPMEAN](https://fred.stlouisfed.org/series/UEMPMEAN) | Average Weeks Unemployed | US | monthly | weeks | 1948-01-01 | 2026-08-01 | 943 |
-| [UEMP27OV](https://fred.stlouisfed.org/series/UEMP27OV) | Unemployed 27 Weeks and Over | US | monthly | thousands | 1948-01-01 | 2026-08-01 | 943 |
-| [LNS13025703](https://fred.stlouisfed.org/series/LNS13025703) | Share of Unemployed 27 Weeks and Over | US | monthly | % | 1948-01-01 | 2026-08-01 | 943 |
-| [LNS12032194](https://fred.stlouisfed.org/series/LNS12032194) | Part-Time Employment for Economic Reasons | US | monthly | thousands | 1955-05-01 | 2026-08-01 | 855 |
-| [LNS12032195](https://fred.stlouisfed.org/series/LNS12032195) | Part-Time for Economic Reasons: Slack Work or Business Conditions | US | monthly | thousands | 1955-05-01 | 2026-08-01 | 855 |
-| [LNS12032196](https://fred.stlouisfed.org/series/LNS12032196) | Part-Time for Economic Reasons: Could Only Find Part-Time Work | US | monthly | thousands | 1955-05-01 | 2026-08-01 | 855 |
-| [LNS12300060](https://fred.stlouisfed.org/series/LNS12300060) | Employment-Population Ratio: Prime Age 25-54 | US | monthly | % | 1948-01-01 | 2026-08-01 | 943 |
-| [TEMPHELPS](https://fred.stlouisfed.org/series/TEMPHELPS) | Temporary Help Services Employment | US | monthly | thousands | 1990-01-01 | 2026-08-01 | 440 |
-| [JTSJOR](https://fred.stlouisfed.org/series/JTSJOR) | Job Openings Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
-| [JTSLDR](https://fred.stlouisfed.org/series/JTSLDR) | Layoffs and Discharges Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
-| [JTSOSR](https://fred.stlouisfed.org/series/JTSOSR) | Other Separations Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
-| [FRBKCLMCILA](https://fred.stlouisfed.org/series/FRBKCLMCILA) | Kansas City Fed Labor Market Conditions: Level of Activity | US | monthly | index | 1992-01-01 | 2026-08-01 | 416 |
-| [LRHUTTTTATM156S](https://fred.stlouisfed.org/series/LRHUTTTTATM156S) | Harmonized Unemployment Rate · Austria | Austria | monthly | % | 1993-01-01 | 2026-07-01 | 403 |
-| [LRHUTTTTBEM156S](https://fred.stlouisfed.org/series/LRHUTTTTBEM156S) | Harmonized Unemployment Rate · Belgium | Belgium | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
-| [LRHUTTTTCZM156S](https://fred.stlouisfed.org/series/LRHUTTTTCZM156S) | Harmonized Unemployment Rate · Czech Republic | Czechia | monthly | % | 1993-01-01 | 2026-07-01 | 403 |
-| [LRHUTTTTDKM156S](https://fred.stlouisfed.org/series/LRHUTTTTDKM156S) | Harmonized Unemployment Rate · Denmark | Denmark | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
-| [LRHUTTTTEEM156S](https://fred.stlouisfed.org/series/LRHUTTTTEEM156S) | Harmonized Unemployment Rate · Estonia | Estonia | monthly | % | 1997-01-01 | 2026-07-01 | 355 |
-| [LRHUTTTTFIM156S](https://fred.stlouisfed.org/series/LRHUTTTTFIM156S) | Harmonized Unemployment Rate · Finland | Finland | monthly | % | 1988-01-01 | 2026-07-01 | 463 |
-| [LRHUTTTTGRM156S](https://fred.stlouisfed.org/series/LRHUTTTTGRM156S) | Harmonized Unemployment Rate · Greece | Greece | monthly | % | 1998-04-01 | 2026-07-01 | 340 |
-| [LRHUTTTTHUM156S](https://fred.stlouisfed.org/series/LRHUTTTTHUM156S) | Harmonized Unemployment Rate · Hungary | Hungary | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
-| [LRHUTTTTIEM156S](https://fred.stlouisfed.org/series/LRHUTTTTIEM156S) | Harmonized Unemployment Rate · Ireland | Ireland | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
-| [LRHUTTTTILM156S](https://fred.stlouisfed.org/series/LRHUTTTTILM156S) | Harmonized Unemployment Rate · Israel | Israel | monthly | % | 2012-01-01 | 2026-07-01 | 175 |
-| [LRHUTTTTISM156S](https://fred.stlouisfed.org/series/LRHUTTTTISM156S) | Harmonized Unemployment Rate · Iceland | Iceland | monthly | % | 2003-01-01 | 2026-07-01 | 283 |
-| [LRHUTTTTLUM156S](https://fred.stlouisfed.org/series/LRHUTTTTLUM156S) | Harmonized Unemployment Rate · Luxembourg | Luxembourg | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
-| [LRHUTTTTNLM156S](https://fred.stlouisfed.org/series/LRHUTTTTNLM156S) | Harmonized Unemployment Rate · Netherlands | Netherlands | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
-| [LRHUTTTTNOM156S](https://fred.stlouisfed.org/series/LRHUTTTTNOM156S) | Harmonized Unemployment Rate · Norway | Norway | monthly | % | 1989-01-01 | 2026-07-01 | 451 |
-| [LRHUTTTTPLM156S](https://fred.stlouisfed.org/series/LRHUTTTTPLM156S) | Harmonized Unemployment Rate · Poland | Poland | monthly | % | 1997-01-01 | 2026-07-01 | 355 |
-| [LRHUTTTTPTM156S](https://fred.stlouisfed.org/series/LRHUTTTTPTM156S) | Harmonized Unemployment Rate · Portugal | Portugal | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
-| [LRHUTTTTSEM156S](https://fred.stlouisfed.org/series/LRHUTTTTSEM156S) | Harmonized Unemployment Rate · Sweden | Sweden | monthly | % | 1983-01-01 | 2026-07-01 | 523 |
-| [LRHUTTTTSIM156S](https://fred.stlouisfed.org/series/LRHUTTTTSIM156S) | Harmonized Unemployment Rate · Slovenia | Slovenia | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
-| [LRHUTTTTSKM156S](https://fred.stlouisfed.org/series/LRHUTTTTSKM156S) | Harmonized Unemployment Rate · Slovakia | Slovak Republic | monthly | % | 1998-01-01 | 2026-07-01 | 343 |
-| [LRHUTTTTTRM156S](https://fred.stlouisfed.org/series/LRHUTTTTTRM156S) | Harmonized Unemployment Rate · Turkey | Türkiye | monthly | % | 2005-01-01 | 2026-07-01 | 259 |
-| [EUROSTAT_BE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Belgium | Belgium | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_BG_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Bulgaria | Bulgaria | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_CZ_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Czechia | Czechia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_DK_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Denmark | Denmark | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_DE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Germany | Germany | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_EE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Estonia | Estonia | monthly | Percentage of population in the labour force | 2000-02-01 | 2026-07-01 | 318 |
+| [DGBAS_TWN_UNEMPLOYMENT](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A040108010&sys=210) | Unemployment rate · Taiwan | Taiwan | annual | % | 1978-12-31 | 2025-12-31 | 48 |
+| [IMF_TWN_UNEMPLOYMENT](https://data.imf.org/en/Datasets/WEO) | Unemployment rate · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
+| [EUROSTAT_BE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Belgium | Belgium | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_BG_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Bulgaria | Bulgaria | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_CZ_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Czechia | Czechia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_DK_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Denmark | Denmark | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_DE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Germany | Germany | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_EE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Estonia | Estonia | monthly | Percentage of population in the labour force | 2000-02-01 | 2026-08-01 | 319 |
 | [EUROSTAT_IE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Ireland | Ireland | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_EL_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Greece | Greece | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_ES_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Spain | Spain | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_FR_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · France | France | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_HR_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Croatia | Croatia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_IT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Italy | Italy | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_CY_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Cyprus | Cyprus | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_LV_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Latvia | Latvia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_LT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Lithuania | Lithuania | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_LU_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Luxembourg | Luxembourg | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_HU_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Hungary | Hungary | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_MT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Malta | Malta | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_EL_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Greece | Greece | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_ES_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Spain | Spain | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_FR_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · France | France | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_HR_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Croatia | Croatia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_IT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Italy | Italy | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_CY_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Cyprus | Cyprus | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_LV_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Latvia | Latvia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_LT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Lithuania | Lithuania | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_LU_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Luxembourg | Luxembourg | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_HU_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Hungary | Hungary | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_MT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Malta | Malta | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_NL_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Netherlands | Netherlands | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_AT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Austria | Austria | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_PL_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Poland | Poland | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_PT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Portugal | Portugal | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_RO_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Romania | Romania | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_SI_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Slovenia | Slovenia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_SK_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Slovak Republic | Slovak Republic | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_AT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Austria | Austria | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_PL_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Poland | Poland | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_PT_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Portugal | Portugal | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_RO_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Romania | Romania | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_SI_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Slovenia | Slovenia | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_SK_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Slovak Republic | Slovak Republic | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_FI_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Finland | Finland | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_SE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Sweden | Sweden | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-08-01 | 320 |
 | [JST_AUS_UNEMP](https://www.macrohistory.net/database/) | Unemployment rate · Australia | Australia | annual | % | 1901-12-31 | 2020-12-31 | 120 |
@@ -5262,8 +5262,8 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [PCEPI](https://fred.stlouisfed.org/series/PCEPI) | PCE Price Index | US | monthly | index | 1959-01-01 | 2026-08-01 | 812 |
 | [PCEPILFE](https://fred.stlouisfed.org/series/PCEPILFE) | Core PCE Price Index | US | monthly | index | 1959-01-01 | 2026-08-01 | 812 |
 | [PPIACO](https://fred.stlouisfed.org/series/PPIACO) | Producer Price Index | US | monthly | index | 1913-01-01 | 2026-08-01 | 1364 |
-| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-09-30 | 5941 |
-| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-09-30 | 5941 |
+| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-10-02 | 5943 |
+| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-10-02 | 5943 |
 | [FPCPITOTLZGCAN](https://fred.stlouisfed.org/series/FPCPITOTLZGCAN) | Annual consumer inflation · Canada | Canada | annual | % | 1960-01-01 | 2025-01-01 | 66 |
 | [CP0000DEM086NEST](https://fred.stlouisfed.org/series/CP0000DEM086NEST) | Harmonized Consumer Price Index · Germany | Germany | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
 | [CP0000FRM086NEST](https://fred.stlouisfed.org/series/CP0000FRM086NEST) | Harmonized Consumer Price Index · France | France | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
@@ -5277,22 +5277,34 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [FPCPITOTLZGKOR](https://fred.stlouisfed.org/series/FPCPITOTLZGKOR) | Inflation, consumer prices · South Korea | South Korea | annual | % | 1960-01-01 | 2025-01-01 | 66 |
 | [CP0000ESM086NEST](https://fred.stlouisfed.org/series/CP0000ESM086NEST) | Harmonized Consumer Price Index · Spain | Spain | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
 | [FPCPITOTLZGGBR](https://fred.stlouisfed.org/series/FPCPITOTLZGGBR) | Inflation, consumer prices · United Kingdom | United Kingdom | annual | % | 1960-01-01 | 2025-01-01 | 66 |
-| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | US | daily | % | 2003-01-02 | 2026-09-30 | 5941 |
+| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | US | daily | % | 2003-01-02 | 2026-10-02 | 5943 |
 | [CPIUKA](https://fred.stlouisfed.org/series/CPIUKA) | Consumer Price Index · United Kingdom · Millennium Archive | United Kingdom | annual | index | 1209-01-01 | 2016-01-01 | 808 |
 | [CPIIUKA](https://fred.stlouisfed.org/series/CPIIUKA) | Consumer Price Inflation · United Kingdom · Millennium Archive | United Kingdom | annual | % | 1210-01-01 | 2016-01-01 | 807 |
-| [DGBAS_TWN_CPI_INDEX](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price index · Taiwan | Taiwan | annual | index (2021=100) | 1981-12-31 | 2025-12-31 | 45 |
-| [DGBAS_TWN_INFLATION](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1982-12-31 | 2025-12-31 | 44 |
-| [IMF_TWN_INFLATION](https://data.imf.org/en/Datasets/WEO) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
-| [TERR_JEY_RPI_INDEX](https://opendata.gov.je/dataset/rpi-rpi-x-rpi-y-rpi-pensioners-and-rpi-low-income-percentage-changes) | Retail price index · Jersey | Jersey | quarterly | index points (Jersey RPI) | 1989-03-15 | 2026-06-15 | 150 |
-| [TERR_JEY_RPI_INFLATION](https://opendata.gov.je/dataset/rpi-rpi-x-rpi-y-rpi-pensioners-and-rpi-low-income-percentage-changes) | RPI inflation · Jersey | Jersey | quarterly | % | 1990-03-15 | 2026-06-15 | 146 |
-| [TERR_ALA_CPI_INDEX](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__KO/KO007.px/) | Consumer price index · Åland | Åland | monthly | index (2015=100) | 2015-01-01 | 2026-08-01 | 140 |
-| [TERR_ALA_CPI_INFLATION](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__KO/KO007.px/) | CPI inflation · Åland | Åland | monthly | % | 2016-01-01 | 2026-08-01 | 128 |
-| [TERR_BES_GM9001_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Bonaire (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
-| [TERR_BES_GM9001_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Bonaire (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
-| [TERR_BES_GM9002_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Sint Eustatius (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
-| [TERR_BES_GM9002_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Sint Eustatius (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
-| [TERR_BES_GM9003_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Saba (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
-| [TERR_BES_GM9003_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Saba (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
+| [CP0000ATM086NEST](https://fred.stlouisfed.org/series/CP0000ATM086NEST) | Harmonized Consumer Price Index · Austria | Austria | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000BEM086NEST](https://fred.stlouisfed.org/series/CP0000BEM086NEST) | Harmonized Consumer Price Index · Belgium | Belgium | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000BGM086NEST](https://fred.stlouisfed.org/series/CP0000BGM086NEST) | Harmonized Consumer Price Index · Bulgaria | Bulgaria | monthly | index | 1996-12-01 | 2026-08-01 | 357 |
+| [CP0000CYM086NEST](https://fred.stlouisfed.org/series/CP0000CYM086NEST) | Harmonized Consumer Price Index · Cyprus | Cyprus | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000CZM086NEST](https://fred.stlouisfed.org/series/CP0000CZM086NEST) | Harmonized Consumer Price Index · Czech Republic | Czechia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000DKM086NEST](https://fred.stlouisfed.org/series/CP0000DKM086NEST) | Harmonized Consumer Price Index · Denmark | Denmark | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000EEM086NEST](https://fred.stlouisfed.org/series/CP0000EEM086NEST) | Harmonized Consumer Price Index · Estonia | Estonia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000FIM086NEST](https://fred.stlouisfed.org/series/CP0000FIM086NEST) | Harmonized Consumer Price Index · Finland | Finland | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000GRM086NEST](https://fred.stlouisfed.org/series/CP0000GRM086NEST) | Harmonized Consumer Price Index · Greece | Greece | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000HRM086NEST](https://fred.stlouisfed.org/series/CP0000HRM086NEST) | Harmonized Consumer Price Index · Croatia | Croatia | monthly | index | 1997-12-01 | 2026-08-01 | 345 |
+| [CP0000HUM086NEST](https://fred.stlouisfed.org/series/CP0000HUM086NEST) | Harmonized Consumer Price Index · Hungary | Hungary | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000IEM086NEST](https://fred.stlouisfed.org/series/CP0000IEM086NEST) | Harmonized Consumer Price Index · Ireland | Ireland | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000LTM086NEST](https://fred.stlouisfed.org/series/CP0000LTM086NEST) | Harmonized Consumer Price Index · Lithuania | Lithuania | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000LUM086NEST](https://fred.stlouisfed.org/series/CP0000LUM086NEST) | Harmonized Consumer Price Index · Luxembourg | Luxembourg | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000LVM086NEST](https://fred.stlouisfed.org/series/CP0000LVM086NEST) | Harmonized Consumer Price Index · Latvia | Latvia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000MTM086NEST](https://fred.stlouisfed.org/series/CP0000MTM086NEST) | Harmonized Consumer Price Index · Malta | Malta | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000NLM086NEST](https://fred.stlouisfed.org/series/CP0000NLM086NEST) | Harmonized Consumer Price Index · Netherlands | Netherlands | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000PLM086NEST](https://fred.stlouisfed.org/series/CP0000PLM086NEST) | Harmonized Consumer Price Index · Poland | Poland | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000PTM086NEST](https://fred.stlouisfed.org/series/CP0000PTM086NEST) | Harmonized Consumer Price Index · Portugal | Portugal | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000ROM086NEST](https://fred.stlouisfed.org/series/CP0000ROM086NEST) | Harmonized Consumer Price Index · Romania | Romania | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000SEM086NEST](https://fred.stlouisfed.org/series/CP0000SEM086NEST) | Harmonized Consumer Price Index · Sweden | Sweden | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000SIM086NEST](https://fred.stlouisfed.org/series/CP0000SIM086NEST) | Harmonized Consumer Price Index · Slovenia | Slovenia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
+| [CP0000SKM086NEST](https://fred.stlouisfed.org/series/CP0000SKM086NEST) | Harmonized Consumer Price Index · Slovakia | Slovak Republic | monthly | index | 1996-12-01 | 2026-08-01 | 357 |
+| [CPALTT01INM659N](https://fred.stlouisfed.org/series/CPALTT01INM659N) | Consumer Price Inflation (YoY) · India | India | monthly | % | 1958-01-01 | 2025-03-01 | 807 |
+| [CPALTT01CNM659N](https://fred.stlouisfed.org/series/CPALTT01CNM659N) | Consumer Price Inflation (YoY) · China | China | monthly | % | 1987-01-01 | 2025-04-01 | 460 |
 | [WDI_ABW_CPIINDEX](https://data.worldbank.org/indicator/FP.CPI.TOTL) | Consumer price index · Aruba | Aruba | annual | index (2010=100) | 1980-12-31 | 2019-12-31 | 37 |
 | [WDI_ABW_GDP_DEFLATOR](https://data.worldbank.org/indicator/NY.GDP.DEFL.KD.ZG) | GDP deflator inflation · Aruba | Aruba | annual | % | 1987-12-31 | 2024-12-31 | 38 |
 | [WDI_ABW_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Aruba | Aruba | annual | % | 1985-12-31 | 2019-12-31 | 35 |
@@ -5893,31 +5905,19 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [WDI_ZWE_CPIINDEX](https://data.worldbank.org/indicator/FP.CPI.TOTL) | Consumer price index · Zimbabwe | Zimbabwe | annual | index (2010=100) | 2009-12-31 | 2022-12-31 | 14 |
 | [WDI_ZWE_GDP_DEFLATOR](https://data.worldbank.org/indicator/NY.GDP.DEFL.KD.ZG) | GDP deflator inflation · Zimbabwe | Zimbabwe | annual | % | 1961-12-31 | 2025-12-31 | 65 |
 | [WDI_ZWE_INFLATION](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) | CPI inflation · Zimbabwe | Zimbabwe | annual | % | 2010-12-31 | 2022-12-31 | 13 |
-| [CP0000ATM086NEST](https://fred.stlouisfed.org/series/CP0000ATM086NEST) | Harmonized Consumer Price Index · Austria | Austria | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000BEM086NEST](https://fred.stlouisfed.org/series/CP0000BEM086NEST) | Harmonized Consumer Price Index · Belgium | Belgium | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000BGM086NEST](https://fred.stlouisfed.org/series/CP0000BGM086NEST) | Harmonized Consumer Price Index · Bulgaria | Bulgaria | monthly | index | 1996-12-01 | 2026-08-01 | 357 |
-| [CP0000CYM086NEST](https://fred.stlouisfed.org/series/CP0000CYM086NEST) | Harmonized Consumer Price Index · Cyprus | Cyprus | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000CZM086NEST](https://fred.stlouisfed.org/series/CP0000CZM086NEST) | Harmonized Consumer Price Index · Czech Republic | Czechia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000DKM086NEST](https://fred.stlouisfed.org/series/CP0000DKM086NEST) | Harmonized Consumer Price Index · Denmark | Denmark | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000EEM086NEST](https://fred.stlouisfed.org/series/CP0000EEM086NEST) | Harmonized Consumer Price Index · Estonia | Estonia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000FIM086NEST](https://fred.stlouisfed.org/series/CP0000FIM086NEST) | Harmonized Consumer Price Index · Finland | Finland | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000GRM086NEST](https://fred.stlouisfed.org/series/CP0000GRM086NEST) | Harmonized Consumer Price Index · Greece | Greece | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000HRM086NEST](https://fred.stlouisfed.org/series/CP0000HRM086NEST) | Harmonized Consumer Price Index · Croatia | Croatia | monthly | index | 1997-12-01 | 2026-08-01 | 345 |
-| [CP0000HUM086NEST](https://fred.stlouisfed.org/series/CP0000HUM086NEST) | Harmonized Consumer Price Index · Hungary | Hungary | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000IEM086NEST](https://fred.stlouisfed.org/series/CP0000IEM086NEST) | Harmonized Consumer Price Index · Ireland | Ireland | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000LTM086NEST](https://fred.stlouisfed.org/series/CP0000LTM086NEST) | Harmonized Consumer Price Index · Lithuania | Lithuania | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000LUM086NEST](https://fred.stlouisfed.org/series/CP0000LUM086NEST) | Harmonized Consumer Price Index · Luxembourg | Luxembourg | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000LVM086NEST](https://fred.stlouisfed.org/series/CP0000LVM086NEST) | Harmonized Consumer Price Index · Latvia | Latvia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000MTM086NEST](https://fred.stlouisfed.org/series/CP0000MTM086NEST) | Harmonized Consumer Price Index · Malta | Malta | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000NLM086NEST](https://fred.stlouisfed.org/series/CP0000NLM086NEST) | Harmonized Consumer Price Index · Netherlands | Netherlands | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000PLM086NEST](https://fred.stlouisfed.org/series/CP0000PLM086NEST) | Harmonized Consumer Price Index · Poland | Poland | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000PTM086NEST](https://fred.stlouisfed.org/series/CP0000PTM086NEST) | Harmonized Consumer Price Index · Portugal | Portugal | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000ROM086NEST](https://fred.stlouisfed.org/series/CP0000ROM086NEST) | Harmonized Consumer Price Index · Romania | Romania | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000SEM086NEST](https://fred.stlouisfed.org/series/CP0000SEM086NEST) | Harmonized Consumer Price Index · Sweden | Sweden | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000SIM086NEST](https://fred.stlouisfed.org/series/CP0000SIM086NEST) | Harmonized Consumer Price Index · Slovenia | Slovenia | monthly | index | 1996-01-01 | 2026-08-01 | 368 |
-| [CP0000SKM086NEST](https://fred.stlouisfed.org/series/CP0000SKM086NEST) | Harmonized Consumer Price Index · Slovakia | Slovak Republic | monthly | index | 1996-12-01 | 2026-08-01 | 357 |
-| [CPALTT01INM659N](https://fred.stlouisfed.org/series/CPALTT01INM659N) | Consumer Price Inflation (YoY) · India | India | monthly | % | 1958-01-01 | 2025-03-01 | 807 |
-| [CPALTT01CNM659N](https://fred.stlouisfed.org/series/CPALTT01CNM659N) | Consumer Price Inflation (YoY) · China | China | monthly | % | 1987-01-01 | 2025-04-01 | 460 |
+| [DGBAS_TWN_CPI_INDEX](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price index · Taiwan | Taiwan | annual | index (2021=100) | 1981-12-31 | 2025-12-31 | 45 |
+| [DGBAS_TWN_INFLATION](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A030101015&sys=210) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1982-12-31 | 2025-12-31 | 44 |
+| [IMF_TWN_INFLATION](https://data.imf.org/en/Datasets/WEO) | Consumer price inflation · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
+| [TERR_JEY_RPI_INDEX](https://opendata.gov.je/dataset/rpi-rpi-x-rpi-y-rpi-pensioners-and-rpi-low-income-percentage-changes) | Retail price index · Jersey | Jersey | quarterly | index points (Jersey RPI) | 1989-03-15 | 2026-06-15 | 150 |
+| [TERR_JEY_RPI_INFLATION](https://opendata.gov.je/dataset/rpi-rpi-x-rpi-y-rpi-pensioners-and-rpi-low-income-percentage-changes) | RPI inflation · Jersey | Jersey | quarterly | % | 1990-03-15 | 2026-06-15 | 146 |
+| [TERR_ALA_CPI_INDEX](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__KO/KO007.px/) | Consumer price index · Åland | Åland | monthly | index (2015=100) | 2015-01-01 | 2026-08-01 | 140 |
+| [TERR_ALA_CPI_INFLATION](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__KO/KO007.px/) | CPI inflation · Åland | Åland | monthly | % | 2016-01-01 | 2026-08-01 | 128 |
+| [TERR_BES_GM9001_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Bonaire (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
+| [TERR_BES_GM9001_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Bonaire (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
+| [TERR_BES_GM9002_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Sint Eustatius (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
+| [TERR_BES_GM9002_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Sint Eustatius (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
+| [TERR_BES_GM9003_CPI_INDEX](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | Consumer price index · Saba (BES) | Caribbean Netherlands | quarterly | index (2017=100) | 2010-03-01 | 2026-06-01 | 66 |
+| [TERR_BES_GM9003_CPI_INFLATION](https://www.cbs.nl/en-gb/figures/detail/84046ENG) | CPI inflation · Saba (BES) | Caribbean Netherlands | quarterly | % | 2011-03-01 | 2026-06-01 | 62 |
 | [BIS_LONG_CPI_A_AE_628](https://data.bis.org/topics/CPI) | Consumer price index · long history · United Arab Emirates · annual long history | United Arab Emirates | annual | index (2010=100) | 1980-12-31 | 2025-12-31 | 46 |
 | [BIS_LONG_CPI_A_AR_628](https://data.bis.org/topics/CPI) | Consumer price index · long history · Argentina · annual long history | Argentina | annual | index (2010=100) | 1943-12-31 | 2025-12-31 | 83 |
 | [BIS_LONG_CPI_A_AT_628](https://data.bis.org/topics/CPI) | Consumer price index · long history · Austria · annual long history | Austria | annual | index (2010=100) | 1948-12-31 | 2025-12-31 | 78 |
@@ -6444,88 +6444,191 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [GDPCA](https://fred.stlouisfed.org/series/GDPCA) | Real Gross Domestic Product · Annual Long History | US | annual | billions | 1929-01-01 | 2025-01-01 | 97 |
 | [GNPCA](https://fred.stlouisfed.org/series/GNPCA) | Real Gross National Product · Annual Long History | US | annual | billions | 1929-01-01 | 2025-01-01 | 97 |
 | [A191RL1A225NBEA](https://fred.stlouisfed.org/series/A191RL1A225NBEA) | Real GDP Growth · Annual Long History | US | annual | % | 1930-01-01 | 2025-01-01 | 96 |
-| [DGBAS_TWN_GDP_NOMINAL](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Nominal GDP · Taiwan | Taiwan | annual | million USD | 1960-12-31 | 2025-12-31 | 66 |
-| [DGBAS_TWN_GDPGROWTH](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Real GDP growth · Taiwan | Taiwan | annual | % | 1960-12-31 | 2025-12-31 | 66 |
-| [DGBAS_TWN_GDPPC_NOMINAL](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Nominal GDP per capita · Taiwan | Taiwan | annual | USD/person | 1960-12-31 | 2025-12-31 | 66 |
-| [IMF_TWN_GDP_NOMINAL](https://data.imf.org/en/Datasets/WEO) | Nominal GDP · Taiwan | Taiwan | annual | USD billions | 1980-12-31 | 2025-12-31 | 46 |
-| [IMF_TWN_GDPGROWTH](https://data.imf.org/en/Datasets/WEO) | Real GDP growth · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
-| [IMF_TWN_GDPPC_NOMINAL](https://data.imf.org/en/Datasets/WEO) | Nominal GDP per capita · Taiwan | Taiwan | annual | USD/person | 1980-12-31 | 2025-12-31 | 46 |
-| [SPC_ASM_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · American Samoa | American Samoa | annual | thousands USD | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_ASM_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · American Samoa | American Samoa | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_ASM_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · American Samoa | American Samoa | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_ASM_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · American Samoa | American Samoa | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_GUM_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Guam | Guam | annual | thousands USD | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_GUM_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Guam | Guam | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_GUM_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Guam | Guam | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_GUM_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Guam | Guam | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_MNP_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Northern Mariana Islands | Northern Mariana Islands | annual | thousands USD | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_MNP_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Northern Mariana Islands | Northern Mariana Islands | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_MNP_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Northern Mariana Islands | Northern Mariana Islands | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_MNP_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Northern Mariana Islands | Northern Mariana Islands | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_NCL_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · New Caledonia | New Caledonia | annual | thousands USD | 2005-12-31 | 2024-12-31 | 20 |
-| [SPC_NCL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2023-12-31 | 18 |
-| [SPC_NCL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · New Caledonia | New Caledonia | annual | USD/person | 2005-12-31 | 2023-12-31 | 19 |
-| [SPC_NCL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2023-12-31 | 18 |
-| [SPC_NIU_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Niue | Niue | annual | thousands USD | 2005-12-31 | 2025-12-31 | 21 |
-| [SPC_NIU_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Niue | Niue | annual | % | 2006-12-31 | 2024-12-31 | 19 |
-| [SPC_NIU_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Niue | Niue | annual | USD/person | 2005-12-31 | 2024-12-31 | 20 |
-| [SPC_NIU_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Niue | Niue | annual | % | 2006-12-31 | 2024-12-31 | 19 |
-| [SPC_PCN_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Pitcairn Islands | Pitcairn Islands | annual | thousands USD | 2005-12-31 | 2005-12-31 | 1 |
-| [SPC_PCN_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Pitcairn Islands | Pitcairn Islands | annual | USD/person | 2005-12-31 | 2005-12-31 | 1 |
-| [SPC_PYF_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · French Polynesia | French Polynesia | annual | thousands USD | 2005-12-31 | 2024-12-31 | 20 |
-| [SPC_PYF_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_PYF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · French Polynesia | French Polynesia | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_PYF_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_TKL_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Tokelau | Tokelau | annual | thousands USD | 2013-12-31 | 2024-12-31 | 12 |
-| [SPC_TKL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2021-12-31 | 8 |
-| [SPC_TKL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Tokelau | Tokelau | annual | USD/person | 2013-12-31 | 2021-12-31 | 9 |
-| [SPC_TKL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2021-12-31 | 8 |
-| [SPC_WLF_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Wallis and Futuna | Wallis and Futuna | annual | thousands USD | 2005-12-31 | 2019-12-31 | 3 |
-| [SPC_WLF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Wallis and Futuna | Wallis and Futuna | annual | USD/person | 2005-12-31 | 2015-12-31 | 2 |
-| [UN_AIA_GDP](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP · Anguilla | Anguilla | annual | constant 2020 USD | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_AIA_GDP_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP · Anguilla | Anguilla | annual | current USD | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_AIA_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Anguilla | Anguilla | annual | % | 1971-12-31 | 2024-12-31 | 54 |
-| [UN_AIA_GDPPC](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP per capita · Anguilla | Anguilla | annual | constant 2020 USD/person | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_AIA_GDPPC_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP per capita · Anguilla | Anguilla | annual | current USD/person | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_COK_GDP](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP · Cook Islands | Cook Islands | annual | constant 2020 USD | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_COK_GDP_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP · Cook Islands | Cook Islands | annual | current USD | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_COK_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Cook Islands | Cook Islands | annual | % | 1971-12-31 | 2024-12-31 | 54 |
-| [UN_COK_GDPPC](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP per capita · Cook Islands | Cook Islands | annual | constant 2020 USD/person | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_COK_GDPPC_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP per capita · Cook Islands | Cook Islands | annual | current USD/person | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_MSR_GDP](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP · Montserrat | Montserrat | annual | constant 2020 USD | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_MSR_GDP_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP · Montserrat | Montserrat | annual | current USD | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_MSR_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Montserrat | Montserrat | annual | % | 1971-12-31 | 2024-12-31 | 54 |
-| [UN_MSR_GDPPC](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP per capita · Montserrat | Montserrat | annual | constant 2020 USD/person | 1970-12-31 | 2024-12-31 | 55 |
-| [UN_MSR_GDPPC_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP per capita · Montserrat | Montserrat | annual | current USD/person | 1970-12-31 | 2024-12-31 | 55 |
-| [TERR_JEY_GDP_REAL](https://opendata.gov.je/dataset/national-accounts/resource/69bc3b4b-9c2f-470f-a42b-97daab3271ec?inner_span=True) | Real GDP · Jersey | Jersey | annual | GBP million (constant 2024 prices) | 2012-12-31 | 2024-12-31 | 13 |
-| [TERR_JEY_GDP_GROWTH](https://opendata.gov.je/dataset/national-accounts/resource/69bc3b4b-9c2f-470f-a42b-97daab3271ec?inner_span=True) | Real GDP growth · Jersey | Jersey | annual | % | 2013-12-31 | 2024-12-31 | 12 |
-| [TERR_GLP_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Guadeloupe | Guadeloupe | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_GLP_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Guadeloupe | Guadeloupe | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_GLP_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Guadeloupe | Guadeloupe | annual | % | 2001-12-31 | 2024-12-31 | 24 |
-| [TERR_MTQ_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Martinique | Martinique | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_MTQ_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Martinique | Martinique | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_MTQ_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Martinique | Martinique | annual | % | 2001-12-31 | 2024-12-31 | 24 |
-| [TERR_GUF_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · French Guiana | French Guiana | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_GUF_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · French Guiana | French Guiana | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_GUF_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · French Guiana | French Guiana | annual | % | 2001-12-31 | 2024-12-31 | 24 |
-| [TERR_REU_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Réunion | Réunion | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_REU_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Réunion | Réunion | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
-| [TERR_REU_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Réunion | Réunion | annual | % | 2001-12-31 | 2024-12-31 | 24 |
-| [TERR_MYT_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Mayotte | Mayotte | annual | EUR million | 2000-12-31 | 2023-12-31 | 24 |
-| [TERR_MYT_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Mayotte | Mayotte | annual | EUR million (chained volume) | 2000-12-31 | 2023-12-31 | 24 |
-| [TERR_MYT_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Mayotte | Mayotte | annual | % | 2001-12-31 | 2023-12-31 | 23 |
-| [TERR_ALA_GDP_NOMINAL](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Nominal GDP · Åland | Åland | annual | EUR million | 2008-12-31 | 2023-12-31 | 16 |
-| [TERR_ALA_GDP_REAL](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Real GDP · Åland | Åland | annual | EUR million (constant latest reported prices) | 2008-12-31 | 2023-12-31 | 16 |
-| [TERR_ALA_GDP_GROWTH](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Real GDP growth · Åland | Åland | annual | % | 2009-12-31 | 2023-12-31 | 15 |
-| [TERR_BES_GM9001_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Bonaire (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
-| [TERR_BES_GM9001_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Bonaire (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
-| [TERR_BES_GM9001_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Bonaire (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
-| [TERR_BES_GM9002_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Sint Eustatius (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
-| [TERR_BES_GM9002_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Sint Eustatius (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
-| [TERR_BES_GM9002_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Sint Eustatius (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
-| [TERR_BES_GM9003_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Saba (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
-| [TERR_BES_GM9003_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Saba (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
-| [TERR_BES_GM9003_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Saba (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
+| [DPCERY2Q224SBEA](https://fred.stlouisfed.org/series/DPCERY2Q224SBEA) | Contribution to real GDP growth: Personal consumption expenditures | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A822RY2Q224SBEA](https://fred.stlouisfed.org/series/A822RY2Q224SBEA) | Contribution to real GDP growth: Government consumption and investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A019RY2Q224SBEA](https://fred.stlouisfed.org/series/A019RY2Q224SBEA) | Contribution to real GDP growth: Net exports | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A006RY2Q224SBEA](https://fred.stlouisfed.org/series/A006RY2Q224SBEA) | Contribution to real GDP growth: Gross private domestic investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A007RY2Q224SBEA](https://fred.stlouisfed.org/series/A007RY2Q224SBEA) | Contribution to real GDP growth: Private fixed investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A008RY2Q224SBEA](https://fred.stlouisfed.org/series/A008RY2Q224SBEA) | Contribution to real GDP growth: Nonresidential fixed investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A009RY2Q224SBEA](https://fred.stlouisfed.org/series/A009RY2Q224SBEA) | Contribution to real GDP growth: Nonresidential structures | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A011RY2Q224SBEA](https://fred.stlouisfed.org/series/A011RY2Q224SBEA) | Contribution to real GDP growth: Residential fixed investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A014RY2Q224SBEA](https://fred.stlouisfed.org/series/A014RY2Q224SBEA) | Contribution to real GDP growth: Change in private inventories | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A015RY2Q224SBEA](https://fred.stlouisfed.org/series/A015RY2Q224SBEA) | Contribution to real GDP growth: Nonfarm inventories | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A020RY2Q224SBEA](https://fred.stlouisfed.org/series/A020RY2Q224SBEA) | Contribution to real GDP growth: Exports | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A021RY2Q224SBEA](https://fred.stlouisfed.org/series/A021RY2Q224SBEA) | Contribution to real GDP growth: Imports | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A353RY2Q224SBEA](https://fred.stlouisfed.org/series/A353RY2Q224SBEA) | Contribution to real GDP growth: Goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A341RY2Q224SBEA](https://fred.stlouisfed.org/series/A341RY2Q224SBEA) | Contribution to real GDP growth: Services | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [DGDSRY2Q224SBEA](https://fred.stlouisfed.org/series/DGDSRY2Q224SBEA) | Contribution to real GDP growth: PCE goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [DSERRY2Q224SBEA](https://fred.stlouisfed.org/series/DSERRY2Q224SBEA) | Contribution to real GDP growth: PCE services | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [DDURRY2Q224SBEA](https://fred.stlouisfed.org/series/DDURRY2Q224SBEA) | Contribution to real GDP growth: PCE durable goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [DNDGRY2Q224SBEA](https://fred.stlouisfed.org/series/DNDGRY2Q224SBEA) | Contribution to real GDP growth: PCE nondurable goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A823RY2Q224SBEA](https://fred.stlouisfed.org/series/A823RY2Q224SBEA) | Contribution to real GDP growth: Federal government | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [A824RY2Q224SBEA](https://fred.stlouisfed.org/series/A824RY2Q224SBEA) | Contribution to real GDP growth: Federal national defense | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
+| [B935RY2Q224SBEA](https://fred.stlouisfed.org/series/B935RY2Q224SBEA) | Contribution to real GDP growth: Computers and peripherals | US | quarterly | percentage points | 1959-04-01 | 2026-04-01 | 269 |
+| [B985RY2Q224SBEA](https://fred.stlouisfed.org/series/B985RY2Q224SBEA) | Contribution to real GDP growth: Software investment | US | quarterly | percentage points | 1959-04-01 | 2026-04-01 | 269 |
+| [DSPIC96](https://fred.stlouisfed.org/series/DSPIC96) | Real Disposable Personal Income | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
+| [A229RX0](https://fred.stlouisfed.org/series/A229RX0) | Real Disposable Personal Income per Capita | US | monthly | dollars | 1959-01-01 | 2026-08-01 | 812 |
+| [PSAVERT](https://fred.stlouisfed.org/series/PSAVERT) | Personal Saving Rate | US | monthly | % | 1959-01-01 | 2026-08-01 | 812 |
+| [A072RC1Q156SBEA](https://fred.stlouisfed.org/series/A072RC1Q156SBEA) | Personal Saving as a Percent of Disposable Income | US | quarterly | % | 1947-01-01 | 2026-04-01 | 318 |
+| [PSAVE](https://fred.stlouisfed.org/series/PSAVE) | Personal Saving | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [DPI](https://fred.stlouisfed.org/series/DPI) | Disposable Personal Income | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [PINCOME](https://fred.stlouisfed.org/series/PINCOME) | Personal Income | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [A792RC0Q052SBEA](https://fred.stlouisfed.org/series/A792RC0Q052SBEA) | Personal Income per Capita | US | quarterly | dollars | 1947-01-01 | 2026-04-01 | 318 |
+| [TCU](https://fred.stlouisfed.org/series/TCU) | Capacity Utilization: Total Index | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
+| [MCUMFN](https://fred.stlouisfed.org/series/MCUMFN) | Capacity Utilization: Manufacturing (NAICS) | US | monthly | % | 1972-01-01 | 2026-08-01 | 656 |
+| [CAPUTLG21S](https://fred.stlouisfed.org/series/CAPUTLG21S) | Capacity Utilization: Mining (NAICS 21) | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
+| [CAPUTLG2211A2S](https://fred.stlouisfed.org/series/CAPUTLG2211A2S) | Capacity Utilization: Electric and Gas Utilities | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
+| [CAPUTLG311A2S](https://fred.stlouisfed.org/series/CAPUTLG311A2S) | Capacity Utilization: Food, Beverage, and Tobacco | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
+| [CAPUTLG324S](https://fred.stlouisfed.org/series/CAPUTLG324S) | Capacity Utilization: Petroleum and Coal Products | US | monthly | % | 1948-01-01 | 2026-08-01 | 944 |
+| [CAPUTLG325S](https://fred.stlouisfed.org/series/CAPUTLG325S) | Capacity Utilization: Chemical Manufacturing | US | monthly | % | 1948-01-01 | 2026-08-01 | 944 |
+| [CAPUTLG331S](https://fred.stlouisfed.org/series/CAPUTLG331S) | Capacity Utilization: Primary Metal Manufacturing | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
+| [CAPUTLG333S](https://fred.stlouisfed.org/series/CAPUTLG333S) | Capacity Utilization: Machinery Manufacturing | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
+| [CAPUTLG334S](https://fred.stlouisfed.org/series/CAPUTLG334S) | Capacity Utilization: Computer and Electronic Products | US | monthly | % | 1972-01-01 | 2026-08-01 | 656 |
+| [CAPUTLG3361T3S](https://fred.stlouisfed.org/series/CAPUTLG3361T3S) | Capacity Utilization: Motor Vehicles and Parts | US | monthly | % | 1948-01-01 | 2026-08-01 | 944 |
+| [CFNAIMA3](https://fred.stlouisfed.org/series/CFNAIMA3) | Chicago Fed National Activity Index: Three-Month Average | US | monthly | index | 1967-05-01 | 2026-08-01 | 712 |
+| [CFNAIDIFF](https://fred.stlouisfed.org/series/CFNAIDIFF) | Chicago Fed National Activity Index: Diffusion Index | US | monthly | index | 1967-05-01 | 2026-08-01 | 712 |
+| [EUANDH](https://fred.stlouisfed.org/series/EUANDH) | Chicago Fed National Activity Index: Employment, Unemployment and Hours | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
+| [PANDI](https://fred.stlouisfed.org/series/PANDI) | Chicago Fed National Activity Index: Production and Income | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
+| [SOANDI](https://fred.stlouisfed.org/series/SOANDI) | Chicago Fed National Activity Index: Sales, Orders and Inventories | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
+| [CANDH](https://fred.stlouisfed.org/series/CANDH) | Chicago Fed National Activity Index: Personal Consumption and Housing | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
+| [GACDFSA066MSFRBPHI](https://fred.stlouisfed.org/series/GACDFSA066MSFRBPHI) | Philadelphia Fed Current General Activity | US | monthly | index | 1968-05-01 | 2026-09-01 | 701 |
+| [BACDINA066MNFRBNY](https://fred.stlouisfed.org/series/BACDINA066MNFRBNY) | New York Fed Current Business Activity | US | monthly | index | 2004-09-01 | 2026-09-01 | 265 |
+| [BACTSAMFRBDAL](https://fred.stlouisfed.org/series/BACTSAMFRBDAL) | Dallas Fed Current General Business Activity | US | monthly | index | 2004-06-01 | 2026-09-01 | 268 |
+| [MEIM683SFRBCHI](https://fred.stlouisfed.org/series/MEIM683SFRBCHI) | Chicago Fed Midwest Economy Index | US | monthly | index | 1976-06-01 | 2021-05-01 | 540 |
+| [IPG211S](https://fred.stlouisfed.org/series/IPG211S) | Industrial Production: Oil and Gas Extraction | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
+| [IPG21112S](https://fred.stlouisfed.org/series/IPG21112S) | Industrial Production: Crude Oil | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
+| [IPG21113S](https://fred.stlouisfed.org/series/IPG21113S) | Industrial Production: Natural Gas and Natural Gas Liquids | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
+| [IPUTIL](https://fred.stlouisfed.org/series/IPUTIL) | Industrial Production: Electric and Gas Utilities | US | monthly | index | 1939-01-01 | 2026-08-01 | 1052 |
+| [IPG2211S](https://fred.stlouisfed.org/series/IPG2211S) | Industrial Production: Electric Power Utilities | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
+| [IPG2212S](https://fred.stlouisfed.org/series/IPG2212S) | Industrial Production: Natural Gas Distribution | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
+| [IPG324S](https://fred.stlouisfed.org/series/IPG324S) | Industrial Production: Petroleum and Coal Products | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
+| [A24STI](https://fred.stlouisfed.org/series/A24STI) | Manufacturers' Total Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
+| [A24SFI](https://fred.stlouisfed.org/series/A24SFI) | Manufacturers' Finished Goods Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
+| [A24SWI](https://fred.stlouisfed.org/series/A24SWI) | Manufacturers' Work-in-Process Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
+| [A24SMI](https://fred.stlouisfed.org/series/A24SMI) | Manufacturers' Materials and Supplies Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
+| [A24ATI](https://fred.stlouisfed.org/series/A24ATI) | Manufacturers' Total Inventories: Petroleum Refineries | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
+| [DGOERC1Q027SBEA](https://fred.stlouisfed.org/series/DGOERC1Q027SBEA) | PCE: Gasoline and Other Energy Goods | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [DNRGRC1Q027SBEA](https://fred.stlouisfed.org/series/DNRGRC1Q027SBEA) | PCE: Energy Goods and Services | US | quarterly | billions | 1959-01-01 | 2026-04-01 | 270 |
+| [EXPGSC1](https://fred.stlouisfed.org/series/EXPGSC1) | Real Exports of Goods and Services | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [IMPGSC1](https://fred.stlouisfed.org/series/IMPGSC1) | Real Imports of Goods and Services | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [NETEXC](https://fred.stlouisfed.org/series/NETEXC) | Real Net Exports of Goods and Services | US | quarterly | billions | 1970-01-01 | 2026-04-01 | 226 |
+| [IIPUSNETIQ](https://fred.stlouisfed.org/series/IIPUSNETIQ) | U.S. Net International Investment Position | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
+| [IIPNETINQ](https://fred.stlouisfed.org/series/IIPNETINQ) | U.S. Net International Investment Position Excluding Derivatives | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
+| [IIPUSASSQ](https://fred.stlouisfed.org/series/IIPUSASSQ) | U.S. International Investment Position: Assets | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
+| [IIPUSLIAQ](https://fred.stlouisfed.org/series/IIPUSLIAQ) | U.S. International Investment Position: Liabilities | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
+| [B1265C1A027NBEA](https://fred.stlouisfed.org/series/B1265C1A027NBEA) | Balance on Current Account, International Transactions Accounts | US | annual | billions | 1946-01-01 | 2025-01-01 | 80 |
+| [AUTPRMNTO01GYSAM](https://fred.stlouisfed.org/series/AUTPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Austria | Austria | monthly | % | 1957-01-01 | 2026-06-01 | 834 |
+| [BELPRMNTO01GYSAM](https://fred.stlouisfed.org/series/BELPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Belgium | Belgium | monthly | % | 1959-01-01 | 2026-06-01 | 810 |
+| [CANPRMNTO01GYSAM](https://fred.stlouisfed.org/series/CANPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Canada | Canada | monthly | % | 1962-01-01 | 2026-06-01 | 774 |
+| [CZEPRMNTO01GYSAM](https://fred.stlouisfed.org/series/CZEPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Czech Republic | Czechia | monthly | % | 1992-01-01 | 2026-06-01 | 414 |
+| [DNKPRMNTO01GYSAM](https://fred.stlouisfed.org/series/DNKPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Denmark | Denmark | monthly | % | 1975-01-01 | 2026-06-01 | 618 |
+| [ESTPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ESTPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Estonia | Estonia | monthly | % | 1999-01-01 | 2026-07-01 | 331 |
+| [FINPRMNTO01GYSAM](https://fred.stlouisfed.org/series/FINPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Finland | Finland | monthly | % | 1965-01-01 | 2026-06-01 | 738 |
+| [FRAPRMNTO01GYSAM](https://fred.stlouisfed.org/series/FRAPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · France | France | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [GBRPRMNTO01GYSAM](https://fred.stlouisfed.org/series/GBRPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · United Kingdom | United Kingdom | monthly | % | 1949-01-01 | 2026-06-01 | 930 |
+| [GRCPRMNTO01GYSAM](https://fred.stlouisfed.org/series/GRCPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Greece | Greece | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [HUNPRMNTO01GYSAM](https://fred.stlouisfed.org/series/HUNPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Hungary | Hungary | monthly | % | 1993-01-01 | 2026-06-01 | 402 |
+| [IRLPRMNTO01GYSAM](https://fred.stlouisfed.org/series/IRLPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Ireland | Ireland | monthly | % | 1976-07-01 | 2025-11-01 | 593 |
+| [ISRPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ISRPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Israel | Israel | monthly | % | 1991-01-01 | 2026-06-01 | 426 |
+| [ITAPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ITAPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Italy | Italy | monthly | % | 1991-01-01 | 2026-06-01 | 426 |
+| [JPNPRMNTO01GYSAM](https://fred.stlouisfed.org/series/JPNPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Japan | Japan | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [KORPRMNTO01GYSAM](https://fred.stlouisfed.org/series/KORPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · South Korea | South Korea | monthly | % | 1991-01-01 | 2026-07-01 | 427 |
+| [LUXPRMNTO01GYSAM](https://fred.stlouisfed.org/series/LUXPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Luxembourg | Luxembourg | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [MEXPRMNTO01GYSAM](https://fred.stlouisfed.org/series/MEXPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Mexico | Mexico | monthly | % | 1994-01-01 | 2026-06-01 | 390 |
+| [NLDPRMNTO01GYSAM](https://fred.stlouisfed.org/series/NLDPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Netherlands | Netherlands | monthly | % | 1957-01-01 | 2026-06-01 | 834 |
+| [NORPRMNTO01GYSAM](https://fred.stlouisfed.org/series/NORPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Norway | Norway | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [POLPRMNTO01GYSAM](https://fred.stlouisfed.org/series/POLPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Poland | Poland | monthly | % | 1986-01-01 | 2026-07-01 | 487 |
+| [PRTPRMNTO01GYSAM](https://fred.stlouisfed.org/series/PRTPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Portugal | Portugal | monthly | % | 1956-01-01 | 2026-07-01 | 847 |
+| [SVNPRMNTO01GYSAM](https://fred.stlouisfed.org/series/SVNPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Slovenia | Slovenia | monthly | % | 1993-01-01 | 2026-06-01 | 402 |
+| [SWEPRMNTO01GYSAM](https://fred.stlouisfed.org/series/SWEPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Sweden | Sweden | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [TURPRMNTO01GYSAM](https://fred.stlouisfed.org/series/TURPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Turkey | Türkiye | monthly | % | 1959-01-01 | 2026-06-01 | 810 |
+| [BRAPRMNTO01GYSAM](https://fred.stlouisfed.org/series/BRAPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Brazil | Brazil | monthly | % | 1976-01-01 | 2026-07-01 | 607 |
+| [INDPRMNTO01GYSAM](https://fred.stlouisfed.org/series/INDPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · India | India | monthly | % | 1995-04-01 | 2026-06-01 | 375 |
+| [ZAFPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ZAFPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · South Africa | South Africa | monthly | % | 1991-01-01 | 2026-06-01 | 426 |
+| [AUTSLRTTO01GYSAM](https://fred.stlouisfed.org/series/AUTSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Austria | Austria | monthly | % | 1974-01-01 | 2026-07-01 | 631 |
+| [BELSLRTTO01GYSAM](https://fred.stlouisfed.org/series/BELSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Belgium | Belgium | monthly | % | 1970-01-01 | 2026-07-01 | 679 |
+| [CANSLRTTO01GYSAM](https://fred.stlouisfed.org/series/CANSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Canada | Canada | monthly | % | 1992-01-01 | 2026-06-01 | 414 |
+| [CZESLRTTO01GYSAM](https://fred.stlouisfed.org/series/CZESLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Czech Republic | Czechia | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
+| [DEUSLRTTO01GYSAM](https://fred.stlouisfed.org/series/DEUSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Germany | Germany | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [DNKSLRTTO01GYSAM](https://fred.stlouisfed.org/series/DNKSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Denmark | Denmark | monthly | % | 1969-01-01 | 2026-07-01 | 691 |
+| [ESPSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ESPSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Spain | Spain | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
+| [ESTSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ESTSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Estonia | Estonia | monthly | % | 1999-01-01 | 2026-07-01 | 331 |
+| [FINSLRTTO01GYSAM](https://fred.stlouisfed.org/series/FINSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Finland | Finland | monthly | % | 1958-01-01 | 2026-07-01 | 823 |
+| [FRASLRTTO01GYSAM](https://fred.stlouisfed.org/series/FRASLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · France | France | monthly | % | 1976-01-01 | 2026-07-01 | 607 |
+| [GBRSLRTTO01GYSAM](https://fred.stlouisfed.org/series/GBRSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · United Kingdom | United Kingdom | monthly | % | 1958-01-01 | 2026-07-01 | 823 |
+| [GRCSLRTTO01GYSAM](https://fred.stlouisfed.org/series/GRCSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Greece | Greece | monthly | % | 1964-01-01 | 2026-06-01 | 750 |
+| [HUNSLRTTO01GYSAM](https://fred.stlouisfed.org/series/HUNSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Hungary | Hungary | monthly | % | 1993-01-01 | 2026-07-01 | 403 |
+| [ISRSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ISRSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Israel | Israel | monthly | % | 1996-01-01 | 2026-06-01 | 366 |
+| [ITASLRTTO01GYSAM](https://fred.stlouisfed.org/series/ITASLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Italy | Italy | monthly | % | 1991-01-01 | 2026-07-01 | 427 |
+| [JPNSLRTTO01GYSAM](https://fred.stlouisfed.org/series/JPNSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Japan | Japan | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
+| [KORSLRTTO01GYSAM](https://fred.stlouisfed.org/series/KORSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · South Korea | South Korea | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
+| [LUXSLRTTO01GYSAM](https://fred.stlouisfed.org/series/LUXSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Luxembourg | Luxembourg | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
+| [MEXSLRTTO01GYSAM](https://fred.stlouisfed.org/series/MEXSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Mexico | Mexico | monthly | % | 1987-01-01 | 2026-06-01 | 474 |
+| [NLDSLRTTO01GYSAM](https://fred.stlouisfed.org/series/NLDSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Netherlands | Netherlands | monthly | % | 1995-01-01 | 2026-07-01 | 379 |
+| [POLSLRTTO01GYSAM](https://fred.stlouisfed.org/series/POLSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Poland | Poland | monthly | % | 1992-01-01 | 2026-07-01 | 415 |
+| [PRTSLRTTO01GYSAM](https://fred.stlouisfed.org/series/PRTSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Portugal | Portugal | monthly | % | 1991-01-01 | 2026-07-01 | 427 |
+| [SVKSLRTTO01GYSAM](https://fred.stlouisfed.org/series/SVKSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Slovakia | Slovak Republic | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
+| [TURSLRTTO01GYSAM](https://fred.stlouisfed.org/series/TURSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Turkey | Türkiye | monthly | % | 2011-01-01 | 2026-06-01 | 186 |
+| [BRASLRTTO01GYSAM](https://fred.stlouisfed.org/series/BRASLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Brazil | Brazil | monthly | % | 2001-01-01 | 2026-06-01 | 306 |
+| [ZAFSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ZAFSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · South Africa | South Africa | monthly | % | 1978-01-01 | 2026-06-01 | 582 |
+| [CANLOLITOAASTSAM](https://fred.stlouisfed.org/series/CANLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Canada | Canada | monthly | index | 1956-01-01 | 2026-08-01 | 848 |
+| [DEULOLITOAASTSAM](https://fred.stlouisfed.org/series/DEULOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Germany | Germany | monthly | index | 1961-01-01 | 2026-08-01 | 788 |
+| [ESPLOLITOAASTSAM](https://fred.stlouisfed.org/series/ESPLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Spain | Spain | monthly | index | 1985-01-01 | 2026-08-01 | 500 |
+| [FRALOLITOAASTSAM](https://fred.stlouisfed.org/series/FRALOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · France | France | monthly | index | 1962-05-01 | 2026-08-01 | 772 |
+| [GBRLOLITOAASTSAM](https://fred.stlouisfed.org/series/GBRLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · United Kingdom | United Kingdom | monthly | index | 1957-12-01 | 2026-08-01 | 825 |
+| [ITALOLITOAASTSAM](https://fred.stlouisfed.org/series/ITALOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Italy | Italy | monthly | index | 1961-12-01 | 2026-08-01 | 777 |
+| [JPNLOLITOAASTSAM](https://fred.stlouisfed.org/series/JPNLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Japan | Japan | monthly | index | 1959-01-01 | 2026-08-01 | 812 |
+| [KORLOLITOAASTSAM](https://fred.stlouisfed.org/series/KORLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · South Korea | South Korea | monthly | index | 1990-01-01 | 2026-08-01 | 440 |
+| [MEXLOLITOAASTSAM](https://fred.stlouisfed.org/series/MEXLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Mexico | Mexico | monthly | index | 1982-01-01 | 2026-08-01 | 536 |
+| [TURLOLITOAASTSAM](https://fred.stlouisfed.org/series/TURLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Turkey | Türkiye | monthly | index | 1987-12-01 | 2026-08-01 | 465 |
+| [AUSLOLITOAASTSAM](https://fred.stlouisfed.org/series/AUSLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Australia | Australia | monthly | index | 1966-02-01 | 2026-08-01 | 727 |
+| [BRALOLITOAASTSAM](https://fred.stlouisfed.org/series/BRALOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Brazil | Brazil | monthly | index | 1989-01-01 | 2026-08-01 | 452 |
+| [CHNLOLITOAASTSAM](https://fred.stlouisfed.org/series/CHNLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · China | China | monthly | index | 1992-05-01 | 2026-08-01 | 412 |
+| [IDNLOLITOAASTSAM](https://fred.stlouisfed.org/series/IDNLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Indonesia | Indonesia | monthly | index | 1994-01-01 | 2026-08-01 | 392 |
+| [INDLOLITOAASTSAM](https://fred.stlouisfed.org/series/INDLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · India | India | monthly | index | 1994-04-01 | 2026-08-01 | 389 |
+| [ZAFLOLITOAASTSAM](https://fred.stlouisfed.org/series/ZAFLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · South Africa | South Africa | monthly | index | 1975-01-01 | 2026-08-01 | 620 |
+| [CSCICP02ATM460S](https://fred.stlouisfed.org/series/CSCICP02ATM460S) | Composite Consumer Confidence · Austria | Austria | monthly | percentage balance | 1977-01-01 | 2026-08-01 | 596 |
+| [CSCICP02BEM460S](https://fred.stlouisfed.org/series/CSCICP02BEM460S) | Composite Consumer Confidence · Belgium | Belgium | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 644 |
+| [CSCICP02CZM460S](https://fred.stlouisfed.org/series/CSCICP02CZM460S) | Composite Consumer Confidence · Czech Republic | Czechia | monthly | percentage balance | 1995-01-01 | 2026-08-01 | 380 |
+| [CSCICP02DEM460S](https://fred.stlouisfed.org/series/CSCICP02DEM460S) | Composite Consumer Confidence · Germany | Germany | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 644 |
+| [CSCICP02DKM460S](https://fred.stlouisfed.org/series/CSCICP02DKM460S) | Composite Consumer Confidence · Denmark | Denmark | monthly | percentage balance | 1974-01-01 | 2026-08-01 | 632 |
+| [CSCICP02EEM460S](https://fred.stlouisfed.org/series/CSCICP02EEM460S) | Composite Consumer Confidence · Estonia | Estonia | monthly | percentage balance | 1992-10-01 | 2026-04-01 | 403 |
+| [CSCICP02FIM460S](https://fred.stlouisfed.org/series/CSCICP02FIM460S) | Composite Consumer Confidence · Finland | Finland | monthly | percentage balance | 1987-11-01 | 2026-08-01 | 466 |
+| [CSCICP02FRM460S](https://fred.stlouisfed.org/series/CSCICP02FRM460S) | Composite Consumer Confidence · France | France | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 632 |
+| [CSCICP02GBM460S](https://fred.stlouisfed.org/series/CSCICP02GBM460S) | Composite Consumer Confidence · United Kingdom | United Kingdom | monthly | percentage balance | 1974-01-01 | 2026-08-01 | 632 |
+| [CSCICP02GRM460S](https://fred.stlouisfed.org/series/CSCICP02GRM460S) | Composite Consumer Confidence · Greece | Greece | monthly | percentage balance | 1985-01-01 | 2026-08-01 | 500 |
+| [CSCICP02HUM460S](https://fred.stlouisfed.org/series/CSCICP02HUM460S) | Composite Consumer Confidence · Hungary | Hungary | monthly | percentage balance | 1993-02-01 | 2026-08-01 | 403 |
+| [CSCICP02IEM460S](https://fred.stlouisfed.org/series/CSCICP02IEM460S) | Composite Consumer Confidence · Ireland | Ireland | monthly | percentage balance | 1974-01-01 | 2026-08-01 | 632 |
+| [CSCICP02ITM460S](https://fred.stlouisfed.org/series/CSCICP02ITM460S) | Composite Consumer Confidence · Italy | Italy | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 643 |
+| [CSCICP02JPM460S](https://fred.stlouisfed.org/series/CSCICP02JPM460S) | Composite Consumer Confidence · Japan | Japan | monthly | percentage balance | 1982-04-01 | 2026-08-01 | 533 |
+| [CSCICP02LUM460S](https://fred.stlouisfed.org/series/CSCICP02LUM460S) | Composite Consumer Confidence · Luxembourg | Luxembourg | monthly | percentage balance | 2002-01-01 | 2026-08-01 | 296 |
+| [CSCICP02MXM460S](https://fred.stlouisfed.org/series/CSCICP02MXM460S) | Composite Consumer Confidence · Mexico | Mexico | monthly | percentage balance | 2001-04-01 | 2026-07-01 | 304 |
+| [CSCICP02NLM460S](https://fred.stlouisfed.org/series/CSCICP02NLM460S) | Composite Consumer Confidence · Netherlands | Netherlands | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 644 |
+| [CSCICP02PLM460S](https://fred.stlouisfed.org/series/CSCICP02PLM460S) | Composite Consumer Confidence · Poland | Poland | monthly | percentage balance | 2001-05-01 | 2026-04-01 | 300 |
+| [CSCICP02PTM460S](https://fred.stlouisfed.org/series/CSCICP02PTM460S) | Composite Consumer Confidence · Portugal | Portugal | monthly | percentage balance | 1986-06-01 | 2026-08-01 | 483 |
+| [CSCICP02SKM460S](https://fred.stlouisfed.org/series/CSCICP02SKM460S) | Composite Consumer Confidence · Slovakia | Slovak Republic | monthly | percentage balance | 1999-04-01 | 2026-08-01 | 329 |
+| [CSCICP02SIM460S](https://fred.stlouisfed.org/series/CSCICP02SIM460S) | Composite Consumer Confidence · Slovenia | Slovenia | monthly | percentage balance | 1996-03-01 | 2026-08-01 | 366 |
+| [CSCICP02SEM460S](https://fred.stlouisfed.org/series/CSCICP02SEM460S) | Composite Consumer Confidence · Sweden | Sweden | monthly | percentage balance | 1995-10-01 | 2026-08-01 | 371 |
+| [CSCICP02TRM460S](https://fred.stlouisfed.org/series/CSCICP02TRM460S) | Composite Consumer Confidence · Turkey | Türkiye | monthly | percentage balance | 2004-01-01 | 2026-08-01 | 272 |
+| [CSCICP02AUM460S](https://fred.stlouisfed.org/series/CSCICP02AUM460S) | Composite Consumer Confidence · Australia | Australia | monthly | percentage balance | 1974-09-01 | 2026-08-01 | 624 |
+| [CSCICP02BRM460S](https://fred.stlouisfed.org/series/CSCICP02BRM460S) | Composite Consumer Confidence · Brazil | Brazil | monthly | percentage balance | 1994-06-01 | 2026-08-01 | 387 |
+| [CSCICP02CNM460S](https://fred.stlouisfed.org/series/CSCICP02CNM460S) | Composite Consumer Confidence · China | China | monthly | percentage balance | 1990-01-01 | 2026-07-01 | 439 |
+| [CLVMNACSCAB1GQAT](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQAT) | Real Gross Domestic Product · Austria | Austria | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQBE](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQBE) | Real Gross Domestic Product · Belgium | Belgium | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQCH](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQCH) | Real Gross Domestic Product · Switzerland | Switzerland | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQCZ](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQCZ) | Real Gross Domestic Product · Czech Republic | Czechia | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQDK](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQDK) | Real Gross Domestic Product · Denmark | Denmark | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQEE](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQEE) | Real Gross Domestic Product · Estonia | Estonia | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQES](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQES) | Real Gross Domestic Product · Spain | Spain | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQFI](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQFI) | Real Gross Domestic Product · Finland | Finland | quarterly | millions chained 2010 euros | 1990-01-01 | 2026-04-01 | 146 |
+| [CLVMNACSCAB1GQHU](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQHU) | Real Gross Domestic Product · Hungary | Hungary | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQLU](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQLU) | Real Gross Domestic Product · Luxembourg | Luxembourg | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-01-01 | 125 |
+| [CLVMNACSCAB1GQNL](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQNL) | Real Gross Domestic Product · Netherlands | Netherlands | quarterly | millions chained 2010 euros | 1996-01-01 | 2026-04-01 | 122 |
+| [CLVMNACSCAB1GQNO](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQNO) | Real Gross Domestic Product · Norway | Norway | quarterly | millions chained 2010 euros | 1978-01-01 | 2026-04-01 | 194 |
+| [CLVMNACSCAB1GQPL](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQPL) | Real Gross Domestic Product · Poland | Poland | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQPT](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQPT) | Real Gross Domestic Product · Portugal | Portugal | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
+| [CLVMNACSCAB1GQSE](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQSE) | Real Gross Domestic Product · Sweden | Sweden | quarterly | millions chained 2010 euros | 1993-01-01 | 2026-04-01 | 134 |
+| [CLVMNACSCAB1GQSI](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQSI) | Real Gross Domestic Product · Slovenia | Slovenia | quarterly | millions chained 2010 euros | 1996-01-01 | 2026-04-01 | 122 |
 | [WDI_ABW_AGRICULTURE](https://data.worldbank.org/indicator/NV.AGR.TOTL.ZS) | Agriculture value added share of GDP · Aruba | Aruba | annual | % | 1995-12-31 | 2023-12-31 | 29 |
 | [WDI_ABW_CURRENT_ACCOUNT](https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS) | Current account balance share of GDP · Aruba | Aruba | annual | % | 1986-12-31 | 2023-12-31 | 38 |
 | [WDI_ABW_CURRENT_ACCOUNT_USD](https://data.worldbank.org/indicator/BN.CAB.XOKA.CD) | Current account balance · Aruba | Aruba | annual | current USD | 1986-12-31 | 2023-12-31 | 38 |
@@ -11940,191 +12043,88 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [WDI_ZWE_SERVICES](https://data.worldbank.org/indicator/NV.SRV.TOTL.ZS) | Services value added share of GDP · Zimbabwe | Zimbabwe | annual | % | 1964-12-31 | 2025-12-31 | 62 |
 | [WDI_ZWE_TERMS_TRADE](https://data.worldbank.org/indicator/TT.PRI.MRCH.XD.WD) | Net barter terms of trade · Zimbabwe | Zimbabwe | annual | index (2015=100) | 2005-12-31 | 2024-12-31 | 20 |
 | [WDI_ZWE_TRADE](https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS) | Trade share of GDP · Zimbabwe | Zimbabwe | annual | % | 1975-12-31 | 2024-12-31 | 50 |
-| [DPCERY2Q224SBEA](https://fred.stlouisfed.org/series/DPCERY2Q224SBEA) | Contribution to real GDP growth: Personal consumption expenditures | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A822RY2Q224SBEA](https://fred.stlouisfed.org/series/A822RY2Q224SBEA) | Contribution to real GDP growth: Government consumption and investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A019RY2Q224SBEA](https://fred.stlouisfed.org/series/A019RY2Q224SBEA) | Contribution to real GDP growth: Net exports | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A006RY2Q224SBEA](https://fred.stlouisfed.org/series/A006RY2Q224SBEA) | Contribution to real GDP growth: Gross private domestic investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A007RY2Q224SBEA](https://fred.stlouisfed.org/series/A007RY2Q224SBEA) | Contribution to real GDP growth: Private fixed investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A008RY2Q224SBEA](https://fred.stlouisfed.org/series/A008RY2Q224SBEA) | Contribution to real GDP growth: Nonresidential fixed investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A009RY2Q224SBEA](https://fred.stlouisfed.org/series/A009RY2Q224SBEA) | Contribution to real GDP growth: Nonresidential structures | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A011RY2Q224SBEA](https://fred.stlouisfed.org/series/A011RY2Q224SBEA) | Contribution to real GDP growth: Residential fixed investment | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A014RY2Q224SBEA](https://fred.stlouisfed.org/series/A014RY2Q224SBEA) | Contribution to real GDP growth: Change in private inventories | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A015RY2Q224SBEA](https://fred.stlouisfed.org/series/A015RY2Q224SBEA) | Contribution to real GDP growth: Nonfarm inventories | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A020RY2Q224SBEA](https://fred.stlouisfed.org/series/A020RY2Q224SBEA) | Contribution to real GDP growth: Exports | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A021RY2Q224SBEA](https://fred.stlouisfed.org/series/A021RY2Q224SBEA) | Contribution to real GDP growth: Imports | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A353RY2Q224SBEA](https://fred.stlouisfed.org/series/A353RY2Q224SBEA) | Contribution to real GDP growth: Goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A341RY2Q224SBEA](https://fred.stlouisfed.org/series/A341RY2Q224SBEA) | Contribution to real GDP growth: Services | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [DGDSRY2Q224SBEA](https://fred.stlouisfed.org/series/DGDSRY2Q224SBEA) | Contribution to real GDP growth: PCE goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [DSERRY2Q224SBEA](https://fred.stlouisfed.org/series/DSERRY2Q224SBEA) | Contribution to real GDP growth: PCE services | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [DDURRY2Q224SBEA](https://fred.stlouisfed.org/series/DDURRY2Q224SBEA) | Contribution to real GDP growth: PCE durable goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [DNDGRY2Q224SBEA](https://fred.stlouisfed.org/series/DNDGRY2Q224SBEA) | Contribution to real GDP growth: PCE nondurable goods | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A823RY2Q224SBEA](https://fred.stlouisfed.org/series/A823RY2Q224SBEA) | Contribution to real GDP growth: Federal government | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [A824RY2Q224SBEA](https://fred.stlouisfed.org/series/A824RY2Q224SBEA) | Contribution to real GDP growth: Federal national defense | US | quarterly | percentage points | 1947-04-01 | 2026-04-01 | 317 |
-| [B935RY2Q224SBEA](https://fred.stlouisfed.org/series/B935RY2Q224SBEA) | Contribution to real GDP growth: Computers and peripherals | US | quarterly | percentage points | 1959-04-01 | 2026-04-01 | 269 |
-| [B985RY2Q224SBEA](https://fred.stlouisfed.org/series/B985RY2Q224SBEA) | Contribution to real GDP growth: Software investment | US | quarterly | percentage points | 1959-04-01 | 2026-04-01 | 269 |
-| [DSPIC96](https://fred.stlouisfed.org/series/DSPIC96) | Real Disposable Personal Income | US | monthly | billions | 1959-01-01 | 2026-08-01 | 812 |
-| [A229RX0](https://fred.stlouisfed.org/series/A229RX0) | Real Disposable Personal Income per Capita | US | monthly | dollars | 1959-01-01 | 2026-08-01 | 812 |
-| [PSAVERT](https://fred.stlouisfed.org/series/PSAVERT) | Personal Saving Rate | US | monthly | % | 1959-01-01 | 2026-08-01 | 812 |
-| [A072RC1Q156SBEA](https://fred.stlouisfed.org/series/A072RC1Q156SBEA) | Personal Saving as a Percent of Disposable Income | US | quarterly | % | 1947-01-01 | 2026-04-01 | 318 |
-| [PSAVE](https://fred.stlouisfed.org/series/PSAVE) | Personal Saving | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [DPI](https://fred.stlouisfed.org/series/DPI) | Disposable Personal Income | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [PINCOME](https://fred.stlouisfed.org/series/PINCOME) | Personal Income | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [A792RC0Q052SBEA](https://fred.stlouisfed.org/series/A792RC0Q052SBEA) | Personal Income per Capita | US | quarterly | dollars | 1947-01-01 | 2026-04-01 | 318 |
-| [TCU](https://fred.stlouisfed.org/series/TCU) | Capacity Utilization: Total Index | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
-| [MCUMFN](https://fred.stlouisfed.org/series/MCUMFN) | Capacity Utilization: Manufacturing (NAICS) | US | monthly | % | 1972-01-01 | 2026-08-01 | 656 |
-| [CAPUTLG21S](https://fred.stlouisfed.org/series/CAPUTLG21S) | Capacity Utilization: Mining (NAICS 21) | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
-| [CAPUTLG2211A2S](https://fred.stlouisfed.org/series/CAPUTLG2211A2S) | Capacity Utilization: Electric and Gas Utilities | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
-| [CAPUTLG311A2S](https://fred.stlouisfed.org/series/CAPUTLG311A2S) | Capacity Utilization: Food, Beverage, and Tobacco | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
-| [CAPUTLG324S](https://fred.stlouisfed.org/series/CAPUTLG324S) | Capacity Utilization: Petroleum and Coal Products | US | monthly | % | 1948-01-01 | 2026-08-01 | 944 |
-| [CAPUTLG325S](https://fred.stlouisfed.org/series/CAPUTLG325S) | Capacity Utilization: Chemical Manufacturing | US | monthly | % | 1948-01-01 | 2026-08-01 | 944 |
-| [CAPUTLG331S](https://fred.stlouisfed.org/series/CAPUTLG331S) | Capacity Utilization: Primary Metal Manufacturing | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
-| [CAPUTLG333S](https://fred.stlouisfed.org/series/CAPUTLG333S) | Capacity Utilization: Machinery Manufacturing | US | monthly | % | 1967-01-01 | 2026-08-01 | 716 |
-| [CAPUTLG334S](https://fred.stlouisfed.org/series/CAPUTLG334S) | Capacity Utilization: Computer and Electronic Products | US | monthly | % | 1972-01-01 | 2026-08-01 | 656 |
-| [CAPUTLG3361T3S](https://fred.stlouisfed.org/series/CAPUTLG3361T3S) | Capacity Utilization: Motor Vehicles and Parts | US | monthly | % | 1948-01-01 | 2026-08-01 | 944 |
-| [CFNAIMA3](https://fred.stlouisfed.org/series/CFNAIMA3) | Chicago Fed National Activity Index: Three-Month Average | US | monthly | index | 1967-05-01 | 2026-08-01 | 712 |
-| [CFNAIDIFF](https://fred.stlouisfed.org/series/CFNAIDIFF) | Chicago Fed National Activity Index: Diffusion Index | US | monthly | index | 1967-05-01 | 2026-08-01 | 712 |
-| [EUANDH](https://fred.stlouisfed.org/series/EUANDH) | Chicago Fed National Activity Index: Employment, Unemployment and Hours | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
-| [PANDI](https://fred.stlouisfed.org/series/PANDI) | Chicago Fed National Activity Index: Production and Income | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
-| [SOANDI](https://fred.stlouisfed.org/series/SOANDI) | Chicago Fed National Activity Index: Sales, Orders and Inventories | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
-| [CANDH](https://fred.stlouisfed.org/series/CANDH) | Chicago Fed National Activity Index: Personal Consumption and Housing | US | monthly | index | 1967-03-01 | 2026-08-01 | 714 |
-| [GACDFSA066MSFRBPHI](https://fred.stlouisfed.org/series/GACDFSA066MSFRBPHI) | Philadelphia Fed Current General Activity | US | monthly | index | 1968-05-01 | 2026-09-01 | 701 |
-| [BACDINA066MNFRBNY](https://fred.stlouisfed.org/series/BACDINA066MNFRBNY) | New York Fed Current Business Activity | US | monthly | index | 2004-09-01 | 2026-09-01 | 265 |
-| [BACTSAMFRBDAL](https://fred.stlouisfed.org/series/BACTSAMFRBDAL) | Dallas Fed Current General Business Activity | US | monthly | index | 2004-06-01 | 2026-09-01 | 268 |
-| [MEIM683SFRBCHI](https://fred.stlouisfed.org/series/MEIM683SFRBCHI) | Chicago Fed Midwest Economy Index | US | monthly | index | 1976-06-01 | 2021-05-01 | 540 |
-| [IPG211S](https://fred.stlouisfed.org/series/IPG211S) | Industrial Production: Oil and Gas Extraction | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
-| [IPG21112S](https://fred.stlouisfed.org/series/IPG21112S) | Industrial Production: Crude Oil | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
-| [IPG21113S](https://fred.stlouisfed.org/series/IPG21113S) | Industrial Production: Natural Gas and Natural Gas Liquids | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
-| [IPUTIL](https://fred.stlouisfed.org/series/IPUTIL) | Industrial Production: Electric and Gas Utilities | US | monthly | index | 1939-01-01 | 2026-08-01 | 1052 |
-| [IPG2211S](https://fred.stlouisfed.org/series/IPG2211S) | Industrial Production: Electric Power Utilities | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
-| [IPG2212S](https://fred.stlouisfed.org/series/IPG2212S) | Industrial Production: Natural Gas Distribution | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
-| [IPG324S](https://fred.stlouisfed.org/series/IPG324S) | Industrial Production: Petroleum and Coal Products | US | monthly | index | 1972-01-01 | 2026-08-01 | 656 |
-| [A24STI](https://fred.stlouisfed.org/series/A24STI) | Manufacturers' Total Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-07-01 | 415 |
-| [A24SFI](https://fred.stlouisfed.org/series/A24SFI) | Manufacturers' Finished Goods Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-07-01 | 415 |
-| [A24SWI](https://fred.stlouisfed.org/series/A24SWI) | Manufacturers' Work-in-Process Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-07-01 | 415 |
-| [A24SMI](https://fred.stlouisfed.org/series/A24SMI) | Manufacturers' Materials and Supplies Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-07-01 | 415 |
-| [A24ATI](https://fred.stlouisfed.org/series/A24ATI) | Manufacturers' Total Inventories: Petroleum Refineries | US | monthly | millions | 1992-01-01 | 2026-07-01 | 415 |
-| [DGOERC1Q027SBEA](https://fred.stlouisfed.org/series/DGOERC1Q027SBEA) | PCE: Gasoline and Other Energy Goods | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [DNRGRC1Q027SBEA](https://fred.stlouisfed.org/series/DNRGRC1Q027SBEA) | PCE: Energy Goods and Services | US | quarterly | billions | 1959-01-01 | 2026-04-01 | 270 |
-| [EXPGSC1](https://fred.stlouisfed.org/series/EXPGSC1) | Real Exports of Goods and Services | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [IMPGSC1](https://fred.stlouisfed.org/series/IMPGSC1) | Real Imports of Goods and Services | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [NETEXC](https://fred.stlouisfed.org/series/NETEXC) | Real Net Exports of Goods and Services | US | quarterly | billions | 1970-01-01 | 2026-04-01 | 226 |
-| [IIPUSNETIQ](https://fred.stlouisfed.org/series/IIPUSNETIQ) | U.S. Net International Investment Position | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
-| [IIPNETINQ](https://fred.stlouisfed.org/series/IIPNETINQ) | U.S. Net International Investment Position Excluding Derivatives | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
-| [IIPUSASSQ](https://fred.stlouisfed.org/series/IIPUSASSQ) | U.S. International Investment Position: Assets | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
-| [IIPUSLIAQ](https://fred.stlouisfed.org/series/IIPUSLIAQ) | U.S. International Investment Position: Liabilities | US | quarterly | millions | 2006-01-01 | 2026-04-01 | 82 |
-| [B1265C1A027NBEA](https://fred.stlouisfed.org/series/B1265C1A027NBEA) | Balance on Current Account, International Transactions Accounts | US | annual | billions | 1946-01-01 | 2025-01-01 | 80 |
-| [AUTPRMNTO01GYSAM](https://fred.stlouisfed.org/series/AUTPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Austria | Austria | monthly | % | 1957-01-01 | 2026-06-01 | 834 |
-| [BELPRMNTO01GYSAM](https://fred.stlouisfed.org/series/BELPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Belgium | Belgium | monthly | % | 1959-01-01 | 2026-06-01 | 810 |
-| [CANPRMNTO01GYSAM](https://fred.stlouisfed.org/series/CANPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Canada | Canada | monthly | % | 1962-01-01 | 2026-06-01 | 774 |
-| [CZEPRMNTO01GYSAM](https://fred.stlouisfed.org/series/CZEPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Czech Republic | Czechia | monthly | % | 1992-01-01 | 2026-06-01 | 414 |
-| [DNKPRMNTO01GYSAM](https://fred.stlouisfed.org/series/DNKPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Denmark | Denmark | monthly | % | 1975-01-01 | 2026-06-01 | 618 |
-| [ESTPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ESTPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Estonia | Estonia | monthly | % | 1999-01-01 | 2026-07-01 | 331 |
-| [FINPRMNTO01GYSAM](https://fred.stlouisfed.org/series/FINPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Finland | Finland | monthly | % | 1965-01-01 | 2026-06-01 | 738 |
-| [FRAPRMNTO01GYSAM](https://fred.stlouisfed.org/series/FRAPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · France | France | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [GBRPRMNTO01GYSAM](https://fred.stlouisfed.org/series/GBRPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · United Kingdom | United Kingdom | monthly | % | 1949-01-01 | 2026-06-01 | 930 |
-| [GRCPRMNTO01GYSAM](https://fred.stlouisfed.org/series/GRCPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Greece | Greece | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [HUNPRMNTO01GYSAM](https://fred.stlouisfed.org/series/HUNPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Hungary | Hungary | monthly | % | 1993-01-01 | 2026-06-01 | 402 |
-| [IRLPRMNTO01GYSAM](https://fred.stlouisfed.org/series/IRLPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Ireland | Ireland | monthly | % | 1976-07-01 | 2025-11-01 | 593 |
-| [ISRPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ISRPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Israel | Israel | monthly | % | 1991-01-01 | 2026-06-01 | 426 |
-| [ITAPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ITAPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Italy | Italy | monthly | % | 1991-01-01 | 2026-06-01 | 426 |
-| [JPNPRMNTO01GYSAM](https://fred.stlouisfed.org/series/JPNPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Japan | Japan | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [KORPRMNTO01GYSAM](https://fred.stlouisfed.org/series/KORPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · South Korea | South Korea | monthly | % | 1991-01-01 | 2026-07-01 | 427 |
-| [LUXPRMNTO01GYSAM](https://fred.stlouisfed.org/series/LUXPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Luxembourg | Luxembourg | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [MEXPRMNTO01GYSAM](https://fred.stlouisfed.org/series/MEXPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Mexico | Mexico | monthly | % | 1994-01-01 | 2026-06-01 | 390 |
-| [NLDPRMNTO01GYSAM](https://fred.stlouisfed.org/series/NLDPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Netherlands | Netherlands | monthly | % | 1957-01-01 | 2026-06-01 | 834 |
-| [NORPRMNTO01GYSAM](https://fred.stlouisfed.org/series/NORPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Norway | Norway | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [POLPRMNTO01GYSAM](https://fred.stlouisfed.org/series/POLPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Poland | Poland | monthly | % | 1986-01-01 | 2026-07-01 | 487 |
-| [PRTPRMNTO01GYSAM](https://fred.stlouisfed.org/series/PRTPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Portugal | Portugal | monthly | % | 1956-01-01 | 2026-07-01 | 847 |
-| [SVNPRMNTO01GYSAM](https://fred.stlouisfed.org/series/SVNPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Slovenia | Slovenia | monthly | % | 1993-01-01 | 2026-06-01 | 402 |
-| [SWEPRMNTO01GYSAM](https://fred.stlouisfed.org/series/SWEPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Sweden | Sweden | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [TURPRMNTO01GYSAM](https://fred.stlouisfed.org/series/TURPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Turkey | Türkiye | monthly | % | 1959-01-01 | 2026-06-01 | 810 |
-| [BRAPRMNTO01GYSAM](https://fred.stlouisfed.org/series/BRAPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · Brazil | Brazil | monthly | % | 1976-01-01 | 2026-07-01 | 607 |
-| [INDPRMNTO01GYSAM](https://fred.stlouisfed.org/series/INDPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · India | India | monthly | % | 1995-04-01 | 2026-06-01 | 375 |
-| [ZAFPRMNTO01GYSAM](https://fred.stlouisfed.org/series/ZAFPRMNTO01GYSAM) | Manufacturing Production Growth (YoY) · South Africa | South Africa | monthly | % | 1991-01-01 | 2026-06-01 | 426 |
-| [AUTSLRTTO01GYSAM](https://fred.stlouisfed.org/series/AUTSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Austria | Austria | monthly | % | 1974-01-01 | 2026-07-01 | 631 |
-| [BELSLRTTO01GYSAM](https://fred.stlouisfed.org/series/BELSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Belgium | Belgium | monthly | % | 1970-01-01 | 2026-07-01 | 679 |
-| [CANSLRTTO01GYSAM](https://fred.stlouisfed.org/series/CANSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Canada | Canada | monthly | % | 1992-01-01 | 2026-06-01 | 414 |
-| [CZESLRTTO01GYSAM](https://fred.stlouisfed.org/series/CZESLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Czech Republic | Czechia | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
-| [DEUSLRTTO01GYSAM](https://fred.stlouisfed.org/series/DEUSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Germany | Germany | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [DNKSLRTTO01GYSAM](https://fred.stlouisfed.org/series/DNKSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Denmark | Denmark | monthly | % | 1969-01-01 | 2026-07-01 | 691 |
-| [ESPSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ESPSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Spain | Spain | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
-| [ESTSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ESTSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Estonia | Estonia | monthly | % | 1999-01-01 | 2026-07-01 | 331 |
-| [FINSLRTTO01GYSAM](https://fred.stlouisfed.org/series/FINSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Finland | Finland | monthly | % | 1958-01-01 | 2026-07-01 | 823 |
-| [FRASLRTTO01GYSAM](https://fred.stlouisfed.org/series/FRASLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · France | France | monthly | % | 1976-01-01 | 2026-07-01 | 607 |
-| [GBRSLRTTO01GYSAM](https://fred.stlouisfed.org/series/GBRSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · United Kingdom | United Kingdom | monthly | % | 1958-01-01 | 2026-07-01 | 823 |
-| [GRCSLRTTO01GYSAM](https://fred.stlouisfed.org/series/GRCSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Greece | Greece | monthly | % | 1964-01-01 | 2026-06-01 | 750 |
-| [HUNSLRTTO01GYSAM](https://fred.stlouisfed.org/series/HUNSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Hungary | Hungary | monthly | % | 1993-01-01 | 2026-07-01 | 403 |
-| [ISRSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ISRSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Israel | Israel | monthly | % | 1996-01-01 | 2026-06-01 | 366 |
-| [ITASLRTTO01GYSAM](https://fred.stlouisfed.org/series/ITASLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Italy | Italy | monthly | % | 1991-01-01 | 2026-07-01 | 427 |
-| [JPNSLRTTO01GYSAM](https://fred.stlouisfed.org/series/JPNSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Japan | Japan | monthly | % | 1956-01-01 | 2026-06-01 | 846 |
-| [KORSLRTTO01GYSAM](https://fred.stlouisfed.org/series/KORSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · South Korea | South Korea | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
-| [LUXSLRTTO01GYSAM](https://fred.stlouisfed.org/series/LUXSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Luxembourg | Luxembourg | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
-| [MEXSLRTTO01GYSAM](https://fred.stlouisfed.org/series/MEXSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Mexico | Mexico | monthly | % | 1987-01-01 | 2026-06-01 | 474 |
-| [NLDSLRTTO01GYSAM](https://fred.stlouisfed.org/series/NLDSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Netherlands | Netherlands | monthly | % | 1995-01-01 | 2026-07-01 | 379 |
-| [POLSLRTTO01GYSAM](https://fred.stlouisfed.org/series/POLSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Poland | Poland | monthly | % | 1992-01-01 | 2026-07-01 | 415 |
-| [PRTSLRTTO01GYSAM](https://fred.stlouisfed.org/series/PRTSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Portugal | Portugal | monthly | % | 1991-01-01 | 2026-07-01 | 427 |
-| [SVKSLRTTO01GYSAM](https://fred.stlouisfed.org/series/SVKSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Slovakia | Slovak Republic | monthly | % | 1996-01-01 | 2026-07-01 | 367 |
-| [TURSLRTTO01GYSAM](https://fred.stlouisfed.org/series/TURSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Turkey | Türkiye | monthly | % | 2011-01-01 | 2026-06-01 | 186 |
-| [BRASLRTTO01GYSAM](https://fred.stlouisfed.org/series/BRASLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · Brazil | Brazil | monthly | % | 2001-01-01 | 2026-06-01 | 306 |
-| [ZAFSLRTTO01GYSAM](https://fred.stlouisfed.org/series/ZAFSLRTTO01GYSAM) | Retail Trade Volume Growth (YoY) · South Africa | South Africa | monthly | % | 1978-01-01 | 2026-06-01 | 582 |
-| [CANLOLITOAASTSAM](https://fred.stlouisfed.org/series/CANLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Canada | Canada | monthly | index | 1956-01-01 | 2026-08-01 | 848 |
-| [DEULOLITOAASTSAM](https://fred.stlouisfed.org/series/DEULOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Germany | Germany | monthly | index | 1961-01-01 | 2026-08-01 | 788 |
-| [ESPLOLITOAASTSAM](https://fred.stlouisfed.org/series/ESPLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Spain | Spain | monthly | index | 1985-01-01 | 2026-08-01 | 500 |
-| [FRALOLITOAASTSAM](https://fred.stlouisfed.org/series/FRALOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · France | France | monthly | index | 1962-05-01 | 2026-08-01 | 772 |
-| [GBRLOLITOAASTSAM](https://fred.stlouisfed.org/series/GBRLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · United Kingdom | United Kingdom | monthly | index | 1957-12-01 | 2026-08-01 | 825 |
-| [ITALOLITOAASTSAM](https://fred.stlouisfed.org/series/ITALOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Italy | Italy | monthly | index | 1961-12-01 | 2026-08-01 | 777 |
-| [JPNLOLITOAASTSAM](https://fred.stlouisfed.org/series/JPNLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Japan | Japan | monthly | index | 1959-01-01 | 2026-08-01 | 812 |
-| [KORLOLITOAASTSAM](https://fred.stlouisfed.org/series/KORLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · South Korea | South Korea | monthly | index | 1990-01-01 | 2026-08-01 | 440 |
-| [MEXLOLITOAASTSAM](https://fred.stlouisfed.org/series/MEXLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Mexico | Mexico | monthly | index | 1982-01-01 | 2026-08-01 | 536 |
-| [TURLOLITOAASTSAM](https://fred.stlouisfed.org/series/TURLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Turkey | Türkiye | monthly | index | 1987-12-01 | 2026-08-01 | 465 |
-| [AUSLOLITOAASTSAM](https://fred.stlouisfed.org/series/AUSLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Australia | Australia | monthly | index | 1966-02-01 | 2026-08-01 | 727 |
-| [BRALOLITOAASTSAM](https://fred.stlouisfed.org/series/BRALOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Brazil | Brazil | monthly | index | 1989-01-01 | 2026-08-01 | 452 |
-| [CHNLOLITOAASTSAM](https://fred.stlouisfed.org/series/CHNLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · China | China | monthly | index | 1992-05-01 | 2026-08-01 | 412 |
-| [IDNLOLITOAASTSAM](https://fred.stlouisfed.org/series/IDNLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · Indonesia | Indonesia | monthly | index | 1994-01-01 | 2026-08-01 | 392 |
-| [INDLOLITOAASTSAM](https://fred.stlouisfed.org/series/INDLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · India | India | monthly | index | 1994-04-01 | 2026-08-01 | 389 |
-| [ZAFLOLITOAASTSAM](https://fred.stlouisfed.org/series/ZAFLOLITOAASTSAM) | Composite Leading Indicator (Amplitude Adjusted) · South Africa | South Africa | monthly | index | 1975-01-01 | 2026-08-01 | 620 |
-| [CSCICP02ATM460S](https://fred.stlouisfed.org/series/CSCICP02ATM460S) | Composite Consumer Confidence · Austria | Austria | monthly | percentage balance | 1977-01-01 | 2026-08-01 | 596 |
-| [CSCICP02BEM460S](https://fred.stlouisfed.org/series/CSCICP02BEM460S) | Composite Consumer Confidence · Belgium | Belgium | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 644 |
-| [CSCICP02CZM460S](https://fred.stlouisfed.org/series/CSCICP02CZM460S) | Composite Consumer Confidence · Czech Republic | Czechia | monthly | percentage balance | 1995-01-01 | 2026-08-01 | 380 |
-| [CSCICP02DEM460S](https://fred.stlouisfed.org/series/CSCICP02DEM460S) | Composite Consumer Confidence · Germany | Germany | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 644 |
-| [CSCICP02DKM460S](https://fred.stlouisfed.org/series/CSCICP02DKM460S) | Composite Consumer Confidence · Denmark | Denmark | monthly | percentage balance | 1974-01-01 | 2026-08-01 | 632 |
-| [CSCICP02EEM460S](https://fred.stlouisfed.org/series/CSCICP02EEM460S) | Composite Consumer Confidence · Estonia | Estonia | monthly | percentage balance | 1992-10-01 | 2026-04-01 | 403 |
-| [CSCICP02FIM460S](https://fred.stlouisfed.org/series/CSCICP02FIM460S) | Composite Consumer Confidence · Finland | Finland | monthly | percentage balance | 1987-11-01 | 2026-08-01 | 466 |
-| [CSCICP02FRM460S](https://fred.stlouisfed.org/series/CSCICP02FRM460S) | Composite Consumer Confidence · France | France | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 632 |
-| [CSCICP02GBM460S](https://fred.stlouisfed.org/series/CSCICP02GBM460S) | Composite Consumer Confidence · United Kingdom | United Kingdom | monthly | percentage balance | 1974-01-01 | 2026-08-01 | 632 |
-| [CSCICP02GRM460S](https://fred.stlouisfed.org/series/CSCICP02GRM460S) | Composite Consumer Confidence · Greece | Greece | monthly | percentage balance | 1985-01-01 | 2026-08-01 | 500 |
-| [CSCICP02HUM460S](https://fred.stlouisfed.org/series/CSCICP02HUM460S) | Composite Consumer Confidence · Hungary | Hungary | monthly | percentage balance | 1993-02-01 | 2026-08-01 | 403 |
-| [CSCICP02IEM460S](https://fred.stlouisfed.org/series/CSCICP02IEM460S) | Composite Consumer Confidence · Ireland | Ireland | monthly | percentage balance | 1974-01-01 | 2026-08-01 | 632 |
-| [CSCICP02ITM460S](https://fred.stlouisfed.org/series/CSCICP02ITM460S) | Composite Consumer Confidence · Italy | Italy | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 643 |
-| [CSCICP02JPM460S](https://fred.stlouisfed.org/series/CSCICP02JPM460S) | Composite Consumer Confidence · Japan | Japan | monthly | percentage balance | 1982-04-01 | 2026-08-01 | 533 |
-| [CSCICP02LUM460S](https://fred.stlouisfed.org/series/CSCICP02LUM460S) | Composite Consumer Confidence · Luxembourg | Luxembourg | monthly | percentage balance | 2002-01-01 | 2026-08-01 | 296 |
-| [CSCICP02MXM460S](https://fred.stlouisfed.org/series/CSCICP02MXM460S) | Composite Consumer Confidence · Mexico | Mexico | monthly | percentage balance | 2001-04-01 | 2026-07-01 | 304 |
-| [CSCICP02NLM460S](https://fred.stlouisfed.org/series/CSCICP02NLM460S) | Composite Consumer Confidence · Netherlands | Netherlands | monthly | percentage balance | 1973-01-01 | 2026-08-01 | 644 |
-| [CSCICP02PLM460S](https://fred.stlouisfed.org/series/CSCICP02PLM460S) | Composite Consumer Confidence · Poland | Poland | monthly | percentage balance | 2001-05-01 | 2026-04-01 | 300 |
-| [CSCICP02PTM460S](https://fred.stlouisfed.org/series/CSCICP02PTM460S) | Composite Consumer Confidence · Portugal | Portugal | monthly | percentage balance | 1986-06-01 | 2026-08-01 | 483 |
-| [CSCICP02SKM460S](https://fred.stlouisfed.org/series/CSCICP02SKM460S) | Composite Consumer Confidence · Slovakia | Slovak Republic | monthly | percentage balance | 1999-04-01 | 2026-08-01 | 329 |
-| [CSCICP02SIM460S](https://fred.stlouisfed.org/series/CSCICP02SIM460S) | Composite Consumer Confidence · Slovenia | Slovenia | monthly | percentage balance | 1996-03-01 | 2026-08-01 | 366 |
-| [CSCICP02SEM460S](https://fred.stlouisfed.org/series/CSCICP02SEM460S) | Composite Consumer Confidence · Sweden | Sweden | monthly | percentage balance | 1995-10-01 | 2026-08-01 | 371 |
-| [CSCICP02TRM460S](https://fred.stlouisfed.org/series/CSCICP02TRM460S) | Composite Consumer Confidence · Turkey | Türkiye | monthly | percentage balance | 2004-01-01 | 2026-08-01 | 272 |
-| [CSCICP02AUM460S](https://fred.stlouisfed.org/series/CSCICP02AUM460S) | Composite Consumer Confidence · Australia | Australia | monthly | percentage balance | 1974-09-01 | 2026-08-01 | 624 |
-| [CSCICP02BRM460S](https://fred.stlouisfed.org/series/CSCICP02BRM460S) | Composite Consumer Confidence · Brazil | Brazil | monthly | percentage balance | 1994-06-01 | 2026-08-01 | 387 |
-| [CSCICP02CNM460S](https://fred.stlouisfed.org/series/CSCICP02CNM460S) | Composite Consumer Confidence · China | China | monthly | percentage balance | 1990-01-01 | 2026-07-01 | 439 |
-| [CLVMNACSCAB1GQAT](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQAT) | Real Gross Domestic Product · Austria | Austria | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQBE](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQBE) | Real Gross Domestic Product · Belgium | Belgium | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQCH](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQCH) | Real Gross Domestic Product · Switzerland | Switzerland | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQCZ](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQCZ) | Real Gross Domestic Product · Czech Republic | Czechia | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQDK](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQDK) | Real Gross Domestic Product · Denmark | Denmark | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQEE](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQEE) | Real Gross Domestic Product · Estonia | Estonia | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQES](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQES) | Real Gross Domestic Product · Spain | Spain | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQFI](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQFI) | Real Gross Domestic Product · Finland | Finland | quarterly | millions chained 2010 euros | 1990-01-01 | 2026-04-01 | 146 |
-| [CLVMNACSCAB1GQHU](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQHU) | Real Gross Domestic Product · Hungary | Hungary | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQLU](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQLU) | Real Gross Domestic Product · Luxembourg | Luxembourg | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-01-01 | 125 |
-| [CLVMNACSCAB1GQNL](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQNL) | Real Gross Domestic Product · Netherlands | Netherlands | quarterly | millions chained 2010 euros | 1996-01-01 | 2026-04-01 | 122 |
-| [CLVMNACSCAB1GQNO](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQNO) | Real Gross Domestic Product · Norway | Norway | quarterly | millions chained 2010 euros | 1978-01-01 | 2026-04-01 | 194 |
-| [CLVMNACSCAB1GQPL](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQPL) | Real Gross Domestic Product · Poland | Poland | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQPT](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQPT) | Real Gross Domestic Product · Portugal | Portugal | quarterly | millions chained 2010 euros | 1995-01-01 | 2026-04-01 | 126 |
-| [CLVMNACSCAB1GQSE](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQSE) | Real Gross Domestic Product · Sweden | Sweden | quarterly | millions chained 2010 euros | 1993-01-01 | 2026-04-01 | 134 |
-| [CLVMNACSCAB1GQSI](https://fred.stlouisfed.org/series/CLVMNACSCAB1GQSI) | Real Gross Domestic Product · Slovenia | Slovenia | quarterly | millions chained 2010 euros | 1996-01-01 | 2026-04-01 | 122 |
+| [DGBAS_TWN_GDP_NOMINAL](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Nominal GDP · Taiwan | Taiwan | annual | million USD | 1960-12-31 | 2025-12-31 | 66 |
+| [DGBAS_TWN_GDPGROWTH](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Real GDP growth · Taiwan | Taiwan | annual | % | 1960-12-31 | 2025-12-31 | 66 |
+| [DGBAS_TWN_GDPPC_NOMINAL](https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?funid=A018101010&sys=210) | Nominal GDP per capita · Taiwan | Taiwan | annual | USD/person | 1960-12-31 | 2025-12-31 | 66 |
+| [IMF_TWN_GDP_NOMINAL](https://data.imf.org/en/Datasets/WEO) | Nominal GDP · Taiwan | Taiwan | annual | USD billions | 1980-12-31 | 2025-12-31 | 46 |
+| [IMF_TWN_GDPGROWTH](https://data.imf.org/en/Datasets/WEO) | Real GDP growth · Taiwan | Taiwan | annual | % | 1980-12-31 | 2025-12-31 | 46 |
+| [IMF_TWN_GDPPC_NOMINAL](https://data.imf.org/en/Datasets/WEO) | Nominal GDP per capita · Taiwan | Taiwan | annual | USD/person | 1980-12-31 | 2025-12-31 | 46 |
+| [SPC_ASM_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · American Samoa | American Samoa | annual | thousands USD | 2005-12-31 | 2022-12-31 | 18 |
+| [SPC_ASM_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · American Samoa | American Samoa | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_ASM_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · American Samoa | American Samoa | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
+| [SPC_ASM_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · American Samoa | American Samoa | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_GUM_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Guam | Guam | annual | thousands USD | 2005-12-31 | 2022-12-31 | 18 |
+| [SPC_GUM_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Guam | Guam | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_GUM_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Guam | Guam | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
+| [SPC_GUM_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Guam | Guam | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_MNP_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Northern Mariana Islands | Northern Mariana Islands | annual | thousands USD | 2005-12-31 | 2022-12-31 | 18 |
+| [SPC_MNP_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Northern Mariana Islands | Northern Mariana Islands | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_MNP_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Northern Mariana Islands | Northern Mariana Islands | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
+| [SPC_MNP_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Northern Mariana Islands | Northern Mariana Islands | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_NCL_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · New Caledonia | New Caledonia | annual | thousands USD | 2005-12-31 | 2024-12-31 | 20 |
+| [SPC_NCL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2023-12-31 | 18 |
+| [SPC_NCL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · New Caledonia | New Caledonia | annual | USD/person | 2005-12-31 | 2023-12-31 | 19 |
+| [SPC_NCL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2023-12-31 | 18 |
+| [SPC_NIU_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Niue | Niue | annual | thousands USD | 2005-12-31 | 2025-12-31 | 21 |
+| [SPC_NIU_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Niue | Niue | annual | % | 2006-12-31 | 2024-12-31 | 19 |
+| [SPC_NIU_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Niue | Niue | annual | USD/person | 2005-12-31 | 2024-12-31 | 20 |
+| [SPC_NIU_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Niue | Niue | annual | % | 2006-12-31 | 2024-12-31 | 19 |
+| [SPC_PCN_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Pitcairn Islands | Pitcairn Islands | annual | thousands USD | 2005-12-31 | 2005-12-31 | 1 |
+| [SPC_PCN_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Pitcairn Islands | Pitcairn Islands | annual | USD/person | 2005-12-31 | 2005-12-31 | 1 |
+| [SPC_PYF_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · French Polynesia | French Polynesia | annual | thousands USD | 2005-12-31 | 2024-12-31 | 20 |
+| [SPC_PYF_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_PYF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · French Polynesia | French Polynesia | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
+| [SPC_PYF_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_TKL_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Tokelau | Tokelau | annual | thousands USD | 2013-12-31 | 2024-12-31 | 12 |
+| [SPC_TKL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2021-12-31 | 8 |
+| [SPC_TKL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Tokelau | Tokelau | annual | USD/person | 2013-12-31 | 2021-12-31 | 9 |
+| [SPC_TKL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2021-12-31 | 8 |
+| [SPC_WLF_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Wallis and Futuna | Wallis and Futuna | annual | thousands USD | 2005-12-31 | 2019-12-31 | 3 |
+| [SPC_WLF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Wallis and Futuna | Wallis and Futuna | annual | USD/person | 2005-12-31 | 2015-12-31 | 2 |
+| [UN_AIA_GDP](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP · Anguilla | Anguilla | annual | constant 2020 USD | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_AIA_GDP_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP · Anguilla | Anguilla | annual | current USD | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_AIA_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Anguilla | Anguilla | annual | % | 1971-12-31 | 2024-12-31 | 54 |
+| [UN_AIA_GDPPC](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP per capita · Anguilla | Anguilla | annual | constant 2020 USD/person | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_AIA_GDPPC_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP per capita · Anguilla | Anguilla | annual | current USD/person | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_COK_GDP](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP · Cook Islands | Cook Islands | annual | constant 2020 USD | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_COK_GDP_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP · Cook Islands | Cook Islands | annual | current USD | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_COK_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Cook Islands | Cook Islands | annual | % | 1971-12-31 | 2024-12-31 | 54 |
+| [UN_COK_GDPPC](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP per capita · Cook Islands | Cook Islands | annual | constant 2020 USD/person | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_COK_GDPPC_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP per capita · Cook Islands | Cook Islands | annual | current USD/person | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_MSR_GDP](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP · Montserrat | Montserrat | annual | constant 2020 USD | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_MSR_GDP_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP · Montserrat | Montserrat | annual | current USD | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_MSR_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Montserrat | Montserrat | annual | % | 1971-12-31 | 2024-12-31 | 54 |
+| [UN_MSR_GDPPC](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP per capita · Montserrat | Montserrat | annual | constant 2020 USD/person | 1970-12-31 | 2024-12-31 | 55 |
+| [UN_MSR_GDPPC_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP per capita · Montserrat | Montserrat | annual | current USD/person | 1970-12-31 | 2024-12-31 | 55 |
+| [TERR_JEY_GDP_REAL](https://opendata.gov.je/dataset/national-accounts/resource/69bc3b4b-9c2f-470f-a42b-97daab3271ec?inner_span=True) | Real GDP · Jersey | Jersey | annual | GBP million (constant 2025 prices) | 2012-12-31 | 2025-12-31 | 14 |
+| [TERR_JEY_GDP_GROWTH](https://opendata.gov.je/dataset/national-accounts/resource/69bc3b4b-9c2f-470f-a42b-97daab3271ec?inner_span=True) | Real GDP growth · Jersey | Jersey | annual | % | 2013-12-31 | 2025-12-31 | 13 |
+| [TERR_GLP_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Guadeloupe | Guadeloupe | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GLP_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Guadeloupe | Guadeloupe | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GLP_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Guadeloupe | Guadeloupe | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_MTQ_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Martinique | Martinique | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_MTQ_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Martinique | Martinique | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_MTQ_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Martinique | Martinique | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_GUF_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · French Guiana | French Guiana | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GUF_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · French Guiana | French Guiana | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_GUF_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · French Guiana | French Guiana | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_REU_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Réunion | Réunion | annual | EUR million | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_REU_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Réunion | Réunion | annual | EUR million (chained volume) | 2000-12-31 | 2024-12-31 | 25 |
+| [TERR_REU_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Réunion | Réunion | annual | % | 2001-12-31 | 2024-12-31 | 24 |
+| [TERR_MYT_GDP_NOMINAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Nominal GDP · Mayotte | Mayotte | annual | EUR million | 2000-12-31 | 2023-12-31 | 24 |
+| [TERR_MYT_GDP_REAL](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP · Mayotte | Mayotte | annual | EUR million (chained volume) | 2000-12-31 | 2023-12-31 | 24 |
+| [TERR_MYT_GDP_GROWTH](https://api.insee.fr/melodi/catalog/DS_COMPTES_REGIONAUX) | Real GDP growth · Mayotte | Mayotte | annual | % | 2001-12-31 | 2023-12-31 | 23 |
+| [TERR_ALA_GDP_NOMINAL](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Nominal GDP · Åland | Åland | annual | EUR million | 2008-12-31 | 2023-12-31 | 16 |
+| [TERR_ALA_GDP_REAL](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Real GDP · Åland | Åland | annual | EUR million (constant latest reported prices) | 2008-12-31 | 2023-12-31 | 16 |
+| [TERR_ALA_GDP_GROWTH](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/Statistik__NA__Bruttonationalprodukt/NA039.px/) | Real GDP growth · Åland | Åland | annual | % | 2009-12-31 | 2023-12-31 | 15 |
+| [TERR_BES_GM9001_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Bonaire (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9001_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Bonaire (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9001_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Bonaire (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
+| [TERR_BES_GM9002_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Sint Eustatius (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9002_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Sint Eustatius (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9002_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Sint Eustatius (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
+| [TERR_BES_GM9003_GDP_NOMINAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Nominal GDP · Saba (BES) | Caribbean Netherlands | annual | USD million (current prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9003_GDP_REAL](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP · Saba (BES) | Caribbean Netherlands | annual | USD million (2017 prices) | 2012-12-31 | 2023-12-31 | 12 |
+| [TERR_BES_GM9003_GDP_GROWTH](https://www.cbs.nl/en-gb/figures/detail/84789ENG) | Real GDP growth · Saba (BES) | Caribbean Netherlands | annual | % | 2013-12-31 | 2023-12-31 | 11 |
 | [EUROSTAT_EA20_B1GQ](https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en) | Real GDP · Euro Area | Euro Area | quarterly | Chain linked volumes (2020), million euro | 2000-01-01 | 2026-04-01 | 106 |
 | [EUROSTAT_BE_B1GQ](https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en) | Real GDP · Belgium | Belgium | quarterly | Chain linked volumes (2020), million euro | 2000-01-01 | 2026-04-01 | 106 |
 | [EUROSTAT_BG_B1GQ](https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en) | Real GDP · Bulgaria | Bulgaria | quarterly | Chain linked volumes (2020), million euro | 2000-01-01 | 2026-04-01 | 106 |
@@ -12387,7 +12387,7 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [EUROSTAT_EL_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Greece | Greece | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_ES_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Spain | Spain | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_FR_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · France | France | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_HR_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Croatia | Croatia | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_HR_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Croatia | Croatia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_IT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Italy | Italy | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_CY_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Cyprus | Cyprus | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_LV_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Latvia | Latvia | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
@@ -12397,150 +12397,150 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [EUROSTAT_MT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Malta | Malta | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_NL_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Netherlands | Netherlands | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_AT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Austria | Austria | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_PL_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Poland | Poland | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_PT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_PL_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Poland | Poland | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_PT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_RO_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Romania | Romania | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_SI_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Slovenia | Slovenia | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_SK_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Slovak Republic | Slovak Republic | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_FI_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Finland | Finland | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_SE_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Sweden | Sweden | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_EA20_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Euro Area | Euro Area | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_BE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Belgium | Belgium | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_BG_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Bulgaria | Bulgaria | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_BE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Belgium | Belgium | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_BG_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Bulgaria | Bulgaria | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_CZ_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Czechia | Czechia | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_DK_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Denmark | Denmark | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_DE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Germany | Germany | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_EE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Estonia | Estonia | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_EE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Estonia | Estonia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_IE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Ireland | Ireland | monthly | Index, 2015=100 | 2000-01-01 | 2023-12-01 | 288 |
-| [EUROSTAT_EL_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Greece | Greece | monthly | Index, 2021=100 | 2000-01-01 | 2026-06-01 | 318 |
+| [EUROSTAT_EL_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Greece | Greece | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_ES_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Spain | Spain | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_FR_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · France | France | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_HR_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Croatia | Croatia | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_IT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Italy | Italy | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_CY_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Cyprus | Cyprus | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_HR_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Croatia | Croatia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_IT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Italy | Italy | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_CY_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Cyprus | Cyprus | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_LV_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Latvia | Latvia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_LT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Lithuania | Lithuania | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_LU_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Luxembourg | Luxembourg | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_LU_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Luxembourg | Luxembourg | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_HU_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Hungary | Hungary | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_MT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Malta | Malta | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_NL_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Netherlands | Netherlands | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_AT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Austria | Austria | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_MT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Malta | Malta | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_NL_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Netherlands | Netherlands | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_AT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Austria | Austria | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_PL_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Poland | Poland | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_PT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_PT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_RO_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Romania | Romania | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
 | [EUROSTAT_SI_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Slovenia | Slovenia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_SK_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Slovak Republic | Slovak Republic | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_FI_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Finland | Finland | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
+| [EUROSTAT_FI_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Finland | Finland | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_SE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Sweden | Sweden | monthly | Index, 2015=100 | 2000-01-01 | 2023-12-01 | 288 |
 | [EUROSTAT_EA20_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Euro Area | Euro Area | monthly | Index, 2021=100 | 2000-01-01 | 2026-07-01 | 319 |
-| [EUROSTAT_BE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2003-01-01 | 2026-01-01 | 93 |
-| [EUROSTAT_BG_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_CZ_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_DK_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_DE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_EE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_IE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
-| [EUROSTAT_EL_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
-| [EUROSTAT_ES_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_FR_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_HR_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_IT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_CY_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_LV_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_LT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
+| [EUROSTAT_BE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2003-01-01 | 2026-04-01 | 94 |
+| [EUROSTAT_BG_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_CZ_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_DK_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_DE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_EE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_IE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-04-01 | 98 |
+| [EUROSTAT_EL_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-04-01 | 98 |
+| [EUROSTAT_ES_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_FR_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_HR_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_IT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_CY_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_LV_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_LT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
 | [EUROSTAT_LU_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Luxembourg | Luxembourg | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_HU_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_MT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_NL_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-01-01 | 92 |
-| [EUROSTAT_AT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_PL_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_PT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_RO_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_SI_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_SK_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_FI_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_SE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_BE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_BG_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_CZ_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_DK_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_DE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 93 |
-| [EUROSTAT_EE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_IE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
-| [EUROSTAT_EL_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2003-10-01 | 2026-01-01 | 90 |
-| [EUROSTAT_ES_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_FR_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_HR_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_IT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_CY_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_LV_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_LT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
+| [EUROSTAT_HU_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_MT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_NL_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-04-01 | 93 |
+| [EUROSTAT_AT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_PL_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_PT_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_RO_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_SI_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_SK_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_FI_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_SE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_BE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_BG_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_CZ_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_DK_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_DE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 94 |
+| [EUROSTAT_EE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_IE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-04-01 | 98 |
+| [EUROSTAT_EL_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2003-10-01 | 2026-04-01 | 91 |
+| [EUROSTAT_ES_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_FR_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_HR_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_IT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_CY_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_LV_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_LT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
 | [EUROSTAT_LU_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Luxembourg | Luxembourg | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
-| [EUROSTAT_HU_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_MT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_NL_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-01-01 | 92 |
-| [EUROSTAT_AT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_PL_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_PT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_RO_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_SI_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_SK_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_FI_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_SE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_BE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_BG_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_CZ_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_DK_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_DE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 93 |
-| [EUROSTAT_EE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_IE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
-| [EUROSTAT_EL_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2003-10-01 | 2026-01-01 | 90 |
-| [EUROSTAT_ES_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_FR_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_HR_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_IT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_CY_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_LV_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_LT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
+| [EUROSTAT_HU_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_MT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_NL_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-04-01 | 93 |
+| [EUROSTAT_AT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_PL_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_PT_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_RO_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_SI_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_SK_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_FI_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_SE_EXTERNAL_ASSETS](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External assets · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_BE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_BG_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_CZ_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_DK_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_DE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 94 |
+| [EUROSTAT_EE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_IE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-04-01 | 98 |
+| [EUROSTAT_EL_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2003-10-01 | 2026-04-01 | 91 |
+| [EUROSTAT_ES_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_FR_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_HR_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_IT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_CY_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_LV_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_LT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
 | [EUROSTAT_LU_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Luxembourg | Luxembourg | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
-| [EUROSTAT_HU_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_MT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_NL_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-01-01 | 92 |
-| [EUROSTAT_AT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_PL_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_PT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_RO_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_SI_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_SK_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_FI_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_SE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_BE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2008-01-01 | 2026-01-01 | 73 |
-| [EUROSTAT_BG_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2007-01-01 | 2026-01-01 | 77 |
-| [EUROSTAT_CZ_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_DK_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_DE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 93 |
-| [EUROSTAT_EE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2003-01-01 | 2026-01-01 | 93 |
-| [EUROSTAT_IE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
-| [EUROSTAT_EL_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2008-01-01 | 2026-01-01 | 73 |
-| [EUROSTAT_ES_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_FR_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_HR_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_IT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_CY_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2008-01-01 | 2026-01-01 | 73 |
-| [EUROSTAT_LV_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_LT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
+| [EUROSTAT_HU_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_MT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_NL_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-04-01 | 93 |
+| [EUROSTAT_AT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_PL_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_PT_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_RO_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_SI_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_SK_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_FI_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_SE_EXTERNAL_LIABILITIES](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | External liabilities · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_BE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2008-01-01 | 2026-04-01 | 74 |
+| [EUROSTAT_BG_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2007-01-01 | 2026-04-01 | 78 |
+| [EUROSTAT_CZ_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_DK_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Denmark | Denmark | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_DE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Germany | Germany | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 94 |
+| [EUROSTAT_EE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Estonia | Estonia | quarterly | Percentage of gross domestic product (GDP) | 2003-01-01 | 2026-04-01 | 94 |
+| [EUROSTAT_IE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Ireland | Ireland | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-04-01 | 98 |
+| [EUROSTAT_EL_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Greece | Greece | quarterly | Percentage of gross domestic product (GDP) | 2008-01-01 | 2026-04-01 | 74 |
+| [EUROSTAT_ES_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Spain | Spain | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_FR_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · France | France | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_HR_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Croatia | Croatia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_IT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Italy | Italy | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_CY_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Cyprus | Cyprus | quarterly | Percentage of gross domestic product (GDP) | 2008-01-01 | 2026-04-01 | 74 |
+| [EUROSTAT_LV_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Latvia | Latvia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_LT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Lithuania | Lithuania | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
 | [EUROSTAT_LU_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Luxembourg | Luxembourg | quarterly | Percentage of gross domestic product (GDP) | 2002-10-01 | 2026-01-01 | 94 |
-| [EUROSTAT_HU_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_MT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_NL_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-01-01 | 92 |
-| [EUROSTAT_AT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_PL_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_PT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_RO_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-01-01 | 85 |
-| [EUROSTAT_SI_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-01-01 | 102 |
-| [EUROSTAT_SK_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-01-01 | 89 |
-| [EUROSTAT_FI_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
-| [EUROSTAT_SE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
+| [EUROSTAT_HU_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Hungary | Hungary | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_MT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Malta | Malta | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_NL_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Netherlands | Netherlands | quarterly | Percentage of gross domestic product (GDP) | 2003-04-01 | 2026-04-01 | 93 |
+| [EUROSTAT_AT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Austria | Austria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_PL_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Poland | Poland | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_PT_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Portugal | Portugal | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_RO_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Romania | Romania | quarterly | Percentage of gross domestic product (GDP) | 2005-01-01 | 2026-04-01 | 86 |
+| [EUROSTAT_SI_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Slovenia | Slovenia | quarterly | Percentage of gross domestic product (GDP) | 2000-10-01 | 2026-04-01 | 103 |
+| [EUROSTAT_SK_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Slovak Republic | Slovak Republic | quarterly | Percentage of gross domestic product (GDP) | 2004-01-01 | 2026-04-01 | 90 |
+| [EUROSTAT_FI_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Finland | Finland | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
+| [EUROSTAT_SE_NET_IIP](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Net international investment position · Sweden | Sweden | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
 | [JST_AUS_RGDPMAD](https://www.macrohistory.net/database/) | Real GDP per capita · Maddison · Australia | Australia | annual | 1990 international $/person | 1870-12-31 | 2020-12-31 | 151 |
 | [JST_AUS_RGDPBARRO](https://www.macrohistory.net/database/) | Real GDP per capita · Barro-Ursúa · Australia | Australia | annual | index (2005=100) | 1870-12-31 | 2020-12-31 | 151 |
 | [JST_AUS_RCONSBARRO](https://www.macrohistory.net/database/) | Real consumption per capita · Barro-Ursúa · Australia | Australia | annual | index (2006=100) | 1870-12-31 | 2020-12-31 | 151 |
@@ -14385,24 +14385,24 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) | Federal Funds Rate | US | monthly | % | 1954-07-01 | 2026-08-01 | 866 |
-| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | US | daily | % | 2001-07-31 | 2026-09-29 | 6293 |
-| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-09-29 | 11269 |
-| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-09-29 | 11269 |
-| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-29 | 16171 |
-| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | US | daily | % | 1976-06-01 | 2026-09-29 | 12579 |
-| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-29 | 16171 |
-| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | US | daily | % | 1969-07-01 | 2026-09-29 | 14301 |
-| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-29 | 16171 |
-| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-09-29 | 14482 |
-| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | US | daily | % | 1977-02-15 | 2026-09-29 | 12401 |
-| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | US | daily | percentage points | 1976-06-01 | 2026-09-30 | 12580 |
-| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | US | daily | percentage points | 1982-01-04 | 2026-09-30 | 11189 |
-| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | US | daily | % | 1954-07-01 | 2026-09-29 | 26389 |
-| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | US | daily | % | 2018-04-03 | 2026-09-29 | 2121 |
-| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-09-29 | 5940 |
-| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-09-29 | 5940 |
-| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | US | daily | % | 2010-02-22 | 2026-09-29 | 4155 |
+| [FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) | Federal Funds Rate | US | monthly | % | 1954-07-01 | 2026-09-01 | 867 |
+| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | US | daily | % | 2001-07-31 | 2026-10-01 | 6295 |
+| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-10-01 | 11271 |
+| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-10-01 | 11271 |
+| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-01 | 16173 |
+| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | US | daily | % | 1976-06-01 | 2026-10-01 | 12581 |
+| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-01 | 16173 |
+| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | US | daily | % | 1969-07-01 | 2026-10-01 | 14303 |
+| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-01 | 16173 |
+| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-01 | 14484 |
+| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | US | daily | % | 1977-02-15 | 2026-10-01 | 12403 |
+| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | US | daily | percentage points | 1976-06-01 | 2026-10-02 | 12582 |
+| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | US | daily | percentage points | 1982-01-04 | 2026-10-02 | 11191 |
+| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | US | daily | % | 1954-07-01 | 2026-10-01 | 26391 |
+| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | US | daily | % | 2018-04-03 | 2026-10-01 | 2123 |
+| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-10-01 | 5942 |
+| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-10-01 | 5942 |
+| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | US | daily | % | 2010-02-22 | 2026-10-01 | 4157 |
 | [BOERUKA](https://fred.stlouisfed.org/series/BOERUKA) | Bank of England Policy Rate · Millennium Archive | United Kingdom | annual | % | 1694-01-01 | 2016-01-01 | 323 |
 | [LTCYUKA](https://fred.stlouisfed.org/series/LTCYUKA) | Consol Long-Term Bond Yield · United Kingdom · Millennium Archive | United Kingdom | annual | % | 1703-01-01 | 2016-01-01 | 314 |
 | [WDI_ABW_DEPOSIT_RATE](https://data.worldbank.org/indicator/FR.INR.DPST) | Deposit interest rate · Aruba | Aruba | annual | % | 1986-12-31 | 2023-12-31 | 38 |
@@ -14996,53 +14996,53 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [WDI_ZWE_REAL_INTEREST](https://data.worldbank.org/indicator/FR.INR.RINR) | Real interest rate · Zimbabwe | Zimbabwe | annual | % | 2012-12-31 | 2025-12-31 | 14 |
 | [BIS_CBPOL_D_AR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Argentina | Argentina | daily | % | 1993-04-01 | 2025-07-10 | 8768 |
 | [BIS_CBPOL_D_AT](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Austria | Austria | daily | % | 1945-04-01 | 1998-12-31 | 19633 |
-| [BIS_CBPOL_D_AU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Australia | Australia | daily | % | 1976-04-07 | 2026-09-17 | 12787 |
+| [BIS_CBPOL_D_AU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Australia | Australia | daily | % | 1976-04-07 | 2026-09-24 | 12792 |
 | [BIS_CBPOL_D_BE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Belgium | Belgium | daily | % | 1945-01-01 | 1998-12-30 | 18806 |
-| [BIS_CBPOL_D_BR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Brazil | Brazil | daily | % | 1986-06-04 | 2026-09-22 | 13245 |
-| [BIS_CBPOL_D_CA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Canada | Canada | daily | % | 1960-07-27 | 2026-09-21 | 17200 |
-| [BIS_CBPOL_D_CH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Switzerland | Switzerland | daily | % | 1946-01-01 | 2026-09-22 | 21001 |
-| [BIS_CBPOL_D_CL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Chile | Chile | daily | % | 1997-02-07 | 2026-09-22 | 7391 |
-| [BIS_CBPOL_D_CN](https://data.bis.org/topics/CBPOL) | Central bank policy rate · China | China | daily | % | 1996-01-01 | 2026-09-19 | 10947 |
-| [BIS_CBPOL_D_CO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Colombia | Colombia | daily | % | 1995-04-06 | 2026-09-22 | 11491 |
-| [BIS_CBPOL_D_CZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Czechia | Czechia | daily | % | 1995-12-08 | 2026-09-21 | 7889 |
+| [BIS_CBPOL_D_BR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Brazil | Brazil | daily | % | 1986-06-04 | 2026-09-29 | 13252 |
+| [BIS_CBPOL_D_CA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Canada | Canada | daily | % | 1960-07-27 | 2026-09-28 | 17205 |
+| [BIS_CBPOL_D_CH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Switzerland | Switzerland | daily | % | 1946-01-01 | 2026-09-29 | 21006 |
+| [BIS_CBPOL_D_CL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Chile | Chile | daily | % | 1997-02-07 | 2026-09-29 | 7396 |
+| [BIS_CBPOL_D_CN](https://data.bis.org/topics/CBPOL) | Central bank policy rate · China | China | daily | % | 1996-01-01 | 2026-09-29 | 10957 |
+| [BIS_CBPOL_D_CO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Colombia | Colombia | daily | % | 1995-04-06 | 2026-09-23 | 11492 |
+| [BIS_CBPOL_D_CZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Czechia | Czechia | daily | % | 1995-12-08 | 2026-09-25 | 7893 |
 | [BIS_CBPOL_D_DE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Germany | Germany | daily | % | 1948-07-01 | 1998-12-31 | 18446 |
-| [BIS_CBPOL_D_DK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Denmark | Denmark | daily | % | 1946-01-01 | 2026-09-21 | 24122 |
+| [BIS_CBPOL_D_DK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Denmark | Denmark | daily | % | 1946-01-01 | 2026-09-28 | 24127 |
 | [BIS_CBPOL_D_ES](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Spain | Spain | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
 | [BIS_CBPOL_D_FR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · France | France | daily | % | 1945-01-20 | 1998-12-31 | 19704 |
-| [BIS_CBPOL_D_GB](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United Kingdom | United Kingdom | daily | % | 1946-01-01 | 2026-09-21 | 23442 |
+| [BIS_CBPOL_D_GB](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United Kingdom | United Kingdom | daily | % | 1946-01-01 | 2026-09-28 | 23447 |
 | [BIS_CBPOL_D_GR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Greece | Greece | daily | % | 1956-05-01 | 2000-12-31 | 16316 |
-| [BIS_CBPOL_D_HK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hong Kong SAR, China | Hong Kong SAR, China | daily | % | 1998-09-07 | 2026-09-15 | 7279 |
+| [BIS_CBPOL_D_HK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hong Kong SAR, China | Hong Kong SAR, China | daily | % | 1998-09-07 | 2026-09-23 | 7285 |
 | [BIS_CBPOL_D_HR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Croatia | Croatia | daily | % | 1993-01-04 | 2022-07-18 | 5963 |
-| [BIS_CBPOL_D_HU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hungary | Hungary | daily | % | 1987-01-02 | 2026-09-16 | 10162 |
-| [BIS_CBPOL_D_ID](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Indonesia | Indonesia | daily | % | 2005-07-05 | 2026-09-18 | 5186 |
+| [BIS_CBPOL_D_HU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hungary | Hungary | daily | % | 1987-01-02 | 2026-09-23 | 10167 |
+| [BIS_CBPOL_D_ID](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Indonesia | Indonesia | daily | % | 2005-07-05 | 2026-09-28 | 5192 |
 | [BIS_CBPOL_D_IL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Israel | Israel | daily | % | 1993-07-01 | 2026-07-31 | 12084 |
 | [BIS_CBPOL_D_IN](https://data.bis.org/topics/CBPOL) | Central bank policy rate · India | India | daily | % | 1946-01-01 | 2026-07-23 | 21465 |
-| [BIS_CBPOL_D_IS](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Iceland | Iceland | daily | % | 1998-03-02 | 2026-09-22 | 7147 |
+| [BIS_CBPOL_D_IS](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Iceland | Iceland | daily | % | 1998-03-02 | 2026-09-29 | 7152 |
 | [BIS_CBPOL_D_IT](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Italy | Italy | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
-| [BIS_CBPOL_D_JP](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Japan | Japan | daily | % | 1946-01-01 | 2026-09-22 | 24889 |
+| [BIS_CBPOL_D_JP](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Japan | Japan | daily | % | 1946-01-01 | 2026-09-29 | 24894 |
 | [BIS_CBPOL_D_KR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · South Korea | South Korea | daily | % | 1999-05-06 | 2026-08-28 | 6815 |
-| [BIS_CBPOL_D_KW](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Kuwait | Kuwait | daily | % | 2002-06-03 | 2026-09-22 | 8878 |
+| [BIS_CBPOL_D_KW](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Kuwait | Kuwait | daily | % | 2002-06-03 | 2026-09-29 | 8885 |
 | [BIS_CBPOL_D_MA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Morocco | Morocco | daily | % | 2001-01-01 | 2026-08-31 | 9371 |
 | [BIS_CBPOL_D_MK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · North Macedonia | North Macedonia | daily | % | 2000-01-03 | 2026-09-22 | 6691 |
-| [BIS_CBPOL_D_MX](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Mexico | Mexico | daily | % | 1998-11-03 | 2026-09-22 | 9047 |
-| [BIS_CBPOL_D_MY](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Malaysia | Malaysia | daily | % | 1995-11-03 | 2026-09-22 | 8579 |
+| [BIS_CBPOL_D_MX](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Mexico | Mexico | daily | % | 1998-11-03 | 2026-09-29 | 9054 |
+| [BIS_CBPOL_D_MY](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Malaysia | Malaysia | daily | % | 1995-11-03 | 2026-09-29 | 8584 |
 | [BIS_CBPOL_D_NL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Netherlands | Netherlands | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
-| [BIS_CBPOL_D_NO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Norway | Norway | daily | % | 1986-03-03 | 2026-09-16 | 10232 |
-| [BIS_CBPOL_D_NZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · New Zealand | New Zealand | daily | % | 1985-01-04 | 2026-09-18 | 12387 |
-| [BIS_CBPOL_D_PE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Peru | Peru | daily | % | 2003-09-05 | 2026-09-21 | 5894 |
-| [BIS_CBPOL_D_PH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Philippines | Philippines | daily | % | 1986-01-02 | 2026-09-18 | 9492 |
-| [BIS_CBPOL_D_PL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Poland | Poland | daily | % | 1993-01-16 | 2026-09-22 | 9092 |
+| [BIS_CBPOL_D_NO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Norway | Norway | daily | % | 1986-03-03 | 2026-09-25 | 10239 |
+| [BIS_CBPOL_D_NZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · New Zealand | New Zealand | daily | % | 1985-01-04 | 2026-09-25 | 12392 |
+| [BIS_CBPOL_D_PE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Peru | Peru | daily | % | 2003-09-05 | 2026-09-28 | 5897 |
+| [BIS_CBPOL_D_PH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Philippines | Philippines | daily | % | 1986-01-02 | 2026-09-25 | 9497 |
+| [BIS_CBPOL_D_PL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Poland | Poland | daily | % | 1993-01-16 | 2026-09-29 | 9097 |
 | [BIS_CBPOL_D_PT](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Portugal | Portugal | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
-| [BIS_CBPOL_D_RO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Romania | Romania | daily | % | 2003-01-06 | 2026-09-22 | 5993 |
+| [BIS_CBPOL_D_RO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Romania | Romania | daily | % | 2003-01-06 | 2026-09-29 | 5998 |
 | [BIS_CBPOL_D_RS](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Serbia | Serbia | daily | % | 1997-01-01 | 2026-09-11 | 10828 |
-| [BIS_CBPOL_D_RU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Russia | Russia | daily | % | 1992-01-01 | 2026-09-22 | 8749 |
+| [BIS_CBPOL_D_RU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Russia | Russia | daily | % | 1992-01-01 | 2026-09-29 | 8754 |
 | [BIS_CBPOL_D_SA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Saudi Arabia | Saudi Arabia | daily | % | 2000-01-31 | 2026-09-13 | 6965 |
-| [BIS_CBPOL_D_SE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Sweden | Sweden | daily | % | 1946-01-02 | 2026-09-22 | 20468 |
-| [BIS_CBPOL_D_TH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Thailand | Thailand | daily | % | 2000-05-23 | 2026-09-17 | 8145 |
-| [BIS_CBPOL_D_TR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Türkiye | Türkiye | daily | % | 2002-02-20 | 2026-09-18 | 6181 |
-| [BIS_CBPOL_D_US](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United States | US | daily | % | 1954-07-01 | 2026-09-22 | 26381 |
-| [BIS_CBPOL_D_XM](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Euro Area | Euro Area | daily | % | 1999-01-01 | 2026-09-22 | 10095 |
-| [BIS_CBPOL_D_ZA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · South Africa | South Africa | daily | % | 1980-12-31 | 2026-09-21 | 13724 |
+| [BIS_CBPOL_D_SE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Sweden | Sweden | daily | % | 1946-01-02 | 2026-09-29 | 20473 |
+| [BIS_CBPOL_D_TH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Thailand | Thailand | daily | % | 2000-05-23 | 2026-09-24 | 8150 |
+| [BIS_CBPOL_D_TR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Türkiye | Türkiye | daily | % | 2002-02-20 | 2026-09-25 | 6186 |
+| [BIS_CBPOL_D_US](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United States | US | daily | % | 1954-07-01 | 2026-09-28 | 26387 |
+| [BIS_CBPOL_D_XM](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Euro Area | Euro Area | daily | % | 1999-01-01 | 2026-09-29 | 10102 |
+| [BIS_CBPOL_D_ZA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · South Africa | South Africa | daily | % | 1980-12-31 | 2026-09-28 | 13729 |
 | [BIS_CBTA_A_AE_B_XDC_AED_B](https://data.bis.org/topics/CBTA) | Central bank total assets · break-adjusted · United Arab Emirates · annual long history | United Arab Emirates | annual | 10^9 AED | 1974-12-31 | 2025-12-31 | 52 |
 | [BIS_CBTA_A_AR_B_XDC_ARS_B](https://data.bis.org/topics/CBTA) | Central bank total assets · break-adjusted · Argentina · annual long history | Argentina | annual | 10^9 ARS | 1935-12-31 | 2025-12-31 | 91 |
 | [BIS_CBTA_A_AR_B_XDF_R_B1GQ_Z_B](https://data.bis.org/topics/CBTA) | Central bank assets share of GDP · Argentina · annual long history | Argentina | annual | % | 1984-12-31 | 2025-12-31 | 42 |
@@ -15353,11 +15353,11 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [HSN1F](https://fred.stlouisfed.org/series/HSN1F) | New One-Family Houses Sold | US | monthly | thousands | 1963-01-01 | 2026-08-01 | 764 |
 | [CSUSHPINSA](https://fred.stlouisfed.org/series/CSUSHPINSA) | Case-Shiller U.S. Home Price Index | US | monthly | index | 1987-01-01 | 2026-07-01 | 475 |
 | [MSPUS](https://fred.stlouisfed.org/series/MSPUS) | Median New Home Sale Price | US | quarterly | $ | 1963-01-01 | 2026-04-01 | 254 |
-| [MORTGAGE30US](https://fred.stlouisfed.org/series/MORTGAGE30US) | 30-Year Mortgage Rate | US | weekly | % | 1971-04-02 | 2026-09-24 | 2896 |
+| [MORTGAGE30US](https://fred.stlouisfed.org/series/MORTGAGE30US) | 30-Year Mortgage Rate | US | weekly | % | 1971-04-02 | 2026-10-01 | 2897 |
 | [HOUST1F](https://fred.stlouisfed.org/series/HOUST1F) | Housing Starts · 1 Unit | US | monthly | thousands | 1959-01-01 | 2026-08-01 | 812 |
 | [PERMIT1](https://fred.stlouisfed.org/series/PERMIT1) | Building Permits · 1 Unit | US | monthly | thousands | 1960-01-01 | 2026-08-01 | 800 |
 | [MEHOINUSA672N](https://fred.stlouisfed.org/series/MEHOINUSA672N) | Real Median Household Income | US | annual | $ | 1984-01-01 | 2025-01-01 | 42 |
-| [MORTGAGE15US](https://fred.stlouisfed.org/series/MORTGAGE15US) | 15-Year Fixed Mortgage Rate | US | weekly | % | 1991-08-30 | 2026-09-24 | 1831 |
+| [MORTGAGE15US](https://fred.stlouisfed.org/series/MORTGAGE15US) | 15-Year Fixed Mortgage Rate | US | weekly | % | 1991-08-30 | 2026-10-01 | 1832 |
 | [RHORUSQ156N](https://fred.stlouisfed.org/series/RHORUSQ156N) | U.S. Homeownership Rate | US | quarterly | % | 1965-01-01 | 2026-04-01 | 246 |
 | [RRVRUSQ156N](https://fred.stlouisfed.org/series/RRVRUSQ156N) | U.S. Rental Vacancy Rate | US | quarterly | % | 1956-01-01 | 2026-04-01 | 282 |
 | [HOUST5F](https://fred.stlouisfed.org/series/HOUST5F) | Housing Starts in Buildings with 5+ Units | US | monthly | thousands | 1959-01-01 | 2026-08-01 | 812 |
@@ -15541,93 +15541,93 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [PSOYBUSDM](https://fred.stlouisfed.org/series/PSOYBUSDM) | IMF Primary Commodity Price · Soybeans | Global | monthly | $/metric ton | 1992-01-01 | 2026-07-01 | 415 |
 | [PZINCUSDM](https://fred.stlouisfed.org/series/PZINCUSDM) | IMF Primary Commodity Price · Zinc | Global | monthly | $/metric ton | 1992-01-01 | 2026-07-01 | 415 |
 | [PNICKUSDM](https://fred.stlouisfed.org/series/PNICKUSDM) | IMF Primary Commodity Price · Nickel | Global | monthly | $/metric ton | 1992-01-01 | 2026-07-01 | 415 |
-| [WB_CMD_CRUDE_OIL_AVERAGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, average | Global | monthly | ($/bbl) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_CRUDE_OIL_BRENT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Brent | Global | monthly | ($/bbl) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_CRUDE_OIL_DUBAI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Dubai | Global | monthly | ($/bbl) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_CRUDE_OIL_WTI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, WTI | Global | monthly | ($/bbl) | 1982-01-01 | 2026-08-01 | 536 |
-| [WB_CMD_COAL_AUSTRALIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, Australian | Global | monthly | ($/mt) | 1970-01-01 | 2026-08-01 | 680 |
-| [WB_CMD_COAL_SOUTH_AFRICAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, South African | Global | monthly | ($/mt) | 1984-01-01 | 2026-08-01 | 512 |
-| [WB_CMD_NATURAL_GAS_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, US | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_NATURAL_GAS_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, Europe | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_LIQUEFIED_NATURAL_GAS_JAPAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Liquefied natural gas, Japan | Global | monthly | ($/mmbtu) | 1977-01-01 | 2026-08-01 | 596 |
-| [WB_CMD_NATURAL_GAS_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas index | Global | monthly | (2010=100) | 1977-01-01 | 2026-08-01 | 596 |
-| [WB_CMD_COCOA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cocoa | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_COFFEE_ARABICA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Arabica | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_COFFEE_ROBUSTA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Robusta | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_TEA_AVG_3_AUCTIONS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, avg 3 auctions | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_TEA_COLOMBO](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Colombo | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_TEA_KOLKATA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Kolkata | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_TEA_MOMBASA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Mombasa | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_COCONUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coconut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_GROUNDNUTS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnuts | Global | monthly | ($/mt) | 1980-01-01 | 2026-08-01 | 560 |
-| [WB_CMD_FISH_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fish meal | Global | monthly | ($/mt) | 1979-01-01 | 2026-08-01 | 572 |
-| [WB_CMD_GROUNDNUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_PALM_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_PALM_KERNEL_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm kernel oil | Global | monthly | ($/mt) | 1996-01-01 | 2026-08-01 | 368 |
-| [WB_CMD_SOYBEANS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybeans | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_SOYBEAN_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_SOYBEAN_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean meal | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_RAPESEED_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rapeseed oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-08-01 | 295 |
-| [WB_CMD_SUNFLOWER_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sunflower oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-08-01 | 290 |
+| [WB_CMD_CRUDE_OIL_AVERAGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, average | Global | monthly | ($/bbl) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_CRUDE_OIL_BRENT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Brent | Global | monthly | ($/bbl) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_CRUDE_OIL_DUBAI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Dubai | Global | monthly | ($/bbl) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_CRUDE_OIL_WTI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, WTI | Global | monthly | ($/bbl) | 1982-01-01 | 2026-09-01 | 537 |
+| [WB_CMD_COAL_AUSTRALIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, Australian | Global | monthly | ($/mt) | 1970-01-01 | 2026-09-01 | 681 |
+| [WB_CMD_COAL_SOUTH_AFRICAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, South African | Global | monthly | ($/mt) | 1984-01-01 | 2026-09-01 | 513 |
+| [WB_CMD_NATURAL_GAS_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, US | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_NATURAL_GAS_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, Europe | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_LIQUEFIED_NATURAL_GAS_JAPAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Liquefied natural gas, Japan | Global | monthly | ($/mmbtu) | 1977-01-01 | 2026-09-01 | 597 |
+| [WB_CMD_NATURAL_GAS_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas index | Global | monthly | (2010=100) | 1977-01-01 | 2026-09-01 | 597 |
+| [WB_CMD_COCOA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cocoa | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_COFFEE_ARABICA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Arabica | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_COFFEE_ROBUSTA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Robusta | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_TEA_AVG_3_AUCTIONS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, avg 3 auctions | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_TEA_COLOMBO](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Colombo | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_TEA_KOLKATA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Kolkata | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_TEA_MOMBASA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Mombasa | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_COCONUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coconut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_GROUNDNUTS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnuts | Global | monthly | ($/mt) | 1980-01-01 | 2026-09-01 | 561 |
+| [WB_CMD_FISH_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fish meal | Global | monthly | ($/mt) | 1979-01-01 | 2026-09-01 | 573 |
+| [WB_CMD_GROUNDNUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_PALM_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_PALM_KERNEL_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm kernel oil | Global | monthly | ($/mt) | 1996-01-01 | 2026-09-01 | 369 |
+| [WB_CMD_SOYBEANS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybeans | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_SOYBEAN_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_SOYBEAN_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean meal | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_RAPESEED_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rapeseed oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-09-01 | 296 |
+| [WB_CMD_SUNFLOWER_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sunflower oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-09-01 | 291 |
 | [WB_CMD_BARLEY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Barley | Global | monthly | ($/mt) | 1960-01-01 | 2020-08-01 | 728 |
-| [WB_CMD_MAIZE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Maize | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
+| [WB_CMD_MAIZE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Maize | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
 | [WB_CMD_SORGHUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sorghum | Global | monthly | ($/mt) | 1960-01-01 | 2020-08-01 | 728 |
-| [WB_CMD_RICE_THAI_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 5% | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_RICE_THAI_25](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 25% | Global | monthly | ($/mt) | 1986-01-01 | 2026-08-01 | 484 |
-| [WB_CMD_RICE_THAI_A_1](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai A.1 | Global | monthly | ($/mt) | 1986-01-01 | 2026-08-01 | 488 |
-| [WB_CMD_RICE_VIET_NAMESE_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Viet Namese 5% | Global | monthly | ($/mt) | 2003-12-01 | 2026-08-01 | 262 |
-| [WB_CMD_WHEAT_US_SRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US SRW | Global | monthly | ($/mt) | 1979-01-01 | 2026-08-01 | 572 |
-| [WB_CMD_WHEAT_US_HRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US HRW | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_BANANA_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, Europe | Global | monthly | ($/kg) | 1997-01-01 | 2026-08-01 | 356 |
-| [WB_CMD_BANANA_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_ORANGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Orange | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_BEEF](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beef | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_CHICKEN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Chicken | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_LAMB](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lamb | Global | monthly | ($/kg) | 1971-01-01 | 2026-08-01 | 668 |
+| [WB_CMD_RICE_THAI_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 5% | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_RICE_THAI_25](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 25% | Global | monthly | ($/mt) | 1986-01-01 | 2026-09-01 | 485 |
+| [WB_CMD_RICE_THAI_A_1](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai A.1 | Global | monthly | ($/mt) | 1986-01-01 | 2026-09-01 | 489 |
+| [WB_CMD_RICE_VIET_NAMESE_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Viet Namese 5% | Global | monthly | ($/mt) | 2003-12-01 | 2026-09-01 | 263 |
+| [WB_CMD_WHEAT_US_SRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US SRW | Global | monthly | ($/mt) | 1979-01-01 | 2026-09-01 | 573 |
+| [WB_CMD_WHEAT_US_HRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US HRW | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_BANANA_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, Europe | Global | monthly | ($/kg) | 1997-01-01 | 2026-09-01 | 357 |
+| [WB_CMD_BANANA_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_ORANGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Orange | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_BEEF](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beef | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_CHICKEN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Chicken | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_LAMB](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lamb | Global | monthly | ($/kg) | 1971-01-01 | 2026-09-01 | 669 |
 | [WB_CMD_SHRIMPS_MEXICAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Shrimps, Mexican | Global | monthly | ($/kg) | 1960-01-01 | 2023-10-01 | 766 |
-| [WB_CMD_SUGAR_EU](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, EU | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_SUGAR_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_SUGAR_WORLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, world | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_TOBACCO_US_IMPORT_U_V](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tobacco, US import u.v. | Global | monthly | ($/mt) | 1960-01-01 | 2026-06-01 | 798 |
-| [WB_CMD_LOGS_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-08-01 | 680 |
-| [WB_CMD_LOGS_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_SAWNWOOD_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-08-01 | 428 |
-| [WB_CMD_SAWNWOOD_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_PLYWOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Plywood | Global | monthly | (cents/sheet) | 1979-01-01 | 2026-08-01 | 572 |
-| [WB_CMD_COTTON_A_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cotton, A Index | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_RUBBER_TSR20](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, TSR20 | Global | monthly | ($/kg) | 1999-01-01 | 2026-08-01 | 332 |
-| [WB_CMD_RUBBER_RSS3](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, RSS3 | Global | monthly | ($/kg) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_PHOSPHATE_ROCK](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Phosphate rock | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_DAP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · DAP | Global | monthly | ($/mt) | 1967-01-01 | 2026-08-01 | 716 |
-| [WB_CMD_TSP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · TSP | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_UREA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Urea | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_POTASSIUM_CHLORIDE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Potassium chloride | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_ALUMINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Aluminum | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_IRON_ORE_CFR_SPOT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Iron ore, cfr spot | Global | monthly | ($/dmtu) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_COPPER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Copper | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_LEAD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lead | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_TIN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tin | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_NICKEL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Nickel | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_ZINC](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Zinc | Global | monthly | ($/mt) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_GOLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Gold | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_PLATINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Platinum | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_SILVER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Silver | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_TOTAL_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Total Index | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_NON_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Non-energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_AGRICULTURE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Agriculture | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_BEVERAGES](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beverages | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_OILS_AND_MEALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Oils & Meals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_GRAINS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Grains | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_OTHER_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_RAW_MATERIALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Raw Materials | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_TIMBER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Timber | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_OTHER_RAW_MAT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Raw Mat. | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_FERTILIZERS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fertilizers | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_METALS_AND_MINERALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Metals & Minerals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_BASE_METALS_EX_IRON_ORE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Base Metals (ex. iron ore) | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
-| [WB_CMD_INDEX_PRECIOUS_METALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Precious Metals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-08-01 | 800 |
+| [WB_CMD_SUGAR_EU](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, EU | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_SUGAR_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_SUGAR_WORLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, world | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_TOBACCO_US_IMPORT_U_V](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tobacco, US import u.v. | Global | monthly | ($/mt) | 1960-01-01 | 2026-07-01 | 799 |
+| [WB_CMD_LOGS_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-09-01 | 681 |
+| [WB_CMD_LOGS_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_SAWNWOOD_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-09-01 | 429 |
+| [WB_CMD_SAWNWOOD_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_PLYWOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Plywood | Global | monthly | (cents/sheet) | 1979-01-01 | 2026-09-01 | 573 |
+| [WB_CMD_COTTON_A_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cotton, A Index | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_RUBBER_TSR20](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, TSR20 | Global | monthly | ($/kg) | 1999-01-01 | 2026-09-01 | 333 |
+| [WB_CMD_RUBBER_RSS3](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, RSS3 | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_PHOSPHATE_ROCK](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Phosphate rock | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_DAP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · DAP | Global | monthly | ($/mt) | 1967-01-01 | 2026-09-01 | 717 |
+| [WB_CMD_TSP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · TSP | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_UREA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Urea | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_POTASSIUM_CHLORIDE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Potassium chloride | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_ALUMINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Aluminum | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_IRON_ORE_CFR_SPOT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Iron ore, cfr spot | Global | monthly | ($/dmtu) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_COPPER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Copper | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_LEAD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lead | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_TIN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tin | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_NICKEL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Nickel | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_ZINC](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Zinc | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_GOLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Gold | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_PLATINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Platinum | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_SILVER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Silver | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_TOTAL_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Total Index | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_NON_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Non-energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_AGRICULTURE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Agriculture | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_BEVERAGES](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beverages | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_OILS_AND_MEALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Oils & Meals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_GRAINS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Grains | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_OTHER_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_RAW_MATERIALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Raw Materials | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_TIMBER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Timber | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_OTHER_RAW_MAT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Raw Mat. | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_FERTILIZERS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fertilizers | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_METALS_AND_MINERALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Metals & Minerals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_BASE_METALS_EX_IRON_ORE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Base Metals (ex. iron ore) | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_INDEX_PRECIOUS_METALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Precious Metals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
 | [WDI_ABW_RENEWABLE_ELECTRICITY](https://data.worldbank.org/indicator/EG.ELC.RNEW.ZS) | Renewable electricity output share · Aruba | Aruba | annual | % of electricity output | 2000-12-31 | 2021-12-31 | 22 |
 | [WDI_ABW_RENEWABLE_ENERGY](https://data.worldbank.org/indicator/EG.FEC.RNEW.ZS) | Renewable energy consumption share · Aruba | Aruba | annual | % of final energy consumption | 1990-12-31 | 2022-12-31 | 33 |
 | [WDI_AFG_RENEWABLE_ELECTRICITY](https://data.worldbank.org/indicator/EG.ELC.RNEW.ZS) | Renewable electricity output share · Afghanistan | Afghanistan | annual | % of electricity output | 2000-12-31 | 2021-12-31 | 22 |
@@ -16860,11 +16860,21 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [GFDEBTN](https://fred.stlouisfed.org/series/GFDEBTN) | Federal Debt: Total Public Debt | US | quarterly | millions | 1966-01-01 | 2026-01-01 | 241 |
+| [GFDEBTN](https://fred.stlouisfed.org/series/GFDEBTN) | Federal Debt: Total Public Debt | US | quarterly | millions | 1966-01-01 | 2026-04-01 | 242 |
 | [GFDEGDQ188S](https://fred.stlouisfed.org/series/GFDEGDQ188S) | Federal Debt: Total Public Debt as Percent of GDP | US | quarterly | % | 1966-01-01 | 2026-01-01 | 241 |
 | [FYFSD](https://fred.stlouisfed.org/series/FYFSD) | Federal Surplus or Deficit [-] | US | annual | millions | 1901-06-30 | 2025-09-30 | 125 |
 | [FYFRGDA188S](https://fred.stlouisfed.org/series/FYFRGDA188S) | Federal Receipts as Percent of GDP | US | annual | % | 1929-01-01 | 2025-01-01 | 97 |
 | [FYFSGDA188S](https://fred.stlouisfed.org/series/FYFSGDA188S) | Federal Surplus or Deficit [-] as Percent of GDP | US | annual | % | 1929-01-01 | 2025-01-01 | 97 |
+| [FGRECPT](https://fred.stlouisfed.org/series/FGRECPT) | Federal Government Current Receipts | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [FGEXPND](https://fred.stlouisfed.org/series/FGEXPND) | Federal Government Current Expenditures | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [M318501Q027NBEA](https://fred.stlouisfed.org/series/M318501Q027NBEA) | Federal Government Budget Surplus or Deficit | US | quarterly | billions | 1959-07-01 | 2025-10-01 | 266 |
+| [A091RC1Q027SBEA](https://fred.stlouisfed.org/series/A091RC1Q027SBEA) | Federal Government Current Expenditures: Interest Payments | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [W006RC1Q027SBEA](https://fred.stlouisfed.org/series/W006RC1Q027SBEA) | Federal Government Current Tax Receipts | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
+| [M318011Q027NBEA](https://fred.stlouisfed.org/series/M318011Q027NBEA) | Federal Government Budget Receipts | US | quarterly | billions | 1959-07-01 | 2025-10-01 | 266 |
+| [M318191Q027NBEA](https://fred.stlouisfed.org/series/M318191Q027NBEA) | Federal Government Budget Outlays | US | quarterly | billions | 1959-07-01 | 2025-10-01 | 266 |
+| [MTSDS133FMS](https://fred.stlouisfed.org/series/MTSDS133FMS) | Federal Surplus or Deficit | US | monthly | millions | 1980-10-01 | 2026-08-01 | 551 |
+| [FYOIGDA188S](https://fred.stlouisfed.org/series/FYOIGDA188S) | Federal Outlays: Interest as Percent of GDP | US | annual | % | 1940-01-01 | 2025-01-01 | 86 |
+| [FYONGDA188S](https://fred.stlouisfed.org/series/FYONGDA188S) | Federal Net Outlays as Percent of GDP | US | annual | % | 1929-01-01 | 2025-01-01 | 97 |
 | [WDI_ABW_EDUCATION_SPENDING](https://data.worldbank.org/indicator/SE.XPD.TOTL.GD.ZS) | Government education expenditure share of GDP · Aruba | Aruba | annual | % | 1998-12-31 | 2021-12-31 | 21 |
 | [WDI_AFG_EDUCATION_SPENDING](https://data.worldbank.org/indicator/SE.XPD.TOTL.GD.ZS) | Government education expenditure share of GDP · Afghanistan | Afghanistan | annual | % | 2010-12-31 | 2017-12-31 | 8 |
 | [WDI_AFG_GOV_EXPENSE](https://data.worldbank.org/indicator/GC.XPN.TOTL.GD.ZS) | Government expense share of GDP · Afghanistan | Afghanistan | annual | % | 2006-12-31 | 2017-12-31 | 12 |
@@ -18661,16 +18671,6 @@ Snapshot: 2026-10-01T04:04:43.661Z. 23538 retained macroeconomic series. Coverag
 | [WDI_ZWE_GOV_TAX](https://data.worldbank.org/indicator/GC.TAX.TOTL.GD.ZS) | Tax revenue share of GDP · Zimbabwe | Zimbabwe | annual | % | 2009-12-31 | 2018-12-31 | 8 |
 | [WDI_ZWE_HEALTH_SPENDING](https://data.worldbank.org/indicator/SH.XPD.GHED.GD.ZS) | Domestic government health expenditure share of GDP · Zimbabwe | Zimbabwe | annual | % | 2010-12-31 | 2023-12-31 | 14 |
 | [WDI_ZWE_MILITARY_SPENDING](https://data.worldbank.org/indicator/MS.MIL.XPND.GD.ZS) | Military expenditure share of GDP · Zimbabwe | Zimbabwe | annual | % | 1964-12-31 | 2024-12-31 | 57 |
-| [FGRECPT](https://fred.stlouisfed.org/series/FGRECPT) | Federal Government Current Receipts | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [FGEXPND](https://fred.stlouisfed.org/series/FGEXPND) | Federal Government Current Expenditures | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [M318501Q027NBEA](https://fred.stlouisfed.org/series/M318501Q027NBEA) | Federal Government Budget Surplus or Deficit | US | quarterly | billions | 1959-07-01 | 2025-10-01 | 266 |
-| [A091RC1Q027SBEA](https://fred.stlouisfed.org/series/A091RC1Q027SBEA) | Federal Government Current Expenditures: Interest Payments | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [W006RC1Q027SBEA](https://fred.stlouisfed.org/series/W006RC1Q027SBEA) | Federal Government Current Tax Receipts | US | quarterly | billions | 1947-01-01 | 2026-04-01 | 318 |
-| [M318011Q027NBEA](https://fred.stlouisfed.org/series/M318011Q027NBEA) | Federal Government Budget Receipts | US | quarterly | billions | 1959-07-01 | 2025-10-01 | 266 |
-| [M318191Q027NBEA](https://fred.stlouisfed.org/series/M318191Q027NBEA) | Federal Government Budget Outlays | US | quarterly | billions | 1959-07-01 | 2025-10-01 | 266 |
-| [MTSDS133FMS](https://fred.stlouisfed.org/series/MTSDS133FMS) | Federal Surplus or Deficit | US | monthly | millions | 1980-10-01 | 2026-08-01 | 551 |
-| [FYOIGDA188S](https://fred.stlouisfed.org/series/FYOIGDA188S) | Federal Outlays: Interest as Percent of GDP | US | annual | % | 1940-01-01 | 2025-01-01 | 86 |
-| [FYONGDA188S](https://fred.stlouisfed.org/series/FYONGDA188S) | Federal Net Outlays as Percent of GDP | US | annual | % | 1929-01-01 | 2025-01-01 | 97 |
 | [EUROSTAT_EA20_GOV_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/gov_10q_ggnfa/default/table?lang=en) | General government balance · Euro Area | Euro Area | quarterly | Percentage of gross domestic product (GDP) | 2002-01-01 | 2026-01-01 | 97 |
 | [EUROSTAT_BE_GOV_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/gov_10q_ggnfa/default/table?lang=en) | General government balance · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
 | [EUROSTAT_BG_GOV_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/gov_10q_ggnfa/default/table?lang=en) | General government balance · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-01-01 | 105 |
