@@ -1183,7 +1183,11 @@ async function fetchUnProvider({
     audit,
     failures: responses
       .filter(({ status }) => status === "upstream-unavailable")
-      .map(({ indicator }) => `UN_AMA_${indicator.sourceIndicator}`),
+      .flatMap(({ indicator, series }) =>
+        series.length
+          ? series.map(({ id }) => id)
+          : [`UN_AMA_${indicator.sourceIndicator}`],
+      ),
   };
 }
 
@@ -1637,7 +1641,7 @@ function fallbackProvider({
   return {
     series: cached.map(cloneCached),
     countries: [],
-    failures: [providerId],
+    failures: cached.length ? cached.map(({ id }) => id) : [providerId],
   };
 }
 

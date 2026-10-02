@@ -521,7 +521,21 @@ const failedImfAudit = failedDiscoveryRefresh.audit.providers.find(
 );
 assert.equal(failedImfAudit.status, "upstream-unavailable");
 assert.equal(failedImfAudit.discoveryStatus, "failed");
-assert.ok(failedDiscoveryRefresh.failures.includes("IMF_WEO"));
+assert.ok(failedDiscoveryRefresh.failures.includes(cachedImf.id));
+const failedFirstImfImport = await fetchInternationalSupplement({
+  fetchImpl: mockFetch({ failImfDiscovery: true }),
+  now: checkedAt,
+});
+const failedFirstImfAudit = failedFirstImfImport.audit.providers.find(
+  ({ provider }) => provider === "IMF_WEO",
+);
+assert.equal(failedFirstImfAudit.status, "upstream-unavailable-no-cache");
+assert.ok(failedFirstImfImport.failures.includes("IMF_WEO"));
+assert.equal(
+  failedFirstImfImport.series.some(({ id }) => id.startsWith("IMF_TWN_")),
+  false,
+  "first-import provider outage is recorded without fabricating a cached history",
+);
 
 const cached = {
   id: "SPC_NIU_GDP_NOMINAL",
@@ -540,7 +554,7 @@ assert.deepEqual(
   { ...cached, refreshStatus: "upstream-unavailable" },
   "unexpectedly empty SPC data retains the previous history",
 );
-assert.ok(emptyRefresh.failures.includes("SPC_PDH"));
+assert.ok(emptyRefresh.failures.includes(cached.id));
 assert.equal(
   emptyRefresh.audit.providers.find(({ provider }) => provider === "SPC_PDH")
     .status,
@@ -564,6 +578,6 @@ assert.deepEqual(
   { ...cachedUn, refreshStatus: "upstream-unavailable" },
   "unexpectedly empty UN indicator response retains the previous history",
 );
-assert.ok(emptyUnRefresh.failures.includes("UN_AMA_2"));
+assert.ok(emptyUnRefresh.failures.includes(cachedUn.id));
 
 console.log("international supplement verification passed");
