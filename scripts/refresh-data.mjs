@@ -32,6 +32,7 @@ const previousById = new Map(
   (previous.series || []).map((series) => [series.id, series]),
 );
 const failures = [];
+const refreshIssues = [];
 let countries = previous.countries || [];
 let countryAudit = previous.countryAudit || null;
 let supplementaryCountries = (previous.countries || []).filter(
@@ -107,38 +108,60 @@ async function mapWithConcurrency(items, mapper, limit = 6) {
     while (cursor < items.length) {
       const index = cursor++;
       const item = items[index];
-      try {
-        results[index] = await mapper(item);
-        if (!results[index].observations.length)
-          throw new Error(`Empty series ${itemId(item)}`);
-      } catch (error) {
+      let lastError;
+      for (let attempt = 0; attempt < 3; attempt += 1) {
         try {
-          const retry = await mapper(item);
-          if (!retry.observations.length)
+          const result = await mapper(item);
+          if (!result.observations.length)
             throw new Error(`Empty series ${itemId(item)}`);
-          results[index] = retry;
-        } catch {
-          const cached = previousById.get(itemId(item));
-          if (!cached) throw error;
-          results[index] = {
-            ...cached,
-            refreshStatus: "upstream-unavailable",
-            checkedAt: cached.checkedAt || previous.generatedAt,
-          };
-          failures.push(itemId(item));
+          results[index] = result;
+          lastError = null;
+          break;
+        } catch (error) {
+          lastError = error;
+          if (attempt < 2)
+            await new Promise((resolve) =>
+              setTimeout(resolve, 1000 * (attempt + 1)),
+            );
         }
       }
+      if (!lastError) continue;
+      const cached = previousById.get(itemId(item));
+      if (!cached) {
+        refreshIssues.push({
+          dataset: "fred",
+          id: itemId(item),
+          message: lastError.message,
+        });
+        console.warn(
+          `FRED ${itemId(item)} unavailable without a cached history; it will be retried on the next weekly refresh.`,
+        );
+        results[index] = null;
+        continue;
+      }
+      results[index] = {
+        ...cached,
+        refreshStatus: "upstream-unavailable",
+        checkedAt: cached.checkedAt || previous.generatedAt,
+      };
+      failures.push(itemId(item));
     }
   }
   await Promise.all(
     Array.from({ length: Math.min(limit, items.length) }, worker),
   );
-  return results;
+  return results.filter(Boolean);
 }
 
 async function fetchDataset(dataset, fetcher) {
   try {
-    const result = await fetcher();
+    let result;
+    try {
+      result = await fetcher();
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      result = await fetcher();
+    }
     if (dataset === "worldbank-development") {
       countries = result.countries;
       countryAudit = result.audit;
@@ -166,6 +189,17 @@ async function fetchDataset(dataset, fetcher) {
         .filter((entry) => entry.refreshStatus)
         .map((entry) => entry.id),
     );
+    const retainedIds = new Set(
+      entries.filter((entry) => entry.refreshStatus).map((entry) => entry.id),
+    );
+    for (const id of result.failures || [])
+      if (!retainedIds.has(id))
+        refreshIssues.push({
+          dataset,
+          id,
+          message:
+            "Upstream refresh failed; no cached observation was available.",
+        });
     return entries
       .map((series) => ({ ...series, dataset }))
       .filter(isMacroSeries);
@@ -173,7 +207,16 @@ async function fetchDataset(dataset, fetcher) {
     const cached = (previous.series || []).filter(
       (series) => series.dataset === dataset && isMacroSeries(series),
     );
-    if (!cached.length) throw error;
+    if (!cached.length) {
+      refreshIssues.push({
+        dataset,
+        message: error.message,
+      });
+      console.warn(
+        `${dataset}: no cached history is available; the source was omitted for this snapshot and will be retried on the next weekly refresh: ${error.message}`,
+      );
+      return [];
+    }
     console.warn(
       `${dataset}: retaining ${cached.length} macro series after ${error.message}`,
     );
@@ -494,6 +537,7 @@ const generatedAt =
     : new Date().toISOString();
 const snapshot = {
   generatedAt,
+  refreshIssues,
   countries,
   countryAudit,
   refreshFailures: [

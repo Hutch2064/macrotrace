@@ -149,15 +149,17 @@ as an economic observation date.
 
 ## Refresh and delivery
 
-`.github/workflows/refresh-data.yml` checks the accepted public providers daily
+`.github/workflows/refresh-data.yml` checks the accepted public providers weekly
 at 11:17 UTC and also supports an explicit manual dispatch. GitHub's scheduled
-jobs can be delayed; this is a daily provider check, not a real-time feed.
-`npm run data:refresh` is the
-local/on-demand refresh command. The job starts from a fresh `main`, validates
-the complete snapshot, refuses to overwrite concurrent `main` edits, commits
-only generated `public/data` files, uses a guarded push, and explicitly
-dispatches the Pages workflow after a successful commit. A GitHub push made by
-the bot does not rely on another workflow triggering automatically.
+jobs can be delayed; this is a weekly provider check, not a real-time feed.
+`npm run data:refresh` is the local/on-demand refresh command. The job starts
+from a fresh `main`, validates the complete snapshot, retries transient source
+failures, retains each last-good history independently, and records failed
+first-time imports for the next run. It commits only generated `public/data`
+files, rebases over concurrent `main` updates, retries publication, and
+explicitly dispatches the Pages workflow after a successful commit. A GitHub
+push made by the bot does not rely on another workflow triggering
+automatically.
 
 `scripts/build-data.mjs` writes a metadata catalog and complete,
 SHA-256-addressed history chunks. Country histories share one lossless bundle
@@ -253,7 +255,7 @@ globe interactions and rendering, geography search, and the two-page site contra
 | `scripts/build-map.mjs`, `public/world.json`                                  | Rebuild script and bundled Natural Earth country outlines; independent of economic data.                               |
 | `public/favicon.svg`                                                          | MacroTrace mark.                                                                                                       |
 | `.github/workflows/pages.yml`                                                 | GitHub Pages build and deployment.                                                                                     |
-| `.github/workflows/refresh-data.yml`                                          | Daily/manual refresh, guarded commit, and Pages dispatch.                                                              |
+| `.github/workflows/refresh-data.yml`                                          | Weekly/manual refresh, guarded commit, and Pages dispatch.                                                             |
 | `package.json`, `package-lock.json`                                           | Reproducible commands and dependencies.                                                                                |
 | `vite.config.js`, `.gitignore`                                                | Relative-path two-page build and local/generated-file exclusions.                                                      |
 | `README.md`, `SUBMISSION.txt`                                                 | Project documentation and four-line course submission.                                                                 |

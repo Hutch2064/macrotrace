@@ -13,6 +13,11 @@ import {
 } from "../scripts/macro-scope.mjs";
 
 const snapshot = readSnapshot();
+const refreshIssueIds = new Set(
+  (Array.isArray(snapshot.refreshIssues) ? snapshot.refreshIssues : [])
+    .filter((issue) => issue?.dataset === "fred" && issue.id)
+    .map(({ id }) => id),
+);
 const version = JSON.parse(await readFile("public/data/version.json", "utf8"));
 if (!snapshot.generatedAt || version.generatedAt !== snapshot.generatedAt)
   throw new Error("Version manifest does not match the data snapshot.");
@@ -282,12 +287,18 @@ for (const [id, geography] of [
   ["NYGDPMKTPCDWLD", "Global"],
   ["CLVMNACSCAB1GQEA19", "Euro Area"],
 ])
-  if (byId.get(id)?.geography !== geography)
+  if (
+    (byId.has(id) && byId.get(id).geography !== geography) ||
+    (!byId.has(id) && !refreshIssueIds.has(id))
+  )
     throw new Error(`Regional/world indicator incorrectly attributed: ${id}.`);
 for (const spec of fredCatalog) {
   const [id, name, category, unit, frequency] = spec;
   const series = byId.get(id);
-  if (!series) throw new Error(`Missing allowlisted FRED series ${id}.`);
+  if (!series) {
+    if (refreshIssueIds.has(id)) continue;
+    throw new Error(`Missing allowlisted FRED series ${id}.`);
+  }
   if (
     series.name !== name ||
     series.category !== canonicalMacroCategory(spec) ||

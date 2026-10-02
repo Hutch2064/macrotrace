@@ -2,7 +2,7 @@ name: Refresh public data
 
 on:
   schedule:
-    - cron: "17 11 * * *"
+    - cron: "17 11 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -51,18 +51,36 @@ jobs:
             exit 0
           fi
           git fetch --prune origin main
-          expected="$(git rev-parse origin/main)"
-          current="$(git rev-parse HEAD)"
-          if [[ "$current" != "$expected" ]]; then
-            echo "main advanced while this refresh was running; refusing to rebase generated data over concurrent edits." >&2
-            exit 1
-          fi
           git config user.name "macrotrace-data-bot"
           git config user.email "actions@users.noreply.github.com"
           git add public/data/snapshot.json public/data/version.json public/data/source-inventory.csv public/data/source-inventory.md public/data/country-coverage.json
           git commit -m "data: refresh public snapshot"
-          git push origin HEAD:refs/heads/main
-          echo "changed=true" >> "$GITHUB_OUTPUT"
+          for attempt in 1 2 3; do
+            if ! git fetch --prune origin main; then
+              if [[ "$attempt" -lt 3 ]]; then
+                sleep "$((attempt * 2))"
+                continue
+              fi
+              break
+            fi
+            expected="$(git rev-parse origin/main)"
+            if [[ "$(git rev-parse HEAD)" == "$expected" ]]; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [[ "$(git rev-parse HEAD^)" != "$expected" ]]; then
+              git rebase origin/main
+            fi
+            if git push origin HEAD:refs/heads/main; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [[ "$attempt" -lt 3 ]]; then
+              sleep "$((attempt * 2))"
+            fi
+          done
+          echo "Could not publish the refreshed snapshot after three push attempts." >&2
+          exit 1
       - name: Publish refreshed snapshot
         if: steps.commit.outputs.changed == 'true'
         env:

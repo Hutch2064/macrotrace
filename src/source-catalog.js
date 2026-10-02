@@ -315,7 +315,7 @@ function freshnessMarkup(snapshot, allSeries, countries) {
   const rosterNote = audit.rosterRetained
     ? " The last verified economy roster is retained while the provider is unavailable."
     : "";
-  return `Snapshot published ${escape(dateLabel(snapshot.generatedAt))}. Automated ingestion checks providers daily; World Bank WDI histories remain native annual observations, so a daily check does not create daily economic data or conceal missing reference years.${coverage}${headlines} Missing landing-page headline slots may show other available indicators for the same economy, under their actual names and units; these are alternatives, not imputed core metrics.${rosterNote}${retainedNote}${yahooNote} ${links}.`;
+  return `Snapshot published ${escape(dateLabel(snapshot.generatedAt))}. Automated ingestion checks providers weekly; World Bank WDI histories remain native annual observations, so a weekly check does not create weekly economic data or conceal missing reference years.${coverage}${headlines} Missing landing-page headline slots may show other available indicators for the same economy, under their actual names and units; these are alternatives, not imputed core metrics.${rosterNote}${retainedNote}${yahooNote} ${links}.`;
 }
 
 export function renderSourceCatalog(snapshot) {

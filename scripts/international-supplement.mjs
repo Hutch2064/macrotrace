@@ -1504,7 +1504,10 @@ async function fetchImfProvider({
     countryCode: "TWN",
     name: "Taiwan",
   };
-  const cached = previousFor(previousSeries, "IMF_");
+  // This adapter owns Taiwan's five supplemental series only. The broader
+  // IMF_WEO_ catalogue is refreshed by imf-macro and must never be relabeled
+  // as international-supplement when this provider is unavailable.
+  const cached = previousFor(previousSeries, "IMF_TWN_");
   const audit = {
     provider: "IMF World Economic Outlook",
     sourceFamily: "IMF World Economic Outlook",
@@ -1711,7 +1714,7 @@ export async function fetchInternationalSupplement({
           }),
       },
       {
-        prefix: "IMF_",
+        prefix: "IMF_TWN_",
         id: "IMF_WEO",
         run: () =>
           fetchImfProvider({ fetchImpl, checkedAt, lastYear, previousSeries }),

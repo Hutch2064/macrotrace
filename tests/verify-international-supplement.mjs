@@ -493,15 +493,28 @@ const cachedImf = {
   countryCode: "TWN",
   observations: [["2025-12-31", 920.05]],
 };
+const unrelatedCachedImf = {
+  id: "IMF_WEO_USA_CURRENT_ACCOUNT_GDP",
+  dataset: "imf-macro",
+  country: "United States",
+  countryCode: "USA",
+  geography: "US",
+  observations: [["2024-12-31", -4.046]],
+};
 const failedDiscoveryRefresh = await fetchInternationalSupplement({
   fetchImpl: mockFetch({ failImfDiscovery: true }),
-  previousSeries: [cachedImf],
+  previousSeries: [cachedImf, unrelatedCachedImf],
   now: checkedAt,
 });
 assert.deepEqual(
   failedDiscoveryRefresh.series.find(({ id }) => id === cachedImf.id),
   { ...cachedImf, refreshStatus: "upstream-unavailable" },
   "WEO discovery failure retains the last verified Taiwan history",
+);
+assert.equal(
+  failedDiscoveryRefresh.series.some(({ id }) => id === unrelatedCachedImf.id),
+  false,
+  "Taiwan WEO fallback cannot claim country histories owned by the global IMF provider",
 );
 const failedImfAudit = failedDiscoveryRefresh.audit.providers.find(
   ({ provider }) => provider === "IMF World Economic Outlook",

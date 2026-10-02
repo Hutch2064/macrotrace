@@ -266,6 +266,7 @@ for (const name of workflows) {
 }
 const refresh = await readFile(".github/workflows/refresh-data.yml", "utf8");
 assert.match(refresh, /schedule:/);
+assert.match(refresh, /cron: "17 11 \* \* 1"/);
 assert.match(refresh, /npm run data:refresh/);
 assert.match(refresh, /gh workflow run pages.yml/);
 assert.match(report, /id="economic-globe"/);
@@ -286,5 +287,5 @@ assert.deepEqual(
 );
 
 console.log(
-  "Verified two pages, country globe, report/dashboard DOM contracts, and Pages-only daily publication.",
+  "Verified two pages, country globe, report/dashboard DOM contracts, and Pages-only weekly publication.",
 );
