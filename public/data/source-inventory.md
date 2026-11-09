@@ -1,6 +1,6 @@
 # MacroTrace macroeconomic source inventory
 
-Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
+Snapshot: 2026-11-09T21:31:47.311Z. 23539 retained macroeconomic series. Coverage is the actual first/last stored observation, not the data-download date. FX is labeled separately from country-specific macro histories; commodity prices and indexes are source price levels, not investment returns.
 
 ## Credit
 
@@ -10,19 +10,19 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [DRCCLACBS](https://fred.stlouisfed.org/series/DRCCLACBS) | Credit Card Loan Delinquency Rate | US | quarterly | % | 1991-01-01 | 2026-04-01 | 142 |
 | [DRSFRMACBS](https://fred.stlouisfed.org/series/DRSFRMACBS) | Residential Mortgage Delinquency Rate | US | quarterly | % | 1991-01-01 | 2026-04-01 | 142 |
 | [M2SL](https://fred.stlouisfed.org/series/M2SL) | M2 Money Stock | US | monthly | billions | 1959-01-01 | 2026-09-01 | 813 |
-| [NFCI](https://fred.stlouisfed.org/series/NFCI) | National Financial Conditions Index | US | weekly | index | 1971-01-08 | 2026-10-23 | 2912 |
-| [STLFSI4](https://fred.stlouisfed.org/series/STLFSI4) | St. Louis Fed Financial Stress Index | US | weekly | index | 1993-12-31 | 2026-10-23 | 1713 |
+| [NFCI](https://fred.stlouisfed.org/series/NFCI) | National Financial Conditions Index | US | weekly | index | 1971-01-08 | 2026-10-30 | 2913 |
+| [STLFSI4](https://fred.stlouisfed.org/series/STLFSI4) | St. Louis Fed Financial Stress Index | US | weekly | index | 1993-12-31 | 2026-10-30 | 1714 |
 | [BOGMBASE](https://fred.stlouisfed.org/series/BOGMBASE) | Monetary Base | US | monthly | billions | 1959-01-01 | 2026-09-01 | 813 |
-| [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | US | weekly | millions | 2002-12-18 | 2026-10-28 | 1246 |
-| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | US | daily | percentage points | 1986-01-02 | 2026-10-29 | 10207 |
-| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | US | daily | percentage points | 1983-01-03 | 2026-10-29 | 10954 |
+| [WALCL](https://fred.stlouisfed.org/series/WALCL) | Federal Reserve Total Assets | US | weekly | millions | 2002-12-18 | 2026-11-04 | 1247 |
+| [BAA10Y](https://fred.stlouisfed.org/series/BAA10Y) | Baa Corporate Bond Spread | US | daily | percentage points | 1986-01-02 | 2026-11-05 | 10212 |
+| [AAA10Y](https://fred.stlouisfed.org/series/AAA10Y) | Aaa Corporate Bond Spread | US | daily | percentage points | 1983-01-03 | 2026-11-05 | 10959 |
 | [BAA](https://fred.stlouisfed.org/series/BAA) | Moody's Seasoned Baa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-10-01 | 1294 |
 | [AAA](https://fred.stlouisfed.org/series/AAA) | Moody's Seasoned Aaa Corporate Bond Yield | US | monthly | % | 1919-01-01 | 2026-10-01 | 1294 |
 | [M1SL](https://fred.stlouisfed.org/series/M1SL) | M1 Money Stock | US | monthly | billions | 1959-01-01 | 2026-09-01 | 813 |
 | [TOTRESNS](https://fred.stlouisfed.org/series/TOTRESNS) | Total Reserves of Depository Institutions | US | monthly | billions | 1959-01-01 | 2026-09-01 | 813 |
 | [H8B1001NCBCMG](https://fred.stlouisfed.org/series/H8B1001NCBCMG) | Commercial Bank Credit Growth | US | monthly | % | 1947-02-01 | 2026-09-01 | 956 |
 | [BUSLOANS](https://fred.stlouisfed.org/series/BUSLOANS) | Commercial and Industrial Loans | US | monthly | billions | 1947-01-01 | 2026-09-01 | 957 |
-| [TOTALSL](https://fred.stlouisfed.org/series/TOTALSL) | Total Consumer Credit Owned and Securitized | US | monthly | millions | 1943-01-01 | 2026-08-01 | 1004 |
+| [TOTALSL](https://fred.stlouisfed.org/series/TOTALSL) | Total Consumer Credit Owned and Securitized | US | monthly | millions | 1943-01-01 | 2026-09-01 | 1005 |
 | [HCCSDODNS](https://fred.stlouisfed.org/series/HCCSDODNS) | Household Consumer Credit Liabilities | US | quarterly | millions | 1945-10-01 | 2026-04-01 | 305 |
 | [HHMSDODNS](https://fred.stlouisfed.org/series/HHMSDODNS) | Household Residential Mortgage Liabilities | US | quarterly | millions | 1945-10-01 | 2026-04-01 | 305 |
 | [NCBDBIQ027S](https://fred.stlouisfed.org/series/NCBDBIQ027S) | Nonfinancial Corporate Debt Securities | US | quarterly | millions | 1945-10-01 | 2026-04-01 | 305 |
@@ -2152,153 +2152,153 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [BIS_DSR_Q_US_N](https://data.bis.org/topics/DSR) | Debt-service ratio · Non-financial corporations · United States | US | quarterly | % | 1999-01-01 | 2026-01-01 | 109 |
 | [BIS_DSR_Q_US_P](https://data.bis.org/topics/DSR) | Debt-service ratio · Private non-financial sector · United States | US | quarterly | % | 1999-01-01 | 2026-01-01 | 109 |
 | [BIS_DSR_Q_ZA_P](https://data.bis.org/topics/DSR) | Debt-service ratio · Private non-financial sector · South Africa | South Africa | quarterly | % | 1999-01-01 | 2026-01-01 | 109 |
-| [BIS_GLI_Q_EUR_3P_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_3P_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_3P_N_A_I_D_771](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_3P_N_A_I_D_EUR](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_3P_N_B_I_G_771](https://data.bis.org/topics/GLI) | EUR denominated bank loans to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_3P_N_B_I_G_EUR](https://data.bis.org/topics/GLI) | EUR denominated bank loans to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_3P_P_A_I_D_771](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-financial borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_3P_P_A_I_D_EUR](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-financial borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_5C_G_A_A_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (government) · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_5C_G_A_A_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (government) · Euro Area | Euro Area | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_5C_P_A_A_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (non-financial sector) · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_5C_P_A_A_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (non-financial sector) · Euro Area | Euro Area | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_AR_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_AR_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_BR_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_BR_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_CL_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_CL_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_CN_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_CN_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_ID_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_ID_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_IN_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_IN_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_MX_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_MX_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_MY_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_MY_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_RU_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_RU_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_SA_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_SA_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_TR_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_TR_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_ZA_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_EUR_ZA_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 EUR | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_N_A_I_D_771](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_N_A_I_D_JPY](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_N_B_I_G_771](https://data.bis.org/topics/GLI) | JPY denominated bank loans to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_N_B_I_G_JPY](https://data.bis.org/topics/GLI) | JPY denominated bank loans to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_P_A_I_D_771](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-financial borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_3P_P_A_I_D_JPY](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-financial borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_AR_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_AR_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_BR_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_BR_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_CL_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_CL_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_CN_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_CN_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_ID_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_ID_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_IN_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_IN_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_JP_G_A_A_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (government) · Japan | Japan | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_JP_G_A_A_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (government) · Japan | Japan | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_JP_P_A_A_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (non-financial sector) · Japan | Japan | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_JP_P_A_A_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (non-financial sector) · Japan | Japan | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_MX_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_MX_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_MY_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_MY_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_RU_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_RU_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_SA_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_SA_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_TR_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_TR_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_ZA_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_JPY_ZA_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 JPY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5C_N_B_N_A_770](https://data.bis.org/topics/GLI) | Cross-border bank claims on Euro area, non-banks · Euro Area | Euro Area | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5C_N_B_N_A_771](https://data.bis.org/topics/GLI) | Cross-border bank claims on Euro area, non-banks · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5C_S_B_A_B_770](https://data.bis.org/topics/GLI) | Total bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5C_S_B_A_B_771](https://data.bis.org/topics/GLI) | Total bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5C_S_B_R_B_770](https://data.bis.org/topics/GLI) | Local bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5C_S_B_R_B_771](https://data.bis.org/topics/GLI) | Local bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5J_A_B_I_A_770](https://data.bis.org/topics/GLI) | International claims on all sectors (worldwide) · All countries | Global | quarterly | % of GDP | 1980-10-01 | 2026-01-01 | 182 |
-| [BIS_GLI_Q_TO1_5J_A_B_I_A_771](https://data.bis.org/topics/GLI) | International claims on all sectors (worldwide) · All countries | Global | quarterly | % YoY | 1978-10-01 | 2026-01-01 | 190 |
-| [BIS_GLI_Q_TO1_5J_A_B_I_A_USD](https://data.bis.org/topics/GLI) | International claims on all sectors (worldwide) · All countries | Global | quarterly | 10^6 USD | 1977-10-01 | 2026-01-01 | 194 |
-| [BIS_GLI_Q_TO1_5J_B_B_I_A_770](https://data.bis.org/topics/GLI) | International claims on banks (worldwide) · All countries | Global | quarterly | % of GDP | 1980-10-01 | 2026-01-01 | 182 |
-| [BIS_GLI_Q_TO1_5J_B_B_I_A_771](https://data.bis.org/topics/GLI) | International claims on banks (worldwide) · All countries | Global | quarterly | % YoY | 1978-10-01 | 2026-01-01 | 190 |
-| [BIS_GLI_Q_TO1_5J_B_B_I_A_USD](https://data.bis.org/topics/GLI) | International claims on banks (worldwide) · All countries | Global | quarterly | 10^6 USD | 1977-10-01 | 2026-01-01 | 194 |
-| [BIS_GLI_Q_TO1_5J_N_B_I_A_770](https://data.bis.org/topics/GLI) | International claims on non-banks (worldwide) · All countries | Global | quarterly | % of GDP | 1980-10-01 | 2026-01-01 | 182 |
-| [BIS_GLI_Q_TO1_5J_N_B_I_A_771](https://data.bis.org/topics/GLI) | International claims on non-banks (worldwide) · All countries | Global | quarterly | % YoY | 1978-10-01 | 2026-01-01 | 190 |
-| [BIS_GLI_Q_TO1_5J_N_B_I_A_USD](https://data.bis.org/topics/GLI) | International claims on non-banks (worldwide) · All countries | Global | quarterly | 10^6 USD | 1977-10-01 | 2026-01-01 | 194 |
-| [BIS_GLI_Q_TO1_5J_N_B_N_A_770](https://data.bis.org/topics/GLI) | Cross-border bank claims on All countries (total), non-banks · All countries | Global | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5J_N_B_N_A_771](https://data.bis.org/topics/GLI) | Cross-border bank claims on All countries (total), non-banks · All countries | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5J_S_B_A_B_770](https://data.bis.org/topics/GLI) | Total bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5J_S_B_A_B_771](https://data.bis.org/topics/GLI) | Total bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5J_S_B_R_B_770](https://data.bis.org/topics/GLI) | Local bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_5J_S_B_R_B_771](https://data.bis.org/topics/GLI) | Local bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_US_N_B_N_A_770](https://data.bis.org/topics/GLI) | Cross-border bank claims on United States, non-banks · United States | US | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_US_N_B_N_A_771](https://data.bis.org/topics/GLI) | Cross-border bank claims on United States, non-banks · United States | US | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_US_S_B_A_B_770](https://data.bis.org/topics/GLI) | Total bank claims on United States, Non-financial private sector · United States | US | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_US_S_B_A_B_771](https://data.bis.org/topics/GLI) | Total bank claims on United States, Non-financial private sector · United States | US | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_US_S_B_R_B_770](https://data.bis.org/topics/GLI) | Local bank claims on United States, Non-financial private sector · United States | US | quarterly | % of GDP | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_TO1_US_S_B_R_B_771](https://data.bis.org/topics/GLI) | Local bank claims on United States, Non-financial private sector · United States | US | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_N_A_I_D_771](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_N_A_I_D_USD](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_N_B_I_G_771](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_P_A_I_D_771](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-financial borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_3P_P_A_I_D_USD](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-financial borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_AR_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_AR_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_AR_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_BR_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_BR_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_BR_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_CL_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_CL_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_CL_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_CN_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_CN_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_CN_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in China · China | China | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_ID_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_ID_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_ID_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_IN_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_IN_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_IN_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in India · India | India | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_MX_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_MX_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_MX_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_MY_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_MY_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_MY_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_RU_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_RU_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_RU_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_SA_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_SA_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_SA_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_TR_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_TR_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_TR_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_US_G_A_A_B_771](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (government) · United States | US | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_US_G_A_A_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (government) · United States | US | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_US_P_A_A_B_771](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (non-financial sector) · United States | US | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_US_P_A_A_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (non-financial sector) · United States | US | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_ZA_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | % YoY | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_ZA_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
-| [BIS_GLI_Q_USD_ZA_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 USD | 2000-01-01 | 2026-01-01 | 105 |
+| [BIS_GLI_Q_EUR_3P_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_3P_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_3P_N_A_I_D_771](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_3P_N_A_I_D_EUR](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_3P_N_B_I_G_771](https://data.bis.org/topics/GLI) | EUR denominated bank loans to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_3P_N_B_I_G_EUR](https://data.bis.org/topics/GLI) | EUR denominated bank loans to non-bank borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_3P_P_A_I_D_771](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-financial borrowers located outside the euro area · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_3P_P_A_I_D_EUR](https://data.bis.org/topics/GLI) | EUR denominated international debt securities issued by non-financial borrowers located outside the euro area · All countries excluding residents | Global | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_5C_G_A_A_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (government) · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_5C_G_A_A_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (government) · Euro Area | Euro Area | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_5C_P_A_A_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (non-financial sector) · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_5C_P_A_A_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit to borrowers in the euro area (non-financial sector) · Euro Area | Euro Area | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_AR_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_AR_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_BR_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_BR_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_CL_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_CL_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_CN_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_CN_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_ID_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_ID_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_IN_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_IN_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_MX_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_MX_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_MY_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_MY_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_RU_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_RU_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_SA_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_SA_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_TR_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_TR_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_ZA_N_A_I_B_771](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_EUR_ZA_N_A_I_B_EUR](https://data.bis.org/topics/GLI) | EUR denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 EUR | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_N_A_I_D_771](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_N_A_I_D_JPY](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_N_B_I_G_771](https://data.bis.org/topics/GLI) | JPY denominated bank loans to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_N_B_I_G_JPY](https://data.bis.org/topics/GLI) | JPY denominated bank loans to non-bank borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_P_A_I_D_771](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-financial borrowers located outside Japan · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_3P_P_A_I_D_JPY](https://data.bis.org/topics/GLI) | JPY denominated international debt securities issued by non-financial borrowers located outside Japan · All countries excluding residents | Global | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_AR_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_AR_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_BR_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_BR_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_CL_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_CL_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_CN_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_CN_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_ID_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_ID_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_IN_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_IN_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_JP_G_A_A_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (government) · Japan | Japan | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_JP_G_A_A_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (government) · Japan | Japan | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_JP_P_A_A_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (non-financial sector) · Japan | Japan | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_JP_P_A_A_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit to borrowers in Japan (non-financial sector) · Japan | Japan | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_MX_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_MX_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_MY_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_MY_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_RU_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_RU_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_SA_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_SA_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_TR_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_TR_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_ZA_N_A_I_B_771](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_JPY_ZA_N_A_I_B_JPY](https://data.bis.org/topics/GLI) | JPY denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 JPY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5C_N_B_N_A_770](https://data.bis.org/topics/GLI) | Cross-border bank claims on Euro area, non-banks · Euro Area | Euro Area | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5C_N_B_N_A_771](https://data.bis.org/topics/GLI) | Cross-border bank claims on Euro area, non-banks · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5C_S_B_A_B_770](https://data.bis.org/topics/GLI) | Total bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5C_S_B_A_B_771](https://data.bis.org/topics/GLI) | Total bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5C_S_B_R_B_770](https://data.bis.org/topics/GLI) | Local bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5C_S_B_R_B_771](https://data.bis.org/topics/GLI) | Local bank claims on Euro area, Non-financial private sector · Euro Area | Euro Area | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5J_A_B_I_A_770](https://data.bis.org/topics/GLI) | International claims on all sectors (worldwide) · All countries | Global | quarterly | % of GDP | 1980-10-01 | 2026-04-01 | 183 |
+| [BIS_GLI_Q_TO1_5J_A_B_I_A_771](https://data.bis.org/topics/GLI) | International claims on all sectors (worldwide) · All countries | Global | quarterly | % YoY | 1978-10-01 | 2026-04-01 | 191 |
+| [BIS_GLI_Q_TO1_5J_A_B_I_A_USD](https://data.bis.org/topics/GLI) | International claims on all sectors (worldwide) · All countries | Global | quarterly | 10^6 USD | 1977-10-01 | 2026-04-01 | 195 |
+| [BIS_GLI_Q_TO1_5J_B_B_I_A_770](https://data.bis.org/topics/GLI) | International claims on banks (worldwide) · All countries | Global | quarterly | % of GDP | 1980-10-01 | 2026-04-01 | 183 |
+| [BIS_GLI_Q_TO1_5J_B_B_I_A_771](https://data.bis.org/topics/GLI) | International claims on banks (worldwide) · All countries | Global | quarterly | % YoY | 1978-10-01 | 2026-04-01 | 191 |
+| [BIS_GLI_Q_TO1_5J_B_B_I_A_USD](https://data.bis.org/topics/GLI) | International claims on banks (worldwide) · All countries | Global | quarterly | 10^6 USD | 1977-10-01 | 2026-04-01 | 195 |
+| [BIS_GLI_Q_TO1_5J_N_B_I_A_770](https://data.bis.org/topics/GLI) | International claims on non-banks (worldwide) · All countries | Global | quarterly | % of GDP | 1980-10-01 | 2026-04-01 | 183 |
+| [BIS_GLI_Q_TO1_5J_N_B_I_A_771](https://data.bis.org/topics/GLI) | International claims on non-banks (worldwide) · All countries | Global | quarterly | % YoY | 1978-10-01 | 2026-04-01 | 191 |
+| [BIS_GLI_Q_TO1_5J_N_B_I_A_USD](https://data.bis.org/topics/GLI) | International claims on non-banks (worldwide) · All countries | Global | quarterly | 10^6 USD | 1977-10-01 | 2026-04-01 | 195 |
+| [BIS_GLI_Q_TO1_5J_N_B_N_A_770](https://data.bis.org/topics/GLI) | Cross-border bank claims on All countries (total), non-banks · All countries | Global | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5J_N_B_N_A_771](https://data.bis.org/topics/GLI) | Cross-border bank claims on All countries (total), non-banks · All countries | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5J_S_B_A_B_770](https://data.bis.org/topics/GLI) | Total bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5J_S_B_A_B_771](https://data.bis.org/topics/GLI) | Total bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5J_S_B_R_B_770](https://data.bis.org/topics/GLI) | Local bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_5J_S_B_R_B_771](https://data.bis.org/topics/GLI) | Local bank claims on All countries (total), Non-financial private sector · All countries | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_US_N_B_N_A_770](https://data.bis.org/topics/GLI) | Cross-border bank claims on United States, non-banks · United States | US | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_US_N_B_N_A_771](https://data.bis.org/topics/GLI) | Cross-border bank claims on United States, non-banks · United States | US | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_US_S_B_A_B_770](https://data.bis.org/topics/GLI) | Total bank claims on United States, Non-financial private sector · United States | US | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_US_S_B_A_B_771](https://data.bis.org/topics/GLI) | Total bank claims on United States, Non-financial private sector · United States | US | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_US_S_B_R_B_770](https://data.bis.org/topics/GLI) | Local bank claims on United States, Non-financial private sector · United States | US | quarterly | % of GDP | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_TO1_US_S_B_R_B_771](https://data.bis.org/topics/GLI) | Local bank claims on United States, Non-financial private sector · United States | US | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_N_A_I_D_771](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_N_A_I_D_USD](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_N_B_I_G_771](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_P_A_I_D_771](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-financial borrowers located outside the US · All countries excluding residents | Global | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_3P_P_A_I_D_USD](https://data.bis.org/topics/GLI) | USD denominated international debt securities issued by non-financial borrowers located outside the US · All countries excluding residents | Global | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_AR_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_AR_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_AR_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Argentina · Argentina | Argentina | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_BR_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_BR_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_BR_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Brazil · Brazil | Brazil | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_CL_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_CL_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_CL_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Chile · Chile | Chile | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_CN_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_CN_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in China · China | China | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_CN_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in China · China | China | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_ID_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_ID_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_ID_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Indonesia · Indonesia | Indonesia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_IN_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_IN_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in India · India | India | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_IN_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in India · India | India | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_MX_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_MX_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_MX_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Mexico · Mexico | Mexico | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_MY_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_MY_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_MY_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Malaysia · Malaysia | Malaysia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_RU_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_RU_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_RU_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Russia · Russia | Russia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_SA_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_SA_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_SA_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Saudi Arabia · Saudi Arabia | Saudi Arabia | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_TR_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_TR_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_TR_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in Turkey · Türkiye | Türkiye | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_US_G_A_A_B_771](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (government) · United States | US | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_US_G_A_A_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (government) · United States | US | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_US_P_A_A_B_771](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (non-financial sector) · United States | US | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_US_P_A_A_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit to borrowers in the US (non-financial sector) · United States | US | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_ZA_N_A_I_B_771](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | % YoY | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_ZA_N_A_I_B_USD](https://data.bis.org/topics/GLI) | USD denominated credit (bank loans & debt securities) to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
+| [BIS_GLI_Q_USD_ZA_N_B_I_G_USD](https://data.bis.org/topics/GLI) | USD denominated bank loans to non-bank borrowers located in South Africa · South Africa | South Africa | quarterly | 10^6 USD | 2000-01-01 | 2026-04-01 | 106 |
 | [BIS_TC_Q_AR_C_A_M_770_A](https://data.bis.org/topics/TOTAL_CREDIT) | Credit share of GDP · Non financial sector · Market value · Argentina | Argentina | quarterly | % | 1992-10-01 | 2026-01-01 | 134 |
 | [BIS_TC_Q_AR_G_A_N_770_A](https://data.bis.org/topics/TOTAL_CREDIT) | Credit share of GDP · General government · Nominal value · Argentina | Argentina | quarterly | % | 1992-10-01 | 2026-01-01 | 134 |
 | [BIS_TC_Q_AR_H_A_M_770_A](https://data.bis.org/topics/TOTAL_CREDIT) | Credit share of GDP · Households & NPISHs · Market value · Argentina | Argentina | quarterly | % | 1994-01-01 | 2026-01-01 | 129 |
@@ -2729,25 +2729,25 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [UNRATE](https://fred.stlouisfed.org/series/UNRATE) | Unemployment Rate | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
-| [PAYEMS](https://fred.stlouisfed.org/series/PAYEMS) | Nonfarm Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [ICSA](https://fred.stlouisfed.org/series/ICSA) | Initial Jobless Claims | US | weekly | claims | 1967-01-07 | 2026-10-24 | 3121 |
-| [JTSJOL](https://fred.stlouisfed.org/series/JTSJOL) | Job Openings | US | monthly | thousands | 2000-12-01 | 2026-08-01 | 309 |
-| [U6RATE](https://fred.stlouisfed.org/series/U6RATE) | Underemployment Rate | US | monthly | % | 1994-01-01 | 2026-09-01 | 392 |
-| [CIVPART](https://fred.stlouisfed.org/series/CIVPART) | Labor Force Participation Rate | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
-| [EMRATIO](https://fred.stlouisfed.org/series/EMRATIO) | Employment-Population Ratio | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
-| [CES0500000003](https://fred.stlouisfed.org/series/CES0500000003) | Average Hourly Earnings | US | monthly | $/hour | 2006-03-01 | 2026-09-01 | 247 |
-| [AWHAETP](https://fred.stlouisfed.org/series/AWHAETP) | Average Weekly Hours | US | monthly | hours | 2006-03-01 | 2026-09-01 | 247 |
-| [USMINE](https://fred.stlouisfed.org/series/USMINE) | Mining and Logging Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USCONS](https://fred.stlouisfed.org/series/USCONS) | Construction Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [MANEMP](https://fred.stlouisfed.org/series/MANEMP) | Manufacturing Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USINFO](https://fred.stlouisfed.org/series/USINFO) | Information Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USFIRE](https://fred.stlouisfed.org/series/USFIRE) | Financial Activities Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USPBS](https://fred.stlouisfed.org/series/USPBS) | Professional Services Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USEHS](https://fred.stlouisfed.org/series/USEHS) | Education and Health Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USLAH](https://fred.stlouisfed.org/series/USLAH) | Leisure and Hospitality Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USGOVT](https://fred.stlouisfed.org/series/USGOVT) | Government Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
-| [USTRADE](https://fred.stlouisfed.org/series/USTRADE) | Trade and Transportation Payrolls | US | monthly | thousands | 1939-01-01 | 2026-09-01 | 1053 |
+| [UNRATE](https://fred.stlouisfed.org/series/UNRATE) | Unemployment Rate | US | monthly | % | 1948-01-01 | 2026-10-01 | 945 |
+| [PAYEMS](https://fred.stlouisfed.org/series/PAYEMS) | Nonfarm Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [ICSA](https://fred.stlouisfed.org/series/ICSA) | Initial Jobless Claims | US | weekly | claims | 1967-01-07 | 2026-10-31 | 3122 |
+| [JTSJOL](https://fred.stlouisfed.org/series/JTSJOL) | Job Openings | US | monthly | thousands | 2000-12-01 | 2026-09-01 | 310 |
+| [U6RATE](https://fred.stlouisfed.org/series/U6RATE) | Underemployment Rate | US | monthly | % | 1994-01-01 | 2026-10-01 | 393 |
+| [CIVPART](https://fred.stlouisfed.org/series/CIVPART) | Labor Force Participation Rate | US | monthly | % | 1948-01-01 | 2026-10-01 | 945 |
+| [EMRATIO](https://fred.stlouisfed.org/series/EMRATIO) | Employment-Population Ratio | US | monthly | % | 1948-01-01 | 2026-10-01 | 945 |
+| [CES0500000003](https://fred.stlouisfed.org/series/CES0500000003) | Average Hourly Earnings | US | monthly | $/hour | 2006-03-01 | 2026-10-01 | 248 |
+| [AWHAETP](https://fred.stlouisfed.org/series/AWHAETP) | Average Weekly Hours | US | monthly | hours | 2006-03-01 | 2026-10-01 | 248 |
+| [USMINE](https://fred.stlouisfed.org/series/USMINE) | Mining and Logging Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USCONS](https://fred.stlouisfed.org/series/USCONS) | Construction Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [MANEMP](https://fred.stlouisfed.org/series/MANEMP) | Manufacturing Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USINFO](https://fred.stlouisfed.org/series/USINFO) | Information Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USFIRE](https://fred.stlouisfed.org/series/USFIRE) | Financial Activities Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USPBS](https://fred.stlouisfed.org/series/USPBS) | Professional Services Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USEHS](https://fred.stlouisfed.org/series/USEHS) | Education and Health Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USLAH](https://fred.stlouisfed.org/series/USLAH) | Leisure and Hospitality Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USGOVT](https://fred.stlouisfed.org/series/USGOVT) | Government Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
+| [USTRADE](https://fred.stlouisfed.org/series/USTRADE) | Trade and Transportation Payrolls | US | monthly | thousands | 1939-01-01 | 2026-10-01 | 1054 |
 | [LRHUTTTTCAM156S](https://fred.stlouisfed.org/series/LRHUTTTTCAM156S) | Harmonized Unemployment Rate · Canada | Canada | monthly | % | 1955-01-01 | 2026-08-01 | 860 |
 | [LRHUTTTTDEM156S](https://fred.stlouisfed.org/series/LRHUTTTTDEM156S) | Harmonized Unemployment Rate · Germany | Germany | monthly | % | 1991-01-01 | 2026-08-01 | 428 |
 | [LRHUTTTTFRM156S](https://fred.stlouisfed.org/series/LRHUTTTTFRM156S) | Harmonized Unemployment Rate · France | France | monthly | % | 1983-01-01 | 2026-08-01 | 524 |
@@ -2758,14 +2758,14 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [LRHUTTTTKRM156S](https://fred.stlouisfed.org/series/LRHUTTTTKRM156S) | Harmonized Unemployment Rate · South Korea | South Korea | monthly | % | 1990-01-01 | 2026-08-01 | 440 |
 | [LRHUTTTTESM156S](https://fred.stlouisfed.org/series/LRHUTTTTESM156S) | Harmonized Unemployment Rate · Spain | Spain | monthly | % | 1986-04-01 | 2026-08-01 | 485 |
 | [LRHUTTTTGBM156S](https://fred.stlouisfed.org/series/LRHUTTTTGBM156S) | Harmonized Unemployment Rate · United Kingdom | United Kingdom | monthly | % | 1983-01-01 | 2026-06-01 | 522 |
-| [CLF16OV](https://fred.stlouisfed.org/series/CLF16OV) | Civilian Labor Force Level | US | monthly | thousands | 1948-01-01 | 2026-09-01 | 944 |
-| [CE16OV](https://fred.stlouisfed.org/series/CE16OV) | Employment Level | US | monthly | thousands | 1948-01-01 | 2026-09-01 | 944 |
-| [AHETPI](https://fred.stlouisfed.org/series/AHETPI) | Average Hourly Earnings · Production and Nonsupervisory | US | monthly | $/hour | 1964-01-01 | 2026-09-01 | 753 |
+| [CLF16OV](https://fred.stlouisfed.org/series/CLF16OV) | Civilian Labor Force Level | US | monthly | thousands | 1948-01-01 | 2026-10-01 | 945 |
+| [CE16OV](https://fred.stlouisfed.org/series/CE16OV) | Employment Level | US | monthly | thousands | 1948-01-01 | 2026-10-01 | 945 |
+| [AHETPI](https://fred.stlouisfed.org/series/AHETPI) | Average Hourly Earnings · Production and Nonsupervisory | US | monthly | $/hour | 1964-01-01 | 2026-10-01 | 754 |
 | [LES1252881600Q](https://fred.stlouisfed.org/series/LES1252881600Q) | Median Usual Weekly Real Earnings | US | quarterly | 1982–84 CPI dollars/week | 1979-01-01 | 2026-07-01 | 190 |
-| [JTSQUR](https://fred.stlouisfed.org/series/JTSQUR) | Quits Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
-| [JTSHIR](https://fred.stlouisfed.org/series/JTSHIR) | Hires Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
-| [JTSLDL](https://fred.stlouisfed.org/series/JTSLDL) | Layoffs and Discharges · Total Nonfarm | US | monthly | thousands | 2000-12-01 | 2026-08-01 | 309 |
-| [JTSTSR](https://fred.stlouisfed.org/series/JTSTSR) | Total Separations Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
+| [JTSQUR](https://fred.stlouisfed.org/series/JTSQUR) | Quits Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-09-01 | 310 |
+| [JTSHIR](https://fred.stlouisfed.org/series/JTSHIR) | Hires Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-09-01 | 310 |
+| [JTSLDL](https://fred.stlouisfed.org/series/JTSLDL) | Layoffs and Discharges · Total Nonfarm | US | monthly | thousands | 2000-12-01 | 2026-09-01 | 310 |
+| [JTSTSR](https://fred.stlouisfed.org/series/JTSTSR) | Total Separations Rate · Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-09-01 | 310 |
 | [M0892AUSM156SNBR](https://fred.stlouisfed.org/series/M0892AUSM156SNBR) | U.S. Unemployment Rate · NBER Historical Archive | US | monthly | % | 1929-04-01 | 1942-06-01 | 159 |
 | [ECIWAG](https://fred.stlouisfed.org/series/ECIWAG) | Employment Cost Index: Private Wages and Salaries | US | quarterly | index | 2001-01-01 | 2026-07-01 | 103 |
 | [ECIALLCIV](https://fred.stlouisfed.org/series/ECIALLCIV) | Employment Cost Index: Total Compensation, All Civilian | US | quarterly | index | 2001-01-01 | 2026-07-01 | 103 |
@@ -2783,21 +2783,21 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [CIU2023000000000I](https://fred.stlouisfed.org/series/CIU2023000000000I) | Employment Cost Index: Private Manufacturing Wages | US | quarterly | index | 2001-01-01 | 2026-07-01 | 103 |
 | [CIU2012300000000I](https://fred.stlouisfed.org/series/CIU2012300000000I) | Employment Cost Index: Private Construction Compensation | US | quarterly | index | 2001-01-01 | 2026-07-01 | 103 |
 | [CIU201520A000000I](https://fred.stlouisfed.org/series/CIU201520A000000I) | Employment Cost Index: Private Financial Activities Total Compensation | US | quarterly | index | 2001-01-01 | 2026-07-01 | 103 |
-| [U2RATE](https://fred.stlouisfed.org/series/U2RATE) | Unemployment Rate: Job Losers (U-2) | US | monthly | % | 1967-01-01 | 2026-09-01 | 716 |
-| [U4RATE](https://fred.stlouisfed.org/series/U4RATE) | Unemployment Rate: U-4 Including Discouraged Workers | US | monthly | % | 1994-01-01 | 2026-09-01 | 392 |
-| [U5RATE](https://fred.stlouisfed.org/series/U5RATE) | Unemployment Rate: U-5 Including Marginally Attached Workers | US | monthly | % | 1994-01-01 | 2026-09-01 | 392 |
-| [UEMPMED](https://fred.stlouisfed.org/series/UEMPMED) | Median Weeks Unemployed | US | monthly | weeks | 1967-07-01 | 2026-09-01 | 710 |
-| [UEMPMEAN](https://fred.stlouisfed.org/series/UEMPMEAN) | Average Weeks Unemployed | US | monthly | weeks | 1948-01-01 | 2026-09-01 | 944 |
-| [UEMP27OV](https://fred.stlouisfed.org/series/UEMP27OV) | Unemployed 27 Weeks and Over | US | monthly | thousands | 1948-01-01 | 2026-09-01 | 944 |
-| [LNS13025703](https://fred.stlouisfed.org/series/LNS13025703) | Share of Unemployed 27 Weeks and Over | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
-| [LNS12032194](https://fred.stlouisfed.org/series/LNS12032194) | Part-Time Employment for Economic Reasons | US | monthly | thousands | 1955-05-01 | 2026-09-01 | 856 |
-| [LNS12032195](https://fred.stlouisfed.org/series/LNS12032195) | Part-Time for Economic Reasons: Slack Work or Business Conditions | US | monthly | thousands | 1955-05-01 | 2026-09-01 | 856 |
-| [LNS12032196](https://fred.stlouisfed.org/series/LNS12032196) | Part-Time for Economic Reasons: Could Only Find Part-Time Work | US | monthly | thousands | 1955-05-01 | 2026-09-01 | 856 |
-| [LNS12300060](https://fred.stlouisfed.org/series/LNS12300060) | Employment-Population Ratio: Prime Age 25-54 | US | monthly | % | 1948-01-01 | 2026-09-01 | 944 |
-| [TEMPHELPS](https://fred.stlouisfed.org/series/TEMPHELPS) | Temporary Help Services Employment | US | monthly | thousands | 1990-01-01 | 2026-09-01 | 441 |
-| [JTSJOR](https://fred.stlouisfed.org/series/JTSJOR) | Job Openings Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
-| [JTSLDR](https://fred.stlouisfed.org/series/JTSLDR) | Layoffs and Discharges Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
-| [JTSOSR](https://fred.stlouisfed.org/series/JTSOSR) | Other Separations Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-08-01 | 309 |
+| [U2RATE](https://fred.stlouisfed.org/series/U2RATE) | Unemployment Rate: Job Losers (U-2) | US | monthly | % | 1967-01-01 | 2026-10-01 | 717 |
+| [U4RATE](https://fred.stlouisfed.org/series/U4RATE) | Unemployment Rate: U-4 Including Discouraged Workers | US | monthly | % | 1994-01-01 | 2026-10-01 | 393 |
+| [U5RATE](https://fred.stlouisfed.org/series/U5RATE) | Unemployment Rate: U-5 Including Marginally Attached Workers | US | monthly | % | 1994-01-01 | 2026-10-01 | 393 |
+| [UEMPMED](https://fred.stlouisfed.org/series/UEMPMED) | Median Weeks Unemployed | US | monthly | weeks | 1967-07-01 | 2026-10-01 | 711 |
+| [UEMPMEAN](https://fred.stlouisfed.org/series/UEMPMEAN) | Average Weeks Unemployed | US | monthly | weeks | 1948-01-01 | 2026-10-01 | 945 |
+| [UEMP27OV](https://fred.stlouisfed.org/series/UEMP27OV) | Unemployed 27 Weeks and Over | US | monthly | thousands | 1948-01-01 | 2026-10-01 | 945 |
+| [LNS13025703](https://fred.stlouisfed.org/series/LNS13025703) | Share of Unemployed 27 Weeks and Over | US | monthly | % | 1948-01-01 | 2026-10-01 | 945 |
+| [LNS12032194](https://fred.stlouisfed.org/series/LNS12032194) | Part-Time Employment for Economic Reasons | US | monthly | thousands | 1955-05-01 | 2026-10-01 | 857 |
+| [LNS12032195](https://fred.stlouisfed.org/series/LNS12032195) | Part-Time for Economic Reasons: Slack Work or Business Conditions | US | monthly | thousands | 1955-05-01 | 2026-10-01 | 857 |
+| [LNS12032196](https://fred.stlouisfed.org/series/LNS12032196) | Part-Time for Economic Reasons: Could Only Find Part-Time Work | US | monthly | thousands | 1955-05-01 | 2026-10-01 | 857 |
+| [LNS12300060](https://fred.stlouisfed.org/series/LNS12300060) | Employment-Population Ratio: Prime Age 25-54 | US | monthly | % | 1948-01-01 | 2026-10-01 | 945 |
+| [TEMPHELPS](https://fred.stlouisfed.org/series/TEMPHELPS) | Temporary Help Services Employment | US | monthly | thousands | 1990-01-01 | 2026-10-01 | 442 |
+| [JTSJOR](https://fred.stlouisfed.org/series/JTSJOR) | Job Openings Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-09-01 | 310 |
+| [JTSLDR](https://fred.stlouisfed.org/series/JTSLDR) | Layoffs and Discharges Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-09-01 | 310 |
+| [JTSOSR](https://fred.stlouisfed.org/series/JTSOSR) | Other Separations Rate: Total Nonfarm | US | monthly | % | 2000-12-01 | 2026-09-01 | 310 |
 | [FRBKCLMCILA](https://fred.stlouisfed.org/series/FRBKCLMCILA) | Kansas City Fed Labor Market Conditions: Level of Activity | US | monthly | index | 1992-01-01 | 2026-09-01 | 417 |
 | [LRHUTTTTATM156S](https://fred.stlouisfed.org/series/LRHUTTTTATM156S) | Harmonized Unemployment Rate · Austria | Austria | monthly | % | 1993-01-01 | 2026-08-01 | 404 |
 | [LRHUTTTTBEM156S](https://fred.stlouisfed.org/series/LRHUTTTTBEM156S) | Harmonized Unemployment Rate · Belgium | Belgium | monthly | % | 1983-01-01 | 2026-08-01 | 524 |
@@ -5083,7 +5083,7 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [EUROSTAT_DK_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Denmark | Denmark | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_DE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Germany | Germany | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_EE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Estonia | Estonia | monthly | Percentage of population in the labour force | 2000-02-01 | 2026-09-01 | 320 |
-| [EUROSTAT_IE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Ireland | Ireland | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-09-01 | 321 |
+| [EUROSTAT_IE_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Ireland | Ireland | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-10-01 | 322 |
 | [EUROSTAT_EL_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Greece | Greece | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_ES_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · Spain | Spain | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_FR_UNEMPLOYMENT](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table?lang=en) | Unemployment rate · France | France | monthly | Percentage of population in the labour force | 2000-01-01 | 2026-09-01 | 321 |
@@ -5262,8 +5262,8 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [PCEPI](https://fred.stlouisfed.org/series/PCEPI) | PCE Price Index | US | monthly | index | 1959-01-01 | 2026-09-01 | 813 |
 | [PCEPILFE](https://fred.stlouisfed.org/series/PCEPILFE) | Core PCE Price Index | US | monthly | index | 1959-01-01 | 2026-09-01 | 813 |
 | [PPIACO](https://fred.stlouisfed.org/series/PPIACO) | Producer Price Index | US | monthly | index | 1913-01-01 | 2026-09-01 | 1365 |
-| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-10-30 | 5962 |
-| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-10-30 | 5962 |
+| [T5YIE](https://fred.stlouisfed.org/series/T5YIE) | 5-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-11-06 | 5967 |
+| [T10YIE](https://fred.stlouisfed.org/series/T10YIE) | 10-Year Breakeven Inflation | US | daily | % | 2003-01-02 | 2026-11-06 | 5967 |
 | [FPCPITOTLZGCAN](https://fred.stlouisfed.org/series/FPCPITOTLZGCAN) | Annual consumer inflation · Canada | Canada | annual | % | 1960-01-01 | 2025-01-01 | 66 |
 | [CP0000DEM086NEST](https://fred.stlouisfed.org/series/CP0000DEM086NEST) | Harmonized Consumer Price Index · Germany | Germany | monthly | index | 1996-01-01 | 2026-09-01 | 369 |
 | [CP0000FRM086NEST](https://fred.stlouisfed.org/series/CP0000FRM086NEST) | Harmonized Consumer Price Index · France | France | monthly | index | 1996-01-01 | 2026-09-01 | 369 |
@@ -5277,7 +5277,7 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [FPCPITOTLZGKOR](https://fred.stlouisfed.org/series/FPCPITOTLZGKOR) | Inflation, consumer prices · South Korea | South Korea | annual | % | 1960-01-01 | 2025-01-01 | 66 |
 | [CP0000ESM086NEST](https://fred.stlouisfed.org/series/CP0000ESM086NEST) | Harmonized Consumer Price Index · Spain | Spain | monthly | index | 1996-01-01 | 2026-09-01 | 369 |
 | [FPCPITOTLZGGBR](https://fred.stlouisfed.org/series/FPCPITOTLZGGBR) | Inflation, consumer prices · United Kingdom | United Kingdom | annual | % | 1960-01-01 | 2025-01-01 | 66 |
-| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | US | daily | % | 2003-01-02 | 2026-10-30 | 5962 |
+| [T5YIFR](https://fred.stlouisfed.org/series/T5YIFR) | 5-Year, 5-Year Forward Inflation Expectation | US | daily | % | 2003-01-02 | 2026-11-06 | 5967 |
 | [CPIUKA](https://fred.stlouisfed.org/series/CPIUKA) | Consumer Price Index · United Kingdom · Millennium Archive | United Kingdom | annual | index | 1209-01-01 | 2016-01-01 | 808 |
 | [CPIIUKA](https://fred.stlouisfed.org/series/CPIIUKA) | Consumer Price Inflation · United Kingdom · Millennium Archive | United Kingdom | annual | % | 1210-01-01 | 2016-01-01 | 807 |
 | [CP0000ATM086NEST](https://fred.stlouisfed.org/series/CP0000ATM086NEST) | Harmonized Consumer Price Index · Austria | Austria | monthly | index | 1996-01-01 | 2026-09-01 | 369 |
@@ -6429,9 +6429,9 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [DGORDER](https://fred.stlouisfed.org/series/DGORDER) | Durable Goods Orders | US | monthly | millions | 1992-02-01 | 2026-09-01 | 416 |
 | [NEWORDER](https://fred.stlouisfed.org/series/NEWORDER) | Manufacturers New Orders | US | monthly | millions | 1992-02-01 | 2026-09-01 | 416 |
 | [NGDPRSAXDCCAQ](https://fred.stlouisfed.org/series/NGDPRSAXDCCAQ) | Real GDP · Canada | Canada | quarterly | millions local currency | 1961-01-01 | 2026-04-01 | 262 |
-| [NGDPRSAXDCDEQ](https://fred.stlouisfed.org/series/NGDPRSAXDCDEQ) | Real GDP · Germany | Germany | quarterly | millions local currency | 1991-01-01 | 2026-04-01 | 142 |
-| [NGDPRSAXDCFRQ](https://fred.stlouisfed.org/series/NGDPRSAXDCFRQ) | Real GDP · France | France | quarterly | millions local currency | 1980-01-01 | 2026-04-01 | 186 |
-| [NGDPRSAXDCITQ](https://fred.stlouisfed.org/series/NGDPRSAXDCITQ) | Real GDP · Italy | Italy | quarterly | millions local currency | 1996-01-01 | 2026-04-01 | 122 |
+| [NGDPRSAXDCDEQ](https://fred.stlouisfed.org/series/NGDPRSAXDCDEQ) | Real GDP · Germany | Germany | quarterly | millions local currency | 1991-01-01 | 2026-07-01 | 143 |
+| [NGDPRSAXDCFRQ](https://fred.stlouisfed.org/series/NGDPRSAXDCFRQ) | Real GDP · France | France | quarterly | millions local currency | 1980-01-01 | 2026-07-01 | 187 |
+| [NGDPRSAXDCITQ](https://fred.stlouisfed.org/series/NGDPRSAXDCITQ) | Real GDP · Italy | Italy | quarterly | millions local currency | 1996-01-01 | 2026-07-01 | 123 |
 | [NGDPRSAXDCJPQ](https://fred.stlouisfed.org/series/NGDPRSAXDCJPQ) | Real GDP · Japan | Japan | quarterly | millions local currency | 1994-01-01 | 2026-04-01 | 130 |
 | [NGDPRSAXDCAUQ](https://fred.stlouisfed.org/series/NGDPRSAXDCAUQ) | Real GDP · Australia | Australia | quarterly | millions local currency | 1959-07-01 | 2026-04-01 | 268 |
 | [NGDPRSAXDCBRQ](https://fred.stlouisfed.org/series/NGDPRSAXDCBRQ) | Real GDP · Brazil | Brazil | quarterly | millions local currency | 1996-01-01 | 2026-04-01 | 122 |
@@ -6502,11 +6502,11 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [IPG2211S](https://fred.stlouisfed.org/series/IPG2211S) | Industrial Production: Electric Power Utilities | US | monthly | index | 1972-01-01 | 2026-09-01 | 657 |
 | [IPG2212S](https://fred.stlouisfed.org/series/IPG2212S) | Industrial Production: Natural Gas Distribution | US | monthly | index | 1972-01-01 | 2026-09-01 | 657 |
 | [IPG324S](https://fred.stlouisfed.org/series/IPG324S) | Industrial Production: Petroleum and Coal Products | US | monthly | index | 1972-01-01 | 2026-09-01 | 657 |
-| [A24STI](https://fred.stlouisfed.org/series/A24STI) | Manufacturers' Total Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
-| [A24SFI](https://fred.stlouisfed.org/series/A24SFI) | Manufacturers' Finished Goods Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
-| [A24SWI](https://fred.stlouisfed.org/series/A24SWI) | Manufacturers' Work-in-Process Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
-| [A24SMI](https://fred.stlouisfed.org/series/A24SMI) | Manufacturers' Materials and Supplies Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
-| [A24ATI](https://fred.stlouisfed.org/series/A24ATI) | Manufacturers' Total Inventories: Petroleum Refineries | US | monthly | millions | 1992-01-01 | 2026-08-01 | 416 |
+| [A24STI](https://fred.stlouisfed.org/series/A24STI) | Manufacturers' Total Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-09-01 | 417 |
+| [A24SFI](https://fred.stlouisfed.org/series/A24SFI) | Manufacturers' Finished Goods Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-09-01 | 417 |
+| [A24SWI](https://fred.stlouisfed.org/series/A24SWI) | Manufacturers' Work-in-Process Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-09-01 | 417 |
+| [A24SMI](https://fred.stlouisfed.org/series/A24SMI) | Manufacturers' Materials and Supplies Inventories: Petroleum and Coal Products | US | monthly | millions | 1992-01-01 | 2026-09-01 | 417 |
+| [A24ATI](https://fred.stlouisfed.org/series/A24ATI) | Manufacturers' Total Inventories: Petroleum Refineries | US | monthly | millions | 1992-01-01 | 2026-09-01 | 417 |
 | [DGOERC1Q027SBEA](https://fred.stlouisfed.org/series/DGOERC1Q027SBEA) | PCE: Gasoline and Other Energy Goods | US | quarterly | billions | 1947-01-01 | 2026-07-01 | 319 |
 | [DNRGRC1Q027SBEA](https://fred.stlouisfed.org/series/DNRGRC1Q027SBEA) | PCE: Energy Goods and Services | US | quarterly | billions | 1959-01-01 | 2026-07-01 | 271 |
 | [EXPGSC1](https://fred.stlouisfed.org/series/EXPGSC1) | Real Exports of Goods and Services | US | quarterly | billions | 1947-01-01 | 2026-07-01 | 319 |
@@ -12062,25 +12062,25 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [SPC_MNP_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Northern Mariana Islands | Northern Mariana Islands | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
 | [SPC_MNP_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Northern Mariana Islands | Northern Mariana Islands | annual | % | 2006-12-31 | 2022-12-31 | 17 |
 | [SPC_NCL_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · New Caledonia | New Caledonia | annual | thousands USD | 2005-12-31 | 2024-12-31 | 20 |
-| [SPC_NCL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2023-12-31 | 18 |
-| [SPC_NCL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · New Caledonia | New Caledonia | annual | USD/person | 2005-12-31 | 2023-12-31 | 19 |
-| [SPC_NCL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2023-12-31 | 18 |
+| [SPC_NCL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2024-12-31 | 19 |
+| [SPC_NCL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · New Caledonia | New Caledonia | annual | USD/person | 2005-12-31 | 2024-12-31 | 20 |
+| [SPC_NCL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · New Caledonia | New Caledonia | annual | % | 2006-12-31 | 2024-12-31 | 19 |
 | [SPC_NIU_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Niue | Niue | annual | thousands USD | 2005-12-31 | 2025-12-31 | 21 |
-| [SPC_NIU_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Niue | Niue | annual | % | 2006-12-31 | 2024-12-31 | 19 |
-| [SPC_NIU_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Niue | Niue | annual | USD/person | 2005-12-31 | 2024-12-31 | 20 |
-| [SPC_NIU_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Niue | Niue | annual | % | 2006-12-31 | 2024-12-31 | 19 |
+| [SPC_NIU_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Niue | Niue | annual | % | 2006-12-31 | 2025-12-31 | 20 |
+| [SPC_NIU_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Niue | Niue | annual | USD/person | 2005-12-31 | 2025-12-31 | 21 |
+| [SPC_NIU_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Niue | Niue | annual | % | 2006-12-31 | 2025-12-31 | 20 |
 | [SPC_PCN_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Pitcairn Islands | Pitcairn Islands | annual | thousands USD | 2005-12-31 | 2005-12-31 | 1 |
 | [SPC_PCN_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Pitcairn Islands | Pitcairn Islands | annual | USD/person | 2005-12-31 | 2005-12-31 | 1 |
 | [SPC_PYF_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · French Polynesia | French Polynesia | annual | thousands USD | 2005-12-31 | 2024-12-31 | 20 |
-| [SPC_PYF_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2022-12-31 | 17 |
-| [SPC_PYF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · French Polynesia | French Polynesia | annual | USD/person | 2005-12-31 | 2022-12-31 | 18 |
-| [SPC_PYF_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2022-12-31 | 17 |
+| [SPC_PYF_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2024-12-31 | 19 |
+| [SPC_PYF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · French Polynesia | French Polynesia | annual | USD/person | 2005-12-31 | 2024-12-31 | 20 |
+| [SPC_PYF_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · French Polynesia | French Polynesia | annual | % | 2006-12-31 | 2024-12-31 | 19 |
 | [SPC_TKL_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Tokelau | Tokelau | annual | thousands USD | 2013-12-31 | 2024-12-31 | 12 |
-| [SPC_TKL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2021-12-31 | 8 |
-| [SPC_TKL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Tokelau | Tokelau | annual | USD/person | 2013-12-31 | 2021-12-31 | 9 |
-| [SPC_TKL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2021-12-31 | 8 |
+| [SPC_TKL_GDPGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2024-12-31 | 11 |
+| [SPC_TKL_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Tokelau | Tokelau | annual | USD/person | 2013-12-31 | 2024-12-31 | 12 |
+| [SPC_TKL_GDPPCGROWTH_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita growth · Tokelau | Tokelau | annual | % | 2014-12-31 | 2024-12-31 | 11 |
 | [SPC_WLF_GDP_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP · Wallis and Futuna | Wallis and Futuna | annual | thousands USD | 2005-12-31 | 2019-12-31 | 3 |
-| [SPC_WLF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Wallis and Futuna | Wallis and Futuna | annual | USD/person | 2005-12-31 | 2015-12-31 | 2 |
+| [SPC_WLF_GDPPC_NOMINAL](https://pacificdata.org/data/dataset/gross-domestic-product-for-pacific-island-countries-and-territories-df-national-accounts) | Nominal GDP per capita · Wallis and Futuna | Wallis and Futuna | annual | USD/person | 2005-12-31 | 2019-12-31 | 3 |
 | [UN_AIA_GDP](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP · Anguilla | Anguilla | annual | constant 2020 USD | 1970-12-31 | 2024-12-31 | 55 |
 | [UN_AIA_GDP_NOMINAL](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Nominal GDP · Anguilla | Anguilla | annual | current USD | 1970-12-31 | 2024-12-31 | 55 |
 | [UN_AIA_GDPGROWTH](https://unstats.un.org/unsd/nationalaccount/ama.asp) | Real GDP growth · Anguilla | Anguilla | annual | % | 1971-12-31 | 2024-12-31 | 54 |
@@ -12379,26 +12379,26 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [EUROSTAT_SE_P7_CONTRIBUTION](https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table?lang=en) | GDP contribution · Imports of goods and services · Sweden | Sweden | quarterly | Contribution to GDP growth, percentage point change on previous period | 2000-01-01 | 2026-04-01 | 106 |
 | [EUROSTAT_BE_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Belgium | Belgium | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_BG_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Bulgaria | Bulgaria | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_CZ_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Czechia | Czechia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_DK_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Denmark | Denmark | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_DE_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Germany | Germany | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_EE_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Estonia | Estonia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_CZ_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Czechia | Czechia | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
+| [EUROSTAT_DK_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Denmark | Denmark | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
+| [EUROSTAT_DE_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Germany | Germany | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
+| [EUROSTAT_EE_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Estonia | Estonia | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_IE_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Ireland | Ireland | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_EL_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Greece | Greece | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_ES_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Spain | Spain | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_FR_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · France | France | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_ES_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Spain | Spain | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
+| [EUROSTAT_FR_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · France | France | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_HR_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Croatia | Croatia | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_IT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Italy | Italy | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_CY_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Cyprus | Cyprus | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_LV_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Latvia | Latvia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_LV_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Latvia | Latvia | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_LT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Lithuania | Lithuania | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
-| [EUROSTAT_LU_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Luxembourg | Luxembourg | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_HU_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Hungary | Hungary | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_LU_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Luxembourg | Luxembourg | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
+| [EUROSTAT_HU_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Hungary | Hungary | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_MT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Malta | Malta | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_NL_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Netherlands | Netherlands | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_AT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Austria | Austria | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_PL_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Poland | Poland | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
-| [EUROSTAT_PT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_PT_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_RO_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Romania | Romania | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_SI_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Slovenia | Slovenia | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
 | [EUROSTAT_SK_INDUSTRIAL_PRODUCTION](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | Industrial production · Slovak Republic | Slovak Republic | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
@@ -12416,23 +12416,23 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [EUROSTAT_ES_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Spain | Spain | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_FR_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · France | France | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_HR_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Croatia | Croatia | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
-| [EUROSTAT_IT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Italy | Italy | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_IT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Italy | Italy | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_CY_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Cyprus | Cyprus | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_LV_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Latvia | Latvia | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_LT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Lithuania | Lithuania | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_LU_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Luxembourg | Luxembourg | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
-| [EUROSTAT_HU_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Hungary | Hungary | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_HU_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Hungary | Hungary | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_MT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Malta | Malta | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_NL_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Netherlands | Netherlands | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
-| [EUROSTAT_AT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Austria | Austria | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_AT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Austria | Austria | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_PL_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Poland | Poland | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
-| [EUROSTAT_PT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
-| [EUROSTAT_RO_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Romania | Romania | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_PT_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Portugal | Portugal | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
+| [EUROSTAT_RO_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Romania | Romania | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_SI_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Slovenia | Slovenia | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
-| [EUROSTAT_SK_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Slovak Republic | Slovak Republic | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_SK_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Slovak Republic | Slovak Republic | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_FI_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Finland | Finland | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_SE_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Sweden | Sweden | monthly | Index, 2015=100 | 2000-01-01 | 2023-12-01 | 288 |
-| [EUROSTAT_EA20_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Euro Area | Euro Area | monthly | Index, 2021=100 | 2000-01-01 | 2026-08-01 | 320 |
+| [EUROSTAT_EA20_RETAIL_SALES_VOLUME](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table?lang=en) | Retail sales volume · Euro Area | Euro Area | monthly | Index, 2021=100 | 2000-01-01 | 2026-09-01 | 321 |
 | [EUROSTAT_BE_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Belgium | Belgium | quarterly | Percentage of gross domestic product (GDP) | 2003-01-01 | 2026-04-01 | 94 |
 | [EUROSTAT_BG_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Bulgaria | Bulgaria | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
 | [EUROSTAT_CZ_CURRENT_ACCOUNT_BALANCE](https://ec.europa.eu/eurostat/databrowser/view/bop_gdp6_q/default/table?lang=en) | Current account balance · Czechia | Czechia | quarterly | Percentage of gross domestic product (GDP) | 2000-01-01 | 2026-04-01 | 106 |
@@ -12685,7 +12685,7 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [JST_USA_CA](https://www.macrohistory.net/database/) | Current account · United States | US | annual | billions USD | 1870-12-31 | 2020-12-31 | 151 |
 | [JST_USA_IMPORTS](https://www.macrohistory.net/database/) | Imports · United States | US | annual | billions USD | 1870-12-31 | 2020-12-31 | 151 |
 | [JST_USA_EXPORTS](https://www.macrohistory.net/database/) | Exports · United States | US | annual | billions USD | 1870-12-31 | 2020-12-31 | 151 |
-| [NYFED_GSCPI](https://www.newyorkfed.org/research/policy/gscpi) | Global Supply Chain Pressure Index | Global | monthly | standard deviations | 1998-01-31 | 2026-09-30 | 345 |
+| [NYFED_GSCPI](https://www.newyorkfed.org/research/policy/gscpi) | Global Supply Chain Pressure Index | Global | monthly | standard deviations | 1998-01-31 | 2026-10-31 | 346 |
 | [IMF_WEO_ABW_CURRENT_ACCOUNT_GDP](https://data.imf.org/en/Datasets/WEO) | Current account balance · Aruba | Aruba | annual | % of GDP | 1999-12-31 | 2024-12-31 | 26 |
 | [IMF_WEO_ABW_CURRENT_ACCOUNT_USD](https://data.imf.org/en/Datasets/WEO) | Current account balance · Aruba | Aruba | annual | USD billions | 1999-12-31 | 2024-12-31 | 26 |
 | [IMF_WEO_ABW_GDP_NOMINAL](https://data.imf.org/en/Datasets/WEO) | Nominal GDP · Aruba | Aruba | annual | USD billions | 1995-12-31 | 2023-12-31 | 29 |
@@ -14385,24 +14385,24 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) | Federal Funds Rate | US | monthly | % | 1954-07-01 | 2026-09-01 | 867 |
-| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | US | daily | % | 2001-07-31 | 2026-10-29 | 6314 |
-| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-10-29 | 11290 |
-| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-10-29 | 11290 |
-| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-29 | 16192 |
-| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | US | daily | % | 1976-06-01 | 2026-10-29 | 12600 |
-| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-29 | 16192 |
-| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | US | daily | % | 1969-07-01 | 2026-10-29 | 14322 |
-| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-29 | 16192 |
-| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-10-29 | 14503 |
-| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | US | daily | % | 1977-02-15 | 2026-10-29 | 12422 |
-| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | US | daily | percentage points | 1976-06-01 | 2026-10-30 | 12601 |
-| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | US | daily | percentage points | 1982-01-04 | 2026-10-30 | 11210 |
-| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | US | daily | % | 1954-07-01 | 2026-10-29 | 26419 |
-| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | US | daily | % | 2018-04-03 | 2026-10-30 | 2143 |
-| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-10-29 | 5961 |
-| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-10-29 | 5961 |
-| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | US | daily | % | 2010-02-22 | 2026-10-29 | 4176 |
+| [FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) | Federal Funds Rate | US | monthly | % | 1954-07-01 | 2026-10-01 | 868 |
+| [DGS1MO](https://fred.stlouisfed.org/series/DGS1MO) | 1-Month Treasury Yield | US | daily | % | 2001-07-31 | 2026-11-06 | 6320 |
+| [DGS3MO](https://fred.stlouisfed.org/series/DGS3MO) | 3-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-11-06 | 11296 |
+| [DGS6MO](https://fred.stlouisfed.org/series/DGS6MO) | 6-Month Treasury Yield | US | daily | % | 1981-09-01 | 2026-11-06 | 11296 |
+| [DGS1](https://fred.stlouisfed.org/series/DGS1) | 1-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-11-06 | 16198 |
+| [DGS2](https://fred.stlouisfed.org/series/DGS2) | 2-Year Treasury Yield | US | daily | % | 1976-06-01 | 2026-11-06 | 12606 |
+| [DGS5](https://fred.stlouisfed.org/series/DGS5) | 5-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-11-06 | 16198 |
+| [DGS7](https://fred.stlouisfed.org/series/DGS7) | 7-Year Treasury Yield | US | daily | % | 1969-07-01 | 2026-11-06 | 14328 |
+| [DGS10](https://fred.stlouisfed.org/series/DGS10) | 10-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-11-06 | 16198 |
+| [DGS20](https://fred.stlouisfed.org/series/DGS20) | 20-Year Treasury Yield | US | daily | % | 1962-01-02 | 2026-11-06 | 14509 |
+| [DGS30](https://fred.stlouisfed.org/series/DGS30) | 30-Year Treasury Yield | US | daily | % | 1977-02-15 | 2026-11-06 | 12428 |
+| [T10Y2Y](https://fred.stlouisfed.org/series/T10Y2Y) | 10Y–2Y Treasury Spread | US | daily | percentage points | 1976-06-01 | 2026-11-06 | 12606 |
+| [T10Y3M](https://fred.stlouisfed.org/series/T10Y3M) | 10Y–3M Treasury Spread | US | daily | percentage points | 1982-01-04 | 2026-11-06 | 11215 |
+| [DFF](https://fred.stlouisfed.org/series/DFF) | Daily Effective Federal Funds Rate | US | daily | % | 1954-07-01 | 2026-11-06 | 26427 |
+| [SOFR](https://fred.stlouisfed.org/series/SOFR) | Secured Overnight Financing Rate | US | daily | % | 2018-04-03 | 2026-11-06 | 2148 |
+| [DFII5](https://fred.stlouisfed.org/series/DFII5) | 5-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-11-06 | 5967 |
+| [DFII10](https://fred.stlouisfed.org/series/DFII10) | 10-Year Treasury Inflation-Indexed Security | US | daily | % | 2003-01-02 | 2026-11-06 | 5967 |
+| [DFII30](https://fred.stlouisfed.org/series/DFII30) | 30-Year Treasury Inflation-Indexed Security | US | daily | % | 2010-02-22 | 2026-11-06 | 4182 |
 | [BOERUKA](https://fred.stlouisfed.org/series/BOERUKA) | Bank of England Policy Rate · Millennium Archive | United Kingdom | annual | % | 1694-01-01 | 2016-01-01 | 323 |
 | [LTCYUKA](https://fred.stlouisfed.org/series/LTCYUKA) | Consol Long-Term Bond Yield · United Kingdom · Millennium Archive | United Kingdom | annual | % | 1703-01-01 | 2016-01-01 | 314 |
 | [WDI_ABW_DEPOSIT_RATE](https://data.worldbank.org/indicator/FR.INR.DPST) | Deposit interest rate · Aruba | Aruba | annual | % | 1986-12-31 | 2023-12-31 | 38 |
@@ -14996,53 +14996,53 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [WDI_ZWE_REAL_INTEREST](https://data.worldbank.org/indicator/FR.INR.RINR) | Real interest rate · Zimbabwe | Zimbabwe | annual | % | 2012-12-31 | 2025-12-31 | 14 |
 | [BIS_CBPOL_D_AR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Argentina | Argentina | daily | % | 1993-04-01 | 2025-07-10 | 8768 |
 | [BIS_CBPOL_D_AT](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Austria | Austria | daily | % | 1945-04-01 | 1998-12-31 | 19633 |
-| [BIS_CBPOL_D_AU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Australia | Australia | daily | % | 1976-04-07 | 2026-10-22 | 12812 |
+| [BIS_CBPOL_D_AU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Australia | Australia | daily | % | 1976-04-07 | 2026-10-29 | 12817 |
 | [BIS_CBPOL_D_BE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Belgium | Belgium | daily | % | 1945-01-01 | 1998-12-30 | 18806 |
-| [BIS_CBPOL_D_BR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Brazil | Brazil | daily | % | 1986-06-04 | 2026-10-27 | 13280 |
-| [BIS_CBPOL_D_CA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Canada | Canada | daily | % | 1960-07-27 | 2026-10-26 | 17225 |
-| [BIS_CBPOL_D_CH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Switzerland | Switzerland | daily | % | 1946-01-01 | 2026-10-27 | 21026 |
-| [BIS_CBPOL_D_CL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Chile | Chile | daily | % | 1997-02-07 | 2026-10-27 | 7415 |
-| [BIS_CBPOL_D_CN](https://data.bis.org/topics/CBPOL) | Central bank policy rate · China | China | daily | % | 1996-01-01 | 2026-10-19 | 10977 |
-| [BIS_CBPOL_D_CO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Colombia | Colombia | daily | % | 1995-04-06 | 2026-10-23 | 11522 |
-| [BIS_CBPOL_D_CZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Czechia | Czechia | daily | % | 1995-12-08 | 2026-10-26 | 7913 |
+| [BIS_CBPOL_D_BR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Brazil | Brazil | daily | % | 1986-06-04 | 2026-11-03 | 13287 |
+| [BIS_CBPOL_D_CA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Canada | Canada | daily | % | 1960-07-27 | 2026-11-02 | 17230 |
+| [BIS_CBPOL_D_CH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Switzerland | Switzerland | daily | % | 1946-01-01 | 2026-11-03 | 21031 |
+| [BIS_CBPOL_D_CL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Chile | Chile | daily | % | 1997-02-07 | 2026-11-03 | 7420 |
+| [BIS_CBPOL_D_CN](https://data.bis.org/topics/CBPOL) | Central bank policy rate · China | China | daily | % | 1996-01-01 | 2026-11-03 | 10992 |
+| [BIS_CBPOL_D_CO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Colombia | Colombia | daily | % | 1995-04-06 | 2026-11-03 | 11533 |
+| [BIS_CBPOL_D_CZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Czechia | Czechia | daily | % | 1995-12-08 | 2026-11-02 | 7917 |
 | [BIS_CBPOL_D_DE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Germany | Germany | daily | % | 1948-07-01 | 1998-12-31 | 18446 |
-| [BIS_CBPOL_D_DK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Denmark | Denmark | daily | % | 1946-01-01 | 2026-10-26 | 24147 |
+| [BIS_CBPOL_D_DK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Denmark | Denmark | daily | % | 1946-01-01 | 2026-11-02 | 24152 |
 | [BIS_CBPOL_D_ES](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Spain | Spain | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
 | [BIS_CBPOL_D_FR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · France | France | daily | % | 1945-01-20 | 1998-12-31 | 19704 |
-| [BIS_CBPOL_D_GB](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United Kingdom | United Kingdom | daily | % | 1946-01-01 | 2026-10-26 | 23467 |
+| [BIS_CBPOL_D_GB](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United Kingdom | United Kingdom | daily | % | 1946-01-01 | 2026-11-02 | 23472 |
 | [BIS_CBPOL_D_GR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Greece | Greece | daily | % | 1956-05-01 | 2000-12-31 | 16316 |
-| [BIS_CBPOL_D_HK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hong Kong SAR, China | Hong Kong SAR, China | daily | % | 1998-09-07 | 2026-10-21 | 7303 |
+| [BIS_CBPOL_D_HK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hong Kong SAR, China | Hong Kong SAR, China | daily | % | 1998-09-07 | 2026-10-28 | 7308 |
 | [BIS_CBPOL_D_HR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Croatia | Croatia | daily | % | 1993-01-04 | 2022-07-18 | 5963 |
-| [BIS_CBPOL_D_HU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hungary | Hungary | daily | % | 1987-01-02 | 2026-10-21 | 10187 |
+| [BIS_CBPOL_D_HU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Hungary | Hungary | daily | % | 1987-01-02 | 2026-10-28 | 10191 |
 | [BIS_CBPOL_D_ID](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Indonesia | Indonesia | daily | % | 2005-07-05 | 2026-10-19 | 5207 |
-| [BIS_CBPOL_D_IL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Israel | Israel | daily | % | 1993-07-01 | 2026-09-30 | 12145 |
+| [BIS_CBPOL_D_IL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Israel | Israel | daily | % | 1993-07-01 | 2026-10-31 | 12176 |
 | [BIS_CBPOL_D_IN](https://data.bis.org/topics/CBPOL) | Central bank policy rate · India | India | daily | % | 1946-01-01 | 2026-10-19 | 21524 |
-| [BIS_CBPOL_D_IS](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Iceland | Iceland | daily | % | 1998-03-02 | 2026-10-27 | 7172 |
+| [BIS_CBPOL_D_IS](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Iceland | Iceland | daily | % | 1998-03-02 | 2026-11-03 | 7177 |
 | [BIS_CBPOL_D_IT](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Italy | Italy | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
-| [BIS_CBPOL_D_JP](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Japan | Japan | daily | % | 1946-01-01 | 2026-10-27 | 24914 |
+| [BIS_CBPOL_D_JP](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Japan | Japan | daily | % | 1946-01-01 | 2026-11-03 | 24919 |
 | [BIS_CBPOL_D_KR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · South Korea | South Korea | daily | % | 1999-05-06 | 2026-10-08 | 6841 |
-| [BIS_CBPOL_D_KW](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Kuwait | Kuwait | daily | % | 2002-06-03 | 2026-10-27 | 8913 |
+| [BIS_CBPOL_D_KW](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Kuwait | Kuwait | daily | % | 2002-06-03 | 2026-11-03 | 8920 |
 | [BIS_CBPOL_D_MA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Morocco | Morocco | daily | % | 2001-01-01 | 2026-08-31 | 9371 |
-| [BIS_CBPOL_D_MK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · North Macedonia | North Macedonia | daily | % | 2000-01-03 | 2026-10-21 | 6712 |
-| [BIS_CBPOL_D_MX](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Mexico | Mexico | daily | % | 1998-11-03 | 2026-10-27 | 9082 |
-| [BIS_CBPOL_D_MY](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Malaysia | Malaysia | daily | % | 1995-11-03 | 2026-10-26 | 8603 |
+| [BIS_CBPOL_D_MK](https://data.bis.org/topics/CBPOL) | Central bank policy rate · North Macedonia | North Macedonia | daily | % | 2000-01-03 | 2026-11-02 | 6719 |
+| [BIS_CBPOL_D_MX](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Mexico | Mexico | daily | % | 1998-11-03 | 2026-11-03 | 9089 |
+| [BIS_CBPOL_D_MY](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Malaysia | Malaysia | daily | % | 1995-11-03 | 2026-11-03 | 8609 |
 | [BIS_CBPOL_D_NL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Netherlands | Netherlands | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
-| [BIS_CBPOL_D_NO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Norway | Norway | daily | % | 1986-03-03 | 2026-10-23 | 10259 |
-| [BIS_CBPOL_D_NZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · New Zealand | New Zealand | daily | % | 1985-01-04 | 2026-10-23 | 12412 |
-| [BIS_CBPOL_D_PE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Peru | Peru | daily | % | 2003-09-05 | 2026-10-27 | 5917 |
-| [BIS_CBPOL_D_PH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Philippines | Philippines | daily | % | 1986-01-02 | 2026-10-23 | 9517 |
-| [BIS_CBPOL_D_PL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Poland | Poland | daily | % | 1993-01-16 | 2026-10-27 | 9113 |
+| [BIS_CBPOL_D_NO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Norway | Norway | daily | % | 1986-03-03 | 2026-11-02 | 10265 |
+| [BIS_CBPOL_D_NZ](https://data.bis.org/topics/CBPOL) | Central bank policy rate · New Zealand | New Zealand | daily | % | 1985-01-04 | 2026-10-30 | 12417 |
+| [BIS_CBPOL_D_PE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Peru | Peru | daily | % | 2003-09-05 | 2026-11-03 | 5922 |
+| [BIS_CBPOL_D_PH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Philippines | Philippines | daily | % | 1986-01-02 | 2026-10-30 | 9522 |
+| [BIS_CBPOL_D_PL](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Poland | Poland | daily | % | 1993-01-16 | 2026-11-03 | 9118 |
 | [BIS_CBPOL_D_PT](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Portugal | Portugal | daily | % | 1945-01-01 | 1998-12-31 | 19723 |
-| [BIS_CBPOL_D_RO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Romania | Romania | daily | % | 2003-01-06 | 2026-10-27 | 6018 |
-| [BIS_CBPOL_D_RS](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Serbia | Serbia | daily | % | 1997-01-01 | 2026-10-12 | 10859 |
-| [BIS_CBPOL_D_RU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Russia | Russia | daily | % | 1992-01-01 | 2026-10-27 | 8774 |
-| [BIS_CBPOL_D_SA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Saudi Arabia | Saudi Arabia | daily | % | 2000-01-31 | 2026-10-13 | 6987 |
-| [BIS_CBPOL_D_SE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Sweden | Sweden | daily | % | 1946-01-02 | 2026-10-27 | 20493 |
-| [BIS_CBPOL_D_TH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Thailand | Thailand | daily | % | 2000-05-23 | 2026-10-21 | 8167 |
-| [BIS_CBPOL_D_TR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Türkiye | Türkiye | daily | % | 2002-02-20 | 2026-10-23 | 6206 |
-| [BIS_CBPOL_D_US](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United States | US | daily | % | 1954-07-01 | 2026-10-27 | 26416 |
-| [BIS_CBPOL_D_XM](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Euro Area | Euro Area | daily | % | 1999-01-01 | 2026-10-27 | 10130 |
-| [BIS_CBPOL_D_ZA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · South Africa | South Africa | daily | % | 1980-12-31 | 2026-10-26 | 13753 |
+| [BIS_CBPOL_D_RO](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Romania | Romania | daily | % | 2003-01-06 | 2026-11-03 | 6023 |
+| [BIS_CBPOL_D_RS](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Serbia | Serbia | daily | % | 1997-01-01 | 2026-10-30 | 10877 |
+| [BIS_CBPOL_D_RU](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Russia | Russia | daily | % | 1992-01-01 | 2026-11-03 | 8779 |
+| [BIS_CBPOL_D_SA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Saudi Arabia | Saudi Arabia | daily | % | 2000-01-31 | 2026-10-29 | 6999 |
+| [BIS_CBPOL_D_SE](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Sweden | Sweden | daily | % | 1946-01-02 | 2026-11-03 | 20498 |
+| [BIS_CBPOL_D_TH](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Thailand | Thailand | daily | % | 2000-05-23 | 2026-10-29 | 8172 |
+| [BIS_CBPOL_D_TR](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Türkiye | Türkiye | daily | % | 2002-02-20 | 2026-11-03 | 6212 |
+| [BIS_CBPOL_D_US](https://data.bis.org/topics/CBPOL) | Central bank policy rate · United States | US | daily | % | 1954-07-01 | 2026-11-03 | 26423 |
+| [BIS_CBPOL_D_XM](https://data.bis.org/topics/CBPOL) | Central bank policy rate · Euro Area | Euro Area | daily | % | 1999-01-01 | 2026-11-03 | 10137 |
+| [BIS_CBPOL_D_ZA](https://data.bis.org/topics/CBPOL) | Central bank policy rate · South Africa | South Africa | daily | % | 1980-12-31 | 2026-11-02 | 13759 |
 | [BIS_CBTA_A_AE_B_XDC_AED_B](https://data.bis.org/topics/CBTA) | Central bank total assets · break-adjusted · United Arab Emirates · annual long history | United Arab Emirates | annual | 10^9 AED | 1974-12-31 | 2025-12-31 | 52 |
 | [BIS_CBTA_A_AR_B_XDC_ARS_B](https://data.bis.org/topics/CBTA) | Central bank total assets · break-adjusted · Argentina · annual long history | Argentina | annual | 10^9 ARS | 1935-12-31 | 2025-12-31 | 91 |
 | [BIS_CBTA_A_AR_B_XDF_R_B1GQ_Z_B](https://data.bis.org/topics/CBTA) | Central bank assets share of GDP · Argentina · annual long history | Argentina | annual | % | 1984-12-31 | 2025-12-31 | 42 |
@@ -15353,11 +15353,11 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [HSN1F](https://fred.stlouisfed.org/series/HSN1F) | New One-Family Houses Sold | US | monthly | thousands | 1963-01-01 | 2026-09-01 | 765 |
 | [CSUSHPINSA](https://fred.stlouisfed.org/series/CSUSHPINSA) | Case-Shiller U.S. Home Price Index | US | monthly | index | 1987-01-01 | 2026-08-01 | 476 |
 | [MSPUS](https://fred.stlouisfed.org/series/MSPUS) | Median New Home Sale Price | US | quarterly | $ | 1963-01-01 | 2026-07-01 | 255 |
-| [MORTGAGE30US](https://fred.stlouisfed.org/series/MORTGAGE30US) | 30-Year Mortgage Rate | US | weekly | % | 1971-04-02 | 2026-10-29 | 2901 |
+| [MORTGAGE30US](https://fred.stlouisfed.org/series/MORTGAGE30US) | 30-Year Mortgage Rate | US | weekly | % | 1971-04-02 | 2026-11-05 | 2902 |
 | [HOUST1F](https://fred.stlouisfed.org/series/HOUST1F) | Housing Starts · 1 Unit | US | monthly | thousands | 1959-01-01 | 2026-09-01 | 813 |
 | [PERMIT1](https://fred.stlouisfed.org/series/PERMIT1) | Building Permits · 1 Unit | US | monthly | thousands | 1960-01-01 | 2026-09-01 | 801 |
 | [MEHOINUSA672N](https://fred.stlouisfed.org/series/MEHOINUSA672N) | Real Median Household Income | US | annual | $ | 1984-01-01 | 2025-01-01 | 42 |
-| [MORTGAGE15US](https://fred.stlouisfed.org/series/MORTGAGE15US) | 15-Year Fixed Mortgage Rate | US | weekly | % | 1991-08-30 | 2026-10-29 | 1836 |
+| [MORTGAGE15US](https://fred.stlouisfed.org/series/MORTGAGE15US) | 15-Year Fixed Mortgage Rate | US | weekly | % | 1991-08-30 | 2026-11-05 | 1837 |
 | [RHORUSQ156N](https://fred.stlouisfed.org/series/RHORUSQ156N) | U.S. Homeownership Rate | US | quarterly | % | 1965-01-01 | 2026-07-01 | 247 |
 | [RRVRUSQ156N](https://fred.stlouisfed.org/series/RRVRUSQ156N) | U.S. Rental Vacancy Rate | US | quarterly | % | 1956-01-01 | 2026-07-01 | 283 |
 | [HOUST5F](https://fred.stlouisfed.org/series/HOUST5F) | Housing Starts in Buildings with 5+ Units | US | monthly | thousands | 1959-01-01 | 2026-09-01 | 813 |
@@ -15529,8 +15529,8 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [DCOILWTICO](https://fred.stlouisfed.org/series/DCOILWTICO) | WTI Crude Oil | US | daily | $/barrel | 1986-01-02 | 2026-10-27 | 9532 |
-| [GASREGW](https://fred.stlouisfed.org/series/GASREGW) | Regular Gas Price | US | weekly | $/gallon | 1990-08-20 | 2026-10-26 | 1883 |
+| [DCOILWTICO](https://fred.stlouisfed.org/series/DCOILWTICO) | WTI Crude Oil | US | daily | $/barrel | 1986-01-02 | 2026-11-03 | 9537 |
+| [GASREGW](https://fred.stlouisfed.org/series/GASREGW) | Regular Gas Price | US | weekly | $/gallon | 1990-08-20 | 2026-11-02 | 1884 |
 | [PALLFNFINDEXM](https://fred.stlouisfed.org/series/PALLFNFINDEXM) | IMF Primary Commodity Price Index · All Commodities | Global | monthly | index | 1992-01-01 | 2026-09-01 | 417 |
 | [PPOILUSDM](https://fred.stlouisfed.org/series/PPOILUSDM) | IMF Primary Commodity Price · Palm Oil | Global | monthly | $/metric ton | 1992-01-01 | 2026-09-01 | 417 |
 | [POILBREUSDM](https://fred.stlouisfed.org/series/POILBREUSDM) | IMF Primary Commodity Price · Brent Crude | Global | monthly | $/barrel | 1992-01-01 | 2026-09-01 | 417 |
@@ -15541,93 +15541,93 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 | [PSOYBUSDM](https://fred.stlouisfed.org/series/PSOYBUSDM) | IMF Primary Commodity Price · Soybeans | Global | monthly | $/metric ton | 1992-01-01 | 2026-09-01 | 417 |
 | [PZINCUSDM](https://fred.stlouisfed.org/series/PZINCUSDM) | IMF Primary Commodity Price · Zinc | Global | monthly | $/metric ton | 1992-01-01 | 2026-09-01 | 417 |
 | [PNICKUSDM](https://fred.stlouisfed.org/series/PNICKUSDM) | IMF Primary Commodity Price · Nickel | Global | monthly | $/metric ton | 1992-01-01 | 2026-09-01 | 417 |
-| [WB_CMD_CRUDE_OIL_AVERAGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, average | Global | monthly | ($/bbl) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_CRUDE_OIL_BRENT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Brent | Global | monthly | ($/bbl) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_CRUDE_OIL_DUBAI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Dubai | Global | monthly | ($/bbl) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_CRUDE_OIL_WTI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, WTI | Global | monthly | ($/bbl) | 1982-01-01 | 2026-09-01 | 537 |
-| [WB_CMD_COAL_AUSTRALIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, Australian | Global | monthly | ($/mt) | 1970-01-01 | 2026-09-01 | 681 |
-| [WB_CMD_COAL_SOUTH_AFRICAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, South African | Global | monthly | ($/mt) | 1984-01-01 | 2026-09-01 | 513 |
-| [WB_CMD_NATURAL_GAS_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, US | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_NATURAL_GAS_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, Europe | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_LIQUEFIED_NATURAL_GAS_JAPAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Liquefied natural gas, Japan | Global | monthly | ($/mmbtu) | 1977-01-01 | 2026-09-01 | 597 |
-| [WB_CMD_NATURAL_GAS_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas index | Global | monthly | (2010=100) | 1977-01-01 | 2026-09-01 | 597 |
-| [WB_CMD_COCOA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cocoa | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_COFFEE_ARABICA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Arabica | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_COFFEE_ROBUSTA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Robusta | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_TEA_AVG_3_AUCTIONS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, avg 3 auctions | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_TEA_COLOMBO](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Colombo | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_TEA_KOLKATA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Kolkata | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_TEA_MOMBASA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Mombasa | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_COCONUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coconut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_GROUNDNUTS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnuts | Global | monthly | ($/mt) | 1980-01-01 | 2026-09-01 | 561 |
-| [WB_CMD_FISH_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fish meal | Global | monthly | ($/mt) | 1979-01-01 | 2026-09-01 | 573 |
-| [WB_CMD_GROUNDNUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_PALM_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_PALM_KERNEL_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm kernel oil | Global | monthly | ($/mt) | 1996-01-01 | 2026-09-01 | 369 |
-| [WB_CMD_SOYBEANS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybeans | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_SOYBEAN_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_SOYBEAN_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean meal | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_RAPESEED_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rapeseed oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-09-01 | 296 |
-| [WB_CMD_SUNFLOWER_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sunflower oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-09-01 | 291 |
+| [WB_CMD_CRUDE_OIL_AVERAGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, average | Global | monthly | ($/bbl) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_CRUDE_OIL_BRENT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Brent | Global | monthly | ($/bbl) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_CRUDE_OIL_DUBAI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, Dubai | Global | monthly | ($/bbl) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_CRUDE_OIL_WTI](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Crude oil, WTI | Global | monthly | ($/bbl) | 1982-01-01 | 2026-10-01 | 538 |
+| [WB_CMD_COAL_AUSTRALIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, Australian | Global | monthly | ($/mt) | 1970-01-01 | 2026-10-01 | 682 |
+| [WB_CMD_COAL_SOUTH_AFRICAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coal, South African | Global | monthly | ($/mt) | 1984-01-01 | 2026-10-01 | 514 |
+| [WB_CMD_NATURAL_GAS_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, US | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_NATURAL_GAS_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas, Europe | Global | monthly | ($/mmbtu) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_LIQUEFIED_NATURAL_GAS_JAPAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Liquefied natural gas, Japan | Global | monthly | ($/mmbtu) | 1977-01-01 | 2026-10-01 | 598 |
+| [WB_CMD_NATURAL_GAS_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Natural gas index | Global | monthly | (2010=100) | 1977-01-01 | 2026-10-01 | 598 |
+| [WB_CMD_COCOA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cocoa | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_COFFEE_ARABICA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Arabica | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_COFFEE_ROBUSTA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coffee, Robusta | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_TEA_AVG_3_AUCTIONS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, avg 3 auctions | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_TEA_COLOMBO](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Colombo | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_TEA_KOLKATA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Kolkata | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_TEA_MOMBASA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tea, Mombasa | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_COCONUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Coconut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_GROUNDNUTS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnuts | Global | monthly | ($/mt) | 1980-01-01 | 2026-10-01 | 562 |
+| [WB_CMD_FISH_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fish meal | Global | monthly | ($/mt) | 1979-01-01 | 2026-10-01 | 574 |
+| [WB_CMD_GROUNDNUT_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Groundnut oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_PALM_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_PALM_KERNEL_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Palm kernel oil | Global | monthly | ($/mt) | 1996-01-01 | 2026-10-01 | 370 |
+| [WB_CMD_SOYBEANS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybeans | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_SOYBEAN_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean oil | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_SOYBEAN_MEAL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Soybean meal | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_RAPESEED_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rapeseed oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-10-01 | 297 |
+| [WB_CMD_SUNFLOWER_OIL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sunflower oil | Global | monthly | ($/mt) | 2002-02-01 | 2026-10-01 | 292 |
 | [WB_CMD_BARLEY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Barley | Global | monthly | ($/mt) | 1960-01-01 | 2020-08-01 | 728 |
-| [WB_CMD_MAIZE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Maize | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_MAIZE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Maize | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
 | [WB_CMD_SORGHUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sorghum | Global | monthly | ($/mt) | 1960-01-01 | 2020-08-01 | 728 |
-| [WB_CMD_RICE_THAI_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 5% | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_RICE_THAI_25](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 25% | Global | monthly | ($/mt) | 1986-01-01 | 2026-09-01 | 485 |
-| [WB_CMD_RICE_THAI_A_1](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai A.1 | Global | monthly | ($/mt) | 1986-01-01 | 2026-09-01 | 489 |
-| [WB_CMD_RICE_VIET_NAMESE_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Viet Namese 5% | Global | monthly | ($/mt) | 2003-12-01 | 2026-09-01 | 263 |
-| [WB_CMD_WHEAT_US_SRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US SRW | Global | monthly | ($/mt) | 1979-01-01 | 2026-09-01 | 573 |
-| [WB_CMD_WHEAT_US_HRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US HRW | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_BANANA_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, Europe | Global | monthly | ($/kg) | 1997-01-01 | 2026-09-01 | 357 |
-| [WB_CMD_BANANA_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_ORANGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Orange | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_BEEF](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beef | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_CHICKEN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Chicken | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_LAMB](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lamb | Global | monthly | ($/kg) | 1971-01-01 | 2026-09-01 | 669 |
+| [WB_CMD_RICE_THAI_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 5% | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_RICE_THAI_25](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai 25% | Global | monthly | ($/mt) | 1986-01-01 | 2026-10-01 | 486 |
+| [WB_CMD_RICE_THAI_A_1](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Thai A.1 | Global | monthly | ($/mt) | 1986-01-01 | 2026-10-01 | 490 |
+| [WB_CMD_RICE_VIET_NAMESE_5](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rice, Viet Namese 5% | Global | monthly | ($/mt) | 2003-12-01 | 2026-10-01 | 264 |
+| [WB_CMD_WHEAT_US_SRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US SRW | Global | monthly | ($/mt) | 1979-01-01 | 2026-10-01 | 574 |
+| [WB_CMD_WHEAT_US_HRW](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Wheat, US HRW | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_BANANA_EUROPE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, Europe | Global | monthly | ($/kg) | 1997-01-01 | 2026-10-01 | 358 |
+| [WB_CMD_BANANA_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Banana, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_ORANGE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Orange | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_BEEF](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beef | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_CHICKEN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Chicken | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_LAMB](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lamb | Global | monthly | ($/kg) | 1971-01-01 | 2026-10-01 | 670 |
 | [WB_CMD_SHRIMPS_MEXICAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Shrimps, Mexican | Global | monthly | ($/kg) | 1960-01-01 | 2023-10-01 | 766 |
-| [WB_CMD_SUGAR_EU](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, EU | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_SUGAR_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_SUGAR_WORLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, world | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_SUGAR_EU](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, EU | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_SUGAR_US](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, US | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_SUGAR_WORLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sugar, world | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
 | [WB_CMD_TOBACCO_US_IMPORT_U_V](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tobacco, US import u.v. | Global | monthly | ($/mt) | 1960-01-01 | 2026-07-01 | 799 |
-| [WB_CMD_LOGS_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-09-01 | 681 |
-| [WB_CMD_LOGS_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_SAWNWOOD_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-09-01 | 429 |
-| [WB_CMD_SAWNWOOD_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_PLYWOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Plywood | Global | monthly | (cents/sheet) | 1979-01-01 | 2026-09-01 | 573 |
-| [WB_CMD_COTTON_A_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cotton, A Index | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_RUBBER_TSR20](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, TSR20 | Global | monthly | ($/kg) | 1999-01-01 | 2026-09-01 | 333 |
-| [WB_CMD_RUBBER_RSS3](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, RSS3 | Global | monthly | ($/kg) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_PHOSPHATE_ROCK](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Phosphate rock | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_DAP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · DAP | Global | monthly | ($/mt) | 1967-01-01 | 2026-09-01 | 717 |
-| [WB_CMD_TSP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · TSP | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_UREA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Urea | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_POTASSIUM_CHLORIDE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Potassium chloride | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_ALUMINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Aluminum | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_IRON_ORE_CFR_SPOT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Iron ore, cfr spot | Global | monthly | ($/dmtu) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_COPPER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Copper | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_LEAD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lead | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_TIN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tin | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_NICKEL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Nickel | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_ZINC](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Zinc | Global | monthly | ($/mt) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_GOLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Gold | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_PLATINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Platinum | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_SILVER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Silver | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_TOTAL_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Total Index | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_NON_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Non-energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_AGRICULTURE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Agriculture | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_BEVERAGES](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beverages | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_OILS_AND_MEALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Oils & Meals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_GRAINS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Grains | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_OTHER_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_RAW_MATERIALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Raw Materials | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_TIMBER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Timber | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_OTHER_RAW_MAT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Raw Mat. | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_FERTILIZERS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fertilizers | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_METALS_AND_MINERALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Metals & Minerals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_BASE_METALS_EX_IRON_ORE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Base Metals (ex. iron ore) | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
-| [WB_CMD_INDEX_PRECIOUS_METALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Precious Metals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-09-01 | 801 |
+| [WB_CMD_LOGS_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-10-01 | 682 |
+| [WB_CMD_LOGS_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Logs, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_SAWNWOOD_CAMEROON](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Cameroon | Global | monthly | ($/cubic meter) | 1970-01-01 | 2026-10-01 | 430 |
+| [WB_CMD_SAWNWOOD_MALAYSIAN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Sawnwood, Malaysian | Global | monthly | ($/cubic meter) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_PLYWOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Plywood | Global | monthly | (cents/sheet) | 1979-01-01 | 2026-10-01 | 574 |
+| [WB_CMD_COTTON_A_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Cotton, A Index | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_RUBBER_TSR20](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, TSR20 | Global | monthly | ($/kg) | 1999-01-01 | 2026-10-01 | 334 |
+| [WB_CMD_RUBBER_RSS3](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Rubber, RSS3 | Global | monthly | ($/kg) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_PHOSPHATE_ROCK](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Phosphate rock | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_DAP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · DAP | Global | monthly | ($/mt) | 1967-01-01 | 2026-10-01 | 718 |
+| [WB_CMD_TSP](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · TSP | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_UREA](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Urea | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_POTASSIUM_CHLORIDE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Potassium chloride | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_ALUMINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Aluminum | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_IRON_ORE_CFR_SPOT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Iron ore, cfr spot | Global | monthly | ($/dmtu) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_COPPER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Copper | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_LEAD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Lead | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_TIN](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Tin | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_NICKEL](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Nickel | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_ZINC](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Zinc | Global | monthly | ($/mt) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_GOLD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Gold | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_PLATINUM](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Platinum | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_SILVER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Silver | Global | monthly | ($/troy oz) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_TOTAL_INDEX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Total Index | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_NON_ENERGY](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Non-energy | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_AGRICULTURE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Agriculture | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_BEVERAGES](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Beverages | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_OILS_AND_MEALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Oils & Meals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_GRAINS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Grains | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_OTHER_FOOD](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Food | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_RAW_MATERIALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Raw Materials | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_TIMBER](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Timber | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_OTHER_RAW_MAT](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Other Raw Mat. | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_FERTILIZERS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Fertilizers | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_METALS_AND_MINERALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Metals & Minerals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_BASE_METALS_EX_IRON_ORE](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Base Metals (ex. iron ore) | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
+| [WB_CMD_INDEX_PRECIOUS_METALS](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | World Bank · Precious Metals | Global | monthly | index (2010=100) | 1960-01-01 | 2026-10-01 | 802 |
 | [WDI_ABW_RENEWABLE_ELECTRICITY](https://data.worldbank.org/indicator/EG.ELC.RNEW.ZS) | Renewable electricity output share · Aruba | Aruba | annual | % of electricity output | 2000-12-31 | 2021-12-31 | 22 |
 | [WDI_ABW_RENEWABLE_ENERGY](https://data.worldbank.org/indicator/EG.FEC.RNEW.ZS) | Renewable energy consumption share · Aruba | Aruba | annual | % of final energy consumption | 1990-12-31 | 2022-12-31 | 33 |
 | [WDI_AFG_RENEWABLE_ELECTRICITY](https://data.worldbank.org/indicator/EG.ELC.RNEW.ZS) | Renewable electricity output share · Afghanistan | Afghanistan | annual | % of electricity output | 2000-12-31 | 2021-12-31 | 22 |
@@ -16382,26 +16382,26 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [DTWEXBGS](https://fred.stlouisfed.org/series/DTWEXBGS) | Trade-Weighted U.S. Dollar | FX | daily | index | 2006-01-02 | 2026-10-23 | 5217 |
-| [DEXUSAL](https://fred.stlouisfed.org/series/DEXUSAL) | Australian Dollar | FX | daily | USD per AUD | 1971-01-04 | 2026-10-23 | 13988 |
-| [DEXCAUS](https://fred.stlouisfed.org/series/DEXCAUS) | Canadian Dollar | FX | daily | USD per CAD | 1971-01-04 | 2026-10-23 | 14001 |
-| [DEXSZUS](https://fred.stlouisfed.org/series/DEXSZUS) | Swiss Franc | FX | daily | USD per CHF | 1971-01-04 | 2026-10-23 | 13995 |
-| [DEXUSEU](https://fred.stlouisfed.org/series/DEXUSEU) | Euro | FX | daily | USD per EUR | 1999-01-04 | 2026-10-23 | 6974 |
-| [DEXUSUK](https://fred.stlouisfed.org/series/DEXUSUK) | British Pound | FX | daily | USD per GBP | 1971-01-04 | 2026-10-23 | 13995 |
-| [DEXJPUS](https://fred.stlouisfed.org/series/DEXJPUS) | Japanese Yen | FX | daily | USD per JPY | 1971-01-04 | 2026-10-23 | 13989 |
-| [DEXUSNZ](https://fred.stlouisfed.org/series/DEXUSNZ) | New Zealand Dollar | FX | daily | USD per NZD | 1971-01-04 | 2026-10-23 | 13979 |
-| [DEXCHUS](https://fred.stlouisfed.org/series/DEXCHUS) | Chinese Yuan | FX | daily | USD per CNY | 1981-01-02 | 2026-10-23 | 11435 |
-| [DEXINUS](https://fred.stlouisfed.org/series/DEXINUS) | Indian Rupee | FX | daily | USD per INR | 1973-01-02 | 2026-10-23 | 13487 |
-| [DEXBZUS](https://fred.stlouisfed.org/series/DEXBZUS) | Brazilian Real | FX | daily | USD per BRL | 1995-01-02 | 2026-10-23 | 7978 |
-| [DEXMXUS](https://fred.stlouisfed.org/series/DEXMXUS) | Mexican Peso | FX | daily | USD per MXN | 1993-11-08 | 2026-10-23 | 8263 |
-| [DEXSDUS](https://fred.stlouisfed.org/series/DEXSDUS) | Swedish Krona | FX | daily | USD per SEK | 1971-01-04 | 2026-10-23 | 13994 |
-| [DEXNOUS](https://fred.stlouisfed.org/series/DEXNOUS) | Norwegian Krone | FX | daily | USD per NOK | 1971-01-04 | 2026-10-23 | 13994 |
-| [DEXSIUS](https://fred.stlouisfed.org/series/DEXSIUS) | Singapore Dollar | FX | daily | USD per SGD | 1981-01-02 | 2026-10-23 | 11494 |
-| [DEXHKUS](https://fred.stlouisfed.org/series/DEXHKUS) | Hong Kong Dollar | FX | daily | USD per HKD | 1981-01-02 | 2026-10-23 | 11495 |
-| [DEXKOUS](https://fred.stlouisfed.org/series/DEXKOUS) | South Korean Won | FX | daily | USD per KRW | 1981-04-13 | 2026-10-23 | 11381 |
-| [DEXSFUS](https://fred.stlouisfed.org/series/DEXSFUS) | South African Rand | FX | daily | USD per ZAR | 1980-01-02 | 2026-10-23 | 11738 |
-| [DTWEXAFEGS](https://fred.stlouisfed.org/series/DTWEXAFEGS) | Trade-Weighted U.S. Dollar · Advanced Foreign Economies | FX | daily | index | 2006-01-02 | 2026-10-23 | 5217 |
-| [DTWEXEMEGS](https://fred.stlouisfed.org/series/DTWEXEMEGS) | Trade-Weighted U.S. Dollar · Emerging Market Economies | FX | daily | index | 2006-01-02 | 2026-10-23 | 5217 |
+| [DTWEXBGS](https://fred.stlouisfed.org/series/DTWEXBGS) | Trade-Weighted U.S. Dollar | FX | daily | index | 2006-01-02 | 2026-11-06 | 5227 |
+| [DEXUSAL](https://fred.stlouisfed.org/series/DEXUSAL) | Australian Dollar | FX | daily | USD per AUD | 1971-01-04 | 2026-11-06 | 13998 |
+| [DEXCAUS](https://fred.stlouisfed.org/series/DEXCAUS) | Canadian Dollar | FX | daily | USD per CAD | 1971-01-04 | 2026-11-06 | 14011 |
+| [DEXSZUS](https://fred.stlouisfed.org/series/DEXSZUS) | Swiss Franc | FX | daily | USD per CHF | 1971-01-04 | 2026-11-06 | 14005 |
+| [DEXUSEU](https://fred.stlouisfed.org/series/DEXUSEU) | Euro | FX | daily | USD per EUR | 1999-01-04 | 2026-11-06 | 6984 |
+| [DEXUSUK](https://fred.stlouisfed.org/series/DEXUSUK) | British Pound | FX | daily | USD per GBP | 1971-01-04 | 2026-11-06 | 14005 |
+| [DEXJPUS](https://fred.stlouisfed.org/series/DEXJPUS) | Japanese Yen | FX | daily | USD per JPY | 1971-01-04 | 2026-11-06 | 13999 |
+| [DEXUSNZ](https://fred.stlouisfed.org/series/DEXUSNZ) | New Zealand Dollar | FX | daily | USD per NZD | 1971-01-04 | 2026-11-06 | 13989 |
+| [DEXCHUS](https://fred.stlouisfed.org/series/DEXCHUS) | Chinese Yuan | FX | daily | USD per CNY | 1981-01-02 | 2026-11-06 | 11445 |
+| [DEXINUS](https://fred.stlouisfed.org/series/DEXINUS) | Indian Rupee | FX | daily | USD per INR | 1973-01-02 | 2026-11-06 | 13497 |
+| [DEXBZUS](https://fred.stlouisfed.org/series/DEXBZUS) | Brazilian Real | FX | daily | USD per BRL | 1995-01-02 | 2026-11-06 | 7988 |
+| [DEXMXUS](https://fred.stlouisfed.org/series/DEXMXUS) | Mexican Peso | FX | daily | USD per MXN | 1993-11-08 | 2026-11-06 | 8273 |
+| [DEXSDUS](https://fred.stlouisfed.org/series/DEXSDUS) | Swedish Krona | FX | daily | USD per SEK | 1971-01-04 | 2026-11-06 | 14004 |
+| [DEXNOUS](https://fred.stlouisfed.org/series/DEXNOUS) | Norwegian Krone | FX | daily | USD per NOK | 1971-01-04 | 2026-11-06 | 14004 |
+| [DEXSIUS](https://fred.stlouisfed.org/series/DEXSIUS) | Singapore Dollar | FX | daily | USD per SGD | 1981-01-02 | 2026-11-06 | 11504 |
+| [DEXHKUS](https://fred.stlouisfed.org/series/DEXHKUS) | Hong Kong Dollar | FX | daily | USD per HKD | 1981-01-02 | 2026-11-06 | 11505 |
+| [DEXKOUS](https://fred.stlouisfed.org/series/DEXKOUS) | South Korean Won | FX | daily | USD per KRW | 1981-04-13 | 2026-11-06 | 11391 |
+| [DEXSFUS](https://fred.stlouisfed.org/series/DEXSFUS) | South African Rand | FX | daily | USD per ZAR | 1980-01-02 | 2026-11-06 | 11748 |
+| [DTWEXAFEGS](https://fred.stlouisfed.org/series/DTWEXAFEGS) | Trade-Weighted U.S. Dollar · Advanced Foreign Economies | FX | daily | index | 2006-01-02 | 2026-11-06 | 5227 |
+| [DTWEXEMEGS](https://fred.stlouisfed.org/series/DTWEXEMEGS) | Trade-Weighted U.S. Dollar · Emerging Market Economies | FX | daily | index | 2006-01-02 | 2026-11-06 | 5227 |
 | [WDI_ABW_FX_OFFICIAL](https://data.worldbank.org/indicator/PA.NUS.FCRF) | Official exchange rate · Aruba | Aruba | annual | LCU per US$ (period average) | 1986-12-31 | 2025-12-31 | 40 |
 | [WDI_AFG_FX_OFFICIAL](https://data.worldbank.org/indicator/PA.NUS.FCRF) | Official exchange rate · Afghanistan | Afghanistan | annual | LCU per US$ (period average) | 1960-12-31 | 2020-12-31 | 61 |
 | [WDI_AGO_FX_OFFICIAL](https://data.worldbank.org/indicator/PA.NUS.FCRF) | Official exchange rate · Angola | Angola | annual | LCU per US$ (period average) | 1960-12-31 | 2025-12-31 | 66 |
@@ -20471,9 +20471,9 @@ Snapshot: 2026-11-02T20:50:55.670Z. 23539 retained macroeconomic series. Coverag
 
 | ID | Series | Geography | Frequency | Unit | From | Through | Observations |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [OPHNFB](https://fred.stlouisfed.org/series/OPHNFB) | Nonfarm Business Labor Productivity | US | quarterly | index | 1947-01-01 | 2026-04-01 | 318 |
-| [ULCNFB](https://fred.stlouisfed.org/series/ULCNFB) | Nonfarm Business Unit Labor Costs | US | quarterly | index | 1947-01-01 | 2026-04-01 | 318 |
-| [COMPNFB](https://fred.stlouisfed.org/series/COMPNFB) | Nonfarm Business Hourly Compensation | US | quarterly | index | 1947-01-01 | 2026-04-01 | 318 |
+| [OPHNFB](https://fred.stlouisfed.org/series/OPHNFB) | Nonfarm Business Labor Productivity | US | quarterly | index | 1947-01-01 | 2026-07-01 | 319 |
+| [ULCNFB](https://fred.stlouisfed.org/series/ULCNFB) | Nonfarm Business Unit Labor Costs | US | quarterly | index | 1947-01-01 | 2026-07-01 | 319 |
+| [COMPNFB](https://fred.stlouisfed.org/series/COMPNFB) | Nonfarm Business Hourly Compensation | US | quarterly | index | 1947-01-01 | 2026-07-01 | 319 |
 | [MPU4900013](https://fred.stlouisfed.org/series/MPU4900013) | Private Business Total Factor Productivity Growth | US | annual | % | 1988-01-01 | 2025-01-01 | 38 |
 | [WDI_ABW_ADULT_LITERACY](https://data.worldbank.org/indicator/SE.ADT.LITR.ZS) | Adult literacy rate · Aruba | Aruba | annual | % of people ages 15+ | 2000-12-31 | 2010-12-31 | 2 |
 | [WDI_ABW_CARBON_INTENSITY](https://data.worldbank.org/indicator/EN.GHG.CO2.RT.GDP.KD) | Carbon intensity of GDP · Aruba | Aruba | annual | kg CO2e per constant 2015 USD GDP | 1986-12-31 | 2024-12-31 | 39 |
